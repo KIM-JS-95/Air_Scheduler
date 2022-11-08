@@ -1,5 +1,8 @@
 # KT_지니 & pilot time table
 
+## TODO
+- pilot 개인 비행 스케줄에 대한 정보 체크
+
+
 #
 - https://airlabs.co/docs/airports
-- https://aviation-edge.com/flight-radar-and-tracker-api/?gclid=CjwKCAiA9qKbBhAzEiwAS4yeDZHEJVCh005Y36-R9eolwwdMgrNFjsGIOt7RfWjJhCHQXQMsK0mK8xoCrHQQAvD_BwE

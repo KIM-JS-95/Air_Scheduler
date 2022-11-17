@@ -12,17 +12,15 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import java.util.Date;
 
+@Builder
 @Entity
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-@Builder
+@NoArgsConstructor
 public class Schedule {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private Date date;
+    private String date;
     private String pairing;
     private String activity;
 

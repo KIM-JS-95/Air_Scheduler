@@ -1,12 +1,14 @@
 package org.AirAPI.Entity;
 
-import org.hamcrest.Matcher;
+
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
+import org.hamcrest.Matchers;
 class ScheduleTest {
+    @DisplayName("스케쥴_엔티티_테스트")
     @Test
-    public void entity1(){
+    public void scheduleTest(){
         Schedule schedule = Schedule.builder()
                 .id(1)
                 .date("01Nov22")
@@ -17,7 +19,7 @@ class ScheduleTest {
                 .activity("OFF")
                 .build();
 
-        assertThat(schedule.getId(), is(1));
+        assertThat(schedule.getId(), Matchers.is(1));
 
     }
 

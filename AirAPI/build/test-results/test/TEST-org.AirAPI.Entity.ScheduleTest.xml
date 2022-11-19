@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="org.AirAPI.Entity.ScheduleTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2022-11-17T14:57:00" hostname="DESKTOP-CLGUOMH" time="0.029">
-  <properties/>
-  <testcase name="entity1()" classname="org.AirAPI.Entity.ScheduleTest" time="0.029"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>

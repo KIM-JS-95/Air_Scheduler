@@ -1,27 +1,22 @@
-package org.AirAPI.Service;
+package org.AirAPI.Repository;
 
 import org.AirAPI.Entity.Schedule;
-import org.AirAPI.Repository.SchduleRepository;
-import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.mockito.Mockito.*;
 
-@ExtendWith(MockitoExtension.class)
-class ScheduleServiceTest {
-    @Mock
-    ScheduleService scheduleService;
-    @Mock
-    SchduleRepository schduleRepository;
+@DataJpaTest
+class SchduleRepositoryTest {
+
+    @Autowired
+    private SchduleRepository schduleRepository;
+
     private Schedule schedule1;
     private Schedule schedule2;
     private Schedule schedule3;
@@ -65,18 +60,10 @@ class ScheduleServiceTest {
         scheduleList.add(schedule3);
     }
 
-    @DisplayName("스케쥴 저장 테스트")
     @Test
     public void save(){
-        lenient().when(schduleRepository.saveAll(scheduleList)).thenReturn(scheduleList);
-        assertThat(scheduleList.get(2).getTo(), Matchers.is("BKK"));
-    }
-    @DisplayName("3개의 데이터를 호출")
-    @Test
-    public void finddata() {
-        // call findById(1)
-        lenient().when(scheduleService.findData(1)).thenReturn(schedule1);
-        assertThat(schedule1.getFrom(), Matchers.is("GMP"));
+
+        schduleRepository.saveAll(scheduleList);
 
     }
 }

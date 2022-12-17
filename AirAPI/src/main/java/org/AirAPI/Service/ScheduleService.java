@@ -5,16 +5,23 @@ import org.AirAPI.Repository.SchduleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import java.util.List;
 
 @Service
 public class ScheduleService {
 
     @Autowired
-    SchduleRepository schduleRepository;
+    private SchduleRepository schduleRepository;
 
-    public Schedule findData(int id){
+    public Schedule findData(int id) {
         return schduleRepository.findById(id).orElseThrow();
 
     }
+/*
+    public String save(List<Schedule> schedules) {
+        schduleRepository.saveAll(schedules);
+        return "OK";
+    }
+*/
+
 }

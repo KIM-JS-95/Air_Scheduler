@@ -30,33 +30,11 @@ class SchduleRepositoryTest {
                 .date("01Nov22")
                 .std("0000") // 출발 시간
                 .sta("2359") // 도착 시간
-                .from("GMP") // 출발
-                .to("GMP") // 도착
+                .cnt_from("GMP") // 출발
+                .cnt_to("GMP") // 도착
                 .activity("OFF")
                 .build();
 
-        schedule2 = Schedule.builder()
-                .id(2)
-                .date("01Nov22")
-                .std("1000") // 출발 시간
-                .sta("2359") // 도착 시간
-                .from("GMP") // 출발
-                .to("JPN") // 도착
-                .activity("OFF")
-                .build();
-
-        schedule3 = Schedule.builder()
-                .id(3)
-                .date("01Nov22")
-                .std("0000") // 출발 시간
-                .sta("2359") // 도착 시간
-                .from("GMP") // 출발
-                .to("BKK") // 도착
-                .activity("OFF")
-                .build();
-
-        scheduleList.add(schedule1);
-        scheduleList.add(schedule2);
         scheduleList.add(schedule3);
     }
 

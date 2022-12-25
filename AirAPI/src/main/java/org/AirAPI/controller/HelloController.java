@@ -38,6 +38,7 @@ public class HelloController {
 
         HttpHeaders headers= new HttpHeaders();
         headers.setContentType(new MediaType("application", "json"));
+        headers.set("message", "성공 코드");
         return new ResponseEntity<>(message,headers,HttpStatus.OK);
     }
 }

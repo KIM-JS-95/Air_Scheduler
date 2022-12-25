@@ -10,18 +10,16 @@ import java.util.List;
 @Service
 public class ScheduleService {
 
-    @Autowired
     private SchduleRepository schduleRepository;
 
     public Schedule findData(int id) {
         return schduleRepository.findById(id).orElseThrow();
-
     }
-/*
+
     public String save(List<Schedule> schedules) {
         schduleRepository.saveAll(schedules);
         return "OK";
     }
-*/
+
 
 }

@@ -12,6 +12,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -28,7 +29,7 @@ public class HelloController {
     }
 
     @PostMapping("/save")
-    public ResponseEntity<Messege> mainSave(List<Schedule> schedules){
+    public ResponseEntity<Messege> mainSave(@RequestBody List<Schedule> schedules){
 
         Messege message = new Messege();
         message.setStatus(StatusEnum.OK);
@@ -37,7 +38,6 @@ public class HelloController {
 
         HttpHeaders headers= new HttpHeaders();
         headers.setContentType(new MediaType("application", "json"));
-
         return new ResponseEntity<>(message,headers,HttpStatus.OK);
     }
 }

@@ -57,6 +57,5 @@ class ScheduleServiceTest {
         lenient()
                 .when(scheduleService.findData(1)).thenReturn(schedule1);
         assertThat(schedule1.getCnt_to(), Matchers.is("GMP"));
-
     }
 }

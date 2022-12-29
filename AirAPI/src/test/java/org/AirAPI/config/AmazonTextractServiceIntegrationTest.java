@@ -1,17 +1,15 @@
-package org.AirAPI.controller;
+package org.AirAPI.config;
 
 
-import org.AirAPI.config.AnalyzeDocument;
-import org.AirAPI.config.DetectDocumentText;
-import org.AirAPI.config.DetectDocumentTextS3;
-import org.AirAPI.config.StartDocumentAnalysis;
 import org.junit.jupiter.api.*;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.textract.TextractClient;
-import java.io.*;
-import java.util.*;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
+
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @TestInstance(TestInstance.Lifecycle.PER_METHOD)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -65,7 +63,7 @@ public class AmazonTextractServiceIntegrationTest {
     @Test
     @Order(2)
     public void AnalyzeDocument() {
-        AnalyzeDocument.analyzeDoc(textractClient, sourceDoc);
+        AWStextrack.analyzeDoc(textractClient, sourceDoc);
         System.out.println("Test 2 passed");
     }
 
@@ -73,7 +71,7 @@ public class AmazonTextractServiceIntegrationTest {
     @Order(3)
     public void DetectDocumentText() {
 
-        DetectDocumentText.detectDocText(textractClient, sourceDoc);
+        AWStextrack.detectDocText(textractClient, sourceDoc);
         System.out.println("Test 3 passed");
     }
 
@@ -81,7 +79,7 @@ public class AmazonTextractServiceIntegrationTest {
     @Order(4)
     public void DetectDocumentTextS3() {
 
-        DetectDocumentTextS3.detectDocTextS3(textractClient, bucketName, docName);
+        AWStextrack.detectDocTextS3(textractClient, bucketName, docName);
         System.out.println("Test 4 passed");
     }
 
@@ -89,7 +87,7 @@ public class AmazonTextractServiceIntegrationTest {
     @Order(5)
     public void StartDocumentAnalysis() {
 
-        StartDocumentAnalysis.startDocAnalysisS3(textractClient, bucketName, docName);
+        AWStextrack.startDocAnalysisS3(textractClient, bucketName, docName);
         System.out.println("Test 5 passed");
     }
 }

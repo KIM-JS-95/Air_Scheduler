@@ -25,6 +25,11 @@ dependencies {
     // https://mvnrepository.com/artifact/com.h2database/h2
     implementation group: 'com.h2database', name: 'h2', version: '1.4.200'
 
+//    // https://mvnrepository.com/artifact/com.amazonaws/aws-java-sdk-textract
+//    implementation group: 'com.amazonaws', name: 'aws-java-sdk-textract', version: '1.12.373'
+
+    implementation group: 'software.amazon.awssdk', name: 'textract', version: '2.11.0'
+
 }
 
 tasks.named('test') {

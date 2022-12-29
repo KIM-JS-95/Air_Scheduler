@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="org.AirAPI.controller.AmazonTextractServiceIntegrationTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2022-12-29T10:53:04" hostname="DESKTOP-CLGUOMH" time="0.036">
+  <properties/>
+  <testcase name="whenInitializingTextractService_thenNotNull()" classname="org.AirAPI.controller.AmazonTextractServiceIntegrationTest" time="0.036"/>
+  <system-out><![CDATA[Sorry, unable to find config.properties
+Test 1 passed
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

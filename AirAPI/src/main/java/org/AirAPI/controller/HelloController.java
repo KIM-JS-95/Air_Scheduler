@@ -41,4 +41,11 @@ public class HelloController {
         headers.set("message", "성공 코드");
         return new ResponseEntity<>(message,headers,HttpStatus.OK);
     }
+
+
+    public void AWS_OCR(){
+
+
+
+    }
 }

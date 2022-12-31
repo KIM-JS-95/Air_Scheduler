@@ -52,11 +52,7 @@ public class HelloController {
     //  jpg 데이터를 획득 후 textrack 을 실행한다.
     public void AWS_textrack() {
 
-        Region region = Region.US_EAST_2;
-        TextractClient textractClient = TextractClient.builder()
-                .region(region)
-                .credentialsProvider(ProfileCredentialsProvider.create())
-                .build();
+        TextractClient textractClient= awstextrack.awsceesser();
 
         String source = "static/img/sample.jpg";
         awstextrack.analyzeDoc(textractClient, source);

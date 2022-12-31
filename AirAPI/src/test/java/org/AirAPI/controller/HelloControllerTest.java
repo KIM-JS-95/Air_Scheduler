@@ -93,17 +93,15 @@ class HelloControllerTest {
 
     @BeforeAll
     public static void setUp() throws IOException {
-
-
         AwsBasicCredentials awsCreds = AwsBasicCredentials.create(
                 "AKIA3JVA2CBMGVTJWVNT",
-               " 1ABwHai1d9ZfUKRcF+TTyWuqavbBk8AVcgiSncQp"
+                " 1ABwHai1d9ZfUKRcF+TTyWuqavbBk8AVcgiSncQp"
         );
 
-        // Run tests on Real AWS Resources
-        region = Region.US_WEST_2;
+        textractClient = AWStextrack.
+
         textractClient = TextractClient.builder()
-                .region(region)
+                .region(Region.US_WEST_2)
                 .credentialsProvider(StaticCredentialsProvider.create(awsCreds))
                 .build();
 

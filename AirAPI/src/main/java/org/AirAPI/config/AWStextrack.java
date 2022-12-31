@@ -2,8 +2,12 @@
 package org.AirAPI.config;
 
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
+import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
+import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
 import software.amazon.awssdk.core.SdkBytes;
+import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.textract.TextractClient;
 import software.amazon.awssdk.services.textract.model.*;
 
@@ -18,31 +22,20 @@ import java.util.List;
 @Configuration
 public class AWStextrack {
 
-    /*
-    public static void main(String[] args) {
+    @Value("${accesskey}")
+    private String accesskey;
 
-        final String usage = "\n" +
-            "Usage:\n" +
-            "    <sourceDoc> \n\n" +
-            "Where:\n" +
-            "    sourceDoc - The path where the document is located (must be an image, for example, C:/AWS/book.png). \n";
+    @Value("${secretkey}")
+    private String secretkey;
 
-        if (args.length !=  1) {
-            System.out.println(usage);
-            System.exit(1);
-        }
-
-        String sourceDoc = args[0];
-        Region region = Region.US_EAST_2;
+    public TextractClient awsceesser(){
+        AwsBasicCredentials awsCreds = AwsBasicCredentials.create(accesskey, secretkey);
         TextractClient textractClient = TextractClient.builder()
-            .region(region)
-            .credentialsProvider(ProfileCredentialsProvider.create())
-            .build();
-
-        detectDocText(textractClient, sourceDoc);
-        textractClient.close();
+                .region(Region.US_WEST_2)
+                .credentialsProvider(StaticCredentialsProvider.create(awsCreds))
+                .build();
+        return textractClient;
     }
-*/
 
     public static String startDocAnalysisS3(TextractClient textractClient, String bucketName, String docName) {
 
@@ -179,8 +172,6 @@ public class AWStextrack {
         }
     }
 
-
-    // snippet-start:[textract.java2._detect_doc_text.main]
     public static void detectDocText(TextractClient textractClient, String sourceDoc) {
 
         try {

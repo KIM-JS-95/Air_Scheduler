@@ -85,7 +85,6 @@ class HelloControllerTest {
                 .andExpect(status().isOk());
     }
 
-    private static TextractClient textractClient;
     private static Region region;
     private static String sourceDoc = "";
     private static String bucketName = "";
@@ -93,17 +92,6 @@ class HelloControllerTest {
 
     @BeforeAll
     public static void setUp() throws IOException {
-        AwsBasicCredentials awsCreds = AwsBasicCredentials.create(
-                "AKIA3JVA2CBMGVTJWVNT",
-                " 1ABwHai1d9ZfUKRcF+TTyWuqavbBk8AVcgiSncQp"
-        );
-
-        textractClient = AWStextrack.
-
-        textractClient = TextractClient.builder()
-                .region(Region.US_WEST_2)
-                .credentialsProvider(StaticCredentialsProvider.create(awsCreds))
-                .build();
 
         try (InputStream input = AmazonTextractServiceIntegrationTest.class.getClassLoader().getResourceAsStream("config.properties")) {
 
@@ -113,9 +101,7 @@ class HelloControllerTest {
                 System.out.println("Sorry, unable to find config.properties");
                 return;
             }
-            //load a properties file from class path, inside static method
             prop.load(input);
-            // Populate the data members required for all tests
             sourceDoc = prop.getProperty("sourceDoc");
             bucketName = prop.getProperty("bucketName");
             docName = prop.getProperty("docName");
@@ -129,6 +115,7 @@ class HelloControllerTest {
     @Test
     @DisplayName("textrack test")
     public void textrack() {
+        TextractClient textractClient = awstextrack.awsceesser();
         awstextrack.analyzeDoc(textractClient, sourceDoc);
     }
 

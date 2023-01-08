@@ -137,11 +137,11 @@ public class AWStextrack {
         }
     }
 
-    public static void analyzeDoc(TextractClient textractClient, String sourceDoc) {
-
+    public static Iterator<Block> analyzeDoc(TextractClient textractClient, InputStream sourceDoc) {
+        Iterator<Block> blockIterator = null;
         try {
-            InputStream sourceStream = new FileInputStream(new File(sourceDoc));
-            SdkBytes sourceBytes = SdkBytes.fromInputStream(sourceStream);
+            //InputStream sourceStream = new FileInputStream(new File(sourceDoc));
+            SdkBytes sourceBytes = SdkBytes.fromInputStream(sourceDoc);
 
             // Get the input Document object as bytes
             Document myDoc = Document.builder()
@@ -159,17 +159,18 @@ public class AWStextrack {
 
             AnalyzeDocumentResponse analyzeDocument = textractClient.analyzeDocument(analyzeDocumentRequest);
             List<Block> docInfo = analyzeDocument.blocks();
-            Iterator<Block> blockIterator = docInfo.iterator();
+            blockIterator = docInfo.iterator();
 
             while (blockIterator.hasNext()) {
                 Block block = blockIterator.next();
                 System.out.println("The block type is " + block.text());
             }
-
-        } catch (TextractException | FileNotFoundException e) {
+        } catch (TextractException e) {
             System.err.println(e.getMessage());
             System.exit(1);
         }
+
+        return blockIterator;
     }
 
     public static void detectDocText(TextractClient textractClient, String sourceDoc) {

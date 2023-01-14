@@ -71,40 +71,6 @@ public class AWStextrack {
         return "";
     }
 
-    private static String getJobResults(TextractClient textractClient, String jobId) {
-
-        boolean finished = false;
-        int index = 0;
-        String status = "";
-
-        try {
-            while (!finished) {
-                GetDocumentAnalysisRequest analysisRequest = GetDocumentAnalysisRequest.builder()
-                        .jobId(jobId)
-                        .maxResults(1000)
-                        .build();
-
-                GetDocumentAnalysisResponse response = textractClient.getDocumentAnalysis(analysisRequest);
-                status = response.jobStatus().toString();
-
-                if (status.compareTo("SUCCEEDED") == 0)
-                    finished = true;
-                else {
-                    System.out.println(index + " status is: " + status);
-                    Thread.sleep(1000);
-                }
-                index++;
-            }
-
-            return status;
-
-        } catch (InterruptedException e) {
-            System.out.println(e.getMessage());
-            System.exit(1);
-        }
-        return "";
-    }
-
     public static void detectDocTextS3(TextractClient textractClient, String bucketName, String docName) {
 
         try {

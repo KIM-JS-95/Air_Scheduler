@@ -1,11 +1,10 @@
 package org.AirAPI.controller;
 
 
-import org.AirAPI.Entity.Messege;
-import org.AirAPI.Entity.Schedule;
-import org.AirAPI.Entity.StatusEnum;
-import org.AirAPI.Service.ScheduleService;
-import org.AirAPI.config.AWStextrack;
+import org.AirAPI.entity.Messege;
+import org.AirAPI.entity.Schedule;
+import org.AirAPI.entity.StatusEnum;
+import org.AirAPI.service.ScheduleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -13,11 +12,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import software.amazon.awssdk.services.textract.TextractClient;
 
-import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.List;
 
 @RestController
@@ -50,13 +46,11 @@ public class HelloController {
     @PostMapping("/jpg")
     public String upload(@RequestPart MultipartFile file) throws IOException {
 
-        // 파일은 s3 에 저장하며 이후 스케쥴 삭제 기능을 추가한다.
         try {
             scheduleService.save(file.getInputStream());
         }catch (Exception e){
             return "Can't save";
         }
-
         return "save";
     }
 }

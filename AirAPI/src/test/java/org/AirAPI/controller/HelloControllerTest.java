@@ -1,29 +1,28 @@
 package org.AirAPI.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.AirAPI.Entity.Schedule;
+import org.AirAPI.entity.Schedule;
 import org.AirAPI.config.AWStextrack;
-import org.AirAPI.config.AmazonTextractServiceIntegrationTest;
+import org.AirAPI.repository.SchduleRepository;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.mock.mockito.MockBeans;
+import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import software.amazon.awssdk.auth.credentials.*;
-import software.amazon.awssdk.regions.Region;
-import software.amazon.awssdk.services.textract.TextractClient;
 
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -31,13 +30,16 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @TestInstance(TestInstance.Lifecycle.PER_METHOD)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @WebMvcTest(controllers = HelloController.class)
-class HelloControllerTest {
+public class HelloControllerTest {
     @Autowired
     private MockMvc mvc;
     @Autowired
     private ObjectMapper objectMapper;
     @Autowired
     private AWStextrack awstextrack;
+
+    @MockBean
+    private SchduleRepository schduleRepository;
 
     private Schedule schedule1;
     List<Schedule> scheduleList = new ArrayList<>();
@@ -68,7 +70,6 @@ class HelloControllerTest {
     @DisplayName("save_Test")
     public void save_test() throws Exception{
 
-        Schedule schedule = new Schedule();
         mvc.perform(post("/save")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(scheduleList)))
@@ -78,45 +79,25 @@ class HelloControllerTest {
                 .andDo(print());
     }
 
-    @Test
-    @DisplayName("display_schedules")
-    public void schedule() throws Exception {
-        mvc.perform(get("/schedule"))
-                .andExpect(status().isOk());
-    }
-
-    private static Region region;
-    private static String sourceDoc = "";
-    private static String bucketName = "";
-    private static String docName = "";
-
-    @BeforeAll
-    public static void setUp() throws IOException {
-
-        try (InputStream input = AmazonTextractServiceIntegrationTest.class.getClassLoader().getResourceAsStream("config.properties")) {
-
-            Properties prop = new Properties();
-
-            if (input == null) {
-                System.out.println("Sorry, unable to find config.properties");
-                return;
-            }
-            prop.load(input);
-            sourceDoc = prop.getProperty("sourceDoc");
-            bucketName = prop.getProperty("bucketName");
-            docName = prop.getProperty("docName");
-
-
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-    }
 
     @Test
-    @DisplayName("textrack test")
-    public void textrack() {
-        TextractClient textractClient = awstextrack.awsceesser();
-        awstextrack.analyzeDoc(textractClient, sourceDoc);
+    @DisplayName("textrack_test")
+    public void jpg_save_test() throws Exception {
+
+        // given
+        final String fileName = "sample"; //파일명
+        final String contentType = "jpg"; //파일타입
+        final String filePath = "C:\\Users\\JAESEUNG\\IdeaProjects\\Air_Scheduler\\AirAPI\\src\\main\\resources\\static\\img\\sample.jpg"; //파일경로
+        FileInputStream fileInputStream = new FileInputStream(filePath);
+
+        //Mock파일생성
+        MockMultipartFile img = new MockMultipartFile(
+                "file",  "sample.jpg" ,contentType,fileInputStream);
+        // when
+        mvc.perform(multipart("/jpg")
+                .file(img)
+        ).andExpect(status().isOk());
+
     }
 
 }

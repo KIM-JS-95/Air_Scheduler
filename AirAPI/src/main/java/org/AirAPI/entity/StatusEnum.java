@@ -1,4 +1,4 @@
-package org.AirAPI.Entity;
+package org.AirAPI.entity;
 
 public enum StatusEnum {
 

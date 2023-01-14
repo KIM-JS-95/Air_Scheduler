@@ -1,11 +1,10 @@
-package org.AirAPI.Repository;
+package org.AirAPI.repository;
 
-import org.AirAPI.Entity.Schedule;
+import org.AirAPI.entity.Schedule;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.ArrayList;
 import java.util.List;

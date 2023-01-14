@@ -1,4 +1,4 @@
-package org.AirAPI.Entity;
+package org.AirAPI.entity;
 
 
 import org.junit.jupiter.api.DisplayName;

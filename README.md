@@ -32,16 +32,13 @@
 
 ## OverCome
 
-
-## Dev Plan
-
-- 221108 make the Development Plan
-
+## TODO
+- 사용자 관리 및 입력 (SpringBoot Secutiry)
+- 스케출 이미지 정보로부터 데이터 추출 (AWS Textrect)
 
 # Reference
 - [airLabs API](https://airlabs.co/docs/airports)
 - [AWS service](https://aws.amazon.com/ko/)
-
 
 # Design
 - [air ticket](https://codepen.io/jesusrmz/pen/yLbGJWb)

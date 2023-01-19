@@ -7,11 +7,13 @@ import org.AirAPI.repository.SchduleRepository;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
+import org.mockito.Spy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.mock.mockito.MockBeans;
 import org.springframework.boot.test.mock.mockito.SpyBean;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -87,12 +89,17 @@ public class HelloControllerTest {
         // given
         final String fileName = "sample"; //파일명
         final String contentType = "jpg"; //파일타입
-        final String filePath = "C:\\Users\\JAESEUNG\\IdeaProjects\\Air_Scheduler\\AirAPI\\src\\main\\resources\\static\\img\\sample.jpg"; //파일경로
+
+        ClassPathResource resource = new ClassPathResource("static/img/sample.jpg");
+
+        //final String filePath = "C:\\Users\\JAESEUNG\\IdeaProjects\\Air_Scheduler\\AirAPI\\src\\main\\resources\\static\\img\\sample.jpg"; //파일경로
+        final String filePath = "D:\\Air_Scheduler\\AirAPI\\src\\main\\resources\\static\\img\\sample.jpg";
         FileInputStream fileInputStream = new FileInputStream(filePath);
 
         //Mock파일생성
         MockMultipartFile img = new MockMultipartFile(
-                "file",  "sample.jpg" ,contentType,fileInputStream);
+                "file",  "sample.jpg" ,contentType, fileInputStream);
+
         // when
         mvc.perform(multipart("/jpg")
                 .file(img)

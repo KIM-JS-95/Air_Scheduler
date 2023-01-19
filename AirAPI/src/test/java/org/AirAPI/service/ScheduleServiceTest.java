@@ -61,7 +61,7 @@ class ScheduleServiceTest {
     @Test
     @DisplayName("3개의 데이터를 호출")
     public void finddata() {
-
+        // when
         Schedule schedule = Schedule.builder()
                 .id(1)
                 .date("01Nov22")
@@ -71,11 +71,13 @@ class ScheduleServiceTest {
                 .cnt_to("GMP") // 도착
                 .activity("OFF")
                 .build();
-
         when(schduleRepository.findById(any())).thenReturn(Optional.ofNullable(schedule));
         given(scheduleService.findData(1)).willReturn(schedule1);
 
-        assertThat(schedule1.getCnt_to(), Matchers.is("GMP"));
+        // given
+        Schedule schedule2 = scheduleService.findData(1);
+        verify(scheduleService, times(1)).findData(1);
+        assertThat(schedule2.getCnt_to(), Matchers.is("GMP"));
     }
 
 

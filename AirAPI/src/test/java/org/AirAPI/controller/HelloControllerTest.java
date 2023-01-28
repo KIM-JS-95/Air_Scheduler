@@ -87,7 +87,6 @@ public class HelloControllerTest {
     public void jpg_save_test() throws Exception {
 
         // given
-        final String fileName = "sample"; //파일명
         final String contentType = "jpg"; //파일타입
 
         ClassPathResource resource = new ClassPathResource("static/img/sample.jpg");

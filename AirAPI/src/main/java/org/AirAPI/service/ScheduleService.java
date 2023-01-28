@@ -17,7 +17,7 @@ public class ScheduleService {
     @Autowired
     private AWStextrack awstextrack;
 
-    //@Autowired
+    @Autowired
     private SchduleRepository schduleRepository;
 
     public Schedule findData(int id) {
@@ -26,10 +26,7 @@ public class ScheduleService {
 
     public String save(InputStream source) {
         TextractClient textractClient= awstextrack.awsceesser();
-        List<Block> blockIterator= awstextrack.analyzeDoc(textractClient, source);
-
-        System.out.println( "사이즈!!!!!!"+ blockIterator.size());
-
+        Iterator<Block>blockIterator = awstextrack.analyzeDoc(textractClient, source);
         return "OK";
     }
 

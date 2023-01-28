@@ -28,7 +28,7 @@ public class AWStextrack {
     @Value("${secretkey}")
     private String secretkey;
 
-    public TextractClient awsceesser() {
+    public TextractClient awsceesser(){
         AwsBasicCredentials awsCreds = AwsBasicCredentials.create(accesskey, secretkey);
         TextractClient textractClient = TextractClient.builder()
                 .region(Region.US_WEST_2)
@@ -38,7 +38,6 @@ public class AWStextrack {
     }
 
     public static String startDocAnalysisS3(TextractClient textractClient, String bucketName, String docName) {
-
         try {
             List<FeatureType> myList = new ArrayList<>();
             myList.add(FeatureType.TABLES);
@@ -69,6 +68,34 @@ public class AWStextrack {
             System.exit(1);
         }
         return "";
+    }
+
+    public static Iterator<Block> analyzeDoc(TextractClient textractClient, InputStream sourceDoc) {
+        Iterator<Block> docInfo=null;
+        try {
+
+            SdkBytes sourceBytes = SdkBytes.fromInputStream(sourceDoc);
+            Document myDoc = Document.builder()
+                    .bytes(sourceBytes)
+                    .build();
+
+            List<FeatureType> featureTypes = new ArrayList<FeatureType>();
+            featureTypes.add(FeatureType.TABLES);
+            //featureTypes.add(FeatureType.FORMS);
+
+            AnalyzeDocumentRequest analyzeDocumentRequest = AnalyzeDocumentRequest.builder()
+                    .featureTypes(featureTypes)
+                    .document(myDoc)
+                    .build();
+            AnalyzeDocumentResponse analyzeDocument = textractClient.analyzeDocument(analyzeDocumentRequest);
+            docInfo = analyzeDocument.blocks().iterator();
+
+        } catch (TextractException e) {
+            System.err.println(e.getMessage());
+            System.exit(1);
+        }
+
+        return docInfo;
     }
 
     public static void detectDocTextS3(TextractClient textractClient, String bucketName, String docName) {
@@ -102,44 +129,6 @@ public class AWStextrack {
             System.exit(1);
         }
     }
-
-    public static List<Block> analyzeDoc(TextractClient textractClient, InputStream sourceDoc) {
-        Iterator<Block> blockIterator = null;
-        List<Block> docInfo = null;
-        try {
-            //InputStream sourceStream = new FileInputStream(new File(sourceDoc));
-            SdkBytes sourceBytes = SdkBytes.fromInputStream(sourceDoc);
-
-            // Get the input Document object as bytes
-            Document myDoc = Document.builder()
-                    .bytes(sourceBytes)
-                    .build();
-
-            List<FeatureType> featureTypes = new ArrayList<FeatureType>();
-            featureTypes.add(FeatureType.FORMS);
-            featureTypes.add(FeatureType.TABLES);
-
-            AnalyzeDocumentRequest analyzeDocumentRequest = AnalyzeDocumentRequest.builder()
-                    .featureTypes(featureTypes)
-                    .document(myDoc)
-                    .build();
-
-            AnalyzeDocumentResponse analyzeDocument = textractClient.analyzeDocument(analyzeDocumentRequest);
-            docInfo = analyzeDocument.blocks();
-/*
-            blockIterator = docInfo.iterator();
-            while (blockIterator.hasNext()) {
-                Block block = blockIterator.next();
-                System.out.println("The block type is " + block.text());
-            }
- */
-        } catch (TextractException e) {
-            System.err.println(e.getMessage());
-            System.exit(1);
-        }
-        return docInfo;
-    }
-
     public static void detectDocText(TextractClient textractClient, String sourceDoc) {
 
         try {

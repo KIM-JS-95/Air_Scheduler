@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta http-equiv="x-ua-compatible" content="IE=edge"/>
+<title>Test results - AWStextrackTest</title>
+<link href="../css/base-style.css" rel="stylesheet" type="text/css"/>
+<link href="../css/style.css" rel="stylesheet" type="text/css"/>
+<script src="../js/report.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="content">
+<h1>AWStextrackTest</h1>
+<div class="breadcrumbs">
+<a href="../index.html">all</a> &gt; 
+<a href="../packages/org.AirAPI.config.html">org.AirAPI.config</a> &gt; AWStextrackTest</div>
+<div id="summary">
+<table>
+<tr>
+<td>
+<div class="summaryGroup">
+<table>
+<tr>
+<td>
+<div class="infoBox" id="tests">
+<div class="counter">1</div>
+<p>tests</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="failures">
+<div class="counter">0</div>
+<p>failures</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="ignored">
+<div class="counter">0</div>
+<p>ignored</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="duration">
+<div class="counter">5.745s</div>
+<p>duration</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</td>
+<td>
+<div class="infoBox success" id="successRate">
+<div class="percent">100%</div>
+<p>successful</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="tabs">
+<ul class="tabLinks">
+<li>
+<a href="#tab0">Tests</a>
+</li>
+<li>
+<a href="#tab1">Standard output</a>
+</li>
+</ul>
+<div id="tab0" class="tab">
+<h2>Tests</h2>
+<table>
+<thead>
+<tr>
+<th>Test</th>
+<th>Duration</th>
+<th>Result</th>
+</tr>
+</thead>
+<tr>
+<td class="success">docTest()</td>
+<td class="success">5.745s</td>
+<td class="success">passed</td>
+</tr>
+</table>
+</div>
+<div id="tab1" class="tab">
+<h2>Standard output</h2>
+<span class="code">
+<pre>00:47:18.518 [Test worker] DEBUG org.springframework.test.context.BootstrapUtils - Instantiating CacheAwareContextLoaderDelegate from class [org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate]
+00:47:18.530 [Test worker] DEBUG org.springframework.test.context.BootstrapUtils - Instantiating BootstrapContext using constructor [public org.springframework.test.context.support.DefaultBootstrapContext(java.lang.Class,org.springframework.test.context.CacheAwareContextLoaderDelegate)]
+00:47:18.573 [Test worker] DEBUG org.springframework.test.context.BootstrapUtils - Instantiating TestContextBootstrapper for test class [org.AirAPI.config.AWStextrackTest] from class [org.springframework.boot.test.context.SpringBootTestContextBootstrapper]
+00:47:18.588 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Neither @ContextConfiguration nor @ContextHierarchy found for test class [org.AirAPI.config.AWStextrackTest], using SpringBootContextLoader
+00:47:18.593 [Test worker] DEBUG org.springframework.test.context.support.AbstractContextLoader - Did not detect default resource location for test class [org.AirAPI.config.AWStextrackTest]: class path resource [org/AirAPI/config/AWStextrackTest-context.xml] does not exist
+00:47:18.594 [Test worker] DEBUG org.springframework.test.context.support.AbstractContextLoader - Did not detect default resource location for test class [org.AirAPI.config.AWStextrackTest]: class path resource [org/AirAPI/config/AWStextrackTestContext.groovy] does not exist
+00:47:18.594 [Test worker] INFO org.springframework.test.context.support.AbstractContextLoader - Could not detect default resource locations for test class [org.AirAPI.config.AWStextrackTest]: no resource found for suffixes {-context.xml, Context.groovy}.
+00:47:18.595 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.AirAPI.config.AWStextrackTest]: AWStextrackTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+00:47:18.641 [Test worker] DEBUG org.springframework.test.context.support.ActiveProfilesUtils - Could not find an 'annotation declaring class' for annotation type [org.springframework.test.context.ActiveProfiles] and class [org.AirAPI.config.AWStextrackTest]
+00:47:18.719 [Test worker] DEBUG org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider - Identified candidate component class: file [C:\Users\JAESEUNG\IdeaProjects\Air_Scheduler\AirAPI\build\classes\java\main\org\AirAPI\Main.class]
+00:47:18.720 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration org.AirAPI.Main for test class org.AirAPI.config.AWStextrackTest
+00:47:18.828 [Test worker] DEBUG org.springframework.boot.test.context.SpringBootTestContextBootstrapper - @TestExecutionListeners is not present for class [org.AirAPI.config.AWStextrackTest]: using defaults.
+00:47:18.829 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener, org.springframework.boot.test.autoconfigure.webservices.client.MockWebServiceServerTestExecutionListener, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener, org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener, org.springframework.test.context.event.ApplicationEventsTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener, org.springframework.test.context.event.EventPublishingTestExecutionListener]
+00:47:18.847 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@3d08f3f5, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener@119f1f2a, org.springframework.test.context.event.ApplicationEventsTestExecutionListener@1a1da881, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener@5b970f7, org.springframework.boot.test.autoconfigure.SpringBootDependencyInjectionTestExecutionListener@7fd4acee, org.springframework.test.context.support.DirtiesContextTestExecutionListener@165b8a71, org.springframework.test.context.transaction.TransactionalTestExecutionListener@6175619b, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@2f058b8a, org.springframework.test.context.event.EventPublishingTestExecutionListener@756cf158, org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener@3f2ef586, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener@751d3241, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener@76c7beb3, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener@64337702, org.springframework.boot.test.autoconfigure.webservices.client.MockWebServiceServerTestExecutionListener@2cf92cc7, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener@30ea8c23]
+00:47:18.852 [Test worker] DEBUG org.springframework.test.context.support.AbstractDirtiesContextTestExecutionListener - Before test class: context [DefaultTestContext@70dd7e15 testClass = AWStextrackTest, testInstance = [null], testMethod = [null], testException = [null], mergedContextConfiguration = [WebMergedContextConfiguration@4a9f80d3 testClass = AWStextrackTest, locations = '{}', classes = '{class org.AirAPI.Main}', contextInitializerClasses = '[]', activeProfiles = '{}', propertySourceLocations = '{}', propertySourceProperties = '{org.springframework.boot.test.context.SpringBootTestContextBootstrapper=true}', contextCustomizers = set[org.springframework.boot.test.autoconfigure.actuate.metrics.MetricsExportContextCustomizerFactory$DisableMetricExportContextCustomizer@2dcd168a, org.springframework.boot.test.autoconfigure.properties.PropertyMappingContextCustomizer@0, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverContextCustomizerFactory$Customizer@5b1ebf56, org.springframework.boot.test.context.filter.ExcludeFilterContextCustomizer@4f25b795, org.springframework.boot.test.json.DuplicateJsonObjectContextCustomizerFactory$DuplicateJsonObjectContextCustomizer@525575, org.springframework.boot.test.mock.mockito.MockitoContextCustomizer@0, org.springframework.boot.test.web.client.TestRestTemplateContextCustomizer@22d7b4f8, org.springframework.boot.test.context.SpringBootTestArgs@1, org.springframework.boot.test.context.SpringBootTestWebEnvironment@2a54a73f], resourceBasePath = 'src/main/webapp', contextLoader = 'org.springframework.boot.test.context.SpringBootContextLoader', parent = [null]], attributes = map['org.springframework.test.context.web.ServletTestExecutionListener.activateListener' -&gt; true]], class annotated with @DirtiesContext [false] with mode [null].
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::                (v2.7.5)
+
+2023-01-29 00:47:19.223  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : Starting AWStextrackTest using Java 16.0.2 on DESKTOP-R7AB2GV with PID 11960 (started by JAESEUNG in C:\Users\JAESEUNG\IdeaProjects\Air_Scheduler\AirAPI)
+2023-01-29 00:47:19.225  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : No active profile set, falling back to 1 default profile: &quot;default&quot;
+2023-01-29 00:47:19.847  INFO 11960 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-01-29 00:47:19.910  INFO 11960 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 53 ms. Found 1 JPA repository interfaces.
+2023-01-29 00:47:20.698  INFO 11960 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2023-01-29 00:47:20.893  INFO 11960 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2023-01-29 00:47:21.003  INFO 11960 --- [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-01-29 00:47:21.079  INFO 11960 --- [    Test worker] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.6.12.Final
+2023-01-29 00:47:21.314  INFO 11960 --- [    Test worker] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2023-01-29 00:47:21.466  INFO 11960 --- [    Test worker] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.H2Dialect
+2023-01-29 00:47:22.061  INFO 11960 --- [    Test worker] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-01-29 00:47:22.071  INFO 11960 --- [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-01-29 00:47:22.711  WARN 11960 --- [    Test worker] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-01-29 00:47:23.402  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : Started AWStextrackTest in 4.51 seconds (JVM running for 5.781)
+2023-01-29 00:47:29.100  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.033650413
+2023-01-29 00:47:29.100  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : Date
+2023-01-29 00:47:29.100  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.0328639
+2023-01-29 00:47:29.100  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : Pairing
+2023-01-29 00:47:29.100  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.033420462
+2023-01-29 00:47:29.100  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : DC
+2023-01-29 00:47:29.100  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.032606047
+2023-01-29 00:47:29.101  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : C/l (L)
+2023-01-29 00:47:29.101  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.032557555
+2023-01-29 00:47:29.101  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : C/O (L) Activity
+2023-01-29 00:47:29.101  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.03347899
+2023-01-29 00:47:29.101  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : From
+2023-01-29 00:47:29.101  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.03266143
+2023-01-29 00:47:29.101  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : STD (B)
+2023-01-29 00:47:29.101  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.0327481
+2023-01-29 00:47:29.101  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : To
+2023-01-29 00:47:29.101  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.03245773
+2023-01-29 00:47:29.101  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : STA (B)
+2023-01-29 00:47:29.101  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.033140585
+2023-01-29 00:47:29.102  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : AC/Hotel
+2023-01-29 00:47:29.102  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.034572724
+2023-01-29 00:47:29.102  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : B
+2023-01-29 00:47:29.102  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.052215457
+2023-01-29 00:47:29.102  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 01Jan23
+2023-01-29 00:47:29.102  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.051922068
+2023-01-29 00:47:29.102  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : OFF
+2023-01-29 00:47:29.103  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.051960856
+2023-01-29 00:47:29.103  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : GMP
+2023-01-29 00:47:29.103  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.05245088
+2023-01-29 00:47:29.103  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0000
+2023-01-29 00:47:29.103  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.051922746
+2023-01-29 00:47:29.103  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : GMP
+2023-01-29 00:47:29.103  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.052134976
+2023-01-29 00:47:29.103  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 2359
+2023-01-29 00:47:29.103  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.070341684
+2023-01-29 00:47:29.103  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 02Jan23 F129
+2023-01-29 00:47:29.104  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.07039918
+2023-01-29 00:47:29.104  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 1755
+2023-01-29 00:47:29.104  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.070405856
+2023-01-29 00:47:29.104  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 129
+2023-01-29 00:47:29.104  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.070449166
+2023-01-29 00:47:29.104  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : GMP
+2023-01-29 00:47:29.104  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.070665866
+2023-01-29 00:47:29.104  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 1905
+2023-01-29 00:47:29.104  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.07055684
+2023-01-29 00:47:29.104  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : CJU
+2023-01-29 00:47:29.104  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.070567854
+2023-01-29 00:47:29.105  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 2015
+2023-01-29 00:47:29.105  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.070619404
+2023-01-29 00:47:29.105  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 738
+2023-01-29 00:47:29.105  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.08943267
+2023-01-29 00:47:29.105  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 2220 128
+2023-01-29 00:47:29.105  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.08940694
+2023-01-29 00:47:29.105  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : CJU
+2023-01-29 00:47:29.105  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.089506164
+2023-01-29 00:47:29.105  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 2050
+2023-01-29 00:47:29.106  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.08940035
+2023-01-29 00:47:29.106  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : GMP
+2023-01-29 00:47:29.106  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.089508265
+2023-01-29 00:47:29.106  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 2200
+2023-01-29 00:47:29.106  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.08934842
+2023-01-29 00:47:29.106  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 738
+2023-01-29 00:47:29.106  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.10767034
+2023-01-29 00:47:29.106  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 03Jan23 F1406
+2023-01-29 00:47:29.106  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.10774077
+2023-01-29 00:47:29.106  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 1410
+2023-01-29 00:47:29.106  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.10788054
+2023-01-29 00:47:29.107  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 1406
+2023-01-29 00:47:29.107  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.107702896
+2023-01-29 00:47:29.107  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : ICN
+2023-01-29 00:47:29.107  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.10757814
+2023-01-29 00:47:29.107  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 1620
+2023-01-29 00:47:29.107  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.107472606
+2023-01-29 00:47:29.107  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : FUK
+2023-01-29 00:47:29.107  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.10768843
+2023-01-29 00:47:29.107  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 1755
+2023-01-29 00:47:29.107  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.107676834
+2023-01-29 00:47:29.107  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 738
+2023-01-29 00:47:29.108  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.1262873
+2023-01-29 00:47:29.108  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 2115 1405
+2023-01-29 00:47:29.108  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.1262647
+2023-01-29 00:47:29.108  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : FUK
+2023-01-29 00:47:29.108  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.12635008
+2023-01-29 00:47:29.108  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 1845
+2023-01-29 00:47:29.108  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.1265402
+2023-01-29 00:47:29.108  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : ICN
+2023-01-29 00:47:29.108  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.12663299
+2023-01-29 00:47:29.108  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 2015
+2023-01-29 00:47:29.108  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.12664036
+2023-01-29 00:47:29.108  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 738
+2023-01-29 00:47:29.108  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.14494532
+2023-01-29 00:47:29.109  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 04Jan23
+2023-01-29 00:47:29.109  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.14495505
+2023-01-29 00:47:29.109  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : OFF
+2023-01-29 00:47:29.109  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.1448356
+2023-01-29 00:47:29.109  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : GMP
+2023-01-29 00:47:29.109  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.14505088
+2023-01-29 00:47:29.109  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0000
+2023-01-29 00:47:29.109  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.14485657
+2023-01-29 00:47:29.109  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : GMP
+2023-01-29 00:47:29.109  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.14504291
+2023-01-29 00:47:29.109  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 2359
+2023-01-29 00:47:29.109  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.16378117
+2023-01-29 00:47:29.109  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 05Jan23
+2023-01-29 00:47:29.110  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.1639741
+2023-01-29 00:47:29.110  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 1630
+2023-01-29 00:47:29.110  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.16377814
+2023-01-29 00:47:29.110  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 2230 SIM1
+2023-01-29 00:47:29.110  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.16379161
+2023-01-29 00:47:29.110  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : GMP
+2023-01-29 00:47:29.110  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.16397856
+2023-01-29 00:47:29.110  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 1630
+2023-01-29 00:47:29.110  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.16379546
+2023-01-29 00:47:29.110  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : GMP
+2023-01-29 00:47:29.110  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.16407566
+2023-01-29 00:47:29.110  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 2230
+2023-01-29 00:47:29.110  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.18223742
+2023-01-29 00:47:29.111  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 06Jan23
+2023-01-29 00:47:29.111  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.18225634
+2023-01-29 00:47:29.111  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 1630
+2023-01-29 00:47:29.111  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.18214394
+2023-01-29 00:47:29.111  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 2230 SIM1
+2023-01-29 00:47:29.111  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.18206923
+2023-01-29 00:47:29.111  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : GMP
+2023-01-29 00:47:29.111  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.18216874
+2023-01-29 00:47:29.111  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 1630
+2023-01-29 00:47:29.111  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.18195418
+2023-01-29 00:47:29.111  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : GMP
+2023-01-29 00:47:29.111  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.18242936
+2023-01-29 00:47:29.111  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 2230
+2023-01-29 00:47:29.111  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.20115362
+2023-01-29 00:47:29.111  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 07Jan23
+2023-01-29 00:47:29.111  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.20115851
+2023-01-29 00:47:29.112  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 1630
+2023-01-29 00:47:29.112  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.20094985
+2023-01-29 00:47:29.112  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 2230 SIM1
+2023-01-29 00:47:29.112  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.20099652
+2023-01-29 00:47:29.112  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : GMP
+2023-01-29 00:47:29.112  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.2011678
+2023-01-29 00:47:29.112  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 1630
+2023-01-29 00:47:29.112  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.20092988
+2023-01-29 00:47:29.112  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : GMP
+2023-01-29 00:47:29.112  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.20130995
+2023-01-29 00:47:29.112  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 2230
+2023-01-29 00:47:29.112  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.21941605
+2023-01-29 00:47:29.112  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 08Jan23
+2023-01-29 00:47:29.112  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.2194907
+2023-01-29 00:47:29.112  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : OFF
+2023-01-29 00:47:29.113  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.21945196
+2023-01-29 00:47:29.113  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : GMP
+2023-01-29 00:47:29.113  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.21973708
+2023-01-29 00:47:29.113  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0000
+2023-01-29 00:47:29.113  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.21938287
+2023-01-29 00:47:29.113  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : GMP
+2023-01-29 00:47:29.113  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.21963425
+2023-01-29 00:47:29.113  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 2359
+2023-01-29 00:47:29.113  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.23824406
+2023-01-29 00:47:29.113  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 09Jan23
+2023-01-29 00:47:29.113  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.23822977
+2023-01-29 00:47:29.113  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : OFF
+2023-01-29 00:47:29.113  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.2381387
+2023-01-29 00:47:29.113  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : GMP
+2023-01-29 00:47:29.114  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.23861252
+2023-01-29 00:47:29.114  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0000
+2023-01-29 00:47:29.114  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.23819277
+2023-01-29 00:47:29.114  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : GMP
+2023-01-29 00:47:29.114  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.23852226
+2023-01-29 00:47:29.114  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 2359
+2023-01-29 00:47:29.114  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.25662276
+2023-01-29 00:47:29.114  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 10Jan23 F1454
+2023-01-29 00:47:29.114  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.25654018
+2023-01-29 00:47:29.114  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : DH
+2023-01-29 00:47:29.114  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.25656983
+2023-01-29 00:47:29.114  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0915
+2023-01-29 00:47:29.114  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.2568923
+2023-01-29 00:47:29.115  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : AIR
+2023-01-29 00:47:29.115  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.25625423
+2023-01-29 00:47:29.115  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : GMP
+2023-01-29 00:47:29.115  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.25667924
+2023-01-29 00:47:29.115  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 1025
+2023-01-29 00:47:29.115  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.25633702
+2023-01-29 00:47:29.115  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : PUS
+2023-01-29 00:47:29.115  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.2566986
+2023-01-29 00:47:29.115  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 1130
+2023-01-29 00:47:29.115  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.27545348
+2023-01-29 00:47:29.115  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 1454
+2023-01-29 00:47:29.115  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.27542433
+2023-01-29 00:47:29.115  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : PUS
+2023-01-29 00:47:29.115  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.27556622
+2023-01-29 00:47:29.116  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 1320
+2023-01-29 00:47:29.116  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.2754861
+2023-01-29 00:47:29.116  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : FUK
+2023-01-29 00:47:29.116  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.27557132
+2023-01-29 00:47:29.116  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 1420
+2023-01-29 00:47:29.116  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.2755875
+2023-01-29 00:47:29.116  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 738
+2023-01-29 00:47:29.116  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.29381758
+2023-01-29 00:47:29.116  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : F1454
+2023-01-29 00:47:29.116  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.2937444
+2023-01-29 00:47:29.116  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 1620 1453
+2023-01-29 00:47:29.116  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.2939528
+2023-01-29 00:47:29.116  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : FUK
+2023-01-29 00:47:29.116  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.29395947
+2023-01-29 00:47:29.116  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 1510
+2023-01-29 00:47:29.116  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.29386735
+2023-01-29 00:47:29.116  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : PUS
+2023-01-29 00:47:29.116  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.29402387
+2023-01-29 00:47:29.117  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 1600
+2023-01-29 00:47:29.117  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.29397804
+2023-01-29 00:47:29.117  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 738
+2023-01-29 00:47:29.117  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.31239417
+2023-01-29 00:47:29.117  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : LAYOV
+2023-01-29 00:47:29.117  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.3125947
+2023-01-29 00:47:29.117  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : PUS
+2023-01-29 00:47:29.117  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.31244686
+2023-01-29 00:47:29.117  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 1710
+2023-01-29 00:47:29.117  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.31247988
+2023-01-29 00:47:29.117  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : PUS
+2023-01-29 00:47:29.117  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.31273782
+2023-01-29 00:47:29.117  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 1630
+2023-01-29 00:47:29.117  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.31252983
+2023-01-29 00:47:29.117  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : ???
+2023-01-29 00:47:29.117  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.33106872
+2023-01-29 00:47:29.118  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 11Jan23 F1454
+2023-01-29 00:47:29.118  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.33117056
+2023-01-29 00:47:29.118  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 1720
+2023-01-29 00:47:29.118  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.33115757
+2023-01-29 00:47:29.118  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 2240 4257
+2023-01-29 00:47:29.118  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.33103666
+2023-01-29 00:47:29.118  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : PUS
+2023-01-29 00:47:29.118  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.3311416
+2023-01-29 00:47:29.118  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 1840
+2023-01-29 00:47:29.118  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.33093053
+2023-01-29 00:47:29.118  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : CNX
+2023-01-29 00:47:29.118  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.33125043
+2023-01-29 00:47:29.119  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0020
+2023-01-29 00:47:29.119  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.33126137
+2023-01-29 00:47:29.119  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 738
+2023-01-29 00:47:29.119  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.34996852
+2023-01-29 00:47:29.119  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 12Jan23 F1454
+2023-01-29 00:47:29.119  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.3498012
+2023-01-29 00:47:29.119  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : LAYOV
+2023-01-29 00:47:29.120  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.349914
+2023-01-29 00:47:29.120  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : CNX
+2023-01-29 00:47:29.120  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.35000074
+2023-01-29 00:47:29.120  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0100
+2023-01-29 00:47:29.120  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.34978306
+2023-01-29 00:47:29.120  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : CNX
+2023-01-29 00:47:29.120  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.35012197
+2023-01-29 00:47:29.120  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0010
+2023-01-29 00:47:29.120  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.34948778
+2023-01-29 00:47:29.120  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : Centara Riverside Hotel Chiang Mai
+2023-01-29 00:47:29.120  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.36812535
+2023-01-29 00:47:29.120  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 13Jan23 F1454
+2023-01-29 00:47:29.120  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.3684468
+2023-01-29 00:47:29.120  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 2230
+2023-01-29 00:47:29.121  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.3683193
+2023-01-29 00:47:29.121  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0720 4206
+2023-01-29 00:47:29.121  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.36827835
+2023-01-29 00:47:29.121  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : CNX
+2023-01-29 00:47:29.121  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.3683659
+2023-01-29 00:47:29.121  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0130
+2023-01-29 00:47:29.121  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.36817586
+2023-01-29 00:47:29.121  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : ICN
+2023-01-29 00:47:29.121  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.36850122
+2023-01-29 00:47:29.122  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0620
+2023-01-29 00:47:29.122  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.36850986
+2023-01-29 00:47:29.123  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 738
+2023-01-29 00:47:29.124  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.38737893
+2023-01-29 00:47:29.124  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 14Jan23
+2023-01-29 00:47:29.124  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.38713512
+2023-01-29 00:47:29.124  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : OFF
+2023-01-29 00:47:29.127  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.38703084
+2023-01-29 00:47:29.127  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : GMP
+2023-01-29 00:47:29.127  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.38727
+2023-01-29 00:47:29.127  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0000
+2023-01-29 00:47:29.128  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.38700664
+2023-01-29 00:47:29.128  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : GMP
+2023-01-29 00:47:29.128  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.38722357
+2023-01-29 00:47:29.128  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 2359
+2023-01-29 00:47:29.128  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.4055725
+2023-01-29 00:47:29.128  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 15Jan23
+2023-01-29 00:47:29.128  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.4055045
+2023-01-29 00:47:29.128  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : OFF
+2023-01-29 00:47:29.128  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.4053659
+2023-01-29 00:47:29.128  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : GMP
+2023-01-29 00:47:29.128  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.40564945
+2023-01-29 00:47:29.128  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0000
+2023-01-29 00:47:29.128  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.40536997
+2023-01-29 00:47:29.128  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : GMP
+2023-01-29 00:47:29.128  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.4056095
+2023-01-29 00:47:29.128  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 2359
+2023-01-29 00:47:29.128  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.42444515
+2023-01-29 00:47:29.128  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 16Jan23
+2023-01-29 00:47:29.129  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.4245649
+2023-01-29 00:47:29.129  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 1530
+2023-01-29 00:47:29.129  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.42443675
+2023-01-29 00:47:29.129  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 2030 OFC
+2023-01-29 00:47:29.129  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.424357
+2023-01-29 00:47:29.129  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : GMP
+2023-01-29 00:47:29.129  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.42459005
+2023-01-29 00:47:29.129  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 1530
+2023-01-29 00:47:29.129  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.42440116
+2023-01-29 00:47:29.131  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : GMP
+2023-01-29 00:47:29.131  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.42449194
+2023-01-29 00:47:29.132  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 2030
+2023-01-29 00:47:29.132  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.44265684
+2023-01-29 00:47:29.132  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 17Jan23 F2203
+2023-01-29 00:47:29.132  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.44272226
+2023-01-29 00:47:29.132  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 1720
+2023-01-29 00:47:29.132  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.4428321
+2023-01-29 00:47:29.132  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0005 2203
+2023-01-29 00:47:29.132  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.44271445
+2023-01-29 00:47:29.132  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : ICN
+2023-01-29 00:47:29.132  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.44278598
+2023-01-29 00:47:29.133  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 1930
+2023-01-29 00:47:29.133  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.442678
+2023-01-29 00:47:29.133  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : BKK
+2023-01-29 00:47:29.133  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.44271204
+2023-01-29 00:47:29.133  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0145
+2023-01-29 00:47:29.133  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.44255206
+2023-01-29 00:47:29.133  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 738
+2023-01-29 00:47:29.134  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.46156958
+2023-01-29 00:47:29.134  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 18Jan23 F2203
+2023-01-29 00:47:29.134  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.46134838
+2023-01-29 00:47:29.134  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : LAYOV
+2023-01-29 00:47:29.134  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.4615971
+2023-01-29 00:47:29.134  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : BKK
+2023-01-29 00:47:29.134  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.4617129
+2023-01-29 00:47:29.134  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0300
+2023-01-29 00:47:29.134  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.46146214
+2023-01-29 00:47:29.134  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : BKK
+2023-01-29 00:47:29.134  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.4614551
+2023-01-29 00:47:29.134  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0115
+2023-01-29 00:47:29.134  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.46106592
+2023-01-29 00:47:29.135  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : Holiday Inn silom(7/12~)
+2023-01-29 00:47:29.135  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.48015055
+2023-01-29 00:47:29.135  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 19Jan23 F2203
+2023-01-29 00:47:29.135  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.48010623
+2023-01-29 00:47:29.135  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0010
+2023-01-29 00:47:29.135  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.48019803
+2023-01-29 00:47:29.135  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 2252
+2023-01-29 00:47:29.135  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.48010397
+2023-01-29 00:47:29.135  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : BKK
+2023-01-29 00:47:29.135  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.48012134
+2023-01-29 00:47:29.135  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0310
+2023-01-29 00:47:29.137  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.47995502
+2023-01-29 00:47:29.137  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : PUS
+2023-01-29 00:47:29.137  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.48018017
+2023-01-29 00:47:29.137  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0835
+2023-01-29 00:47:29.137  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.48014435
+2023-01-29 00:47:29.137  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 738
+2023-01-29 00:47:29.137  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.4989541
+2023-01-29 00:47:29.137  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : DH
+2023-01-29 00:47:29.137  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.4987824
+2023-01-29 00:47:29.137  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 1120 AIR
+2023-01-29 00:47:29.137  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.4987743
+2023-01-29 00:47:29.137  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : PUS
+2023-01-29 00:47:29.137  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.49893084
+2023-01-29 00:47:29.137  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 1000
+2023-01-29 00:47:29.137  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.4987478
+2023-01-29 00:47:29.137  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : GMP
+2023-01-29 00:47:29.137  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.49895224
+2023-01-29 00:47:29.137  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 1100
+2023-01-29 00:47:29.137  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.5174232
+2023-01-29 00:47:29.137  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 20Jan23
+2023-01-29 00:47:29.137  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.51723135
+2023-01-29 00:47:29.137  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : OFF
+2023-01-29 00:47:29.137  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.5170945
+2023-01-29 00:47:29.138  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : GMP
+2023-01-29 00:47:29.138  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.5173591
+2023-01-29 00:47:29.138  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0000
+2023-01-29 00:47:29.138  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.5170619
+2023-01-29 00:47:29.138  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : GMP
+2023-01-29 00:47:29.138  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.5172775
+2023-01-29 00:47:29.138  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 2359
+2023-01-29 00:47:29.138  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.5360181
+2023-01-29 00:47:29.138  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 21Jan23 F1602
+2023-01-29 00:47:29.138  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.53628284
+2023-01-29 00:47:29.138  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0900
+2023-01-29 00:47:29.138  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.53618306
+2023-01-29 00:47:29.138  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 1602
+2023-01-29 00:47:29.138  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.5361072
+2023-01-29 00:47:29.139  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : ICN
+2023-01-29 00:47:29.139  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.5362317
+2023-01-29 00:47:29.139  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 1110
+2023-01-29 00:47:29.139  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.536033
+2023-01-29 00:47:29.139  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : NGO
+2023-01-29 00:47:29.139  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.5361647
+2023-01-29 00:47:29.139  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 1300
+2023-01-29 00:47:29.139  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.53612196
+2023-01-29 00:47:29.139  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 738
+2023-01-29 00:47:29.139  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.5543517
+2023-01-29 00:47:29.139  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 1700 1601
+2023-01-29 00:47:29.139  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.55450964
+2023-01-29 00:47:29.139  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : NGO
+2023-01-29 00:47:29.139  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.55453116
+2023-01-29 00:47:29.139  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 1350
+2023-01-29 00:47:29.141  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.5544385
+2023-01-29 00:47:29.141  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : ICN
+2023-01-29 00:47:29.141  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.55460376
+2023-01-29 00:47:29.141  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 1600
+2023-01-29 00:47:29.141  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.5545923
+2023-01-29 00:47:29.141  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 738
+2023-01-29 00:47:29.141  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.5732312
+2023-01-29 00:47:29.141  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 22Jan23
+2023-01-29 00:47:29.141  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.573164
+2023-01-29 00:47:29.141  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : VAC
+2023-01-29 00:47:29.141  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.5731491
+2023-01-29 00:47:29.142  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : GMP
+2023-01-29 00:47:29.142  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.5734527
+2023-01-29 00:47:29.142  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0000
+2023-01-29 00:47:29.142  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.5730257
+2023-01-29 00:47:29.142  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : GMP
+2023-01-29 00:47:29.142  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.5733838
+2023-01-29 00:47:29.142  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 2359
+2023-01-29 00:47:29.142  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.59174865
+2023-01-29 00:47:29.142  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 23Jan23
+2023-01-29 00:47:29.142  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.59169024
+2023-01-29 00:47:29.142  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : OFF
+2023-01-29 00:47:29.142  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.591439
+2023-01-29 00:47:29.142  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : GMP
+2023-01-29 00:47:29.142  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.5917636
+2023-01-29 00:47:29.142  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0000
+2023-01-29 00:47:29.142  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.59145427
+2023-01-29 00:47:29.142  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : GMP
+2023-01-29 00:47:29.142  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.59173197
+2023-01-29 00:47:29.142  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 2359
+2023-01-29 00:47:29.142  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.61045176
+2023-01-29 00:47:29.142  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 24Jan23 F105B
+2023-01-29 00:47:29.142  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.61067426
+2023-01-29 00:47:29.142  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0640
+2023-01-29 00:47:29.142  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.6106297
+2023-01-29 00:47:29.142  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 105
+2023-01-29 00:47:29.142  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.6103689
+2023-01-29 00:47:29.142  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : GMP
+2023-01-29 00:47:29.142  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.6105669
+2023-01-29 00:47:29.143  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0750
+2023-01-29 00:47:29.143  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.61050683
+2023-01-29 00:47:29.143  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : CJU
+2023-01-29 00:47:29.143  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.61056423
+2023-01-29 00:47:29.143  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0900
+2023-01-29 00:47:29.143  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.6104299
+2023-01-29 00:47:29.143  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 738
+2023-01-29 00:47:29.143  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.62908137
+2023-01-29 00:47:29.143  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 802
+2023-01-29 00:47:29.143  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.62890947
+2023-01-29 00:47:29.143  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : CJU
+2023-01-29 00:47:29.143  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.6290615
+2023-01-29 00:47:29.143  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0940
+2023-01-29 00:47:29.143  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.62889564
+2023-01-29 00:47:29.143  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : CJJ
+2023-01-29 00:47:29.143  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.6289641
+2023-01-29 00:47:29.143  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 1040
+2023-01-29 00:47:29.143  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.6288579
+2023-01-29 00:47:29.143  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 738
+2023-01-29 00:47:29.143  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.64753115
+2023-01-29 00:47:29.143  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : F105B
+2023-01-29 00:47:29.143  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.64739114
+2023-01-29 00:47:29.143  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 801
+2023-01-29 00:47:29.143  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.6477429
+2023-01-29 00:47:29.143  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : CJJ
+2023-01-29 00:47:29.143  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.6475185
+2023-01-29 00:47:29.143  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 1130
+2023-01-29 00:47:29.143  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.647537
+2023-01-29 00:47:29.143  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : CJU
+2023-01-29 00:47:29.144  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.6476311
+2023-01-29 00:47:29.144  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 1240
+2023-01-29 00:47:29.144  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.64767915
+2023-01-29 00:47:29.144  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 738
+2023-01-29 00:47:29.144  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.666125
+2023-01-29 00:47:29.144  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 1435 506
+2023-01-29 00:47:29.144  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.66630787
+2023-01-29 00:47:29.144  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : CJU
+2023-01-29 00:47:29.144  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.6662263
+2023-01-29 00:47:29.144  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 1315
+2023-01-29 00:47:29.144  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.66608125
+2023-01-29 00:47:29.144  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : PUS
+2023-01-29 00:47:29.144  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.66614807
+2023-01-29 00:47:29.144  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 1415
+2023-01-29 00:47:29.144  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.66610354
+2023-01-29 00:47:29.144  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 738
+2023-01-29 00:47:29.144  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.6847389
+2023-01-29 00:47:29.144  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : F105B
+2023-01-29 00:47:29.145  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.6849372
+2023-01-29 00:47:29.145  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : LAYOV
+2023-01-29 00:47:29.145  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.68496084
+2023-01-29 00:47:29.145  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : PUS
+2023-01-29 00:47:29.145  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.6850327
+2023-01-29 00:47:29.145  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 1525
+2023-01-29 00:47:29.145  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.68490034
+2023-01-29 00:47:29.145  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : PUS
+2023-01-29 00:47:29.145  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.6850734
+2023-01-29 00:47:29.145  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0455
+2023-01-29 00:47:29.145  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.6848859
+2023-01-29 00:47:29.145  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : ??? ??
+2023-01-29 00:47:29.145  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.70290416
+2023-01-29 00:47:29.145  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 25Jan23 F105B
+2023-01-29 00:47:29.145  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.70328
+2023-01-29 00:47:29.145  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0545
+2023-01-29 00:47:29.145  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.70340234
+2023-01-29 00:47:29.145  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 1452
+2023-01-29 00:47:29.145  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.7032492
+2023-01-29 00:47:29.145  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : PUS
+2023-01-29 00:47:29.145  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.70329016
+2023-01-29 00:47:29.145  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0705
+2023-01-29 00:47:29.145  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.703167
+2023-01-29 00:47:29.146  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : FUK
+2023-01-29 00:47:29.146  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.70342714
+2023-01-29 00:47:29.146  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0755
+2023-01-29 00:47:29.146  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.70347327
+2023-01-29 00:47:29.146  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 738
+2023-01-29 00:47:29.146  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.7217812
+2023-01-29 00:47:29.146  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 1025 1451
+2023-01-29 00:47:29.146  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.72200465
+2023-01-29 00:47:29.146  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : FUK
+2023-01-29 00:47:29.146  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.7219324
+2023-01-29 00:47:29.146  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0855
+2023-01-29 00:47:29.146  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.7219924
+2023-01-29 00:47:29.146  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : PUS
+2023-01-29 00:47:29.146  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.7222168
+2023-01-29 00:47:29.146  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 1005
+2023-01-29 00:47:29.146  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.7222356
+2023-01-29 00:47:29.146  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 738
+2023-01-29 00:47:29.146  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.7408926
+2023-01-29 00:47:29.146  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : F105B
+2023-01-29 00:47:29.146  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.7409508
+2023-01-29 00:47:29.146  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : LAYOV
+2023-01-29 00:47:29.146  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.74099284
+2023-01-29 00:47:29.146  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : PUS
+2023-01-29 00:47:29.146  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.74111825
+2023-01-29 00:47:29.146  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 1115
+2023-01-29 00:47:29.147  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.7409437
+2023-01-29 00:47:29.147  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : PUS
+2023-01-29 00:47:29.147  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.7411229
+2023-01-29 00:47:29.147  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0520
+2023-01-29 00:47:29.147  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.7405116
+2023-01-29 00:47:29.147  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : ?????
+2023-01-29 00:47:29.147  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.75923824
+2023-01-29 00:47:29.147  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 26Jan23 F105B
+2023-01-29 00:47:29.147  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.75970495
+2023-01-29 00:47:29.147  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0610
+2023-01-29 00:47:29.147  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.759547
+2023-01-29 00:47:29.147  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0835 211
+2023-01-29 00:47:29.147  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.7594982
+2023-01-29 00:47:29.147  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : PUS
+2023-01-29 00:47:29.147  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.75966007
+2023-01-29 00:47:29.147  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0720
+2023-01-29 00:47:29.147  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.7594812
+2023-01-29 00:47:29.147  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : GMP
+2023-01-29 00:47:29.147  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.75962603
+2023-01-29 00:47:29.147  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0815
+2023-01-29 00:47:29.147  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.75966674
+2023-01-29 00:47:29.147  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 738
+2023-01-29 00:47:29.147  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.7782438
+2023-01-29 00:47:29.149  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 27Jan23
+2023-01-29 00:47:29.150  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.77811617
+2023-01-29 00:47:29.150  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : OFF
+2023-01-29 00:47:29.150  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.7781159
+2023-01-29 00:47:29.150  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : GMP
+2023-01-29 00:47:29.150  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.7784891
+2023-01-29 00:47:29.150  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0000
+2023-01-29 00:47:29.150  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.77808297
+2023-01-29 00:47:29.150  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : GMP
+2023-01-29 00:47:29.150  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.7783722
+2023-01-29 00:47:29.150  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 2359
+2023-01-29 00:47:29.150  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.7965931
+2023-01-29 00:47:29.150  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 28Jan23 F103
+2023-01-29 00:47:29.150  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.7967285
+2023-01-29 00:47:29.150  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0550
+2023-01-29 00:47:29.150  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.7967124
+2023-01-29 00:47:29.150  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 103
+2023-01-29 00:47:29.150  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.7964324
+2023-01-29 00:47:29.150  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : GMP
+2023-01-29 00:47:29.150  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.79675436
+2023-01-29 00:47:29.150  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0700
+2023-01-29 00:47:29.151  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.7966009
+2023-01-29 00:47:29.151  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : CJU
+2023-01-29 00:47:29.151  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.79670846
+2023-01-29 00:47:29.151  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0810
+2023-01-29 00:47:29.151  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.79667985
+2023-01-29 00:47:29.151  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 738
+2023-01-29 00:47:29.151  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.8155505
+2023-01-29 00:47:29.151  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 136
+2023-01-29 00:47:29.151  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.81549376
+2023-01-29 00:47:29.151  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : CJU
+2023-01-29 00:47:29.151  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.81568813
+2023-01-29 00:47:29.151  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0845
+2023-01-29 00:47:29.151  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.815498
+2023-01-29 00:47:29.151  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : GMP
+2023-01-29 00:47:29.151  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.8155348
+2023-01-29 00:47:29.151  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0955
+2023-01-29 00:47:29.151  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.81549495
+2023-01-29 00:47:29.151  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 738
+2023-01-29 00:47:29.151  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.83365166
+2023-01-29 00:47:29.151  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : F103
+2023-01-29 00:47:29.151  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.83397514
+2023-01-29 00:47:29.151  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 135
+2023-01-29 00:47:29.151  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.83382285
+2023-01-29 00:47:29.151  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : GMP
+2023-01-29 00:47:29.151  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.8339828
+2023-01-29 00:47:29.151  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 1030
+2023-01-29 00:47:29.151  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.8338074
+2023-01-29 00:47:29.152  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : CJU
+2023-01-29 00:47:29.152  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.8338642
+2023-01-29 00:47:29.152  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 1135
+2023-01-29 00:47:29.152  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.8339809
+2023-01-29 00:47:29.152  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 738
+2023-01-29 00:47:29.152  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.8525283
+2023-01-29 00:47:29.152  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 1355 192
+2023-01-29 00:47:29.152  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.85256076
+2023-01-29 00:47:29.152  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : CJU
+2023-01-29 00:47:29.152  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.8525347
+2023-01-29 00:47:29.152  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 1225
+2023-01-29 00:47:29.152  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.85241675
+2023-01-29 00:47:29.152  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : GMP
+2023-01-29 00:47:29.152  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.85259074
+2023-01-29 00:47:29.152  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 1335
+2023-01-29 00:47:29.152  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.8526316
+2023-01-29 00:47:29.152  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 738
+2023-01-29 00:47:29.152  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.8709142
+2023-01-29 00:47:29.152  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 29Jan23 F145D
+2023-01-29 00:47:29.152  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.871175
+2023-01-29 00:47:29.152  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 1545
+2023-01-29 00:47:29.152  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.8711849
+2023-01-29 00:47:29.152  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 145
+2023-01-29 00:47:29.152  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.8709492
+2023-01-29 00:47:29.152  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : GMP
+2023-01-29 00:47:29.152  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.8711264
+2023-01-29 00:47:29.153  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 1655
+2023-01-29 00:47:29.153  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.87100834
+2023-01-29 00:47:29.153  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : CJU
+2023-01-29 00:47:29.153  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.8711664
+2023-01-29 00:47:29.153  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 1805
+2023-01-29 00:47:29.153  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.87104106
+2023-01-29 00:47:29.153  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 738
+2023-01-29 00:47:29.153  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.8900861
+2023-01-29 00:47:29.153  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 146
+2023-01-29 00:47:29.153  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.890004
+2023-01-29 00:47:29.153  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : CJU
+2023-01-29 00:47:29.153  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.8900816
+2023-01-29 00:47:29.153  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 1845
+2023-01-29 00:47:29.153  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.88996327
+2023-01-29 00:47:29.153  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : GMP
+2023-01-29 00:47:29.153  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.8899835
+2023-01-29 00:47:29.153  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 1955
+2023-01-29 00:47:29.153  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.89001524
+2023-01-29 00:47:29.153  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 738
+2023-01-29 00:47:29.153  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.9080946
+2023-01-29 00:47:29.153  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : F145D
+2023-01-29 00:47:29.153  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.90817475
+2023-01-29 00:47:29.153  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 2200 147
+2023-01-29 00:47:29.153  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.90829265
+2023-01-29 00:47:29.153  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : GMP
+2023-01-29 00:47:29.153  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.90828276
+2023-01-29 00:47:29.154  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 2030
+2023-01-29 00:47:29.154  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.9080954
+2023-01-29 00:47:29.154  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : CJU
+2023-01-29 00:47:29.154  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.9082275
+2023-01-29 00:47:29.154  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 2140
+2023-01-29 00:47:29.154  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.9081167
+2023-01-29 00:47:29.154  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 738
+2023-01-29 00:47:29.154  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.9269276
+2023-01-29 00:47:29.154  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : LAYOV
+2023-01-29 00:47:29.154  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.92706716
+2023-01-29 00:47:29.154  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : CJU
+2023-01-29 00:47:29.154  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.9270851
+2023-01-29 00:47:29.154  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 2215
+2023-01-29 00:47:29.154  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.92688245
+2023-01-29 00:47:29.154  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : CJU
+2023-01-29 00:47:29.154  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.9270354
+2023-01-29 00:47:29.154  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 1230
+2023-01-29 00:47:29.154  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.926692
+2023-01-29 00:47:29.154  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : ????
+2023-01-29 00:47:29.154  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.94548875
+2023-01-29 00:47:29.154  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 30Jan23 F145D
+2023-01-29 00:47:29.154  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.9456444
+2023-01-29 00:47:29.154  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 1245
+2023-01-29 00:47:29.154  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.9455569
+2023-01-29 00:47:29.154  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 1520 116
+2023-01-29 00:47:29.154  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.9456717
+2023-01-29 00:47:29.154  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : CJU
+2023-01-29 00:47:29.154  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.9456073
+2023-01-29 00:47:29.154  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 1355
+2023-01-29 00:47:29.155  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.94543374
+2023-01-29 00:47:29.155  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : GMP
+2023-01-29 00:47:29.155  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.94563895
+2023-01-29 00:47:29.155  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 1500
+2023-01-29 00:47:29.155  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.94573545
+2023-01-29 00:47:29.155  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 738
+2023-01-29 00:47:29.155  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.9643577
+2023-01-29 00:47:29.155  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 31Jan23
+2023-01-29 00:47:29.155  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.96442616
+2023-01-29 00:47:29.155  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : OFF
+2023-01-29 00:47:29.155  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.9643361
+2023-01-29 00:47:29.155  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : GMP
+2023-01-29 00:47:29.155  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.9645814
+2023-01-29 00:47:29.156  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0000
+2023-01-29 00:47:29.156  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.96427006
+2023-01-29 00:47:29.156  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : GMP
+2023-01-29 00:47:29.156  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 0.96447754
+2023-01-29 00:47:29.156  INFO 11960 --- [    Test worker] org.AirAPI.config.AWStextrackTest        : 2359
+</pre>
+</span>
+</div>
+</div>
+<div id="footer">
+<p>
+<div>
+<label class="hidden" id="label-for-line-wrapping-toggle" for="line-wrapping-toggle">Wrap lines
+<input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
+</label>
+</div>Generated by 
+<a href="http://www.gradle.org">Gradle 7.4</a> at 2023. 1. 29. 오전 12:47:29</p>
+</div>
+</div>
+</body>
+</html>

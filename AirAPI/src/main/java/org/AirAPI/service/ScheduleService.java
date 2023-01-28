@@ -10,6 +10,7 @@ import software.amazon.awssdk.services.textract.model.Block;
 
 import java.io.InputStream;
 import java.util.Iterator;
+import java.util.List;
 
 @Service
 public class ScheduleService {
@@ -25,12 +26,10 @@ public class ScheduleService {
 
     public String save(InputStream source) {
         TextractClient textractClient= awstextrack.awsceesser();
-        Iterator<Block> blockIterator= awstextrack.analyzeDoc(textractClient, source);
+        List<Block> blockIterator= awstextrack.analyzeDoc(textractClient, source);
 
-        while (blockIterator.hasNext()) {
-            Block block = blockIterator.next();
-            System.out.println("The block type is " + block.text());
-        }
+        System.out.println( "사이즈!!!!!!"+ blockIterator.size());
+
         return "OK";
     }
 

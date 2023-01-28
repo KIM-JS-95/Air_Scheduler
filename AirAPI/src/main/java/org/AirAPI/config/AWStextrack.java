@@ -28,7 +28,7 @@ public class AWStextrack {
     @Value("${secretkey}")
     private String secretkey;
 
-    public TextractClient awsceesser(){
+    public TextractClient awsceesser() {
         AwsBasicCredentials awsCreds = AwsBasicCredentials.create(accesskey, secretkey);
         TextractClient textractClient = TextractClient.builder()
                 .region(Region.US_WEST_2)
@@ -103,8 +103,9 @@ public class AWStextrack {
         }
     }
 
-    public static Iterator<Block> analyzeDoc(TextractClient textractClient, InputStream sourceDoc) {
+    public static List<Block> analyzeDoc(TextractClient textractClient, InputStream sourceDoc) {
         Iterator<Block> blockIterator = null;
+        List<Block> docInfo = null;
         try {
             //InputStream sourceStream = new FileInputStream(new File(sourceDoc));
             SdkBytes sourceBytes = SdkBytes.fromInputStream(sourceDoc);
@@ -124,19 +125,19 @@ public class AWStextrack {
                     .build();
 
             AnalyzeDocumentResponse analyzeDocument = textractClient.analyzeDocument(analyzeDocumentRequest);
-            List<Block> docInfo = analyzeDocument.blocks();
+            docInfo = analyzeDocument.blocks();
+/*
             blockIterator = docInfo.iterator();
-
             while (blockIterator.hasNext()) {
                 Block block = blockIterator.next();
                 System.out.println("The block type is " + block.text());
             }
+ */
         } catch (TextractException e) {
             System.err.println(e.getMessage());
             System.exit(1);
         }
-
-        return blockIterator;
+        return docInfo;
     }
 
     public static void detectDocText(TextractClient textractClient, String sourceDoc) {

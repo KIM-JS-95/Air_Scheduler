@@ -38,9 +38,8 @@ public class HelloController {
 
     @GetMapping("/1")
     public String hello2(HttpServletRequest request) {
-        String headers = request.getHeader("message");
-        System.out.println(headers);
-        return headers;
+
+        return "headers";
     }
 
     @PostMapping("/save")

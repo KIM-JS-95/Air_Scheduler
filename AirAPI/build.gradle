@@ -23,6 +23,12 @@ dependencies {
     implementation 'org.hamcrest:hamcrest:2.2'
     implementation group: 'com.h2database', name: 'h2', version: '1.4.200'
     implementation group: 'software.amazon.awssdk', name: 'textract', version: '2.11.0'
+
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    testImplementation 'org.springframework.security:spring-security-test'
+
+    implementation 'io.jsonwebtoken:jjwt:0.9.1'
+
 }
 
 tasks.named('test') {

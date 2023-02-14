@@ -6,13 +6,11 @@ import org.AirAPI.entity.Schedule;
 import org.AirAPI.entity.StatusEnum;
 import org.AirAPI.service.ScheduleService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.List;
 
@@ -23,8 +21,26 @@ public class HelloController {
     private ScheduleService scheduleService;
 
     @GetMapping("/")
-    public String hello() {
-        return "hello";
+    public ResponseEntity hello() {
+
+        // 쿠키 인증 클래스 만들기
+        Messege message = new Messege();
+        message.setStatus(StatusEnum.OK);
+        message.setMessage("");
+        message.setData("헤더입니다.");
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json"));
+        headers.set("message", "cool!");
+
+        return new ResponseEntity<>(message, headers, HttpStatus.OK);
+    }
+
+    @GetMapping("/1")
+    public String hello2(HttpServletRequest request) {
+        String headers = request.getHeader("message");
+        System.out.println(headers);
+        return headers;
     }
 
     @PostMapping("/save")

@@ -36,35 +36,29 @@ public class AWStextrackTest {
                 //LOGGER.info(block.text() + " , " + block.geometry().boundingBox().left() + "/" + block.geometry().boundingBox().top());
 
                 if (left <= 0.1) {
-                    LOGGER.info(block.text());
+                    LOGGER.info("1 " + block.text());
                 } else if (0.1 < left && left <= 0.18) {
-                    LOGGER.info(block.text());
+                    LOGGER.info("2 " + block.text());
                 } else if (0.18 < left && left <= 0.24) {
-                    LOGGER.info(block.text());
+                    LOGGER.info("3 " + block.text());
                 } else if (0.24 < left && left <= 0.3) {
-                    LOGGER.info(block.text());
+                    LOGGER.info("4 " + block.text());
                 } else if (0.3 < left && left <= 0.37) {
-                    LOGGER.info(block.text());
+                    LOGGER.info("5 " + block.text());
                 } else if (0.37 < left && left <= 0.46) {
-                    LOGGER.info(block.text());
+                    LOGGER.info("6 " + block.text());
                 } else if (0.46 < left && left <= 0.52) {
-                    LOGGER.info(block.text());
+                    LOGGER.info("7 " + block.text());
                 } else if (0.52 < left && left <= 0.58) {
-                    LOGGER.info(block.text());
+                    LOGGER.info("8 " + block.text());
                 } else if (0.58 < left && left <= 0.65) {
-                    LOGGER.info(block.text());
+                    LOGGER.info("9 " + block.text());
+                } else if (0.65 < left && left <= 0.7) {
+                    LOGGER.info("10 " + block.text());
                 }else{
-                    LOGGER.info(null);
+                    LOGGER.info("null");
                 }
-                /*
 
-                0.1 / 0.18 / 0.24 / 0.3 / 0.37 / 0.46 / 0.52 / 0.58 / 0.65
-                if(0.1<=left && left<0.25){
-                    LOGGER.info(block.text() + " , " + left +"/"+ top);
-                }else{
-                    LOGGER.info(null);
-                }
-               */
             }
         }
 

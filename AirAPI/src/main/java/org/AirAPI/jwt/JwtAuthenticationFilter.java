@@ -1,6 +1,8 @@
 package org.AirAPI.jwt;
 
 import lombok.RequiredArgsConstructor;
+import org.AirAPI.entity.RefreshToken;
+import org.AirAPI.repository.TokenRepository;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -12,6 +14,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.Date;
 
 //해당 클래스는 JwtTokenProvider가 검증을 끝낸 Jwt로부터 유저 정보를 조회해와서 UserPasswordAuthenticationFilter 로 전달합니다.
 @RequiredArgsConstructor
@@ -19,17 +22,30 @@ import java.io.IOException;
 public class JwtAuthenticationFilter extends GenericFilterBean {
 
     private final JwtTokenProvider jwtTokenProvider;
+    private final TokenRepository tokenRepository;
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        // 헤더에서 JWT 를 받아옵니다.
+        /*
+           메인 토큰 검증 -> O ) Context에 저장 후 필터 탈출
+                      -> 리프레시 토큰 검증 -> X ) 리프레시 토큰 재발급 후 필터 탈출
+         */
+
         String token = jwtTokenProvider.resolveToken((HttpServletRequest) request);
-        System.out.println(token);
-        // 유효한 토큰인지 확인합니다.
         if (token != null && jwtTokenProvider.validateToken(token)) {
-            // 토큰이 유효하면 토큰으로부터 유저 정보를 받아옵니다.
+            String refreshToken = tokenRepository.findByUsername(jwtTokenProvider.getUserPk(token)).getToken();
+            Date ex_date =  jwtTokenProvider.getDate(refreshToken);
+
+            // 기간 만료일 경우 refresh token 새로 발급할 것
+            if(ex_date.compareTo(new Date())<0){
+                jwtTokenProvider.refreshToken(jwtTokenProvider.getUserPk(token));
+                tokenRepository.save(RefreshToken.builder()
+                        .username(jwtTokenProvider.getUserPk(token))
+                        .token(refreshToken)
+                        .build());
+            }
+
             Authentication authentication = jwtTokenProvider.getAuthentication(token);
-            // SecurityContext 에 Authentication 객체를 저장합니다.
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }
         chain.doFilter(request, response);

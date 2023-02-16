@@ -23,7 +23,7 @@ public class HeaderSetter {
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application", "json"));
-        headers.set("Authorization", "Bearer "+ token);
+        headers.set("Authorization",token);
 
         return new ResponseEntity<>(message, headers, HttpStatus.OK);
     }

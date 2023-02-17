@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class HeaderSetter {
 
-    public ResponseEntity HaederSet(String token){
+    public ResponseEntity haederSet(String token){
 
         // 쿠키 인증 클래스 만들기
         Messege message = new Messege();

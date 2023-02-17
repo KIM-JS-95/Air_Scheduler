@@ -20,6 +20,20 @@ public class HelloController {
     @Autowired
     private ScheduleService scheduleService;
 
+    @GetMapping("/")
+    public ResponseEntity hello(){
+
+        // 쿠키 인증 클래스 만들기
+        Messege message = new Messege();
+        message.setStatus(StatusEnum.OK);
+        message.setMessage("hello");
+        message.setData("hello");
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json"));
+        headers.set("message", "성공 코드");
+        return new ResponseEntity<>(message, headers, HttpStatus.OK);
+    }
 
     @PostMapping("/save")
     public ResponseEntity<Messege> mainSave(@RequestBody List<Schedule> schedules) {
@@ -47,4 +61,6 @@ public class HelloController {
         }
         return "save";
     }
+
+
 }

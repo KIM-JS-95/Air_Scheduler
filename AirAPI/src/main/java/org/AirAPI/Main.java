@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication()
 @ComponentScan(basePackages = {"org.AirAPI"})
-@EnableJpaRepositories(basePackages = {"org.AirAPI.Repository"})
+@EnableJpaRepositories(basePackages = {"org.AirAPI.repository"})
 public class Main {
     public static void main(String[] args) {
         SpringApplication.run(Main.class, args);

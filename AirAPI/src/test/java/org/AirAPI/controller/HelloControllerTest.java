@@ -3,7 +3,11 @@ package org.AirAPI.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.AirAPI.entity.Schedule;
 import org.AirAPI.config.AWStextrack;
+import org.AirAPI.jwt.JwtAuthenticationFilter;
+import org.AirAPI.jwt.JwtTokenProvider;
 import org.AirAPI.repository.SchduleRepository;
+import org.AirAPI.service.CustomUserDetailService;
+import org.AirAPI.service.ScheduleService;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -16,6 +20,7 @@ import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
@@ -24,6 +29,7 @@ import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.hamcrest.core.StringContains.containsString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -37,11 +43,23 @@ public class HelloControllerTest {
     private MockMvc mvc;
     @Autowired
     private ObjectMapper objectMapper;
+
     @Autowired
     private AWStextrack awstextrack;
 
     @MockBean
+    private CustomUserDetailService customUserDetailService;
+    @MockBean
+    private JwtAuthenticationFilter jwtAuthenticationFilter;
+
+    @Autowired
+    private JwtTokenProvider jwtTokenProvider;
+
+    @MockBean
     private SchduleRepository schduleRepository;
+
+    @MockBean
+    private ScheduleService scheduleService;
 
     private Schedule schedule1;
     List<Schedule> scheduleList = new ArrayList<>();
@@ -63,10 +81,12 @@ public class HelloControllerTest {
     @DisplayName("기본 테스트")
     @Test
     public void hello_test() throws Exception {
-        mvc.perform(get("/"))
-                .andExpect(status().isOk())
-                .andExpect(content().string("hello"));
-    }
+        List<String> roles = new ArrayList<>();
+        String token = jwtTokenProvider.createToken("aabbcc@gmail.com",roles);
+        mvc.perform(get("/")
+                        .header("Authorization", token))
+                .andExpect(status().isOk()).andDo(print());
+               }
 
     @Test
     @DisplayName("save_Test")
@@ -85,10 +105,8 @@ public class HelloControllerTest {
     @Test
     @DisplayName("textrack_test")
     public void jpg_save_test() throws Exception {
-
         // given
         final String contentType = "jpg"; //파일타입
-
         ClassPathResource resource = new ClassPathResource("static/img/sample.jpg");
 
         final String filePath = "C:\\Users\\JAESEUNG\\IdeaProjects\\Air_Scheduler\\AirAPI\\src\\main\\resources\\static\\img\\sample.jpg"; //파일경로
@@ -103,7 +121,6 @@ public class HelloControllerTest {
         mvc.perform(multipart("/jpg")
                 .file(img)
         ).andExpect(status().isOk());
-
     }
 
 }

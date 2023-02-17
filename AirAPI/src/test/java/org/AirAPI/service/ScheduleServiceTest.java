@@ -31,6 +31,7 @@ class ScheduleServiceTest {
     private ScheduleService scheduleService;
     @MockBean
     private SchduleRepository schduleRepository;
+
     private Schedule schedule1;
     List<Schedule> scheduleList = new ArrayList<>();
 

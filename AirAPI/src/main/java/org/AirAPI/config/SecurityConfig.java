@@ -2,6 +2,7 @@ package org.AirAPI.config;
 
 import lombok.RequiredArgsConstructor;
 import org.AirAPI.jwt.JwtAuthenticationFilter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -14,14 +15,15 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 public class SecurityConfig {
 
-    private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    @Autowired
+    private JwtAuthenticationFilter jwtAuthenticationFilter;
 
     @Bean
     public WebSecurityCustomizer configure() {
         return (web) -> web.ignoring().mvcMatchers(
                 "/v3/api-docs/**",
                 "/swagger-ui/**",
-                "/api/v1/login" // 임시
+                "/api/v1/login","/"
         );
     }
 
@@ -30,7 +32,7 @@ public class SecurityConfig {
         http.csrf().disable();
         return http.httpBasic().disable()
                 .authorizeRequests()
-                .antMatchers("/join", "/login").permitAll()
+                .antMatchers("/join", "/login","/").permitAll()
                 .antMatchers("/1").authenticated()
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)

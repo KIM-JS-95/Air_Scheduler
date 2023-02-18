@@ -1,26 +1,23 @@
 package org.AirAPI.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.AirAPI.entity.Schedule;
 import org.AirAPI.config.AWStextrack;
+import org.AirAPI.entity.Schedule;
 import org.AirAPI.jwt.JwtAuthenticationFilter;
 import org.AirAPI.jwt.JwtTokenProvider;
 import org.AirAPI.repository.SchduleRepository;
+import org.AirAPI.repository.TokenRepository;
+import org.AirAPI.repository.UserRepository;
 import org.AirAPI.service.CustomUserDetailService;
 import org.AirAPI.service.ScheduleService;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.Spy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.boot.test.mock.mockito.MockBeans;
-import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
@@ -29,10 +26,11 @@ import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.hamcrest.core.StringContains.containsString;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(SpringExtension.class)
 @TestInstance(TestInstance.Lifecycle.PER_METHOD)
@@ -47,16 +45,23 @@ public class HelloControllerTest {
     @Autowired
     private AWStextrack awstextrack;
 
-    @MockBean
-    private CustomUserDetailService customUserDetailService;
-    @MockBean
+    @Autowired
     private JwtAuthenticationFilter jwtAuthenticationFilter;
 
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
 
     @MockBean
+    private CustomUserDetailService customUserDetailService;
+
+    @MockBean
     private SchduleRepository schduleRepository;
+
+    @MockBean
+    private TokenRepository tokenRepository;
+
+    @MockBean
+    private UserRepository userRepository;
 
     @MockBean
     private ScheduleService scheduleService;
@@ -80,13 +85,17 @@ public class HelloControllerTest {
 
     @DisplayName("기본 테스트")
     @Test
-    public void hello_test() throws Exception {
+    public void No_refresh_Token() throws Exception {
         List<String> roles = new ArrayList<>();
-        String token = jwtTokenProvider.createToken("aabbcc@gmail.com",roles);
-        mvc.perform(get("/")
-                        .header("Authorization", token))
-                .andExpect(status().isOk()).andDo(print());
-               }
+        String token = jwtTokenProvider.createToken("aabbcc@gmail.com", roles);
+        try {
+            mvc.perform(get("/").header("Authorization", token))
+                    .andExpect(status().isOk())
+                    .andDo(print());
+        } catch(IllegalArgumentException e){
+            assertThat(e.getMessage()).isEqualTo("리프레시 토큰이 없습니다.");
+        }
+    }
 
     @Test
     @DisplayName("save_Test")

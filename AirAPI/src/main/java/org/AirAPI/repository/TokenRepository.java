@@ -8,7 +8,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface TokenRepository extends JpaRepository<RefreshToken, Long> {
-    RefreshToken findByUsername(String name);
+    Optional<RefreshToken> findByUsername(String name);
 }

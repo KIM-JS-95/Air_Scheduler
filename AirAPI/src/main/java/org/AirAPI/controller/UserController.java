@@ -70,21 +70,9 @@ public class UserController {
                 .token(refreshtoken)
                 .build();
         customUserDetailService.toeknsave(re_token);
-        ResponseEntity header = headerSetter.haederSet(token);
+        ResponseEntity header = headerSetter.haederSet(token, "login Success", HttpStatus.OK);
         return header;
     }
 
-    @PostMapping("/logout")
-    public ResponseEntity logout(HttpServletRequest request){
-        String token = request.getHeader("Authorization");
-        // 쿠키 인증 클래스 만들기
-        Messege message = new Messege();
-        message.setStatus(StatusEnum.OK);
-        message.setMessage("성공 코드");
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(new MediaType("application", "json"));
-        headers.set("message", "성공 코드");
-        return new ResponseEntity<>(message,headers, HttpStatus.OK);
-    }
 }

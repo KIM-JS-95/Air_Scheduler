@@ -1,6 +1,7 @@
 package org.AirAPI.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.AirAPI.config.SecurityConfig;
 import org.AirAPI.entity.User;
 import org.AirAPI.jwt.JwtAuthenticationFilter;
 import org.AirAPI.jwt.JwtTokenProvider;
@@ -14,11 +15,14 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,11 +30,11 @@ import java.util.List;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 //@ExtendWith(SpringExtension.class)
 @WebMvcTest(controllers = UserController.class)
+@AutoConfigureMockMvc
 public class UserControllerTest {
 
     @Autowired
@@ -46,6 +50,10 @@ public class UserControllerTest {
 
     @Autowired
     private JwtAuthenticationFilter jwtAuthenticationFilter;
+
+    @Autowired
+    private SecurityConfig securityConfig;
+
 
     @MockBean
     private SchduleRepository schduleRepository;
@@ -111,9 +119,9 @@ public class UserControllerTest {
     @DisplayName("로그아웃 테스트")
     public void logout_test() throws Exception {
         List<String> roles = new ArrayList<>();
-        String token = jwtTokenProvider.createToken("aabbcc@gmail.com",roles);
-        mvc.perform(post("/logout")
-                        .header("Authorization",token))
-                .andExpect(status().isOk());
+        mvc.perform(post("/logout"))
+                .andExpect(redirectedUrl("/login"))
+                .andExpect(status().is3xxRedirection());
     }
+
 }

@@ -13,18 +13,17 @@ import org.springframework.stereotype.Component;
 @Component
 public class HeaderSetter {
 
-    public ResponseEntity haederSet(String token){
+    public ResponseEntity haederSet(String token, String msg, HttpStatus status){
 
         // 쿠키 인증 클래스 만들기
         Messege message = new Messege();
         message.setStatus(StatusEnum.OK);
-        message.setMessage("");
-        message.setData("헤더입니다.");
+        message.setMessage(msg);
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application", "json"));
         headers.set("Authorization",token);
 
-        return new ResponseEntity<>(message, headers, HttpStatus.OK);
+        return new ResponseEntity<>(message, headers, status);
     }
 }

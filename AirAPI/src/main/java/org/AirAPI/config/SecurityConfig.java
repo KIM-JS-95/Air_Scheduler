@@ -36,13 +36,12 @@ public class SecurityConfig {
         http.headers().frameOptions().disable();
         return http.httpBasic().disable()
                 .authorizeRequests()
-                .antMatchers("/logout","/join", "/login","/h2-console/**").permitAll()
+                .antMatchers("/upload","/join", "/login","/h2-console/**").permitAll()
                 .antMatchers("/1").authenticated()
                 .and()
-                .logout(logout -> logout.permitAll()
-                        .logoutSuccessHandler((request, response, authentication) -> {
-                            response.setStatus(HttpServletResponse.SC_OK);
-                        }))
+                .logout()
+                .logoutSuccessUrl("/login")
+                .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)

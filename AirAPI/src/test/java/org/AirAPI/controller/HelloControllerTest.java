@@ -3,6 +3,7 @@ package org.AirAPI.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.AirAPI.config.AWStextrack;
 import org.AirAPI.entity.Schedule;
+import org.AirAPI.entity.User;
 import org.AirAPI.jwt.JwtAuthenticationFilter;
 import org.AirAPI.jwt.JwtTokenProvider;
 import org.AirAPI.repository.SchduleRepository;
@@ -13,20 +14,25 @@ import org.AirAPI.service.ScheduleService;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.io.FileInputStream;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
@@ -45,7 +51,7 @@ public class HelloControllerTest {
     @Autowired
     private AWStextrack awstextrack;
 
-    @Autowired
+    @MockBean
     private JwtAuthenticationFilter jwtAuthenticationFilter;
 
     @Autowired
@@ -83,6 +89,17 @@ public class HelloControllerTest {
         scheduleList.add(schedule1);
     }
 
+    @DisplayName("메인 접속 테스트")
+    @AutoConfigureMockMvc(addFilters = false)
+    @Test
+    public void 메인페이지에접속합니다() throws Exception {
+        List<String> roles = new ArrayList<>();
+        String token = jwtTokenProvider.createToken("aabbcc@gmail.com", roles);
+        mvc.perform(get("/").header("Authorization", token))
+                    .andExpect(status().isOk())
+                    .andExpect(header().string("Authorization",token));
+    }
+
     @DisplayName("기본 테스트")
     @Test
     public void No_refresh_Token() throws Exception {
@@ -97,29 +114,18 @@ public class HelloControllerTest {
         }
     }
 
-    @Test
-    @DisplayName("save_Test")
-    public void save_test() throws Exception{
-
-        mvc.perform(post("/save")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(scheduleList)))
-                .andExpect(status().isOk())
-                .andExpect(header().string("message","성공 코드"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].std").value("0000"))
-                .andDo(print());
-    }
-
 
     @Test
     @DisplayName("textrack_test")
     public void jpg_save_test() throws Exception {
+
+        List<String> roles = new ArrayList<>();
+        String token = jwtTokenProvider.createToken("aabbcc@gmail.com", roles);
+
         // given
         final String contentType = "jpg"; //파일타입
-        ClassPathResource resource = new ClassPathResource("static/img/sample.jpg");
-
-        final String filePath = "C:\\Users\\JAESEUNG\\IdeaProjects\\Air_Scheduler\\AirAPI\\src\\main\\resources\\static\\img\\sample.jpg"; //파일경로
-        //final String filePath = "D:\\Air_Scheduler\\AirAPI\\src\\main\\resources\\static\\img\\sample.jpg";
+        //final String filePath = "C:\\Users\\JAESEUNG\\IdeaProjects\\Air_Scheduler\\AirAPI\\src\\main\\resources\\static\\img\\sample.jpg"; //파일경로
+        final String filePath = "D:\\Air_Scheduler\\AirAPI\\src\\main\\resources\\static\\img\\sample.jpg";
         FileInputStream fileInputStream = new FileInputStream(filePath);
 
         //Mock파일생성
@@ -127,9 +133,11 @@ public class HelloControllerTest {
                 "file",  "sample.jpg" ,contentType, fileInputStream);
 
         // when
-        mvc.perform(multipart("/jpg")
-                .file(img)
-        ).andExpect(status().isOk());
+        mvc.perform(multipart("/upload")
+                        .file(img)
+                        .header("Authorization",token)
+                ).andExpect(status().isOk())
+                .andDo(print());
     }
 
 }

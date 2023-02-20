@@ -6,9 +6,6 @@ import org.AirAPI.config.HeaderSetter;
 import org.AirAPI.entity.Messege;
 import org.AirAPI.entity.RefreshToken;
 import org.AirAPI.entity.StatusEnum;
-import org.AirAPI.entity.User;
-import org.AirAPI.jwt.JwtTokenProvider;
-import org.AirAPI.service.CustomUserDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -26,11 +23,9 @@ import javax.servlet.http.HttpServletRequest;
 public class UserController {
 
     @Autowired
-    private final JwtTokenProvider jwtTokenProvider;
-    @Autowired
     private final HeaderSetter headerSetter;
-    @Autowired
-    private final CustomUserDetailService customUserDetailService;
+    //@Autowired
+    //private final CustomUserDetailService customUserDetailService;
 /*
     final String BIRTH = "001200";
     final String EMAIL = "aabbcc@gmail.com";
@@ -44,7 +39,6 @@ public class UserController {
             .userSequenceId(SEQUENCEID)
             .roles(Collections.singletonList("ROLE_USER")) // 최초 가입시 USER 로 설정
             .build();
-*/
 
     // 회원가입
     @PostMapping("/join")
@@ -52,15 +46,11 @@ public class UserController {
         customUserDetailService.save(user);
         return user.toString();
     }
-
     // 로그인
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody User user) {
-        /*
-            로그인 정보 획득 -> 메인 토큰 생성 / 리프레시 토큰 호출
-            -> 리프레시 토큰 (만료 / 없음) 생성
-        */
-        User member = (User) customUserDetailService.loadUserByEmail(user.getUserEmail());
+
+        //User member = (User) customUserDetailService.loadUserByEmail(user.getUserEmail());
         // 토큰 생성
         String token = jwtTokenProvider.createToken(member.getUsername(), member.getRoles());
         // 리프레시 토큰 생성
@@ -73,6 +63,6 @@ public class UserController {
         ResponseEntity header = headerSetter.haederSet(token, "login Success", HttpStatus.OK);
         return header;
     }
-
+*/
 
 }

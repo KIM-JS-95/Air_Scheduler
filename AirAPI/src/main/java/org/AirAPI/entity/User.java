@@ -55,7 +55,7 @@ public class User implements UserDetails { //UserDetails는 시큐리티가 관�
 
     @Override
     public String getUsername() {
-        return userEmail;
+        return userNickname;
     }
 
     @Override

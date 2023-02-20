@@ -29,6 +29,7 @@ public class HelloController {
     // JPG 로부터 데이터 추출 후 저장
     @PostMapping("/upload")
     public ResponseEntity upload(@RequestPart MultipartFile file, HttpServletRequest request) throws IOException {
+        System.out.println(request);
         HeaderSetter headerSetter = new HeaderSetter();
         ResponseEntity response = null;
         try {

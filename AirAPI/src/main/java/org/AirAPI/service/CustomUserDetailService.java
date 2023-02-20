@@ -3,6 +3,7 @@ package org.AirAPI.service;
 import lombok.RequiredArgsConstructor;
 import org.AirAPI.entity.RefreshToken;
 import org.AirAPI.entity.User;
+import org.AirAPI.repository.TokenRepository;
 import org.AirAPI.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,8 +19,8 @@ public class CustomUserDetailService implements UserDetailsService {
     @Autowired
     private  UserRepository userRepository;
 
-    //@Autowired
-    //private  TokenRepository tokenRepository;
+    @Autowired
+    private TokenRepository tokenRepository;
 
     public User test_save(User user) {
         return userRepository.save(user);

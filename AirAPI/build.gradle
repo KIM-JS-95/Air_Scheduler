@@ -19,6 +19,7 @@ dependencies {
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
     testAnnotationProcessor 'org.projectlombok:lombok'
+
     implementation group: 'org.assertj', name: 'assertj-core', version: '3.6.1'
     implementation 'org.hamcrest:hamcrest:2.2'
     implementation group: 'com.h2database', name: 'h2', version: '1.4.200'

@@ -2,34 +2,42 @@ package org.AirAPI.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.AirAPI.entity.User;
+import org.AirAPI.jwt.JwtTokenProvider;
 import org.AirAPI.repository.SchduleRepository;
 import org.AirAPI.repository.TokenRepository;
 import org.AirAPI.repository.UserRepository;
 import org.AirAPI.service.CustomUserDetailService;
 import org.AirAPI.service.ScheduleService;
-import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 //@ExtendWith(SpringExtension.class)
+@ExtendWith(MockitoExtension.class)
 @WebMvcTest(controllers = UserController.class)
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class UserControllerTest {
 
     @Autowired
@@ -39,7 +47,14 @@ public class UserControllerTest {
     private ObjectMapper objectMapper;
 
     @MockBean
+    private UserRepository userRepository;
+
+    @InjectMocks
     private CustomUserDetailService customUserDetailService;
+
+    @MockBean
+    private JwtTokenProvider jwtTokenProvider;
+
     @MockBean
     private SchduleRepository schduleRepository;
 
@@ -47,25 +62,24 @@ public class UserControllerTest {
     private TokenRepository tokenRepository;
 
     @MockBean
-    private UserRepository userRepository;
-
-    @MockBean
     private ScheduleService scheduleService;
+
+    User user = null;
+
+    @BeforeAll
+    public void userset() {
+        String userid = "001200";
+        String username = "침착맨";
+
+        user = User.builder()
+                .userid(userid)
+                .username(username)
+                .build();
+    }
 
     @Test
     @DisplayName("회원가입")
     public void join() throws Exception {
-        final String BIRTH = "001200";
-        final String EMAIL = "aabbcc@gmail.com";
-        final String NICKNAME = "침착맨";
-        final Long SEQUENCEID = Long.valueOf(1);
-
-        User user = User.builder()
-                .userEmail(EMAIL)
-                .userBirth(BIRTH)
-                .userNickname(NICKNAME)
-                .userSequenceId(SEQUENCEID)
-                .build();
 
         String content = objectMapper.writeValueAsString(user);
 
@@ -76,25 +90,14 @@ public class UserControllerTest {
     }
 
     @Test
-    @Disabled
+    @DisplayName("로그인")
     public void login_test() throws Exception {
-        final String BIRTH = "001200";
-        final String EMAIL = "aabbcc@gmail.com";
-        final String NICKNAME = "침착맨";
-        final Long SEQUENCEID = Long.valueOf(1);
 
-        User user = User.builder()
-                .userEmail(EMAIL)
-                .userBirth(BIRTH)
-                .userNickname(NICKNAME)
-                .userSequenceId(SEQUENCEID)
-                .build();
+        given(customUserDetailService.loadUserById("001200")).willReturn(user);
 
-        given(customUserDetailService.test_save(user)).willReturn(user);
-
-        String jsonString = "{\"userEmail\": \"aabbcc@gmail.com\",\"userNickname\": \"침착맨\"}";
+        String jsonString = "{\"userid\": \"001200\",\"username\": \"침착맨\"}";
         mvc.perform(post("/login")
-                .content(jsonString).contentType(MediaType.APPLICATION_JSON))
+                        .content(jsonString).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andDo(print());
 

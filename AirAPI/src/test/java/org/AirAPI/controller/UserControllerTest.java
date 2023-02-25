@@ -34,8 +34,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-//@ExtendWith(SpringExtension.class)
-@ExtendWith(MockitoExtension.class)
+@ExtendWith(SpringExtension.class)
 @WebMvcTest(controllers = UserController.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class UserControllerTest {
@@ -47,13 +46,10 @@ public class UserControllerTest {
     private ObjectMapper objectMapper;
 
     @MockBean
-    private UserRepository userRepository;
-
-    @InjectMocks
     private CustomUserDetailService customUserDetailService;
 
     @MockBean
-    private JwtTokenProvider jwtTokenProvider;
+    private UserRepository userRepository;
 
     @MockBean
     private SchduleRepository schduleRepository;
@@ -72,8 +68,8 @@ public class UserControllerTest {
         String username = "침착맨";
 
         user = User.builder()
-                .userid(userid)
-                .username(username)
+                .userId(userid)
+                .name(username)
                 .build();
     }
 

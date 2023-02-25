@@ -19,7 +19,7 @@ import javax.persistence.Table;
 public class RefreshToken {
 
     @Id
-    private String username;
+    private String userid;
     private String token;
 
 }

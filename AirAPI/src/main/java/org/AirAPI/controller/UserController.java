@@ -45,9 +45,9 @@ public class UserController {
 
         Date  date= new Date();
         SimpleDateFormat access_time = new SimpleDateFormat("hh:mm:ss");
-        User member = customUserDetailService.loadUserById(user.getUserid());
+        User member = customUserDetailService.loadUserById(user.getUserId());
 
-        String token = jwtTokenProvider.createToken(member.getUserid(), access_time.format(date));
+        String token = jwtTokenProvider.createToken(member.getUserId(), access_time.format(date));
         String refreshtoken = jwtTokenProvider.createrefreshToken(member.getUsername());
         customUserDetailService.token_save(refreshtoken);
 

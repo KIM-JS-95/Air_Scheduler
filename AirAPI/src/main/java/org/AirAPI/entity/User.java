@@ -12,7 +12,9 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
+
 
 @Builder
 @Data
@@ -20,10 +22,38 @@ import java.util.stream.Collectors;
 @Table(name = "T_USER")
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
+public class User implements UserDetails{
 
     @Id
-    private String userid;
-    private String username;
+    private String userId;
 
+    private String email;
+    private String name;
+    private String picUrl;
+
+    private String password;
+
+    private boolean enabled;
+
+    private Set<Authority> authorities;
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return enabled;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return enabled;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return enabled;
+    }
 }

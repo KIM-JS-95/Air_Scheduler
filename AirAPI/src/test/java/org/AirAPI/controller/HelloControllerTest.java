@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.AirAPI.config.AWStextrack;
 import org.AirAPI.config.SecurityConfig;
 import org.AirAPI.entity.Authority;
-import org.AirAPI.entity.DBInit;
 import org.AirAPI.entity.Schedule;
 import org.AirAPI.entity.User;
 import org.AirAPI.jwt.JwtAuthenticationFilter;
@@ -18,10 +17,10 @@ import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
@@ -33,7 +32,8 @@ import java.util.Set;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.when;
+import static org.mockito.BDDMockito.then;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -41,7 +41,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 //@TestInstance(TestInstance.Lifecycle.PER_METHOD)
 //@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-@ExtendWith(SpringExtension.class)
+@ExtendWith(MockitoExtension.class)
 @WebMvcTest(controllers = HelloController.class)
 public class HelloControllerTest {
     @Autowired
@@ -56,9 +56,14 @@ public class HelloControllerTest {
     @Autowired
     private SecurityConfig securityConfig;
 
-    @Autowired
+    @InjectMocks
     private JwtTokenProvider jwtTokenProvider;
 
+    @Mock
+    private UserDetailsService userDetailsService;
+
+    @Mock
+    private CustomUserDetailService customUserDetailService;
 
     @MockBean
     private JwtAuthenticationFilter jwtAuthenticationFilter;
@@ -74,12 +79,6 @@ public class HelloControllerTest {
 
     @MockBean
     private ScheduleService scheduleService;
-
-    @MockBean
-    private UserDetailsService userDetailsService;
-
-    @MockBean
-    private CustomUserDetailService customUserDetailService;
 
     private Schedule schedule1;
     List<Schedule> scheduleList = new ArrayList<>();
@@ -110,8 +109,13 @@ public class HelloControllerTest {
                 .name("침착맨")
                 .authorities(authorities)
                 .build();
-        given(customUserDetailService.loadUserByUsername(jwtTokenProvider.getUserPk(token)))
-                .willReturn(userDetails);
+
+        when(customUserDetailService
+                .loadUserByUsername(jwtTokenProvider.getUserPk(token)))
+                .thenReturn(userDetails);
+
+
+        verify(customUserDetailService).loadUserByUsername(any());
 
         mvc.perform(get("/home")
                         .header("Authorization", token)

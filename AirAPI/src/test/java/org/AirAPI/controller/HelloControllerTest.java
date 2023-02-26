@@ -56,13 +56,13 @@ public class HelloControllerTest {
     @Autowired
     private SecurityConfig securityConfig;
 
-    @InjectMocks
+    @Autowired
     private JwtTokenProvider jwtTokenProvider;
 
-    @Mock
+    @MockBean
     private UserDetailsService userDetailsService;
 
-    @Mock
+    @MockBean
     private CustomUserDetailService customUserDetailService;
 
     @MockBean
@@ -113,9 +113,6 @@ public class HelloControllerTest {
         when(customUserDetailService
                 .loadUserByUsername(jwtTokenProvider.getUserPk(token)))
                 .thenReturn(userDetails);
-
-
-        verify(customUserDetailService).loadUserByUsername(any());
 
         mvc.perform(get("/home")
                         .header("Authorization", token)

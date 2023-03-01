@@ -21,10 +21,13 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -121,13 +124,23 @@ public class HelloControllerTest {
                 .andDo(print());
     }
 
-/*
+
 
     @DisplayName("기본 테스트")
     @Test
     public void No_refresh_Token() throws Exception {
-        List<String> roles = new ArrayList<>();
-        String token = jwtTokenProvider.createToken("aabbcc@gmail.com", roles);
+        Set<Authority> authorities = Set.of(Authority.USER);
+
+        String token = jwtTokenProvider.createToken("001200", "침착맨");
+        User userDetails = User.builder()
+                .userId("001200")
+                .name("침착맨")
+                .authorities(authorities)
+                .build();
+
+        when(customUserDetailService
+                .loadUserByUsername(jwtTokenProvider.getUserPk(token)))
+                .thenReturn(userDetails);
         try {
             mvc.perform(get("/home").header("Authorization", token))
                     .andExpect(status().isOk())
@@ -142,25 +155,32 @@ public class HelloControllerTest {
     @DisplayName("textrack_test")
     public void jpg_save_test() throws Exception {
 
-        List<String> roles = new ArrayList<>();
-        String token = jwtTokenProvider.createToken("aabbcc@gmail.com", roles);
+        Set<Authority> authorities = Set.of(Authority.USER);
 
-        // given
+        String token = jwtTokenProvider.createToken("001200", "침착맨");
+        User userDetails = User.builder()
+                .userId("001200")
+                .name("침착맨")
+                .authorities(authorities)
+                .build();
+
+        when(customUserDetailService
+                .loadUserByUsername(jwtTokenProvider.getUserPk(token)))
+                .thenReturn(userDetails);
+
         final String contentType = "jpg"; //파일타입
-        //final String filePath = "C:\\Users\\JAESEUNG\\IdeaProjects\\Air_Scheduler\\AirAPI\\src\\main\\resources\\static\\img\\sample.jpg"; //파일경로
-        final String filePath = "D:\\Air_Scheduler\\AirAPI\\src\\main\\resources\\static\\img\\sample.jpg";
+        final String filePath = "C:\\Users\\JAESEUNG\\IdeaProjects\\Air_Scheduler\\AirAPI\\src\\main\\resources\\static\\img\\sample.jpg"; //파일경로
+        //final String filePath = "D:\\Air_Scheduler\\AirAPI\\src\\main\\resources\\static\\img\\sample.jpg";
         FileInputStream fileInputStream = new FileInputStream(filePath);
 
-        //Mock파일생성
         MockMultipartFile img = new MockMultipartFile(
                 "file",  "sample.jpg" ,contentType, fileInputStream);
 
-        // when
         mvc.perform(multipart("/upload")
                         .file(img)
                         .header("Authorization",token)
                 ).andExpect(status().isOk())
                 .andDo(print());
     }
-*/
+
 }

@@ -82,16 +82,16 @@ public class UserControllerTest {
         mvc.perform(post("/join")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(content))
-                .andExpect(content().string(user.toString()));
+                .andExpect(content().string(user.toString()))
+                .andDo(print());
     }
 
     @Test
     @DisplayName("로그인")
     public void login_test() throws Exception {
+        when(customUserDetailService.loadUserById("001200")).thenReturn(user);
 
-        given(customUserDetailService.loadUserById("001200")).willReturn(user);
-
-        String jsonString = "{\"userid\": \"001200\",\"username\": \"침착맨\"}";
+        String jsonString = "{\"userId\": \"001200\",\"name\": \"침착맨\"}";
         mvc.perform(post("/login")
                         .content(jsonString).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())

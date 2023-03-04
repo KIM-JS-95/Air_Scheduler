@@ -12,14 +12,14 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 @RestController
-public class HelloController {
+public class PilotController {
 
     @Autowired
     private ScheduleService scheduleService;
 
     // 메인 페이지
     @GetMapping("/home")
-    public ResponseEntity index(HttpServletRequest request){
+    public ResponseEntity index(HttpServletRequest request) {
         String token = request.getHeader("Authorization");
         HeaderSetter headers = new HeaderSetter();
         ResponseEntity response = headers.haederSet(token, "main page", HttpStatus.OK);
@@ -31,14 +31,18 @@ public class HelloController {
     public ResponseEntity upload(@RequestPart MultipartFile file, HttpServletRequest request) throws IOException {
         HeaderSetter headerSetter = new HeaderSetter();
         ResponseEntity response = null;
-        try {
-            scheduleService.save(file.getInputStream());
-            response=headerSetter.haederSet(
-                    request.getHeader("Authorization"),"save!",HttpStatus.OK);
-        }catch (Exception e){
-            response=headerSetter.haederSet(
-                    request.getHeader("Authorization"),"save error!",HttpStatus.BAD_REQUEST);
+    try {
+        boolean result = scheduleService.save(file.getInputStream());
+        if (result) {
+            response = headerSetter.haederSet(
+                    request.getHeader("Authorization"), "save!", HttpStatus.OK);
+        } else {
+            response = headerSetter.haederSet(
+                    request.getHeader("Authorization"), "save error!", HttpStatus.BAD_REQUEST);
         }
+    }catch (Exception e){
+        System.out.println(e);
+    }
         return response;
     }
 

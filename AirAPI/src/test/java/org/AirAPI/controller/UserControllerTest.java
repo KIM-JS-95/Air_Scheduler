@@ -77,11 +77,11 @@ public class UserControllerTest {
     @DisplayName("회원가입")
     public void join() throws Exception {
 
-        String content = objectMapper.writeValueAsString(user);
+        String user_ad_String = objectMapper.writeValueAsString(user);
 
         mvc.perform(post("/join")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(content))
+                        .content(user_ad_String)
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(content().string(user.toString()))
                 .andDo(print());
     }
@@ -93,7 +93,8 @@ public class UserControllerTest {
 
         String jsonString = "{\"userId\": \"001200\",\"name\": \"침착맨\"}";
         mvc.perform(post("/login")
-                        .content(jsonString).contentType(MediaType.APPLICATION_JSON))
+                        .content(jsonString)
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andDo(print());
 
@@ -102,7 +103,6 @@ public class UserControllerTest {
     @Test
     @DisplayName("로그아웃 테스트")
     public void logout_test() throws Exception {
-        List<String> roles = new ArrayList<>();
         mvc.perform(post("/logout"))
                 .andExpect(redirectedUrl("/login"))
                 .andExpect(status().is3xxRedirection());

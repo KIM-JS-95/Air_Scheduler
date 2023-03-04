@@ -6,7 +6,6 @@ import org.AirAPI.config.SecurityConfig;
 import org.AirAPI.entity.Authority;
 import org.AirAPI.entity.Schedule;
 import org.AirAPI.entity.User;
-import org.AirAPI.jwt.JwtAuthenticationFilter;
 import org.AirAPI.jwt.JwtTokenProvider;
 import org.AirAPI.repository.SchduleRepository;
 import org.AirAPI.repository.TokenRepository;
@@ -15,9 +14,6 @@ import org.AirAPI.service.CustomUserDetailService;
 import org.AirAPI.service.ScheduleService;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -25,7 +21,6 @@ import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.io.FileInputStream;
 import java.util.ArrayList;
@@ -34,8 +29,6 @@ import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.BDDMockito.given;
-import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
@@ -44,9 +37,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 //@TestInstance(TestInstance.Lifecycle.PER_METHOD)
 //@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-@ExtendWith(MockitoExtension.class)
-@WebMvcTest(controllers = HelloController.class)
-public class HelloControllerTest {
+@ExtendWith(SpringExtension.class)
+@WebMvcTest(controllers = PilotController.class)
+public class PilotControllerTest {
     @Autowired
     private MockMvc mvc;
 
@@ -68,8 +61,6 @@ public class HelloControllerTest {
     @MockBean
     private CustomUserDetailService customUserDetailService;
 
-    @MockBean
-    private JwtAuthenticationFilter jwtAuthenticationFilter;
 
     @MockBean
     private SchduleRepository schduleRepository;
@@ -86,6 +77,8 @@ public class HelloControllerTest {
     private Schedule schedule1;
     List<Schedule> scheduleList = new ArrayList<>();
 
+    User user = null;
+
     @BeforeEach
     public void init() throws Exception {
         schedule1 = Schedule.builder()
@@ -99,23 +92,25 @@ public class HelloControllerTest {
                 .build();
         scheduleList.add(schedule1);
 
+        String userid = "001200";
+        String username = "침착맨";
+        Set<Authority> authorities = Set.of(Authority.USER);
+        user = User.builder()
+                .userId(userid)
+                .name(username)
+                .authorities(authorities)
+                .build();
+
     }
+
 
     @Test
     @DisplayName("메인 접속 테스트")
     public void 메인페이지에접속합니다() throws Exception {
-        Set<Authority> authorities = Set.of(Authority.USER);
-
         String token = jwtTokenProvider.createToken("001200", "침착맨");
-        User userDetails = User.builder()
-                .userId("001200")
-                .name("침착맨")
-                .authorities(authorities)
-                .build();
 
         when(customUserDetailService
-                .loadUserByUsername(jwtTokenProvider.getUserPk(token)))
-                .thenReturn(userDetails);
+                .loadUserById("001200")).thenReturn(user);
 
         mvc.perform(get("/home")
                         .header("Authorization", token)
@@ -154,19 +149,9 @@ public class HelloControllerTest {
     @Test
     @DisplayName("textrack_test")
     public void jpg_save_test() throws Exception {
-
-        Set<Authority> authorities = Set.of(Authority.USER);
-
         String token = jwtTokenProvider.createToken("001200", "침착맨");
-        User userDetails = User.builder()
-                .userId("001200")
-                .name("침착맨")
-                .authorities(authorities)
-                .build();
-
-        when(customUserDetailService
-                .loadUserByUsername(jwtTokenProvider.getUserPk(token)))
-                .thenReturn(userDetails);
+        when(customUserDetailService.loadUserById("001200"))
+                .thenReturn(user);
 
         final String contentType = "jpg"; //파일타입
         final String filePath = "C:\\Users\\JAESEUNG\\IdeaProjects\\Air_Scheduler\\AirAPI\\src\\main\\resources\\static\\img\\sample.jpg"; //파일경로
@@ -176,6 +161,7 @@ public class HelloControllerTest {
         MockMultipartFile img = new MockMultipartFile(
                 "file",  "sample.jpg" ,contentType, fileInputStream);
 
+        when(scheduleService.save(img.getInputStream())).thenReturn(true);
         mvc.perform(multipart("/upload")
                         .file(img)
                         .header("Authorization",token)

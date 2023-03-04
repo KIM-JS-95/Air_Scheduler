@@ -20,6 +20,11 @@ public class Schedule {
 
     private String date;
     private String pairing;
+
+    private String dc;
+    private String ci;
+    private String co;
+
     private String activity;
 
     private String cnt_from;
@@ -28,7 +33,5 @@ public class Schedule {
     private String cnt_to;
     private String sta;
 
-    private String blk;
-    private String duty;
-
+    private String comment;
 }

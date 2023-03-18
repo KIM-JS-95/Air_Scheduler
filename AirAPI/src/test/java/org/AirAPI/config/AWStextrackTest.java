@@ -1,5 +1,6 @@
 package org.AirAPI.config;
 
+import org.AirAPI.entity.Schedule;
 import org.junit.jupiter.api.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,12 +10,16 @@ import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
 import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.textract.TextractClient;
+import software.amazon.awssdk.services.textract.model.AnalyzeDocumentResponse;
 import software.amazon.awssdk.services.textract.model.Block;
+import software.amazon.awssdk.services.textract.model.BlockType;
 
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Properties;
 
 //@SpringBootTest
@@ -59,19 +64,20 @@ public class AWStextrackTest {
 
     @Test
     public void docTest() throws IOException {
-        String filePath = "C:\\Users\\JAESEUNG\\IdeaProjects\\Air_Scheduler\\AirAPI\\src\\main\\resources\\static\\img\\sample.jpg";
-        //String filePath = "D:\\Air_Scheduler\\AirAPI\\src\\main\\resources\\static\\img\\sample.jpg";
+        //String filePath = "C:\\Users\\JAESEUNG\\IdeaProjects\\Air_Scheduler\\AirAPI\\src\\main\\resources\\static\\img\\sample.jpg";
+        String filePath = "D:\\Air_Scheduler\\AirAPI\\src\\main\\resources\\static\\img\\sample.jpg";
         FileInputStream fileInputStream = new FileInputStream(filePath);
         Iterator<Block> blockIterator = AWStextrack.analyzeDoc(textractClient, fileInputStream);
+        //AnalyzeDocumentResponse blockIterator2 = AWStextrack.analyzeDoc2(textractClient, fileInputStream);
+        ex2(blockIterator);
+    }
 
+    public void ex1(Iterator<Block> blockIterator){
         while (blockIterator.hasNext()) {
             Block block = blockIterator.next();
             float left = block.geometry().boundingBox().left();
             float top = block.geometry().boundingBox().top();
-
             if (block.blockType().toString() == "WORD" && top > 0.05 && left < 0.7) {
-                //LOGGER.info(block.text() + " , " + block.geometry().boundingBox().left() + "/" + block.geometry().boundingBox().top());
-
                 if (left <= 0.1) {
                     LOGGER.info("1 " + block.text()); // date
                 } else if (0.1 < left && left <= 0.18) {
@@ -98,6 +104,21 @@ public class AWStextrackTest {
 
             }
         }
+    }
+    public void ex2(Iterator<Block> blockIterator){
 
+        while (blockIterator.hasNext()) {
+            Block block = blockIterator.next();
+
+            float left = block.geometry().boundingBox().left();
+            float top = block.geometry().boundingBox().top();
+            if (block.blockType().equals(BlockType.WORD) && top > 0.05 && left < 0.7) {
+                String text = block.text();
+                if(text != null) LOGGER.info(text);
+                else LOGGER.info("No dates");
+                break;
+            }
+        }
+        //return dates;
     }
 }

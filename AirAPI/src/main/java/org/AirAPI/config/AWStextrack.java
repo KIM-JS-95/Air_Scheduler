@@ -73,7 +73,6 @@ public class AWStextrack {
     public static Iterator<Block> analyzeDoc(TextractClient textractClient, InputStream sourceDoc) {
         Iterator<Block> docInfo=null;
         try {
-
             SdkBytes sourceBytes = SdkBytes.fromInputStream(sourceDoc);
             Document myDoc = Document.builder()
                     .bytes(sourceBytes)
@@ -96,6 +95,32 @@ public class AWStextrack {
         }
 
         return docInfo;
+    }
+
+
+    public static AnalyzeDocumentResponse analyzeDoc2(TextractClient textractClient, InputStream sourceDoc) {
+        AnalyzeDocumentResponse analyzeDocument = null;
+        try {
+            SdkBytes sourceBytes = SdkBytes.fromInputStream(sourceDoc);
+            Document myDoc = Document.builder()
+                    .bytes(sourceBytes)
+                    .build();
+            List<FeatureType> featureTypes = new ArrayList<FeatureType>();
+            featureTypes.add(FeatureType.TABLES);
+            //featureTypes.add(FeatureType.FORMS);
+
+            AnalyzeDocumentRequest analyzeDocumentRequest = AnalyzeDocumentRequest.builder()
+                    .featureTypes(featureTypes)
+                    .document(myDoc)
+                    .build();
+
+            analyzeDocument = textractClient.analyzeDocument(analyzeDocumentRequest);
+            //docInfo = analyzeDocument.blocks().iterator();
+        } catch (TextractException e) {
+            System.err.println(e.getMessage());
+            System.exit(1);
+        }
+        return analyzeDocument;
     }
 
     public static void detectDocTextS3(TextractClient textractClient, String bucketName, String docName) {

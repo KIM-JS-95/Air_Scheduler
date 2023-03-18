@@ -68,60 +68,21 @@ public class AWStextrackTest {
         FileInputStream fileInputStream = new FileInputStream(filePath);
         Iterator<Block> blockIterator = AWStextrack.analyzeDoc(textractClient, fileInputStream);
         List<Schedule> schedules = new ArrayList<>();
-        String date = null;
-        String pairing = null;
-        String dc = null;
-        String ci = null;
-        String co = null;
-        String activity = null;
-        String cnt_from = null;
-        String std = null;
-        String cnt_to = null;
-        String sta = null;
-        String comment = null;
+        String line = "";
+        int line_change = 0;
 
         while (blockIterator.hasNext()) {
             Block block = blockIterator.next();
             float left = block.geometry().boundingBox().left();
             float top = block.geometry().boundingBox().top();
+            if (line_change != Math.round(top * 100)) {
+                String[] s = line.split("- ");
+                // 문자열을 쪼갠 배열을 엔티티에 저장해야함
+                line = "";
+            }
             if (block.blockType().equals(BlockType.WORD) && top > 0.05 && left < 0.7) {
-                if (left <= 0.1) {
-                    date = block.text();
-                } else if (0.1 < left && left <= 0.18) {
-                    pairing = block.text();
-                } else if (0.18 < left && left <= 0.24) {
-                    dc = block.text();
-                } else if (0.24 < left && left <= 0.3) {
-                    ci = block.text();
-                } else if (0.3 < left && left <= 0.37) {
-                    co = block.text();
-                } else if (0.37 < left && left <= 0.46) {
-                    activity = block.text();
-                } else if (0.46 < left && left <= 0.52) {
-                    cnt_from = block.text();
-                } else if (0.52 < left && left <= 0.58) {
-                    std = block.text();
-                } else if (0.58 < left && left <= 0.65) {
-                    cnt_to = block.text();
-                } else if (0.65 < left && left <= 0.7) {
-                    sta = block.text();
-                } else {
-                    comment = block.text();
-                }
-                Schedule schedule = Schedule.builder()
-                        .date(date)
-                        .pairing(pairing)
-                        .dc(dc)
-                        .ci(ci)
-                        .co(co)
-                        .activity(activity)
-                        .cnt_from(cnt_from)
-                        .std(std)
-                        .cnt_to(cnt_to)
-                        .sta(sta)
-                        .comment(comment)
-                        .build();
-                schedules.add(schedule);
+                line_change = Math.round(top * 100);
+                line += block.text() + "- ";
             }
         }
         try {

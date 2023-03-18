@@ -57,7 +57,6 @@ public class AWStextrack {
             AnalyzeDocumentResponse analyzeDocument = textractClient.analyzeDocument(analyzeDocumentRequest);
             docInfo = analyzeDocument.blocks().iterator();
         } catch (TextractException e) {
-            //System.err.println(e.getMessage());
             System.exit(1);
         }
         return docInfo;

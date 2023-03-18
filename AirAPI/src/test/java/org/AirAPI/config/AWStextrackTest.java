@@ -1,5 +1,6 @@
 package org.AirAPI.config;
 
+import org.AirAPI.entity.Schedule;
 import org.junit.jupiter.api.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,11 +11,14 @@ import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.textract.TextractClient;
 import software.amazon.awssdk.services.textract.model.Block;
+import software.amazon.awssdk.services.textract.model.BlockType;
 
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Properties;
 
 //@SpringBootTest
@@ -63,41 +67,67 @@ public class AWStextrackTest {
         //String filePath = "D:\\Air_Scheduler\\AirAPI\\src\\main\\resources\\static\\img\\sample.jpg";
         FileInputStream fileInputStream = new FileInputStream(filePath);
         Iterator<Block> blockIterator = AWStextrack.analyzeDoc(textractClient, fileInputStream);
+        List<Schedule> schedules = new ArrayList<>();
+        String date = null;
+        String pairing = null;
+        String dc = null;
+        String ci = null;
+        String co = null;
+        String activity = null;
+        String cnt_from = null;
+        String std = null;
+        String cnt_to = null;
+        String sta = null;
+        String comment = null;
 
         while (blockIterator.hasNext()) {
             Block block = blockIterator.next();
             float left = block.geometry().boundingBox().left();
             float top = block.geometry().boundingBox().top();
-
-            if (block.blockType().toString() == "WORD" && top > 0.05 && left < 0.7) {
-                //LOGGER.info(block.text() + " , " + block.geometry().boundingBox().left() + "/" + block.geometry().boundingBox().top());
-
+            if (block.blockType().equals(BlockType.WORD) && top > 0.05 && left < 0.7) {
                 if (left <= 0.1) {
-                    LOGGER.info("1 " + block.text()); // date
+                    date = block.text();
                 } else if (0.1 < left && left <= 0.18) {
-                    LOGGER.info("2 " + block.text()); // Pairing
+                    pairing = block.text();
                 } else if (0.18 < left && left <= 0.24) {
-                    LOGGER.info("3 " + block.text()); // DC
+                    dc = block.text();
                 } else if (0.24 < left && left <= 0.3) {
-                    LOGGER.info("4 " + block.text()); //c/i
+                    ci = block.text();
                 } else if (0.3 < left && left <= 0.37) {
-                    LOGGER.info("5 " + block.text()); // c/o
+                    co = block.text();
                 } else if (0.37 < left && left <= 0.46) {
-                    LOGGER.info("6 " + block.text()); // Activity
+                    activity = block.text();
                 } else if (0.46 < left && left <= 0.52) {
-                    LOGGER.info("7 " + block.text()); // from
+                    cnt_from = block.text();
                 } else if (0.52 < left && left <= 0.58) {
-                    LOGGER.info("8 " + block.text()); // std
+                    std = block.text();
                 } else if (0.58 < left && left <= 0.65) {
-                    LOGGER.info("9 " + block.text()); // to
+                    cnt_to = block.text();
                 } else if (0.65 < left && left <= 0.7) {
-                    LOGGER.info("10 " + block.text()); // sta
+                    sta = block.text();
                 } else {
-                    LOGGER.info("null");
+                    comment = block.text();
                 }
-
+                Schedule schedule = Schedule.builder()
+                        .date(date)
+                        .pairing(pairing)
+                        .dc(dc)
+                        .ci(ci)
+                        .co(co)
+                        .activity(activity)
+                        .cnt_from(cnt_from)
+                        .std(std)
+                        .cnt_to(cnt_to)
+                        .sta(sta)
+                        .comment(comment)
+                        .build();
+                schedules.add(schedule);
             }
         }
-
+        try {
+            System.out.println(schedules.get(0));
+        } catch (Exception e) {
+            System.out.println("error! : " + e);
+        }
     }
 }

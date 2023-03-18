@@ -36,6 +36,32 @@ public class AWStextrack {
                 .build();
         return textractClient;
     }
+    public static Iterator<Block> analyzeDoc(TextractClient textractClient, InputStream sourceDoc) {
+        Iterator<Block> docInfo=null;
+        try {
+
+            SdkBytes sourceBytes = SdkBytes.fromInputStream(sourceDoc);
+            Document myDoc = Document.builder()
+                    .bytes(sourceBytes)
+                    .build();
+
+            List<FeatureType> featureTypes = new ArrayList<FeatureType>();
+            featureTypes.add(FeatureType.TABLES);
+            //featureTypes.add(FeatureType.FORMS);
+
+            AnalyzeDocumentRequest analyzeDocumentRequest = AnalyzeDocumentRequest.builder()
+                    .featureTypes(featureTypes)
+                    .document(myDoc)
+                    .build();
+
+            AnalyzeDocumentResponse analyzeDocument = textractClient.analyzeDocument(analyzeDocumentRequest);
+            docInfo = analyzeDocument.blocks().iterator();
+        } catch (TextractException e) {
+            //System.err.println(e.getMessage());
+            System.exit(1);
+        }
+        return docInfo;
+    }
 
     public static String startDocAnalysisS3(TextractClient textractClient, String bucketName, String docName) {
         try {
@@ -69,35 +95,6 @@ public class AWStextrack {
         }
         return "";
     }
-
-    public static Iterator<Block> analyzeDoc(TextractClient textractClient, InputStream sourceDoc) {
-        Iterator<Block> docInfo=null;
-        try {
-
-            SdkBytes sourceBytes = SdkBytes.fromInputStream(sourceDoc);
-            Document myDoc = Document.builder()
-                    .bytes(sourceBytes)
-                    .build();
-
-            List<FeatureType> featureTypes = new ArrayList<FeatureType>();
-            featureTypes.add(FeatureType.TABLES);
-            //featureTypes.add(FeatureType.FORMS);
-
-            AnalyzeDocumentRequest analyzeDocumentRequest = AnalyzeDocumentRequest.builder()
-                    .featureTypes(featureTypes)
-                    .document(myDoc)
-                    .build();
-            AnalyzeDocumentResponse analyzeDocument = textractClient.analyzeDocument(analyzeDocumentRequest);
-            docInfo = analyzeDocument.blocks().iterator();
-
-        } catch (TextractException e) {
-            System.err.println(e.getMessage());
-            System.exit(1);
-        }
-
-        return docInfo;
-    }
-
     public static void detectDocTextS3(TextractClient textractClient, String bucketName, String docName) {
 
         try {

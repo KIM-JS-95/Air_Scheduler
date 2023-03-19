@@ -72,7 +72,8 @@ public class AWStextrackTest {
         ex2(blockIterator);
     }
 
-    public void ex1(Iterator<Block> blockIterator){
+
+    public void ex1(Iterator<Block> blockIterator) {
         while (blockIterator.hasNext()) {
             Block block = blockIterator.next();
             float left = block.geometry().boundingBox().left();
@@ -105,20 +106,30 @@ public class AWStextrackTest {
             }
         }
     }
-    public void ex2(Iterator<Block> blockIterator){
+
+    public void ex2(Iterator<Block> blockIterator) {
+        List<Schedule> schedules = new ArrayList<>();
+        String line = "";
+        int line_change = 0;
 
         while (blockIterator.hasNext()) {
             Block block = blockIterator.next();
-
             float left = block.geometry().boundingBox().left();
             float top = block.geometry().boundingBox().top();
+            if (line_change != Math.round(top * 100)) {
+                String[] s = line.split("- ");
+                // 문자열을 쪼갠 배열을 엔티티에 저장해야함
+                line = "";
+            }
             if (block.blockType().equals(BlockType.WORD) && top > 0.05 && left < 0.7) {
-                String text = block.text();
-                if(text != null) LOGGER.info(text);
-                else LOGGER.info("No dates");
-                break;
+                line_change = Math.round(top * 100);
+                line += block.text() + "- ";
             }
         }
-        //return dates;
+        try {
+            System.out.println(schedules.get(0));
+        } catch (Exception e) {
+            System.out.println("error! : " + e);
+        }
     }
 }

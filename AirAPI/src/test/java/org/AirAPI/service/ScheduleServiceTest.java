@@ -1,5 +1,6 @@
 package org.AirAPI.service;
 
+import org.AirAPI.config.AWStextrack;
 import org.AirAPI.entity.Schedule;
 import org.AirAPI.repository.SchduleRepository;
 import org.hamcrest.Matchers;
@@ -15,22 +16,33 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import software.amazon.awssdk.services.textract.TextractClient;
+import software.amazon.awssdk.services.textract.model.Block;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.Is.is;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(SpringExtension.class)
 class ScheduleServiceTest {
+
     @MockBean
     private ScheduleService scheduleService;
+
     @MockBean
     private SchduleRepository schduleRepository;
+
+    @Autowired
+    private AWStextrack awstextrack;
 
     private Schedule schedule1;
     List<Schedule> scheduleList = new ArrayList<>();
@@ -80,6 +92,5 @@ class ScheduleServiceTest {
         verify(scheduleService, times(1)).findData(1);
         assertThat(schedule2.getCnt_to(), Matchers.is("GMP"));
     }
-
 
 }

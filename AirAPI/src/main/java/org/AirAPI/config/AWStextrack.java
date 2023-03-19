@@ -37,39 +37,6 @@ public class AWStextrack {
         return textractClient;
     }
 
-    public static String startDocAnalysisS3(TextractClient textractClient, String bucketName, String docName) {
-        try {
-            List<FeatureType> myList = new ArrayList<>();
-            myList.add(FeatureType.TABLES);
-            myList.add(FeatureType.FORMS);
-
-            S3Object s3Object = S3Object.builder()
-                    .bucket(bucketName)
-                    .name(docName)
-                    .build();
-
-            DocumentLocation location = DocumentLocation.builder()
-                    .s3Object(s3Object)
-                    .build();
-
-            StartDocumentAnalysisRequest documentAnalysisRequest = StartDocumentAnalysisRequest.builder()
-                    .documentLocation(location)
-                    .featureTypes(myList)
-                    .build();
-
-            StartDocumentAnalysisResponse response = textractClient.startDocumentAnalysis(documentAnalysisRequest);
-
-            // Get the job ID
-            String jobId = response.jobId();
-            return jobId;
-
-        } catch (TextractException e) {
-            System.err.println(e.getMessage());
-            System.exit(1);
-        }
-        return "";
-    }
-
     public static Iterator<Block> analyzeDoc(TextractClient textractClient, InputStream sourceDoc) {
         Iterator<Block> docInfo=null;
         try {
@@ -97,7 +64,6 @@ public class AWStextrack {
         return docInfo;
     }
 
-
     public static AnalyzeDocumentResponse analyzeDoc2(TextractClient textractClient, InputStream sourceDoc) {
         AnalyzeDocumentResponse analyzeDocument = null;
         try {
@@ -122,7 +88,6 @@ public class AWStextrack {
         }
         return analyzeDocument;
     }
-
     public static void detectDocTextS3(TextractClient textractClient, String bucketName, String docName) {
 
         try {

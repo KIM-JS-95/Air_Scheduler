@@ -119,11 +119,19 @@ public class AWStextrackTest {
             if (line_change != Math.round(top * 100)) {
                 String[] s = line.split("- ");
                 // 문자열을 쪼갠 배열을 엔티티에 저장해야함
+                /*
+                    블록 X: 3 10 18 26 33 37 46 55 59 68
+                 ex) 1번 기준
+                           3             37 46 55 59 68
+                    37 - 3 = 34 / ? = 4
+                */
                 line = "";
             }
             if (block.blockType().equals(BlockType.WORD) && top > 0.05 && left < 0.7) {
                 line_change = Math.round(top * 100);
                 line += block.text() + "- ";
+                int x = Math.round(block.geometry().polygon().get(0).x()*100);
+                LOGGER.info(String.valueOf(x));
             }
         }
         try {

@@ -5,22 +5,17 @@ import org.junit.jupiter.api.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
 import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.textract.TextractClient;
-import software.amazon.awssdk.services.textract.model.AnalyzeDocumentResponse;
 import software.amazon.awssdk.services.textract.model.Block;
 import software.amazon.awssdk.services.textract.model.BlockType;
 
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Properties;
+import java.util.*;
 
 //@SpringBootTest
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -67,77 +62,51 @@ public class AWStextrackTest {
         //String filePath = "C:\\Users\\JAESEUNG\\IdeaProjects\\Air_Scheduler\\AirAPI\\src\\main\\resources\\static\\img\\sample.jpg";
         String filePath = "D:\\Air_Scheduler\\AirAPI\\src\\main\\resources\\static\\img\\sample.jpg";
         FileInputStream fileInputStream = new FileInputStream(filePath);
-        Iterator<Block> blockIterator = AWStextrack.analyzeDoc(textractClient, fileInputStream);
+        Iterator<Block> blockIterator1 = AWStextrack.analyzeDoc(textractClient, fileInputStream);
         //AnalyzeDocumentResponse blockIterator2 = AWStextrack.analyzeDoc2(textractClient, fileInputStream);
-        ex2(blockIterator);
+        Map<String, List> map = ex1(blockIterator1);
+        ex2(map.get("lines"), map.get("blocks"));
     }
 
 
-    public void ex1(Iterator<Block> blockIterator) {
+    public Map<String, List> ex1(Iterator<Block> blockIterator) {
+        List<Block> blocks = new ArrayList<>();
+        List<Float> lines = new ArrayList<>();
+        Map<String, List> map = new HashMap<>();
         while (blockIterator.hasNext()) {
             Block block = blockIterator.next();
-            float left = block.geometry().boundingBox().left();
             float top = block.geometry().boundingBox().top();
-            if (block.blockType().toString() == "WORD" && top > 0.05 && left < 0.7) {
-                if (left <= 0.1) {
-                    LOGGER.info("1 " + block.text()); // date
-                } else if (0.1 < left && left <= 0.18) {
-                    LOGGER.info("2 " + block.text()); // Pairing
-                } else if (0.18 < left && left <= 0.24) {
-                    LOGGER.info("3 " + block.text()); // DC
-                } else if (0.24 < left && left <= 0.3) {
-                    LOGGER.info("4 " + block.text()); //c/i
-                } else if (0.3 < left && left <= 0.37) {
-                    LOGGER.info("5 " + block.text()); // c/o
-                } else if (0.37 < left && left <= 0.46) {
-                    LOGGER.info("6 " + block.text()); // Activity
-                } else if (0.46 < left && left <= 0.52) {
-                    LOGGER.info("7 " + block.text()); // from
-                } else if (0.52 < left && left <= 0.58) {
-                    LOGGER.info("8 " + block.text()); // std
-                } else if (0.58 < left && left <= 0.65) {
-                    LOGGER.info("9 " + block.text()); // to
-                } else if (0.65 < left && left <= 0.7) {
-                    LOGGER.info("10 " + block.text()); // sta
-                } else {
-                    LOGGER.info("null");
-                }
-
+            if (block.blockType().equals(BlockType.WORD) && top < 0.05) {
+                lines.add(block.geometry().polygon().get(0).x());
+                blocks.add(block);
             }
         }
+        map.put("lines", lines);
+        map.put("blocks",blocks);
+        return map;
     }
 
-    public void ex2(Iterator<Block> blockIterator) {
-        List<Schedule> schedules = new ArrayList<>();
+    public void ex2(List<Float> lines, List<Block> blocks) {
+        String[] entity = {"", "", "", "", "", "", "", "", "", ""};
         String line = "";
         int line_change = 0;
-
+        int size = blocks.size();
+        for(int i=0; i<size; i++){
+            blocks.get(i);
+        }
         while (blockIterator.hasNext()) {
             Block block = blockIterator.next();
             float left = block.geometry().boundingBox().left();
             float top = block.geometry().boundingBox().top();
-            if (line_change != Math.round(top * 100)) {
-                String[] s = line.split("- ");
-                // 문자열을 쪼갠 배열을 엔티티에 저장해야함
-                /*
-                    블록 X: 3 10 18 26 33 37 46 55 59 68
-                 ex) 1번 기준
-                           3             37 46 55 59 68
-                    37 - 3 = 34 / ? = 4
-                */
-                line = "";
-            }
             if (block.blockType().equals(BlockType.WORD) && top > 0.05 && left < 0.7) {
-                line_change = Math.round(top * 100);
-                line += block.text() + "- ";
-                int x = Math.round(block.geometry().polygon().get(0).x()*100);
-                LOGGER.info(String.valueOf(x));
+                int x = Math.round(block.geometry().polygon().get(1).x());
+                for (int i = 1; i <= lines.size(); i++) {
+                    if (x <= lines.get(i) && x >= lines.get(i - 1)) {
+                        entity[i] = block.text();
+                        LOGGER.info(block.text());
+                    }
+                }
             }
-        }
-        try {
-            System.out.println(schedules.get(0));
-        } catch (Exception e) {
-            System.out.println("error! : " + e);
         }
     }
 }

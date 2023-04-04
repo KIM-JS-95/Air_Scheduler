@@ -39,6 +39,7 @@ public class AWStextrack {
 
     public static Iterator<Block> analyzeDoc(TextractClient textractClient, InputStream sourceDoc) {
         Iterator<Block> docInfo=null;
+
         try {
             SdkBytes sourceBytes = SdkBytes.fromInputStream(sourceDoc);
             Document myDoc = Document.builder()
@@ -47,7 +48,7 @@ public class AWStextrack {
 
             List<FeatureType> featureTypes = new ArrayList<FeatureType>();
             featureTypes.add(FeatureType.TABLES);
-            //featureTypes.add(FeatureType.FORMS);
+            featureTypes.add(FeatureType.FORMS);
 
             AnalyzeDocumentRequest analyzeDocumentRequest = AnalyzeDocumentRequest.builder()
                     .featureTypes(featureTypes)

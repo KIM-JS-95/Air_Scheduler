@@ -90,23 +90,10 @@ public class AWStextrackTest {
         String[] entity = {"", "", "", "", "", "", "", "", "", ""};
         String line = "";
         int line_change = 0;
-        int size = blocks.size();
+        int size = lines.size();
         for(int i=0; i<size; i++){
-            blocks.get(i);
+            LOGGER.info(String.valueOf(lines.get(i)));
         }
-        while (blockIterator.hasNext()) {
-            Block block = blockIterator.next();
-            float left = block.geometry().boundingBox().left();
-            float top = block.geometry().boundingBox().top();
-            if (block.blockType().equals(BlockType.WORD) && top > 0.05 && left < 0.7) {
-                int x = Math.round(block.geometry().polygon().get(1).x());
-                for (int i = 1; i <= lines.size(); i++) {
-                    if (x <= lines.get(i) && x >= lines.get(i - 1)) {
-                        entity[i] = block.text();
-                        LOGGER.info(block.text());
-                    }
-                }
-            }
-        }
+
     }
 }

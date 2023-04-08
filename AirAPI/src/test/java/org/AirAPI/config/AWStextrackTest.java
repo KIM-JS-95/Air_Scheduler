@@ -1,6 +1,5 @@
 package org.AirAPI.config;
 
-import org.AirAPI.entity.Schedule;
 import org.junit.jupiter.api.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +14,7 @@ import software.amazon.awssdk.services.textract.model.BlockType;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.math.BigDecimal;
 import java.util.*;
 
 //@SpringBootTest
@@ -64,36 +64,57 @@ public class AWStextrackTest {
         FileInputStream fileInputStream = new FileInputStream(filePath);
         Iterator<Block> blockIterator1 = AWStextrack.analyzeDoc(textractClient, fileInputStream);
         //AnalyzeDocumentResponse blockIterator2 = AWStextrack.analyzeDoc2(textractClient, fileInputStream);
-        Map<String, List> map = ex1(blockIterator1);
-        ex2(map.get("lines"), map.get("blocks"));
+        Map<String, Float> map = ex1(blockIterator1);
+        ex2(map, blockIterator1);
     }
 
 
-    public Map<String, List> ex1(Iterator<Block> blockIterator) {
+    public Map<String, Float> ex1(Iterator<Block> blockIterator) {
         List<Block> blocks = new ArrayList<>();
-        List<Float> lines = new ArrayList<>();
-        Map<String, List> map = new HashMap<>();
+        Map<String, Float> lines = new HashMap<>();
         while (blockIterator.hasNext()) {
             Block block = blockIterator.next();
             float top = block.geometry().boundingBox().top();
             if (block.blockType().equals(BlockType.WORD) && top < 0.05) {
-                lines.add(block.geometry().polygon().get(0).x());
-                blocks.add(block);
+                String mattcher = "(Date|Pairing|DC|C/I|C/O|Activity|From|STD|To|STA|AC|Blk)";
+                if (block.text().matches(mattcher)) {
+                    LOGGER.info(block.text());
+                    lines.put(block.text(), block.geometry().polygon().get(0).x());
+                }
             }
         }
-        map.put("lines", lines);
-        map.put("blocks",blocks);
-        return map;
+        return lines;
     }
 
-    public void ex2(List<Float> lines, List<Block> blocks) {
+    public void ex2(Map<String, Float> lines, Iterator<Block> blockIterator) {
         String[] entity = {"", "", "", "", "", "", "", "", "", ""};
         String line = "";
         int line_change = 0;
-        int size = lines.size();
-        for(int i=0; i<size; i++){
-            LOGGER.info(String.valueOf(lines.get(i)));
+        sortByValue(lines);
+        for (Map.Entry entry : lines.entrySet()) {
+            System.out.println("key: " + entry.getKey() + "; value: " + entry.getValue());
         }
+        /*
+        while (blockIterator.hasNext()) {
+            Block block = blockIterator.next();
+            float top = block.geometry().boundingBox().top();
+            if (block.blockType().equals(BlockType.WORD) && top > 0.05) {
+                if (block.geometry().polygon().get(0).x())
 
+            }
+        }
+        */
+    }
+
+    public void sortByValue(Map<String, Float> map) {
+        List<Map.Entry<String, Float>> entryList = new LinkedList<>(map.entrySet());
+        entryList.sort(((o1, o2) -> {
+            BigDecimal a = new BigDecimal(map.get(o1.getKey()));
+            BigDecimal b = new BigDecimal(map.get(o2.getKey()));
+            return a.subtract(b).floatValue();
+        });
+        for (Map.Entry<String, Float> entry : entryList) {
+            System.out.println("key : " + entry.getKey() + ", value : " + entry.getValue());
+        }
     }
 }

@@ -59,8 +59,8 @@ public class AWStextrackTest {
 
     @Test
     public void docTest() throws IOException {
-        //String filePath = "C:\\Users\\JAESEUNG\\IdeaProjects\\Air_Scheduler\\AirAPI\\src\\main\\resources\\static\\img\\sample.jpg";
-        String filePath = "D:\\Air_Scheduler\\AirAPI\\src\\main\\resources\\static\\img\\sample.jpg";
+        String filePath = "C:\\Users\\JAESEUNG\\IdeaProjects\\Air_Scheduler\\AirAPI\\src\\main\\resources\\static\\img\\sample.jpg";
+        //String filePath = "D:\\Air_Scheduler\\AirAPI\\src\\main\\resources\\static\\img\\sample.jpg";
         FileInputStream fileInputStream = new FileInputStream(filePath);
         Iterator<Block> blockIterator1 = AWStextrack.analyzeDoc(textractClient, fileInputStream);
         //AnalyzeDocumentResponse blockIterator2 = AWStextrack.analyzeDoc2(textractClient, fileInputStream);
@@ -70,7 +70,7 @@ public class AWStextrackTest {
 
 
     public Map<String, Float> ex1(Iterator<Block> blockIterator) {
-        List<Block> blocks = new ArrayList<>();
+        //List<Block> blocks = new ArrayList<>();
         Map<String, Float> lines = new HashMap<>();
         while (blockIterator.hasNext()) {
             Block block = blockIterator.next();
@@ -111,10 +111,22 @@ public class AWStextrackTest {
         entryList.sort(((o1, o2) -> {
             BigDecimal a = new BigDecimal(map.get(o1.getKey()));
             BigDecimal b = new BigDecimal(map.get(o2.getKey()));
-            return a.subtract(b).floatValue();
-        });
+            return (int) a.subtract(b).floatValue();
+        }));
         for (Map.Entry<String, Float> entry : entryList) {
             System.out.println("key : " + entry.getKey() + ", value : " + entry.getValue());
         }
+    }
+
+    @Test
+    public void sorttest(){
+        Map<String, Float> lines=new HashMap<>();
+        lines.put("Blk",0.916665f);
+        lines.put("STA",0.60274595f);
+        lines.put("C/O",0.27800912f);
+        lines.put("STD",0.48183724f);
+        lines.put("Activity",0.337937f);
+
+        sortByValue(lines);
     }
 }

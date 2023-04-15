@@ -1,7 +1,6 @@
 package org.AirAPI.config;
 
 import org.AirAPI.entity.Schedule;
-import org.json.simple.parser.ParseException;
 import org.junit.jupiter.api.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,9 +11,6 @@ import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.textract.TextractClient;
 import software.amazon.awssdk.services.textract.model.Block;
 import software.amazon.awssdk.services.textract.model.BlockType;
-
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 
 import java.io.*;
 import java.math.BigDecimal;
@@ -68,34 +64,38 @@ public class AWStextrackTest {
         FileInputStream fileInputStream = new FileInputStream(filePath);
         Iterator<Block> blocks = AWStextrack.analyzeDoc(textractClient, fileInputStream);
         //AnalyzeDocumentResponse blockIterator2 = AWStextrack.analyzeDoc2(textractClient, fileInputStream);
-
-        Map<String, Float> map = getlines(blocks);
-        List<Map.Entry<String, Float>> entrylist = sortByValue(map);
-        ex2(entrylist, blocks);
+        Map<String, Map<String, Float>> map = getlines(blocks);
+        List<Map.Entry<String, Float>> lines = sortByValue(map.get("lines"));
+        ex2(map.get("lines"), map.get("blockList"));
     }
 // Iterator 순회하면 이꼴나는걸 왜 몰랐지?
-    public Map<String, Float> getlines(Iterator<Block> blockIterator) {
+    public Map<String, Map<String, Float>> getlines(Iterator<Block> blockIterator) {
         Map<String, Float> lines = new HashMap<>();
-        Map<String, Float> blocks = new HashMap<>();
+        Map<String, Float> blockList = new HashMap<>();
+        Map<String, Map<String, Float>> answer = new HashMap<>();
+
         while (blockIterator.hasNext()) {
             Block block = blockIterator.next();
             float top = block.geometry().boundingBox().top();
-            if (block.blockType().equals(BlockType.WORD)) {
+            if (block.blockType().equals(BlockType.WORD) && top < 0.05) {
                 String mattcher = "(Date|Pairing|DC|C/1|C/O|Activity|From|STD|To|STA)";
                 if (block.text().matches(mattcher)) {
                     lines.put(block.text(), block.geometry().polygon().get(0).x());
+                }else{
+                    blockList.put(block.text(), block.geometry().polygon().get(0).x());
                 }
-                blocks.put(block.text(),);
             }
         }
-        return lines;
+        answer.put("lines", lines);
+        answer.put("blockList", blockList);
+        return answer;
     }
 
-    public void ex2(List<Map.Entry<String, Float>> lines, Iterator<Block> blockIterator) {
+    public void ex2(Map<String, Float> lines, Map<String, Float> blocks) {
         Schedule schedule = new Schedule();
-        while (blockIterator.hasNext()) {
-            LOGGER.info("start!");
-            Block block = blockIterator.next();
+
+        while (blocks.hasNext()) {
+            Block block = blocks.next();
             float top = block.geometry().boundingBox().top();
             if (block.blockType().equals(BlockType.WORD)) {
                 if(block.text().equals("Date")) {

@@ -1,5 +1,7 @@
 package org.AirAPI.config;
 
+import org.AirAPI.entity.Schedule;
+import org.json.simple.parser.ParseException;
 import org.junit.jupiter.api.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,9 +13,10 @@ import software.amazon.awssdk.services.textract.TextractClient;
 import software.amazon.awssdk.services.textract.model.Block;
 import software.amazon.awssdk.services.textract.model.BlockType;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+
+import java.io.*;
 import java.math.BigDecimal;
 import java.util.*;
 
@@ -31,6 +34,7 @@ public class AWStextrackTest {
     private static TextractClient textractClient;
 
     @BeforeAll
+    @Disabled
     public void access_init() {
         region = Region.US_WEST_2;
 
@@ -58,74 +62,100 @@ public class AWStextrackTest {
     }
 
     @Test
-    public void docTest() throws IOException {
-        String filePath = "C:\\Users\\JAESEUNG\\IdeaProjects\\Air_Scheduler\\AirAPI\\src\\main\\resources\\static\\img\\sample.jpg";
-        //String filePath = "D:\\Air_Scheduler\\AirAPI\\src\\main\\resources\\static\\img\\sample.jpg";
+    public void docTest() throws IOException{
+        //String filePath = "C:\\Users\\JAESEUNG\\IdeaProjects\\Air_Scheduler\\AirAPI\\src\\main\\resources\\static\\img\\sample.jpg";
+        String filePath = "D:\\Air_Scheduler\\AirAPI\\src\\main\\resources\\static\\img\\sample.jpg";
         FileInputStream fileInputStream = new FileInputStream(filePath);
-        Iterator<Block> blockIterator1 = AWStextrack.analyzeDoc(textractClient, fileInputStream);
+        Iterator<Block> blocks = AWStextrack.analyzeDoc(textractClient, fileInputStream);
         //AnalyzeDocumentResponse blockIterator2 = AWStextrack.analyzeDoc2(textractClient, fileInputStream);
-        Map<String, Float> map = ex1(blockIterator1);
-        ex2(map, blockIterator1);
+
+        Map<String, Float> map = getlines(blocks);
+        List<Map.Entry<String, Float>> entrylist = sortByValue(map);
+        ex2(entrylist, blocks);
     }
-
-
-    public Map<String, Float> ex1(Iterator<Block> blockIterator) {
-        //List<Block> blocks = new ArrayList<>();
+// Iterator 순회하면 이꼴나는걸 왜 몰랐지?
+    public Map<String, Float> getlines(Iterator<Block> blockIterator) {
         Map<String, Float> lines = new HashMap<>();
+        Map<String, Float> blocks = new HashMap<>();
         while (blockIterator.hasNext()) {
             Block block = blockIterator.next();
             float top = block.geometry().boundingBox().top();
-            if (block.blockType().equals(BlockType.WORD) && top < 0.05) {
-                String mattcher = "(Date|Pairing|DC|C/I|C/O|Activity|From|STD|To|STA|AC|Blk)";
+            if (block.blockType().equals(BlockType.WORD)) {
+                String mattcher = "(Date|Pairing|DC|C/1|C/O|Activity|From|STD|To|STA)";
                 if (block.text().matches(mattcher)) {
-                    LOGGER.info(block.text());
                     lines.put(block.text(), block.geometry().polygon().get(0).x());
                 }
+                blocks.put(block.text(),);
             }
         }
         return lines;
     }
 
-    public void ex2(Map<String, Float> lines, Iterator<Block> blockIterator) {
-        String[] entity = {"", "", "", "", "", "", "", "", "", ""};
-        String line = "";
-        int line_change = 0;
-        sortByValue(lines);
-        for (Map.Entry entry : lines.entrySet()) {
-            System.out.println("key: " + entry.getKey() + "; value: " + entry.getValue());
-        }
-        /*
+    public void ex2(List<Map.Entry<String, Float>> lines, Iterator<Block> blockIterator) {
+        Schedule schedule = new Schedule();
         while (blockIterator.hasNext()) {
+            LOGGER.info("start!");
             Block block = blockIterator.next();
             float top = block.geometry().boundingBox().top();
-            if (block.blockType().equals(BlockType.WORD) && top > 0.05) {
-                if (block.geometry().polygon().get(0).x())
-
+            if (block.blockType().equals(BlockType.WORD)) {
+                if(block.text().equals("Date")) {
+                    schedule.setDate(block.text());
+                }
+                if(block.text().equals("Pairing")) {
+                    schedule.setPairing(block.text());
+                }
+                if(block.text().equals("DC")) {
+                    schedule.setDc(block.text());
+                }
+                if(block.text().equals("C/1")) {
+                    schedule.setCi(block.text());
+                }
+                if(block.text().equals("C/O")) {
+                    schedule.setCo(block.text());
+                }
+                if(block.text().equals("Activity")) {
+                    schedule.setActivity(block.text());
+                }
+                if(block.text().equals("From")) {
+                    schedule.setCnt_from(block.text());
+                }
+                if(block.text().equals("STD")) {
+                    schedule.setStd(block.text());
+                }
+                if(block.text().equals("To")) {
+                    schedule.setCnt_to(block.text());
+                }
+                if(block.text().equals("STA")) {
+                    schedule.setSta(block.text());
+                }
             }
+            LOGGER.info(schedule.toString());
         }
-        */
     }
 
-    public void sortByValue(Map<String, Float> map) {
+    public List<Map.Entry<String, Float>> sortByValue(Map<String, Float> map) {
         List<Map.Entry<String, Float>> entryList = new LinkedList<>(map.entrySet());
         entryList.sort(((o1, o2) -> {
             BigDecimal a = new BigDecimal(map.get(o1.getKey()));
             BigDecimal b = new BigDecimal(map.get(o2.getKey()));
-            return (int) a.subtract(b).floatValue();
+            return a.compareTo(b);
         }));
+        /*
         for (Map.Entry<String, Float> entry : entryList) {
             System.out.println("key : " + entry.getKey() + ", value : " + entry.getValue());
         }
+        */
+        return entryList;
     }
 
     @Test
-    public void sorttest(){
-        Map<String, Float> lines=new HashMap<>();
-        lines.put("Blk",0.916665f);
-        lines.put("STA",0.60274595f);
-        lines.put("C/O",0.27800912f);
-        lines.put("STD",0.48183724f);
-        lines.put("Activity",0.337937f);
+    public void sorttest() {
+        Map<String, Float> lines = new HashMap<>();
+        lines.put("Blk", 0.916665f);
+        lines.put("STA", 0.60274595f);
+        lines.put("C/O", 0.27800912f);
+        lines.put("STD", 0.48183724f);
+        lines.put("Activity", 0.337937f);
 
         sortByValue(lines);
     }

@@ -58,78 +58,75 @@ public class AWStextrackTest {
     }
 
     @Test
-    public void docTest() throws IOException{
+    public void docTest() throws IOException {
         //String filePath = "C:\\Users\\JAESEUNG\\IdeaProjects\\Air_Scheduler\\AirAPI\\src\\main\\resources\\static\\img\\sample.jpg";
         String filePath = "D:\\Air_Scheduler\\AirAPI\\src\\main\\resources\\static\\img\\sample.jpg";
         FileInputStream fileInputStream = new FileInputStream(filePath);
         Iterator<Block> blocks = AWStextrack.analyzeDoc(textractClient, fileInputStream);
-        //AnalyzeDocumentResponse blockIterator2 = AWStextrack.analyzeDoc2(textractClient, fileInputStream);
-        Map<String, Map<String, Float>> map = getlines(blocks);
-        List<Map.Entry<String, Float>> lines = sortByValue(map.get("lines"));
-        ex2(map.get("lines"), map.get("blockList"));
+        List<Block> blockslist = IteraterToList(blocks);
+        Map<String, Float> scheduleIndex = getlines(blockslist);
+        //List<Map.Entry<String, Float>> lines = sortByValue(map.get("lines"));
+        ex2(scheduleIndex, blockslist);
     }
-// Iterator 순회하면 이꼴나는걸 왜 몰랐지?
-    public Map<String, Map<String, Float>> getlines(Iterator<Block> blockIterator) {
-        Map<String, Float> lines = new HashMap<>();
-        Map<String, Float> blockList = new HashMap<>();
-        Map<String, Map<String, Float>> answer = new HashMap<>();
 
+    public List<Block> IteraterToList(Iterator<Block> blockIterator) {
+        List<Block> list = new ArrayList<>();
         while (blockIterator.hasNext()) {
             Block block = blockIterator.next();
-            float top = block.geometry().boundingBox().top();
-            if (block.blockType().equals(BlockType.WORD) && top < 0.05) {
+            if (block.blockType().equals(BlockType.WORD)) {
+                list.add(block);
+            }
+        }
+        return list;
+    }
+
+    public Map<String, Float> getlines(List<Block> blockslist) {
+        Map<String, Float> lines = new HashMap<>();
+        for (int i = 0; i < 1; i++) {
+            Block block = blockslist.get(i);
+            if (block.blockType().equals(BlockType.WORD)) {
                 String mattcher = "(Date|Pairing|DC|C/1|C/O|Activity|From|STD|To|STA)";
                 if (block.text().matches(mattcher)) {
                     lines.put(block.text(), block.geometry().polygon().get(0).x());
-                }else{
-                    blockList.put(block.text(), block.geometry().polygon().get(0).x());
                 }
             }
         }
-        answer.put("lines", lines);
-        answer.put("blockList", blockList);
-        return answer;
+        return lines;
     }
-
-    public void ex2(Map<String, Float> lines, Map<String, Float> blocks) {
+    public void ex2(Map<String, Float> scheduleIndex, List<Block> list) {
         Schedule schedule = new Schedule();
-
-        while (blocks.hasNext()) {
-            Block block = blocks.next();
-            float top = block.geometry().boundingBox().top();
-            if (block.blockType().equals(BlockType.WORD)) {
-                if(block.text().equals("Date")) {
-                    schedule.setDate(block.text());
-                }
-                if(block.text().equals("Pairing")) {
-                    schedule.setPairing(block.text());
-                }
-                if(block.text().equals("DC")) {
-                    schedule.setDc(block.text());
-                }
-                if(block.text().equals("C/1")) {
-                    schedule.setCi(block.text());
-                }
-                if(block.text().equals("C/O")) {
-                    schedule.setCo(block.text());
-                }
-                if(block.text().equals("Activity")) {
-                    schedule.setActivity(block.text());
-                }
-                if(block.text().equals("From")) {
-                    schedule.setCnt_from(block.text());
-                }
-                if(block.text().equals("STD")) {
-                    schedule.setStd(block.text());
-                }
-                if(block.text().equals("To")) {
-                    schedule.setCnt_to(block.text());
-                }
-                if(block.text().equals("STA")) {
-                    schedule.setSta(block.text());
-                }
+        for(int i=0; i<list.size(); i++){
+            Block block = list.get(i);
+            if (block.text().equals("Date")) {
+                schedule.setDate(block.text());
             }
-            LOGGER.info(schedule.toString());
+            if (block.text().equals("Pairing")) {
+                schedule.setPairing(block.text());
+            }
+            if (block.text().equals("DC")) {
+                schedule.setDc(block.text());
+            }
+            if (block.text().equals("C/1")) {
+                schedule.setCi(block.text());
+            }
+            if (block.text().equals("C/O")) {
+                schedule.setCo(block.text());
+            }
+            if (block.text().equals("Activity")) {
+                schedule.setActivity(block.text());
+            }
+            if (block.text().equals("From")) {
+                schedule.setCnt_from(block.text());
+            }
+            if (block.text().equals("STD")) {
+                schedule.setStd(block.text());
+            }
+            if (block.text().equals("To")) {
+                schedule.setCnt_to(block.text());
+            }
+            if (block.text().equals("STA")) {
+                schedule.setSta(block.text());
+            }
         }
     }
 
@@ -140,11 +137,9 @@ public class AWStextrackTest {
             BigDecimal b = new BigDecimal(map.get(o2.getKey()));
             return a.compareTo(b);
         }));
-        /*
         for (Map.Entry<String, Float> entry : entryList) {
             System.out.println("key : " + entry.getKey() + ", value : " + entry.getValue());
         }
-        */
         return entryList;
     }
 

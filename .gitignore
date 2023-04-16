@@ -1,3 +1,3 @@
 *.properties
-AirAPI/build/test-result
-AirAPI/build/reports
+AirAPI/build/test-result/*
+AirAPI/build/reports/*

@@ -13,7 +13,6 @@ import software.amazon.awssdk.services.textract.model.Block;
 import software.amazon.awssdk.services.textract.model.BlockType;
 
 import java.io.*;
-import java.math.BigDecimal;
 import java.util.*;
 
 //@SpringBootTest
@@ -30,7 +29,7 @@ public class AWStextrackTest {
     private static TextractClient textractClient;
 
     @BeforeAll
-    @Disabled
+    //@Disabled
     public void access_init() {
         region = Region.US_WEST_2;
 
@@ -59,14 +58,14 @@ public class AWStextrackTest {
 
     @Test
     public void docTest() throws IOException {
-        //String filePath = "C:\\Users\\JAESEUNG\\IdeaProjects\\Air_Scheduler\\AirAPI\\src\\main\\resources\\static\\img\\sample.jpg";
-        String filePath = "D:\\Air_Scheduler\\AirAPI\\src\\main\\resources\\static\\img\\sample.jpg";
+        String filePath = "C:\\Users\\JAESEUNG\\IdeaProjects\\Air_Scheduler\\AirAPI\\src\\main\\resources\\static\\img\\sample.jpg";
+        //String filePath = "D:\\Air_Scheduler\\AirAPI\\src\\main\\resources\\static\\img\\sample.jpg";
         FileInputStream fileInputStream = new FileInputStream(filePath);
         Iterator<Block> blocks = AWStextrack.analyzeDoc(textractClient, fileInputStream);
         List<Block> blockslist = IteraterToList(blocks);
         Map<String, Float> scheduleIndex = getlines(blockslist);
-        //List<Map.Entry<String, Float>> lines = sortByValue(map.get("lines"));
-        ex2(scheduleIndex, blockslist);
+        List<Float> lines = sortByValue(scheduleIndex);
+        ex2(lines, blockslist);
     }
 
     public List<Block> IteraterToList(Iterator<Block> blockIterator) {
@@ -82,64 +81,40 @@ public class AWStextrackTest {
 
     public Map<String, Float> getlines(List<Block> blockslist) {
         Map<String, Float> lines = new HashMap<>();
-        for (int i = 0; i < 1; i++) {
+        for (int i = 0; i < blockslist.size(); i++) {
             Block block = blockslist.get(i);
-            if (block.blockType().equals(BlockType.WORD)) {
-                String mattcher = "(Date|Pairing|DC|C/1|C/O|Activity|From|STD|To|STA)";
-                if (block.text().matches(mattcher)) {
-                    lines.put(block.text(), block.geometry().polygon().get(0).x());
-                }
+            String mattcher = "(Date|Pairing|DC|C/1|C/O|Activity|From|STD|To|STA)";
+            if (block.text().matches(mattcher)) {
+                lines.put(block.text(), block.geometry().polygon().get(0).x());
             }
+            if(block.text()=="STA") break;
         }
         return lines;
     }
-    public void ex2(Map<String, Float> scheduleIndex, List<Block> list) {
+
+    public void ex2(List<Float> scheduleIndex, List<Block> list) {
+        /*
+            21:48:59.950 [Test worker] INFO org.AirAPI.config.AWStextrackTest - 0.004148122
+            21:48:59.950 [Test worker] INFO org.AirAPI.config.AWStextrackTest - 0.08701322
+            21:48:59.950 [Test worker] INFO org.AirAPI.config.AWStextrackTest - 0.17003645
+            21:48:59.950 [Test worker] INFO org.AirAPI.config.AWStextrackTest - 0.21753336
+            21:48:59.950 [Test worker] INFO org.AirAPI.config.AWStextrackTest - 0.27800912
+            21:48:59.950 [Test worker] INFO org.AirAPI.config.AWStextrackTest - 0.337937
+            21:48:59.950 [Test worker] INFO org.AirAPI.config.AWStextrackTest - 0.4218124
+            21:48:59.950 [Test worker] INFO org.AirAPI.config.AWStextrackTest - 0.48183724
+            21:48:59.950 [Test worker] INFO org.AirAPI.config.AWStextrackTest - 0.5422942
+            21:48:59.950 [Test worker] INFO org.AirAPI.config.AWStextrackTest - 0.60274595
+        */
         Schedule schedule = new Schedule();
-        for(int i=0; i<list.size(); i++){
-            Block block = list.get(i);
-            if (block.text().equals("Date")) {
-                schedule.setDate(block.text());
-            }
-            if (block.text().equals("Pairing")) {
-                schedule.setPairing(block.text());
-            }
-            if (block.text().equals("DC")) {
-                schedule.setDc(block.text());
-            }
-            if (block.text().equals("C/1")) {
-                schedule.setCi(block.text());
-            }
-            if (block.text().equals("C/O")) {
-                schedule.setCo(block.text());
-            }
-            if (block.text().equals("Activity")) {
-                schedule.setActivity(block.text());
-            }
-            if (block.text().equals("From")) {
-                schedule.setCnt_from(block.text());
-            }
-            if (block.text().equals("STD")) {
-                schedule.setStd(block.text());
-            }
-            if (block.text().equals("To")) {
-                schedule.setCnt_to(block.text());
-            }
-            if (block.text().equals("STA")) {
-                schedule.setSta(block.text());
-            }
+        for (Float l:scheduleIndex){
+            LOGGER.info(String.valueOf(l));
         }
+
     }
 
-    public List<Map.Entry<String, Float>> sortByValue(Map<String, Float> map) {
-        List<Map.Entry<String, Float>> entryList = new LinkedList<>(map.entrySet());
-        entryList.sort(((o1, o2) -> {
-            BigDecimal a = new BigDecimal(map.get(o1.getKey()));
-            BigDecimal b = new BigDecimal(map.get(o2.getKey()));
-            return a.compareTo(b);
-        }));
-        for (Map.Entry<String, Float> entry : entryList) {
-            System.out.println("key : " + entry.getKey() + ", value : " + entry.getValue());
-        }
+    public List<Float> sortByValue(Map<String, Float> map) {
+        List<Float> entryList = new LinkedList<>(map.values());
+        entryList.sort(Float::compareTo);
         return entryList;
     }
 
@@ -154,4 +129,5 @@ public class AWStextrackTest {
 
         sortByValue(lines);
     }
+
 }

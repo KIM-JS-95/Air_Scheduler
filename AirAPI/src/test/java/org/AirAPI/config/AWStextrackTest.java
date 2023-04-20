@@ -1,5 +1,6 @@
 package org.AirAPI.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.AirAPI.entity.Schedule;
 import org.junit.jupiter.api.*;
 import org.slf4j.Logger;
@@ -11,6 +12,7 @@ import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.textract.TextractClient;
 import software.amazon.awssdk.services.textract.model.Block;
 import software.amazon.awssdk.services.textract.model.BlockType;
+import com.fasterxml.jackson.core.type.TypeReference;
 
 import java.io.*;
 import java.util.*;
@@ -87,9 +89,62 @@ public class AWStextrackTest {
             if (block.text().matches(mattcher)) {
                 lines.put(block.text(), block.geometry().polygon().get(0).x());
             }
-            if(block.text()=="STA") break;
+            if (block.text() == "STA") break;
         }
         return lines;
+    }
+
+    @Test
+    public void setEntity() throws IOException {
+        List<Float> scheduleIndex = new ArrayList<>();
+        scheduleIndex.add(0.004148122f);
+        scheduleIndex.add(0.08701322f);
+        scheduleIndex.add(0.17003645f);
+        scheduleIndex.add(0.21753336f);
+        scheduleIndex.add(0.27800912f);
+        scheduleIndex.add(0.337937f);
+        List<Dummy> block = readJsonFile();
+        ex2_test(scheduleIndex, block);
+    }
+
+    public void ex2_test(List<Float> scheduleIndex, List<Dummy> list) {
+        /*
+            21:48:59.950 [Test worker] INFO org.AirAPI.config.AWStextrackTest - 0.004148122
+            21:48:59.950 [Test worker] INFO org.AirAPI.config.AWStextrackTest - 0.08701322
+            21:48:59.950 [Test worker] INFO org.AirAPI.config.AWStextrackTest - 0.17003645
+            21:48:59.950 [Test worker] INFO org.AirAPI.config.AWStextrackTest - 0.21753336
+            21:48:59.950 [Test worker] INFO org.AirAPI.config.AWStextrackTest - 0.27800912
+            21:48:59.950 [Test worker] INFO org.AirAPI.config.AWStextrackTest - 0.337937
+            21:48:59.950 [Test worker] INFO org.AirAPI.config.AWStextrackTest - 0.4218124
+            21:48:59.950 [Test worker] INFO org.AirAPI.config.AWStextrackTest - 0.48183724
+            21:48:59.950 [Test worker] INFO org.AirAPI.config.AWStextrackTest - 0.5422942
+            21:48:59.950 [Test worker] INFO org.AirAPI.config.AWStextrackTest - 0.60274595
+        */
+        Schedule schedule = new Schedule();
+        try {
+            for (Dummy block : list) {
+                if (Float.parseFloat(block.getX()) < scheduleIndex.get(4)) {
+                    schedule.setDate(block.getX());
+                }
+            }
+        }catch (NumberFormatException e){
+            e.printStackTrace();
+        }
+        LOGGER.info(schedule.getDate());
+    }
+
+    public List<Dummy> readJsonFile() throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        File file = new File("C:\\Users\\JAESEUNG\\IdeaProjects\\Air_Scheduler\\AirAPI\\src\\main\\resources\\analyzeDocResponse_test.json");
+        try {
+            List<Dummy> entities = objectMapper.readValue(file, new TypeReference<List<Dummy>>() {
+            });
+            return entities;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 
     public void ex2(List<Float> scheduleIndex, List<Block> list) {
@@ -106,10 +161,12 @@ public class AWStextrackTest {
             21:48:59.950 [Test worker] INFO org.AirAPI.config.AWStextrackTest - 0.60274595
         */
         Schedule schedule = new Schedule();
-        for (Float l:scheduleIndex){
-            LOGGER.info(String.valueOf(l));
+        for (Block block : list) {
+            if (block.geometry().polygon().get(0).x() < scheduleIndex.get(1)) {
+                schedule.setDate(block.text());
+            }
         }
-
+        LOGGER.info(schedule.getDate());
     }
 
     public List<Float> sortByValue(Map<String, Float> map) {

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="org.AirAPI.config.AWStextrackTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2023-04-20T13:26:28" hostname="DESKTOP-R7AB2GV" time="0.276">
+<testsuite name="org.AirAPI.config.AWStextrackTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2023-04-21T12:38:18" hostname="DESKTOP-CLGUOMH" time="0.395">
   <properties/>
-  <testcase name="setEntity()" classname="org.AirAPI.config.AWStextrackTest" time="0.276"/>
-  <system-out><![CDATA[22:26:29.145 [Test worker] INFO org.AirAPI.config.AWStextrackTest - 0.23957549035549164
+  <testcase name="setEntity()" classname="org.AirAPI.config.AWStextrackTest" time="0.395"/>
+  <system-out><![CDATA[21:38:18.850 [Test worker] INFO org.AirAPI.config.AWStextrackTest - 0.23957549035549164
 ]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

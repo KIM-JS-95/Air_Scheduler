@@ -135,7 +135,9 @@ public class AWStextrackTest {
 
     public List<Dummy> readJsonFile() throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
-        File file = new File("C:\\Users\\JAESEUNG\\IdeaProjects\\Air_Scheduler\\AirAPI\\src\\main\\resources\\analyzeDocResponse_test.json");
+        //File file = new File("C:\\Users\\JAESEUNG\\IdeaProjects\\Air_Scheduler\\AirAPI\\src\\main\\resources\\analyzeDocResponse_test.json");
+        File file = new File("D:\\Air_Scheduler\\AirAPI\\src\\main\\resources\\analyzeDocResponse_test.json");
+
         try {
             List<Dummy> entities = objectMapper.readValue(file, new TypeReference<List<Dummy>>() {
             });

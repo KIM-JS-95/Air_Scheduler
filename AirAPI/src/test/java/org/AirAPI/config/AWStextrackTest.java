@@ -60,13 +60,14 @@ public class AWStextrackTest {
 
     @Test
     public void docTest() throws IOException {
-        String filePath = "C:\\Users\\JAESEUNG\\IdeaProjects\\Air_Scheduler\\AirAPI\\src\\main\\resources\\static\\img\\sample.jpg";
-        //String filePath = "D:\\Air_Scheduler\\AirAPI\\src\\main\\resources\\static\\img\\sample.jpg";
+        //String filePath = "C:\\Users\\JAESEUNG\\IdeaProjects\\Air_Scheduler\\AirAPI\\src\\main\\resources\\static\\img\\sample.jpg";
+        String filePath = "D:\\Air_Scheduler\\AirAPI\\src\\main\\resources\\static\\img\\sample.jpg";
         FileInputStream fileInputStream = new FileInputStream(filePath);
         Iterator<Block> blocks = AWStextrack.analyzeDoc(textractClient, fileInputStream);
         List<Block> blockslist = IteraterToList(blocks);
         Map<String, Float> scheduleIndex = getlines(blockslist);
         List<Float> lines = sortByValue(scheduleIndex);
+        //System.out.println("SIze: "+lines.size());
         ex2(lines, blockslist);
     }
 
@@ -85,90 +86,44 @@ public class AWStextrackTest {
         Map<String, Float> lines = new HashMap<>();
         for (int i = 0; i < blockslist.size(); i++) {
             Block block = blockslist.get(i);
-            String mattcher = "(Date|Pairing|DC|C/1|C/O|Activity|From|STD|To|STA)";
+            String mattcher = "(Date|Pairing|DC|C/1|C/O|Activity|From|STD|To|STA|AC/Hotel)";
             if (block.text().matches(mattcher)) {
                 lines.put(block.text(), block.geometry().polygon().get(0).x());
             }
-            if (block.text() == "STA") break;
+            if (block.text() == "AC/Hotel") break;
         }
         return lines;
     }
 
-    @Test
-    public void setEntity() throws IOException {
-        List<Float> scheduleIndex = new ArrayList<>();
-        scheduleIndex.add(0.004148122f);
-        scheduleIndex.add(0.08701322f);
-        scheduleIndex.add(0.17003645f);
-        scheduleIndex.add(0.21753336f);
-        scheduleIndex.add(0.27800912f);
-        scheduleIndex.add(0.337937f);
-        List<Dummy> block = readJsonFile();
-        ex2_test(scheduleIndex, block);
-    }
-
-    public void ex2_test(List<Float> scheduleIndex, List<Dummy> list) {
-        /*
-            21:48:59.950 [Test worker] INFO org.AirAPI.config.AWStextrackTest - 0.004148122
-            21:48:59.950 [Test worker] INFO org.AirAPI.config.AWStextrackTest - 0.08701322
-            21:48:59.950 [Test worker] INFO org.AirAPI.config.AWStextrackTest - 0.17003645
-            21:48:59.950 [Test worker] INFO org.AirAPI.config.AWStextrackTest - 0.21753336
-            21:48:59.950 [Test worker] INFO org.AirAPI.config.AWStextrackTest - 0.27800912
-            21:48:59.950 [Test worker] INFO org.AirAPI.config.AWStextrackTest - 0.337937
-            21:48:59.950 [Test worker] INFO org.AirAPI.config.AWStextrackTest - 0.4218124
-            21:48:59.950 [Test worker] INFO org.AirAPI.config.AWStextrackTest - 0.48183724
-            21:48:59.950 [Test worker] INFO org.AirAPI.config.AWStextrackTest - 0.5422942
-            21:48:59.950 [Test worker] INFO org.AirAPI.config.AWStextrackTest - 0.60274595
-        */
-        Schedule schedule = new Schedule();
-        try {
-            for (Dummy block : list) {
-                if (Float.parseFloat(block.getX()) < scheduleIndex.get(4)) {
-                    schedule.setDate(block.getX());
-                }
-            }
-        }catch (NumberFormatException e){
-            e.printStackTrace();
-        }
-        LOGGER.info(schedule.getDate());
-    }
-
-    public List<Dummy> readJsonFile() throws IOException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        //File file = new File("C:\\Users\\JAESEUNG\\IdeaProjects\\Air_Scheduler\\AirAPI\\src\\main\\resources\\analyzeDocResponse_test.json");
-        File file = new File("D:\\Air_Scheduler\\AirAPI\\src\\main\\resources\\analyzeDocResponse_test.json");
-
-        try {
-            List<Dummy> entities = objectMapper.readValue(file, new TypeReference<List<Dummy>>() {
-            });
-            return entities;
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return null;
-    }
 
     public void ex2(List<Float> scheduleIndex, List<Block> list) {
-        /*
-            21:48:59.950 [Test worker] INFO org.AirAPI.config.AWStextrackTest - 0.004148122
-            21:48:59.950 [Test worker] INFO org.AirAPI.config.AWStextrackTest - 0.08701322
-            21:48:59.950 [Test worker] INFO org.AirAPI.config.AWStextrackTest - 0.17003645
-            21:48:59.950 [Test worker] INFO org.AirAPI.config.AWStextrackTest - 0.21753336
-            21:48:59.950 [Test worker] INFO org.AirAPI.config.AWStextrackTest - 0.27800912
-            21:48:59.950 [Test worker] INFO org.AirAPI.config.AWStextrackTest - 0.337937
-            21:48:59.950 [Test worker] INFO org.AirAPI.config.AWStextrackTest - 0.4218124
-            21:48:59.950 [Test worker] INFO org.AirAPI.config.AWStextrackTest - 0.48183724
-            21:48:59.950 [Test worker] INFO org.AirAPI.config.AWStextrackTest - 0.5422942
-            21:48:59.950 [Test worker] INFO org.AirAPI.config.AWStextrackTest - 0.60274595
-        */
         Schedule schedule = new Schedule();
         for (Block block : list) {
-            if (block.geometry().polygon().get(0).x() < scheduleIndex.get(1)) {
-                schedule.setDate(block.text());
+            Float x = block.geometry().polygon().get(0).x();
+            String text = block.text();
+            if (x < scheduleIndex.get(1)) {
+                schedule.setDate(text);
+            } else if (x < scheduleIndex.get(2)) {
+                schedule.setPairing(text);
+            } else if (x < scheduleIndex.get(3)) {
+                schedule.setDc(text);
+            } else if (x < scheduleIndex.get(4)) {
+                schedule.setCi(text);
+            } else if (x < scheduleIndex.get(5)) {
+                schedule.setCo(text);
+            } else if (x < scheduleIndex.get(6)) {
+                schedule.setActivity(text);
+            } else if (x < scheduleIndex.get(7)) {
+                schedule.setCnt_from(text);
+            } else if (x < scheduleIndex.get(8)) {
+                schedule.setStd(text);
+            } else if (x < scheduleIndex.get(9)) {
+                schedule.setCnt_to(text);
+            } else if (x < scheduleIndex.get(10)) {
+                schedule.setSta(text);
             }
+            System.out.println(schedule.toString());
         }
-        LOGGER.info(schedule.getDate());
     }
 
     public List<Float> sortByValue(Map<String, Float> map) {
@@ -189,4 +144,72 @@ public class AWStextrackTest {
         sortByValue(lines);
     }
 
+    @Test
+    public void setEntity() throws IOException {
+        List<Float> scheduleIndex = new ArrayList<>();
+        scheduleIndex.add(0.004148122f);
+        scheduleIndex.add(0.08701322f);
+        scheduleIndex.add(0.17003645f);
+        scheduleIndex.add(0.21753336f);
+        scheduleIndex.add(0.27800912f);
+        scheduleIndex.add(0.337937f);
+        scheduleIndex.add(0.4218124f);
+        scheduleIndex.add(0.48183724f);
+        scheduleIndex.add(0.5422942f);
+        scheduleIndex.add(0.60274595f);
+        scheduleIndex.add(0.6360592246055603f);
+
+        List<Dummy> block = readJsonFile();
+        ex2_test(scheduleIndex, block);
+    }
+
+
+    public void ex2_test(List<Float> scheduleIndex, List<Dummy> list) {
+
+        Schedule schedule = new Schedule();
+        try {
+            for (Dummy block : list) {
+                if (Float.parseFloat(block.getX()) < scheduleIndex.get(1)) {
+                    schedule.setDate(block.getText());
+                } else if (Float.parseFloat(block.getX()) < scheduleIndex.get(2)) {
+                    schedule.setPairing(block.getText());
+                } else if (Float.parseFloat(block.getX()) < scheduleIndex.get(3)) {
+                    schedule.setDc(block.getText());
+                } else if (Float.parseFloat(block.getX()) < scheduleIndex.get(4)) {
+                    schedule.setCi(block.getText());
+                } else if (Float.parseFloat(block.getX()) < scheduleIndex.get(5)) {
+                    schedule.setCo(block.getText());
+                } else if (Float.parseFloat(block.getX()) < scheduleIndex.get(6)) {
+                    schedule.setActivity(block.getText());
+                } else if (Float.parseFloat(block.getX()) < scheduleIndex.get(7)) {
+                    schedule.setCnt_from(block.getText());
+                } else if (Float.parseFloat(block.getX()) < scheduleIndex.get(8)) {
+                    schedule.setStd(block.getText());
+                } else if (Float.parseFloat(block.getX()) < scheduleIndex.get(9)) {
+                    schedule.setCnt_to(block.getText());
+                } else if (Float.parseFloat(block.getX()) < scheduleIndex.get(10)) {
+                    schedule.setSta(block.getText());
+                }
+            }
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
+        System.out.println(schedule.toString());
+    }
+
+    public List<Dummy> readJsonFile() throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        //File file = new File("C:\\Users\\JAESEUNG\\IdeaProjects\\Air_Scheduler\\AirAPI\\src\\main\\resources\\analyzeDocResponse_test.json");
+        File file = new File("D:\\Air_Scheduler\\AirAPI\\src\\main\\resources\\analyzeDocResponse_test.json");
+
+        try {
+            List<Dummy> entities = objectMapper.readValue(file, new TypeReference<List<Dummy>>() {
+            });
+            return entities;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
 }

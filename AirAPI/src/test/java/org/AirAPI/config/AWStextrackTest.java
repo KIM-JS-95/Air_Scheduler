@@ -98,31 +98,56 @@ public class AWStextrackTest {
 
     public void ex2(List<Float> scheduleIndex, List<Block> list) {
         Schedule schedule = new Schedule();
+        String date = "";
+        String pairing ="";
+        String dc = "";
+        String ci = "";
+        String co = "";
+        String activity = "";
+        String cnt_from = "";
+        String std = "";
+        String cnt_to = "";
+        String sta = "";
+        Float y1=0f;
         for (Block block : list) {
             Float x = block.geometry().polygon().get(0).x();
+            Float y2 = block.geometry().polygon().get(0).y();
+            if(y2-y1 > 0.01){
+                y1= y2;
+                schedule.setDate(date);
+                schedule.setPairing(pairing);
+                schedule.setDc(dc);
+                schedule.setCi(ci);
+                schedule.setCo(co);
+                schedule.setActivity(activity);
+                schedule.setCnt_from(cnt_from);
+                schedule.setStd(std);
+                schedule.setCnt_to(cnt_to);
+                schedule.setSta(sta);
+                System.out.println(schedule.toString());
+            }
             String text = block.text();
             if (x < scheduleIndex.get(1)) {
-                schedule.setDate(text);
+                date=text;
             } else if (x < scheduleIndex.get(2)) {
-                schedule.setPairing(text);
+                pairing=text;
             } else if (x < scheduleIndex.get(3)) {
-                schedule.setDc(text);
+                dc=text;
             } else if (x < scheduleIndex.get(4)) {
-                schedule.setCi(text);
+                ci=text;
             } else if (x < scheduleIndex.get(5)) {
-                schedule.setCo(text);
+                co=text;
             } else if (x < scheduleIndex.get(6)) {
-                schedule.setActivity(text);
+                activity=text;
             } else if (x < scheduleIndex.get(7)) {
-                schedule.setCnt_from(text);
+                cnt_from=text;
             } else if (x < scheduleIndex.get(8)) {
-                schedule.setStd(text);
+                std=text;
             } else if (x < scheduleIndex.get(9)) {
-                schedule.setCnt_to(text);
+                cnt_to=text;
             } else if (x < scheduleIndex.get(10)) {
-                schedule.setSta(text);
+                sta=text;
             }
-            System.out.println(schedule.toString());
         }
     }
 

@@ -67,7 +67,7 @@ public class AWStextrackTest {
         List<Block> blockslist = IteraterToList(blocks);
         Map<String, Float> scheduleIndex = getlines(blockslist);
         List<Float> lines = sortByValue(scheduleIndex);
-        //System.out.println("SIze: "+lines.size());
+        //System.out.println("SIze: "+lines.toString());
         ex2(lines, blockslist);
     }
 
@@ -95,7 +95,6 @@ public class AWStextrackTest {
         return lines;
     }
 
-
     public void ex2(List<Float> scheduleIndex, List<Block> list) {
         Schedule schedule = new Schedule();
         String date = "";
@@ -109,10 +108,33 @@ public class AWStextrackTest {
         String cnt_to = "";
         String sta = "";
         Float y1=0f;
-        for (Block block : list) {
-            Float x = block.geometry().polygon().get(0).x();
-            Float y2 = block.geometry().polygon().get(0).y();
-            if(y2-y1 > 0.01){
+        for (int i=1; i<list.size(); i++) {
+            String text = list.get(i).text();
+            Float x = list.get(i).geometry().polygon().get(0).x();
+            Float y2 = list.get(i).geometry().polygon().get(0).y();
+
+            if (0f <x && x < scheduleIndex.get(1)) {
+                date=text;
+            } else if (scheduleIndex.get(1) <x && x < scheduleIndex.get(2)) {
+                pairing=text;
+            } else if (scheduleIndex.get(2) <x && x < scheduleIndex.get(3)) {
+                dc=text;
+            } else if (scheduleIndex.get(3) <x &&x < scheduleIndex.get(4)) {
+                ci=text;
+            } else if (scheduleIndex.get(4) <x &&x < scheduleIndex.get(5)) {
+                co=text;
+            } else if (scheduleIndex.get(5) <x &&x < scheduleIndex.get(6)) {
+                activity=text;
+            } else if (scheduleIndex.get(6) <x &&x < scheduleIndex.get(7)) {
+                cnt_from=text;
+            } else if (scheduleIndex.get(7) <x &&x < scheduleIndex.get(8)) {
+                std=text;
+            } else if (scheduleIndex.get(8) <x &&x < scheduleIndex.get(9)) {
+                cnt_to=text;
+            } else if (scheduleIndex.get(9) <x &&x < scheduleIndex.get(10)) {
+                sta=text;
+            }
+            if(y2-y1 > 0.01f){
                 y1= y2;
                 schedule.setDate(date);
                 schedule.setPairing(pairing);
@@ -126,28 +148,6 @@ public class AWStextrackTest {
                 schedule.setSta(sta);
                 System.out.println(schedule.toString());
             }
-            String text = block.text();
-            if (x < scheduleIndex.get(1)) {
-                date=text;
-            } else if (x < scheduleIndex.get(2)) {
-                pairing=text;
-            } else if (x < scheduleIndex.get(3)) {
-                dc=text;
-            } else if (x < scheduleIndex.get(4)) {
-                ci=text;
-            } else if (x < scheduleIndex.get(5)) {
-                co=text;
-            } else if (x < scheduleIndex.get(6)) {
-                activity=text;
-            } else if (x < scheduleIndex.get(7)) {
-                cnt_from=text;
-            } else if (x < scheduleIndex.get(8)) {
-                std=text;
-            } else if (x < scheduleIndex.get(9)) {
-                cnt_to=text;
-            } else if (x < scheduleIndex.get(10)) {
-                sta=text;
-            }
         }
     }
 
@@ -155,18 +155,6 @@ public class AWStextrackTest {
         List<Float> entryList = new LinkedList<>(map.values());
         entryList.sort(Float::compareTo);
         return entryList;
-    }
-
-    @Test
-    public void sorttest() {
-        Map<String, Float> lines = new HashMap<>();
-        lines.put("Blk", 0.916665f);
-        lines.put("STA", 0.60274595f);
-        lines.put("C/O", 0.27800912f);
-        lines.put("STD", 0.48183724f);
-        lines.put("Activity", 0.337937f);
-
-        sortByValue(lines);
     }
 
     @Test

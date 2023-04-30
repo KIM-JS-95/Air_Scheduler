@@ -7,6 +7,7 @@ import org.AirAPI.entity.Authority;
 import org.AirAPI.entity.Schedule;
 import org.AirAPI.entity.User;
 import org.AirAPI.jwt.JwtTokenProvider;
+import org.AirAPI.jwt.controller.PilotController;
 import org.AirAPI.repository.SchduleRepository;
 import org.AirAPI.repository.TokenRepository;
 import org.AirAPI.repository.UserRepository;

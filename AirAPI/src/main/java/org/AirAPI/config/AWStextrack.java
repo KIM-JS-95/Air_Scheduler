@@ -1,9 +1,7 @@
 
 package org.AirAPI.config;
 
-
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
 import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
@@ -17,7 +15,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 @Configuration
@@ -38,8 +35,8 @@ public class AWStextrack {
         return textractClient;
     }
 
-    public static Iterator<Block> analyzeDoc(TextractClient textractClient, InputStream sourceDoc) {
-        Iterator<Block> docInfo=null;
+    public static List<Block> analyzeDoc(TextractClient textractClient, InputStream sourceDoc) {
+        List<Block> docInfo=null;
 
         try {
             SdkBytes sourceBytes = SdkBytes.fromInputStream(sourceDoc);
@@ -56,7 +53,7 @@ public class AWStextrack {
                     .document(myDoc)
                     .build();
             AnalyzeDocumentResponse analyzeDocument = textractClient.analyzeDocument(analyzeDocumentRequest);
-            docInfo = analyzeDocument.blocks().iterator();
+            docInfo = analyzeDocument.blocks();
 
         } catch (TextractException e) {
             System.err.println(e.getMessage());

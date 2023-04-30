@@ -27,7 +27,7 @@ public class ScheduleService {
 
     public boolean save(InputStream source) {
         TextractClient textractClient = awstextrack.awsceesser();
-        Iterator<Block> blockIterator = awstextrack.analyzeDoc(textractClient, source);
+        List<Block> blockIterator = awstextrack.analyzeDoc(textractClient, source);
         List<Schedule> schedules = new ArrayList<>();
         String date = null;
         String pairing = null;
@@ -41,11 +41,11 @@ public class ScheduleService {
         String sta = null;
         String comment = null;
 
+        /*
         while (blockIterator.hasNext()) {
             Block block = blockIterator.next();
             float left = block.geometry().boundingBox().left();
             float top = block.geometry().boundingBox().top();
-
             if (block.blockType().toString() == "WORD" && top > 0.05 && left < 0.7) {
                 if (left <= 0.1) {
                     date = block.text();
@@ -93,7 +93,7 @@ public class ScheduleService {
             System.out.println("error! : "+e);
             return false;
         }
+*/
         return true;
     }
-
 }

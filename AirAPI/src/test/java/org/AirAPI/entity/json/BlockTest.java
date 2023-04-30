@@ -35,16 +35,7 @@ class BlockTest {
 
     public void ex2_test(List<Float> scheduleIndex, List<Blocks> list) {
         Schedule schedule = new Schedule();
-        String date = "";
-        String pairing = "";
-        String dc = "";
-        String ci = "";
-        String co = "";
-        String activity = "";
-        String cnt_from = "";
-        String std = "";
-        String cnt_to = "";
-        String sta = "";
+
         Float y1 = 0f;
         for (int i = 17; i < list.size(); i++) {
             String text = list.get(i).getText();
@@ -52,38 +43,28 @@ class BlockTest {
             Float y2 = list.get(i).getGeometry().getPolygon()[0].getY();
 
             if (0f < x && x < scheduleIndex.get(1)) {
-                date = text;
+                schedule.setDate(text);
             } else if (scheduleIndex.get(1) < x && x < scheduleIndex.get(2)) {
-                pairing = text;
+                schedule.setPairing(text);
             } else if (scheduleIndex.get(2) < x && x < scheduleIndex.get(3)) {
-                dc = text;
+                schedule.setDc(text);
             } else if (scheduleIndex.get(3) < x && x < scheduleIndex.get(4)) {
-                ci = text;
+                schedule.setCi(text);
             } else if (scheduleIndex.get(4) < x && x < scheduleIndex.get(5)) {
-                co = text;
+                schedule.setCo(text);
             } else if (scheduleIndex.get(5) < x && x < scheduleIndex.get(6)) {
-                activity = text;
+                schedule.setActivity(text);
             } else if (scheduleIndex.get(6) < x && x < scheduleIndex.get(7)) {
-                cnt_from = text;
+                schedule.setCnt_from(text);
             } else if (scheduleIndex.get(7) < x && x < scheduleIndex.get(8)) {
-                std = text;
+                schedule.setStd(text);
             } else if (scheduleIndex.get(8) < x && x < scheduleIndex.get(9)) {
-                cnt_to = text;
+                schedule.setCnt_to(text);
             } else if (scheduleIndex.get(9) < x && x < scheduleIndex.get(10)) {
-                sta = text;
+                schedule.setStd(text);
             }
             if (y2 - y1 > 0.01f) {
                 y1 = y2;
-                schedule.setDate(date);
-                schedule.setPairing(pairing);
-                schedule.setDc(dc);
-                schedule.setCi(ci);
-                schedule.setCo(co);
-                schedule.setActivity(activity);
-                schedule.setCnt_from(cnt_from);
-                schedule.setStd(std);
-                schedule.setCnt_to(cnt_to);
-                schedule.setSta(sta);
                 System.out.println(schedule.toString());
             }
         }

@@ -28,6 +28,7 @@ class BlockTest {
         scheduleIndex.add(0.5422942f);
         scheduleIndex.add(0.60274595f);
         scheduleIndex.add(0.6360592246055603f);
+        scheduleIndex.add(0.9166650176048279f);
 
         List<Blocks> block = readJsonFile();
         ex2_test(scheduleIndex, block);
@@ -37,11 +38,18 @@ class BlockTest {
         Schedule schedule = new Schedule();
 
         Float y1 = 0f;
+        String sample = "";
         for (int i = 17; i < list.size(); i++) {
             String text = list.get(i).getText();
             Float x = list.get(i).getGeometry().getPolygon()[0].getX();
             Float y2 = list.get(i).getGeometry().getPolygon()[0].getY();
-
+            if (x >= 0.63274595f) {
+                System.out.println(sample);
+                sample = "";
+            }
+            sample +=text;
+            sample += " || ";
+/*
             if (0f < x && x < scheduleIndex.get(1)) {
                 schedule.setDate(text);
             } else if (scheduleIndex.get(1) < x && x < scheduleIndex.get(2)) {
@@ -63,14 +71,11 @@ class BlockTest {
             } else if (scheduleIndex.get(9) < x && x < scheduleIndex.get(10)) {
                 schedule.setStd(text);
             }
-            if (y2 - y1 > 0.01f) {
-                y1 = y2;
-                System.out.println(schedule.toString());
-            }
+    */
+
         }
     }
 
-    @Test
     public List<Blocks> readJsonFile() throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();//.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,false);
         objectMapper.enable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY);

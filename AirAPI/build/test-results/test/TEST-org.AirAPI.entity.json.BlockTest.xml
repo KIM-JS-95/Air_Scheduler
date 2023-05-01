@@ -1,46 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="org.AirAPI.entity.json.BlockTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2023-04-30T10:37:50" hostname="DESKTOP-CLGUOMH" time="0.521">
+<testsuite name="org.AirAPI.entity.json.BlockTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2023-05-01T01:13:17" hostname="DESKTOP-CLGUOMH" time="0.523">
   <properties/>
-  <testcase name="setEntity()" classname="org.AirAPI.entity.json.BlockTest" time="0.521"/>
-  <system-out><![CDATA[Schedule(id=0, date=01Apr23, pairing=null, dc=null, ci=null, co=null, activity=null, cnt_from=null, std=null, cnt_to=null, sta=null, comment=null)
-Schedule(id=0, date=02Apr23, pairing=F2903, dc=null, ci=1945, co=0050, activity=2903, cnt_from=ICN, std=0230, cnt_to=DAD, sta=null, comment=null)
-Schedule(id=0, date=03Apr23, pairing=F2903, dc=null, ci=1945, co=0050, activity=DAD, cnt_from=ICN, std=0215, cnt_to=DAD, sta=null, comment=null)
-Schedule(id=0, date=04Apr23, pairing=F2903, dc=null, ci=0030, co=2904, activity=DAD, cnt_from=ICN, std=0805, cnt_to=DAD, sta=null, comment=null)
-Schedule(id=0, date=05Apr23, pairing=F2903, dc=null, ci=0030, co=2904, activity=GMP, cnt_from=ICN, std=2359, cnt_to=DAD, sta=null, comment=null)
-Schedule(id=0, date=F2243, pairing=F2903, dc=null, ci=1800, co=2040, activity=LAyOV, cnt_from=ICN, std=2020, cnt_to=DAD, sta=null, comment=null)
-Schedule(id=0, date=06Apr23, pairing=F2903, dc=null, ci=1800, co=2040, activity=CJU, cnt_from=ICN, std=2025, cnt_to=DAD, sta=null, comment=null)
-Schedule(id=0, date=07Apr23, pairing=F2903, dc=null, ci=2040, co=2243, activity=CJU, cnt_from=ICN, std=0400, cnt_to=BKK, sta=null, comment=null)
-Schedule(id=0, date=08Apr23, pairing=F2903, dc=null, ci=2040, co=2243, activity=BKK, cnt_from=ICN, std=0150, cnt_to=BKK, sta=null, comment=null)
-Schedule(id=0, date=09Apr23, pairing=F2903, dc=null, ci=0045, co=2206, activity=BKK, cnt_from=ICN, std=0920, cnt_to=BKK, sta=null, comment=null)
-Schedule(id=0, date=10Apr23, pairing=F2903, dc=null, ci=0045, co=2206, activity=GMP, cnt_from=ICN, std=2359, cnt_to=BKK, sta=null, comment=null)
-Schedule(id=0, date=11Apr23, pairing=F2903, dc=null, ci=0045, co=2206, activity=GMP, cnt_from=ICN, std=2359, cnt_to=GMP, sta=null, comment=null)
-Schedule(id=0, date=F3102A, pairing=OBCA, dc=DH, ci=0830, co=2206, activity=3102, cnt_from=ICN, std=1505, cnt_to=GMP, sta=null, comment=null)
-Schedule(id=0, date=12Apr23, pairing=OBCA, dc=DH, ci=0830, co=2210, activity=GUM, cnt_from=ICN, std=2110, cnt_to=GMP, sta=null, comment=null)
-Schedule(id=0, date=13Apr23, pairing=OBCA, dc=DH, ci=1201, co=2200, activity=GMP, cnt_from=ICN, std=2200, cnt_to=GMP, sta=null, comment=null)
-Schedule(id=0, date=14Apr23, pairing=OBCA, dc=DH, ci=0900, co=1800, activity=GMP, cnt_from=ICN, std=1800, cnt_to=GMP, sta=null, comment=null)
-Schedule(id=0, date=15Apr23, pairing=OBCA, dc=DH, ci=0900, co=1800, activity=GMP, cnt_from=ICN, std=2359, cnt_to=GMP, sta=null, comment=null)
-Schedule(id=0, date=F2653, pairing=DH, dc=DH, ci=0655, co=AIR, activity=1154, cnt_from=ICN, std=0910, cnt_to=GMP, sta=null, comment=null)
-Schedule(id=0, date=F2653, pairing=DH, dc=DH, ci=0655, co=AIR, activity=PUS, cnt_from=ICN, std=1300, cnt_to=NRT, sta=null, comment=null)
-Schedule(id=0, date=F2653, pairing=DH, dc=DH, ci=0655, co=1655, activity=LAyOV, cnt_from=ICN, std=1635, cnt_to=PUS, sta=null, comment=null)
-Schedule(id=0, date=16Apr23, pairing=DH, dc=DH, ci=0655, co=1655, activity=PUS, cnt_from=ICN, std=1945, cnt_to=PUS, sta=null, comment=null)
-Schedule(id=0, date=17Apr23, pairing=DH, dc=DH, ci=2035, co=1655, activity=PUS, cnt_from=ICN, std=0030, cnt_to=TPE, sta=null, comment=null)
-Schedule(id=0, date=F2653, pairing=DH, dc=DH, ci=2035, co=1655, activity=2654, cnt_from=TPE, std=0610, cnt_to=PUS, sta=null, comment=null)
-Schedule(id=0, date=18Apr23, pairing=DH, dc=DH, ci=2035, co=0845, activity=PUS, cnt_from=TPE, std=0825, cnt_to=GMP, sta=null, comment=null)
-Schedule(id=0, date=19Apr23, pairing=DH, dc=DH, ci=2035, co=0845, activity=GMP, cnt_from=TPE, std=2359, cnt_to=GMP, sta=null, comment=null)
-Schedule(id=0, date=20Apr23, pairing=DH, dc=DH, ci=2035, co=0845, activity=GMP, cnt_from=TPE, std=2359, cnt_to=GMP, sta=null, comment=null)
-Schedule(id=0, date=F9104, pairing=DH, dc=DH, ci=1410, co=2350, activity=ICN, cnt_from=TPE, std=1845, cnt_to=NRT, sta=null, comment=null)
-Schedule(id=0, date=21Apr23, pairing=DH, dc=DH, ci=1410, co=9103, activity=NRT, cnt_from=TPE, std=2250, cnt_to=NRT, sta=null, comment=null)
-Schedule(id=0, date=22Apr23, pairing=DH, dc=DH, ci=1700, co=2507, activity=NRT, cnt_from=ICN, std=0020, cnt_to=NRT, sta=null, comment=null)
-Schedule(id=0, date=23Apr23, pairing=DH, dc=DH, ci=1700, co=2507, activity=BKI, cnt_from=ICN, std=2355, cnt_to=NRT, sta=null, comment=null)
-Schedule(id=0, date=24Apr23, pairing=DH, dc=DH, ci=2320, co=2508, activity=BKI, cnt_from=ICN, std=0625, cnt_to=NRT, sta=null, comment=null)
-Schedule(id=0, date=25Apr23, pairing=DH, dc=DH, ci=2320, co=2508, activity=GMP, cnt_from=ICN, std=2359, cnt_to=GMP, sta=null, comment=null)
-Schedule(id=0, date=25Apr23, pairing=DH, dc=DH, ci=0900, co=1300, activity=GMP, cnt_from=ICN, std=1100, cnt_to=GMP, sta=null, comment=null)
-Schedule(id=0, date=26Apr23, pairing=DH, dc=DH, ci=0900, co=1300, activity=GMP, cnt_from=ICN, std=1300, cnt_to=GMP, sta=null, comment=null)
-Schedule(id=0, date=F1406, pairing=DH, dc=DH, ci=1355, co=2245, activity=ICN, cnt_from=ICN, std=1730, cnt_to=GMP, sta=null, comment=null)
-Schedule(id=0, date=27Apr23, pairing=DH, dc=DH, ci=1355, co=2245, activity=1405, cnt_from=FUK, std=2145, cnt_to=GMP, sta=null, comment=null)
-Schedule(id=0, date=28Apr23, pairing=DH, dc=DH, ci=1201, co=2200, activity=SB1, cnt_from=GMP, std=2200, cnt_to=GMP, sta=null, comment=null)
-Schedule(id=0, date=29Apr23, pairing=DH, dc=DH, ci=1201, co=2200, activity=GMP, cnt_from=GMP, std=2359, cnt_to=GMP, sta=null, comment=null)
-Schedule(id=0, date=30Apr23, pairing=DH, dc=DH, ci=1201, co=2200, activity=GMP, cnt_from=GMP, std=2359, cnt_to=GMP, sta=null, comment=null)
+  <testcase name="setEntity()" classname="org.AirAPI.entity.json.BlockTest" time="0.523"/>
+  <system-out><![CDATA[01Apr23 || F2903 || 1945 || 0050 || 2903 || ICN || 2155 || DAD || 0230 || 
+738 || 
+4:35 || 02Apr23 || F2903 || LAyOV || DAD || 0305 || DAD || 0215 || 
+Vinpearl || 
+Condotel || 
+Riverfront || 03Apr23 || F2903 || 0030 || 0905 || 2904 || DAD || 0330 || ICN || 0805 || 
+738 || 
+4:35 || 04Apr23 || OFF || GMP || 0000 || GMP || 2359 || 05Apr23 || F2243 || 1800 || 2040 || 129 || GMP || 1910 || CJU || 2020 || 
+738 || 
+1:10 || LAyOV || CJU || 2055 || CJU || 2025 || 
+???? || 
+?? || 06Apr23 || F2243 || 2040 || 0220 || 2243 || CJU || 2200 || BKK || 0400 || 
+738 || 
+6:00 || 07Apr23 || F2243 || LAyOV || BKK || 0515 || BKK || 0150 || 
+Holiday || 
+Inn || 
+silom(7/12-) || 08Apr23 || F2243 || 0045 || 1020 || 2206 || BKK || 0345 || ICN || 0920 || 
+738 || 
+5:35 || 09Apr23 || OFF || GMP || 0000 || GMP || 2359 || 10Apr23 || OFF || GMP || 0000 || GMP || 2359 || 11Apr23 || F3102A || OBCA || 0830 || 3102 || ICN || 1040 || GUM || 1505 || 
+738 || 
+4:25 || DH || 2210 || 3101 || GUM || 1610 || ICN || 2110 || 
+738 || 12Apr23 || 1201 || 2200 || SB1 || GMP || 1201 || GMP || 2200 || 13Apr23 || 0900 || 1800 || TBA || GMP || 0900 || GMP || 1800 || 14Apr23 || OFF || GMP || 0000 || GMP || 2359 || 15Apr23 || F2653 || DH || 0655 || AIR || GMP || 0805 || PUS || 0910 || 1154 || PUS || 1100 || NRT || 1300 || 
+738 || 
+2:00 || F2653 || 1655 || 1153 || NRT || 1400 || PUS || 1635 || 
+738 || 
+2:35 || LAyOV || PUS || 1745 || PUS || 1945 || 
+??? || 
+?? || 16Apr23 || F2653 || 2035 || 2653 || PUS || 2155 || TPE || 0030 || 
+738 || 
+2:35 || 17Apr23 || F2653 || 2654 || TPE || 0350 || PUS || 0610 || 
+738 || 
+2:20 || DH || 0845 || 211 || PUS || 0730 || GMP || 0825 || 
+738 || 18Apr23 || OFF || GMP || 0000 || GMP || 2359 || 19Apr23 || OFF || GMP || 0000 || GMP || 2359 || 20Apr23 || F9104 || 1410 || 9104 || ICN || 1620 || NRT || 1845 || 
+738 || 
+2:25 || 2350 || 9103 || NRT || 1945 || ICN || 2250 || 
+738 || 
+3:05 || 21Apr23 || F2507 || 1700 || 2340 || 2507 || ICN || 1910 || BKI || 0020 || 
+738 || 
+5:10 || 22Apr23 || F2507 || LAyOV || BKI || 0105 || BKI || 2355 || 
+HyATT || 
+REGENCy || 23Apr23 || F2507 || 2320 || 0725 || 2508 || BKI || 0120 || ICN || 0625 || 
+738 || 
+5:05 || 24Apr23 || OFF || GMP || 0000 || GMP || 2359 || 25Apr23 || 0900 || JCRM || GMP || 0900 || GMP || 1100 || 1300 || TR_GRD || GMP || 1100 || GMP || 1300 || 26Apr23 || F1406 || 1355 || 1406 || ICN || 1605 || FUK || 1730 || 
+738 || 
+1:25 || 2245 || 1405 || FUK || 1950 || ICN || 2145 || 
+738 || 
 ]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

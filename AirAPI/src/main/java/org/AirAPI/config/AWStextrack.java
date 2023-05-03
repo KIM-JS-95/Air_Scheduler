@@ -46,7 +46,7 @@ public class AWStextrack {
 
             List<FeatureType> featureTypes = new ArrayList<FeatureType>();
             featureTypes.add(FeatureType.TABLES);
-            featureTypes.add(FeatureType.FORMS);
+            //featureTypes.add(FeatureType.FORMS);
 
             AnalyzeDocumentRequest analyzeDocumentRequest = AnalyzeDocumentRequest.builder()
                     .featureTypes(featureTypes)

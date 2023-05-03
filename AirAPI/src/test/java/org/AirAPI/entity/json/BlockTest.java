@@ -2,6 +2,7 @@ package org.AirAPI.entity.json;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.AirAPI.entity.Schedule;
 import org.junit.jupiter.api.Test;
@@ -31,9 +32,9 @@ class BlockTest {
         scheduleIndex.add(0.9166650176048279f);
 
         List<Blocks> block = readJsonFile();
-        ex2_test(scheduleIndex, block);
+        //ex2_test(scheduleIndex, block);
     }
-
+/*
     public void ex2_test(List<Float> scheduleIndex, List<Blocks> list) {
         Schedule schedule = new Schedule();
 
@@ -49,7 +50,6 @@ class BlockTest {
             }
             sample +=text;
             sample += " || ";
-/*
             if (0f < x && x < scheduleIndex.get(1)) {
                 schedule.setDate(text);
             } else if (scheduleIndex.get(1) < x && x < scheduleIndex.get(2)) {
@@ -71,14 +71,14 @@ class BlockTest {
             } else if (scheduleIndex.get(9) < x && x < scheduleIndex.get(10)) {
                 schedule.setStd(text);
             }
-    */
 
         }
     }
-
+*/
     public List<Blocks> readJsonFile() throws IOException {
-        ObjectMapper objectMapper = new ObjectMapper();//.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,false);
+        ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.enable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY);
+        objectMapper.enable(MapperFeature.ACCEPT_CASE_INSENSITIVE_PROPERTIES);
         //File file = new File("C:\\Users\\JAESEUNG\\IdeaProjects\\Air_Scheduler\\AirAPI\\src\\main\\resources\\analyzeDocResponse_test.json");
         File file = new File("D:\\Air_Scheduler\\AirAPI\\src\\main\\resources\\analyzeDocResponse_test.json");
         try {

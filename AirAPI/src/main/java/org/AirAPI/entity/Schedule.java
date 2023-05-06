@@ -33,5 +33,7 @@ public class Schedule {
     private String cnt_to;
     private String sta;
 
-    private String comment;
+    private String achotel;
+
+    private String blk;
 }

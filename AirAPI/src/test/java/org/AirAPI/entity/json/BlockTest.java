@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.AirAPI.entity.Schedule;
 import org.junit.jupiter.api.Test;
+import org.springframework.scheduling.annotation.Schedules;
 import software.amazon.awssdk.services.textract.model.Block;
 
 import java.io.File;
@@ -38,12 +39,47 @@ class BlockTest {
     public void ex2_test(List<Float> scheduleIndex, List<Blocks> list) {
         List<Schedule> schedules = new ArrayList<>();
         for (int i = 0; i < list.size(); i++) {
+            if(list.get(i).getRowIndex()==1) continue;
             Schedule schedule = new Schedule();
             Blocks block = list.get(i);
-            if (block.getColumnIndex() == 1) {
-                schedule.setDate(block.getChildText());
+            int index = block.getColumnIndex();
+            String chileText = block.getChildText();
+
+            if (index == 1) {
+                schedule.setDate(chileText);
+            } else if (index == 2) {
+                schedule.setPairing(chileText);
+            } else if (index == 3) {
+                schedule.setDc(chileText);
+            } else if (index == 4) {
+                schedule.setCi(chileText);
+            } else if (index == 5) {
+                if(chileText.equals("LAYOV")){
+                    System.out.println(chileText);
+                    schedule.setActivity(chileText);
+                }else{
+                    String[] units = chileText.split(" ");
+                    //System.out.println(chileText);
+                    schedule.setCo(units[0]);
+                    schedule.setActivity(units[1]);
+                }
+            } else if (index == 6) {
+                schedule.setCnt_from(chileText);
+            } else if (index == 7) {
+                schedule.setStd(chileText);
+            } else if (index == 8) {
+                schedule.setCnt_to(chileText);
+            } else if (index == 9) {
+                schedule.setSta(chileText);
+            } else if (index == 10) {
+                schedule.setAchotel(chileText);
+            } else if (index == 11) {
+                schedule.setAchotel(chileText);
+                schedules.add(schedule);
             }
         }
+
+        System.out.println(schedules.toString());
     }
 
     public List<Blocks> readJsonFile() throws IOException {

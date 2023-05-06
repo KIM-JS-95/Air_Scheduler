@@ -50,8 +50,7 @@ class BlockTest {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.enable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY);
         objectMapper.enable(MapperFeature.ACCEPT_CASE_INSENSITIVE_PROPERTIES);
-        //File file = new File("C:\\Users\\JAESEUNG\\IdeaProjects\\Air_Scheduler\\AirAPI\\src\\main\\resources\\analyzeDocResponse_test.json");
-        File file = new File("C:\\Users\\LKY\\Air_Scheduler\\AirAPI\\src\\main\\resources\\analyzeDocResponse_test.json");
+        File file = new File("C:\\Users\\KIMJAESUNG\\Air_Scheduler\\AirAPI\\src\\main\\resources\\analyzeDocResponse_test.json");
         try {
             List<Blocks> entities = objectMapper.readValue(file, new TypeReference<List<Blocks>>() {
             });
@@ -61,5 +60,6 @@ class BlockTest {
         }
         return null;
     }
+
 
 }

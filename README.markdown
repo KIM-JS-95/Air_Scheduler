@@ -20,7 +20,7 @@ pilot 비행 스케줄 이미지에서 스케줄을 분석하여 저장하고 `K
 
 
 ## Problem
-- Pilot 개인 ID와 Schedule 유츌에 관한 문제
+- Pilot 개인 ID와 Schedule 유출에 관한 문제
 
 
 ## OverCome
@@ -28,7 +28,8 @@ pilot 비행 스케줄 이미지에서 스케줄을 분석하여 저장하고 `K
 ## TODO
 - 사용자 관리 및 입력 (SpringBoot Secutiry)
 - 스케출 이미지 정보로부터 데이터 추출 (AWS Textrect)
-
+  - 테스트 전용 코드 로직 작성 (Dummy Entity)
+- 이미지 정보 객체화 후 JPA 저장
 
 ## API Reference
 

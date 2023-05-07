@@ -38,9 +38,9 @@ class BlockTest {
 
     public void ex2_test(List<Float> scheduleIndex, List<Blocks> list) {
         List<Schedule> schedules = new ArrayList<>();
+        Schedule schedule = new Schedule();
         for (int i = 0; i < list.size(); i++) {
-            if(list.get(i).getRowIndex()==1) continue;
-            Schedule schedule = new Schedule();
+            if (list.get(i).getRowIndex() == 1) continue;
             Blocks block = list.get(i);
             int index = block.getColumnIndex();
             String chileText = block.getChildText();
@@ -54,12 +54,10 @@ class BlockTest {
             } else if (index == 4) {
                 schedule.setCi(chileText);
             } else if (index == 5) {
-                if(chileText.equals("LAYOV")){
-                    System.out.println(chileText);
-                    schedule.setActivity(chileText);
-                }else{
-                    String[] units = chileText.split(" ");
-                    //System.out.println(chileText);
+                String[] units = chileText.split(" ");
+                if (units.length == 1) {
+                    schedule.setActivity(units[0]);
+                } else {
                     schedule.setCo(units[0]);
                     schedule.setActivity(units[1]);
                 }
@@ -74,12 +72,13 @@ class BlockTest {
             } else if (index == 10) {
                 schedule.setAchotel(chileText);
             } else if (index == 11) {
-                schedule.setAchotel(chileText);
+                schedule.setBlk(chileText);
                 schedules.add(schedule);
+                schedule=new Schedule();
             }
         }
 
-        System.out.println(schedules.toString());
+        schedules.forEach((n) -> System.out.println(n));
     }
 
     public List<Blocks> readJsonFile() throws IOException {

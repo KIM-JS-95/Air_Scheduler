@@ -41,6 +41,7 @@ public class Blocks {
     private String searchKey;
 
     private String childText;
+
     @JsonAlias("Relationships")
     private Relationships[] relationships;
 

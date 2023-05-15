@@ -25,75 +25,12 @@ public class ScheduleService {
         return schduleRepository.findById(id).orElseThrow();
     }
 
-    public boolean save(InputStream source) {
+    public boolean textrack(InputStream source) {
         TextractClient textractClient = awstextrack.awsceesser();
         List<Block> blockIterator = awstextrack.analyzeDoc(textractClient, source);
-        List<Schedule> schedules = new ArrayList<>();
-        String date = null;
-        String pairing = null;
-        String dc = null;
-        String ci = null;
-        String co = null;
-        String activity = null;
-        String cnt_from = null;
-        String std = null;
-        String cnt_to = null;
-        String sta = null;
-        String comment = null;
 
-        /*
-        while (blockIterator.hasNext()) {
-            Block block = blockIterator.next();
-            float left = block.geometry().boundingBox().left();
-            float top = block.geometry().boundingBox().top();
-            if (block.blockType().toString() == "WORD" && top > 0.05 && left < 0.7) {
-                if (left <= 0.1) {
-                    date = block.text();
-                } else if (0.1 < left && left <= 0.18) {
-                    pairing = block.text();
-                } else if (0.18 < left && left <= 0.24) {
-                    dc = block.text();
-                } else if (0.24 < left && left <= 0.3) {
-                    ci = block.text();
-                } else if (0.3 < left && left <= 0.37) {
-                    co = block.text();
-                } else if (0.37 < left && left <= 0.46) {
-                    activity = block.text();
-                } else if (0.46 < left && left <= 0.52) {
-                    cnt_from = block.text();
-                } else if (0.52 < left && left <= 0.58) {
-                    std = block.text();
-                } else if (0.58 < left && left <= 0.65) {
-                    cnt_to = block.text();
-                } else if (0.65 < left && left <= 0.7) {
-                    sta = block.text();
-                } else {
-                    comment = block.text();
-                }
-            }
-            Schedule schedule = Schedule.builder()
-                    .date(date)
-                    .pairing(pairing)
-                    .dc(dc)
-                    .ci(ci)
-                    .co(co)
-                    .activity(activity)
-                    .cnt_from(cnt_from)
-                    .std(std)
-                    .cnt_to(cnt_to)
-                    .sta(sta)
-                    .comment(comment)
-                    .build();
-
-            schedules.add(schedule);
-        }
-        try {
-            schduleRepository.saveAll(schedules);
-        }catch (Exception e){
-            System.out.println("error! : "+e);
-            return false;
-        }
-*/
+        awstextrack.TexttoEntity(blockIterator);
         return true;
     }
+
 }

@@ -2,6 +2,7 @@ package org.AirAPI.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.AirAPI.entity.Schedule;
+import org.AirAPI.entity.json.Blocks;
 import org.junit.jupiter.api.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -59,98 +60,62 @@ public class AWStextrackTest {
 
     @Test
     public void docTest() throws IOException {
-        //String filePath = "C:\\Users\\JAESEUNG\\IdeaProjects\\Air_Scheduler\\AirAPI\\src\\main\\resources\\static\\img\\sample.jpg";
-        String filePath = "D:\\Air_Scheduler\\AirAPI\\src\\main\\resources\\static\\img\\sample.jpg";
+        String filePath = "C:\\Users\\KIMJAESUNG\\Air_Scheduler\\AirAPI\\src\\main\\resources\\static\\img\\sample.jpg";
+        //String filePath = "D:\\Air_Scheduler\\AirAPI\\src\\main\\resources\\static\\img\\sample.jpg";
         FileInputStream fileInputStream = new FileInputStream(filePath);
         List<Block> blocks = AWStextrack.analyzeDoc(textractClient, fileInputStream);
-        Map<String, Float> scheduleIndex = getlines(blocks);
-        List<Float> lines = sortByValue(scheduleIndex);
-        System.out.println("SIze: "+lines.toString());
-        //ex2(lines, blocks);
+        ex2(blocks);
     }
 
-    public Map<String, Float> getlines(List<Block> blockslist) {
-        Map<String, Float> lines = new HashMap<>();
-        for (int i = 0; i < blockslist.size(); i++) {
-            if (blockslist.get(i).blockType().toString() == "WORD") {
-                Block block = blockslist.get(i);
-                String mattcher = "(Date|Pairing|DC|C/1|C/O|Activity|From|STD|To|STA|AC/Hotel)";
-                if (block.text().matches(mattcher)) {
-                    lines.put(block.text(), block.geometry().polygon().get(0).x());
-                }
-                if (block.text() == "AC/Hotel") break;
-            }
-        }
-        //System.out.println(lines.toString());
-        return lines;
-    }
 
-    public void ex2(List<Float> scheduleIndex, List<Block> list) {
+    public void ex2(List<Block> list) {
+        List<Schedule> schedules = new ArrayList<>();
         Schedule schedule = new Schedule();
-        String date = "";
-        String pairing = "";
-        String dc = "";
-        String ci = "";
-        String co = "";
-        String activity = "";
-        String cnt_from = "";
-        String std = "";
-        String cnt_to = "";
-        String sta = "";
-        Float y1 = 0f;
-        for (int i = 17; i < list.size(); i++) {
-            String text = list.get(i).text();
-            Float x = list.get(i).geometry().polygon().get(0).x();
-            Float y2 = list.get(i).geometry().polygon().get(0).y();
-            if (list.get(i).blockType().toString() == "WORD") {
-                if (0f < x && x < scheduleIndex.get(1)) {
-                    date = text;
-                } else if (scheduleIndex.get(1) < x && x < scheduleIndex.get(2)) {
-                    pairing = text;
-                } else if (scheduleIndex.get(2) < x && x < scheduleIndex.get(3)) {
-                    dc = text;
-                } else if (scheduleIndex.get(3) < x && x < scheduleIndex.get(4)) {
-                    ci = text;
-                } else if (scheduleIndex.get(4) < x && x < scheduleIndex.get(5)) {
-                    co = text;
-                } else if (scheduleIndex.get(5) < x && x < scheduleIndex.get(6)) {
-                    activity = text;
-                } else if (scheduleIndex.get(6) < x && x < scheduleIndex.get(7)) {
-                    cnt_from = text;
-                } else if (scheduleIndex.get(7) < x && x < scheduleIndex.get(8)) {
-                    std = text;
-                } else if (scheduleIndex.get(8) < x && x < scheduleIndex.get(9)) {
-                    cnt_to = text;
-                } else if (scheduleIndex.get(9) < x && x < scheduleIndex.get(10)) {
-                    sta = text;
-                }
-                if (y2 - y1 > 0.01f) {
-                    y1 = y2;
-                    schedule.setDate(date);
-                    schedule.setPairing(pairing);
-                    schedule.setDc(dc);
-                    schedule.setCi(ci);
-                    schedule.setCo(co);
-                    schedule.setActivity(activity);
-                    schedule.setCnt_from(cnt_from);
-                    schedule.setStd(std);
-                    schedule.setCnt_to(cnt_to);
-                    schedule.setSta(sta);
-                    System.out.println(schedule.toString());
+/*
+* 타입 CELL에서 id값을 획득해서 word에서 검색하는 방식으로 해야함
+* id : word
+*
+* */
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i).blockType().toString()=="CELL" && list.get(i).rowIndex() != 1) {
+                Block block = list.get(i);
+                int index = block.columnIndex();
+                String chileText = block.text();
+                if (index == 1) {
+                    schedule.setDate(chileText);
+                } else if (index == 2) {
+                    schedule.setPairing(chileText);
+                } else if (index == 3) {
+                    schedule.setDc(chileText);
+                } else if (index == 4) {
+                    schedule.setCi(chileText);
+                } else if (index == 5) {
+                    String[] units = chileText.split(" ");
+                    if (units.length == 1) {
+                        schedule.setActivity(units[0]);
+                    } else {
+                        schedule.setCo(units[0]);
+                        schedule.setActivity(units[1]);
+                    }
+                } else if (index == 6) {
+                    schedule.setCnt_from(chileText);
+                } else if (index == 7) {
+                    schedule.setStd(chileText);
+                } else if (index == 8) {
+                    schedule.setCnt_to(chileText);
+                } else if (index == 9) {
+                    schedule.setSta(chileText);
+                } else if (index == 10) {
+                    schedule.setAchotel(chileText);
+                } else if (index == 11) {
+                    schedule.setBlk(chileText);
+                    schedules.add(schedule);
+                    schedule = new Schedule();
                 }
             }
         }
+        schedules.forEach((n) -> System.out.println(n));
     }
-
-    public List<Float> sortByValue(Map<String, Float> map) {
-        List<Float> entryList = new LinkedList<>(map.values());
-        entryList.sort(Float::compareTo);
-        return entryList;
-    }
-
-
-
-
 
 
     public List<Block> readJsonFile() throws IOException {

@@ -5,7 +5,9 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.AirAPI.entity.Schedule;
+import org.AirAPI.service.ScheduleService;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Schedules;
 import software.amazon.awssdk.services.textract.model.Block;
 
@@ -16,68 +18,56 @@ import java.util.List;
 
 class BlockTest {
 
+    @Autowired
+    private ScheduleService service;
     @Test
     public void setEntity() throws IOException {
-        List<Float> scheduleIndex = new ArrayList<>();
-        scheduleIndex.add(0.004148122f);
-        scheduleIndex.add(0.08701322f);
-        scheduleIndex.add(0.17003645f);
-        scheduleIndex.add(0.21753336f);
-        scheduleIndex.add(0.27800912f);
-        scheduleIndex.add(0.337937f);
-        scheduleIndex.add(0.4218124f);
-        scheduleIndex.add(0.48183724f);
-        scheduleIndex.add(0.5422942f);
-        scheduleIndex.add(0.60274595f);
-        scheduleIndex.add(0.6360592246055603f);
-        scheduleIndex.add(0.9166650176048279f);
-
         List<Blocks> block = readJsonFile();
-        ex2_test(scheduleIndex, block);
+        ex2_test(block);
     }
 
-    public void ex2_test(List<Float> scheduleIndex, List<Blocks> list) {
+    public void ex2_test(List<Blocks> list) {
         List<Schedule> schedules = new ArrayList<>();
         Schedule schedule = new Schedule();
-        for (int i = 0; i < list.size(); i++) {
-            if (list.get(i).getRowIndex() == 1) continue;
-            Blocks block = list.get(i);
-            int index = block.getColumnIndex();
-            String chileText = block.getChildText();
 
-            if (index == 1) {
-                schedule.setDate(chileText);
-            } else if (index == 2) {
-                schedule.setPairing(chileText);
-            } else if (index == 3) {
-                schedule.setDc(chileText);
-            } else if (index == 4) {
-                schedule.setCi(chileText);
-            } else if (index == 5) {
-                String[] units = chileText.split(" ");
-                if (units.length == 1) {
-                    schedule.setActivity(units[0]);
-                } else {
-                    schedule.setCo(units[0]);
-                    schedule.setActivity(units[1]);
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i).getRowIndex() != 1) {
+                Blocks block = list.get(i);
+                int index = block.getColumnIndex();
+                String chileText = block.getChildText();
+                if (index == 1) {
+                    schedule.setDate(chileText);
+                } else if (index == 2) {
+                    schedule.setPairing(chileText);
+                } else if (index == 3) {
+                    schedule.setDc(chileText);
+                } else if (index == 4) {
+                    schedule.setCi(chileText);
+                } else if (index == 5) {
+                    String[] units = chileText.split(" ");
+                    if (units.length == 1) {
+                        schedule.setActivity(units[0]);
+                    } else {
+                        schedule.setCo(units[0]);
+                        schedule.setActivity(units[1]);
+                    }
+                } else if (index == 6) {
+                    schedule.setCnt_from(chileText);
+                } else if (index == 7) {
+                    schedule.setStd(chileText);
+                } else if (index == 8) {
+                    schedule.setCnt_to(chileText);
+                } else if (index == 9) {
+                    schedule.setSta(chileText);
+                } else if (index == 10) {
+                    schedule.setAchotel(chileText);
+                } else if (index == 11) {
+                    schedule.setBlk(chileText);
+                    schedules.add(schedule);
+                    schedule = new Schedule();
                 }
-            } else if (index == 6) {
-                schedule.setCnt_from(chileText);
-            } else if (index == 7) {
-                schedule.setStd(chileText);
-            } else if (index == 8) {
-                schedule.setCnt_to(chileText);
-            } else if (index == 9) {
-                schedule.setSta(chileText);
-            } else if (index == 10) {
-                schedule.setAchotel(chileText);
-            } else if (index == 11) {
-                schedule.setBlk(chileText);
-                schedules.add(schedule);
-                schedule=new Schedule();
             }
         }
-
         schedules.forEach((n) -> System.out.println(n));
     }
 

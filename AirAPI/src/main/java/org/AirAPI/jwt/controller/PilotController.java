@@ -32,7 +32,7 @@ public class PilotController {
         HeaderSetter headerSetter = new HeaderSetter();
         ResponseEntity response = null;
     try {
-        boolean result = scheduleService.save(file.getInputStream());
+        boolean result = scheduleService.textrack(file.getInputStream());
         if (result) {
             response = headerSetter.haederSet(
                     request.getHeader("Authorization"), "save!", HttpStatus.OK);

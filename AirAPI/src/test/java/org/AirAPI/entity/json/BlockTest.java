@@ -5,76 +5,75 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.AirAPI.entity.Schedule;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.scheduling.annotation.Schedules;
-import software.amazon.awssdk.services.textract.model.Block;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 class BlockTest {
 
     @Test
+    @DisplayName("dummy Entity- test")
     public void setEntity() throws IOException {
-        List<Float> scheduleIndex = new ArrayList<>();
-        scheduleIndex.add(0.004148122f);
-        scheduleIndex.add(0.08701322f);
-        scheduleIndex.add(0.17003645f);
-        scheduleIndex.add(0.21753336f);
-        scheduleIndex.add(0.27800912f);
-        scheduleIndex.add(0.337937f);
-        scheduleIndex.add(0.4218124f);
-        scheduleIndex.add(0.48183724f);
-        scheduleIndex.add(0.5422942f);
-        scheduleIndex.add(0.60274595f);
-        scheduleIndex.add(0.6360592246055603f);
-        scheduleIndex.add(0.9166650176048279f);
-
         List<Blocks> block = readJsonFile();
-        ex2_test(scheduleIndex, block);
+        HashMap<String, String> map = new HashMap<>();
+
+        block.forEach(callback -> {
+            if (callback.getBlockType() == "WORD") {
+                map.put(callback.getId(), callback.getText());
+            }
+        });
+
+
+        ex2_test(map, block);
     }
 
-    public void ex2_test(List<Float> scheduleIndex, List<Blocks> list) {
+    public void ex2_test(HashMap<String, String> map, List<Blocks> list) {
         List<Schedule> schedules = new ArrayList<>();
         Schedule schedule = new Schedule();
         for (int i = 0; i < list.size(); i++) {
-            if (list.get(i).getRowIndex() == 1) continue;
-            Blocks block = list.get(i);
-            int index = block.getColumnIndex();
-            String chileText = block.getChildText();
-
-            if (index == 1) {
-                schedule.setDate(chileText);
-            } else if (index == 2) {
-                schedule.setPairing(chileText);
-            } else if (index == 3) {
-                schedule.setDc(chileText);
-            } else if (index == 4) {
-                schedule.setCi(chileText);
-            } else if (index == 5) {
-                String[] units = chileText.split(" ");
-                if (units.length == 1) {
-                    schedule.setActivity(units[0]);
-                } else {
-                    schedule.setCo(units[0]);
-                    schedule.setActivity(units[1]);
+            if (list.get(i).getBlockType().equals("CELL")) {
+                if (list.get(i).getRowIndex() == 1) continue;
+                Blocks block = list.get(i);
+                int index = block.getColumnIndex();
+                String[] ids = block.getRelationships()[0].getIds();
+                String id = map.get(ids);
+                if (index == 1) {
+                    schedule.setDate(id);
+                } else if (index == 2) {
+                    schedule.setPairing(id);
+                } else if (index == 3) {
+                    schedule.setDc(id);
+                } else if (index == 4) {
+                    schedule.setCi(id);
+                } else if (index == 5) {
+                    String[] units = id.split(" ");
+                    if (units.length == 1) {
+                        schedule.setActivity(units[0]);
+                    } else {
+                        schedule.setCo(units[0]);
+                        schedule.setActivity(units[1]);
+                    }
+                } else if (index == 6) {
+                    schedule.setCnt_from(id);
+                } else if (index == 7) {
+                    schedule.setStd(id);
+                } else if (index == 8) {
+                    schedule.setCnt_to(id);
+                } else if (index == 9) {
+                    schedule.setSta(id);
+                } else if (index == 10) {
+                    schedule.setAchotel(id);
+                } else if (index == 11) {
+                    schedule.setBlk(id);
+                    schedules.add(schedule);
+                    schedule = new Schedule();
                 }
-            } else if (index == 6) {
-                schedule.setCnt_from(chileText);
-            } else if (index == 7) {
-                schedule.setStd(chileText);
-            } else if (index == 8) {
-                schedule.setCnt_to(chileText);
-            } else if (index == 9) {
-                schedule.setSta(chileText);
-            } else if (index == 10) {
-                schedule.setAchotel(chileText);
-            } else if (index == 11) {
-                schedule.setBlk(chileText);
-                schedules.add(schedule);
-                schedule=new Schedule();
             }
         }
 
@@ -85,7 +84,7 @@ class BlockTest {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.enable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY);
         objectMapper.enable(MapperFeature.ACCEPT_CASE_INSENSITIVE_PROPERTIES);
-        File file = new File("C:\\Users\\KIMJAESUNG\\Air_Scheduler\\AirAPI\\src\\main\\resources\\analyzeDocResponse_test.json");
+        File file = new File("D:\\Air_Scheduler\\AirAPI\\src\\main\\resources\\analyzeDocResponse.json");
         try {
             List<Blocks> entities = objectMapper.readValue(file, new TypeReference<List<Blocks>>() {
             });

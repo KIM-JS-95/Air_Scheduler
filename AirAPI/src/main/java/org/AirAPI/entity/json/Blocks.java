@@ -33,12 +33,17 @@ public class Blocks {
     @JsonAlias("EntityTypes")
     private String[] entityTypes;
 
+    @JsonAlias("TextType")
+    private String texttype;
 
     @JsonAlias("Page")
     private int page;
 
     @JsonAlias("SearchKey")
     private String searchKey;
+
+    @JsonAlias("Text")
+    private String text;
 
     private String childText;
 

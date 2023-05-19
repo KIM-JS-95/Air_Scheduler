@@ -14,65 +14,107 @@ import software.amazon.awssdk.services.textract.model.Block;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.regex.Pattern;
 
 class BlockTest {
 
     @Autowired
     private ScheduleService service;
+
     @Test
     @DisplayName("dummy Entity- test")
-    public void setEntity() throws IOException {
+    public void setEntity() throws IOException, ParseException {
         List<Blocks> block = readJsonFile();
         HashMap<String, String> map = new HashMap<>();
-
         block.forEach(callback -> {
-            if (callback.getBlockType() == "WORD") {
+            if (callback.getBlockType().equals("WORD")) {
                 map.put(callback.getId(), callback.getText());
             }
         });
-
-
         ex2_test(map, block);
     }
 
-    public void ex2_test(HashMap<String, String> map, List<Blocks> list) {
+    public String getDateFormatRegex(String dateFormatPattern) {
+        String regex = dateFormatPattern
+                .replaceAll("d", "\\d")
+                .replaceAll("M", "\\d")
+                .replaceAll("y", "\\d")
+                .replaceAll("E", "\\p{Alpha}")
+                .replaceAll("a", "\\p{Alpha}")
+                .replaceAll("H", "\\d")
+                .replaceAll("m", "\\d")
+                .replaceAll("s", "\\d");
+
+        regex = "^" + regex + "$";
+        return regex;
+    }
+
+
+    public boolean isDateValid(String dateString, String dateFormatPattern) {
+        DateFormat dateFormat = new SimpleDateFormat(dateFormatPattern);
+        dateFormat.setLenient(false);
+        System.out.println(dateString);
+        try {
+            dateFormat.parse(dateString);
+            return true;
+        } catch (ParseException e) {
+            return false;
+        }
+    }
+
+    public void ex2_test(HashMap<String, String> map, List<Blocks> list) throws ParseException {
         List<Schedule> schedules = new ArrayList<>();
         Schedule schedule = new Schedule();
         for (int i = 0; i < list.size(); i++) {
             if (list.get(i).getBlockType().equals("CELL")) {
-                if (list.get(i).getRowIndex() == 1) continue;
                 Blocks block = list.get(i);
                 int index = block.getColumnIndex();
-                String[] ids = block.getRelationships()[0].getIds();
-                String id = map.get(ids);
-                if (index == 1) {
-                    schedule.setDate(id);
-                } else if (index == 2) {
-                    schedule.setPairing(id);
-                } else if (index == 3) {
-                    schedule.setDc(id);
-                } else if (index == 4) {
-                    schedule.setCi(id);
-                } else if (index == 5) {
-                    String[] units = id.split(" ");
-                } else if (index == 6) {
-                    schedule.setCnt_from(id);
-                } else if (index == 7) {
-                    schedule.setStd(id);
-                } else if (index == 8) {
-                    schedule.setCnt_to(id);
-                } else if (index == 9) {
-                    schedule.setSta(id);
-                } else if (index == 10) {
-                    schedule.setAchotel(id);
-                } else if (index == 11) {
-                    schedule.setBlk(id);
-                    schedules.add(schedule);
-                    schedule = new Schedule();
+                String[] ids;
+                if (list.get(i).getRowIndex() == 1 || index == 2) continue;
+
+                if (null != block.getRelationships()) {
+                    ids = block.getRelationships()[0].getIds();
+                    if (index == 1) {
+                        boolean isValid = isDateValid(map.get(ids[0]), "ddMMMyy");
+                        if (isValid) {
+                            schedule.setDate(map.get(ids[0]));
+                        }
+
+                    } else if (index == 3) {
+                        schedule.setDc(map.get(ids[0]));
+                    } else if (index == 4) {
+                        schedule.setCi(map.get(ids[0]));
+                    } else if (index == 5) {
+                        schedule.setActivity(map.get(ids[0]));
+                    } else if (index == 6) {
+                        schedule.setCnt_from(map.get(ids[0]));
+                    } else if (index == 7) {
+                        schedule.setStd(map.get(ids[0]));
+                    } else if (index == 8) {
+                        schedule.setCnt_to(map.get(ids[0]));
+                    } else if (index == 9) {
+                        schedule.setSta(map.get(ids[0]));
+                    } else if (index == 10) {
+                        String hotel = "";
+                        for (int j = 0; j < ids.length; j++) {
+                            hotel += map.get(ids[j]);
+                        }
+                        schedule.setAchotel(hotel);
+                    } else if (index == 11) {
+                        schedule.setBlk(map.get(ids[0]));
+                        schedules.add(schedule);
+                        schedule = new Schedule();
+                    }
                 }
+            } else {
+                continue;
             }
         }
         schedules.forEach((n) -> System.out.println(n));

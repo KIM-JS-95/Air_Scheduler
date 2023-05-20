@@ -9,8 +9,6 @@ import software.amazon.awssdk.services.textract.TextractClient;
 import software.amazon.awssdk.services.textract.model.Block;
 
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 @Service
@@ -33,4 +31,7 @@ public class ScheduleService {
         return true;
     }
 
+    public List<Schedule> schedule_save(List<Schedule> schedules){
+        return schduleRepository.saveAll(schedules);
+    }
 }

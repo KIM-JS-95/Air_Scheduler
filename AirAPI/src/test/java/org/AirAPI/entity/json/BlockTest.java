@@ -58,11 +58,13 @@ class BlockTest {
             if (list.get(i).getBlockType().equals("CELL")) {
                 Blocks block = list.get(i);
                 int index = block.getColumnIndex();
-                String[] ids;
                 if (list.get(i).getRowIndex() == 1 || index == 2) continue;
-
-                if (null != block.getRelationships()) {
-                    ids = block.getRelationships()[0].getIds();
+                if(index==11){
+                    schedules.add(schedule);
+                    schedule = new Schedule();
+                }
+                if (block.getRelationships()!=null) {
+                    String[] ids = block.getRelationships()[0].getIds();
                     if (index == 1) {
                         if (ids.length == 1) {
                             if (isDateValid(map.get(ids[0]))) {
@@ -96,13 +98,13 @@ class BlockTest {
                         schedule.setAchotel(hotel);
                     } else if (index == 11) {
                         schedule.setBlk(map.get(ids[0]));
-                        schedules.add(schedule);
-                        schedule = new Schedule();
                     }
                 }
             }
         }
         schedules.forEach(n->System.out.println(n));
+        service.schedule_save(schedules);
+
     }
 
     public List<Blocks> readJsonFile() throws IOException {

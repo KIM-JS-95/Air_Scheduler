@@ -1,47 +1,16 @@
-	01Apr23
-	02Apr23
-	03Apr23
-	04Apr23
-	05Apr23
-	06Apr23
-	07Apr23
-	08Apr23
-	09Apr23
-	10Apr23
-	11Apr23
-	12Apr23
-	13Apr23
-	14Apr23
-	15Apr23
-F2653
-	16Apr23
-	17Apr23
-	18Apr23
-	19Apr23
-	20Apr23
-	21Apr23
-	22Apr23
-	23Apr23
-	24Apr23
-	25Apr23
-	26Apr23
-	27Apr23
-	28Apr23
-	29Apr23
-	30Apr23
-òSchedule(id=0, date=null, pairing=null, dc=1945, ci=0050, co=null, activity=2903, cnt_from=ICN, std=2155, cnt_to=DAD, sta=0230, achotel=738, blk=4:35)
-òSchedule(id=0, date=null, pairing=null, dc=0030, ci=0905, co=null, activity=2904, cnt_from=DAD, std=0330, cnt_to=ICN, sta=0805, achotel=738, blk=4:35)
-óSchedule(id=0, date=null, pairing=null, dc=1800, ci=2040, co=null, activity=129, cnt_from=GMP, std=1910, cnt_to=CJU, sta=2020, achotel=738, blk=1:10)
-òSchedule(id=0, date=null, pairing=null, dc=2040, ci=0220, co=null, activity=2243, cnt_from=CJU, std=2200, cnt_to=BKK, sta=0400, achotel=738, blk=6:00)
-òSchedule(id=0, date=null, pairing=null, dc=0045, ci=1020, co=null, activity=2206, cnt_from=BKK, std=0345, cnt_to=ICN, sta=0920, achotel=738, blk=5:35)
-òSchedule(id=0, date=null, pairing=null, dc=0830, ci=null, co=null, activity=3102, cnt_from=ICN, std=1040, cnt_to=GUM, sta=1505, achotel=738, blk=4:25)
-òSchedule(id=0, date=null, pairing=null, dc=0655, ci=1800, co=null, activity=1154, cnt_from=PUS, std=1100, cnt_to=NRT, sta=1300, achotel=738, blk=2:00)
-òSchedule(id=0, date=null, pairing=null, dc=null, ci=1655, co=null, activity=1153, cnt_from=NRT, std=1400, cnt_to=PUS, sta=1635, achotel=738, blk=2:35)
-òSchedule(id=0, date=null, pairing=null, dc=2035, ci=null, co=null, activity=2653, cnt_from=PUS, std=2155, cnt_to=TPE, sta=0030, achotel=738, blk=2:35)
-òSchedule(id=0, date=null, pairing=null, dc=null, ci=null, co=null, activity=2654, cnt_from=TPE, std=0350, cnt_to=PUS, sta=0610, achotel=738, blk=2:20)
-òSchedule(id=0, date=null, pairing=null, dc=1410, ci=0845, co=null, activity=9104, cnt_from=ICN, std=1620, cnt_to=NRT, sta=1845, achotel=738, blk=2:25)
-òSchedule(id=0, date=null, pairing=null, dc=null, ci=2350, co=null, activity=9103, cnt_from=NRT, std=1945, cnt_to=ICN, sta=2250, achotel=738, blk=3:05)
-òSchedule(id=0, date=null, pairing=null, dc=1700, ci=2340, co=null, activity=2507, cnt_from=ICN, std=1910, cnt_to=BKI, sta=0020, achotel=738, blk=5:10)
-òSchedule(id=0, date=null, pairing=null, dc=2320, ci=0725, co=null, activity=2508, cnt_from=BKI, std=0120, cnt_to=ICN, sta=0625, achotel=738, blk=5:05)
-òSchedule(id=0, date=null, pairing=null, dc=1355, ci=1300, co=null, activity=1406, cnt_from=ICN, std=1605, cnt_to=FUK, sta=1730, achotel=738, blk=1:25)
-òSchedule(id=0, date=null, pairing=null, dc=null, ci=2245, co=null, activity=1405, cnt_from=FUK, std=1950, cnt_to=ICN, sta=2145, achotel=738, blk=1:55)
+úSchedule(id=0, date=01Apr23, pairing=F2903, dc=1945, ci=0050, co=null, activity=2903, cnt_from=ICN, std=2155, cnt_to=DAD, sta=0230, achotel=738, blk=4:35)
+úSchedule(id=0, date=03Apr23, pairing=F2903, dc=0030, ci=0905, co=null, activity=2904, cnt_from=DAD, std=0330, cnt_to=ICN, sta=0805, achotel=738, blk=4:35)
+†Schedule(id=0, date=05Apr23, pairing=F2243, dc=1800, ci=2040, co=null, activity=LAYOV, cnt_from=CJU, std=2055, cnt_to=CJU, sta=2025, achotel=??????, blk=1:10)
+úSchedule(id=0, date=06Apr23, pairing=F2243, dc=2040, ci=0220, co=null, activity=2243, cnt_from=CJU, std=2200, cnt_to=BKK, sta=0400, achotel=738, blk=6:00)
+úSchedule(id=0, date=08Apr23, pairing=F2243, dc=0045, ci=1020, co=null, activity=2206, cnt_from=BKK, std=0345, cnt_to=ICN, sta=0920, achotel=738, blk=5:35)
+ùSchedule(id=0, date=11Apr23, pairing=F3102A, dc=0830, ci=2210, co=null, activity=3101, cnt_from=GUM, std=1610, cnt_to=ICN, sta=2110, achotel=738, blk=4:25)
+úSchedule(id=0, date=15Apr23, pairing=F2653, dc=0655, ci=null, co=null, activity=1154, cnt_from=PUS, std=1100, cnt_to=NRT, sta=1300, achotel=738, blk=2:00)
+úSchedule(id=0, date=null, pairing=F2653, dc=null, ci=1655, co=null, activity=LAYOV, cnt_from=PUS, std=1745, cnt_to=PUS, sta=1945, achotel=?????, blk=2:35)
+úSchedule(id=0, date=16Apr23, pairing=F2653, dc=2035, ci=null, co=null, activity=2653, cnt_from=PUS, std=2155, cnt_to=TPE, sta=0030, achotel=738, blk=2:35)
+õSchedule(id=0, date=17Apr23, pairing=F2653, dc=null, ci=0845, co=null, activity=211, cnt_from=PUS, std=0730, cnt_to=GMP, sta=0825, achotel=738, blk=2:20)
+úSchedule(id=0, date=20Apr23, pairing=F9104, dc=1410, ci=2350, co=null, activity=9103, cnt_from=NRT, std=1945, cnt_to=ICN, sta=2250, achotel=738, blk=3:05)
+úSchedule(id=0, date=20Apr23, pairing=F9104, dc=1410, ci=2350, co=null, activity=9103, cnt_from=NRT, std=1945, cnt_to=ICN, sta=2250, achotel=738, blk=3:05)
+úSchedule(id=0, date=21Apr23, pairing=F2507, dc=1700, ci=2340, co=null, activity=2507, cnt_from=ICN, std=1910, cnt_to=BKI, sta=0020, achotel=738, blk=5:10)
+úSchedule(id=0, date=23Apr23, pairing=F2507, dc=2320, ci=0725, co=null, activity=2508, cnt_from=BKI, std=0120, cnt_to=ICN, sta=0625, achotel=738, blk=5:05)
+úSchedule(id=0, date=26Apr23, pairing=F1406, dc=1355, ci=2245, co=null, activity=1405, cnt_from=FUK, std=1950, cnt_to=ICN, sta=2145, achotel=738, blk=1:55)
+úSchedule(id=0, date=26Apr23, pairing=F1406, dc=1355, ci=2245, co=null, activity=1405, cnt_from=FUK, std=1950, cnt_to=ICN, sta=2145, achotel=738, blk=1:55)

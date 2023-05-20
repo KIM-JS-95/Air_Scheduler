@@ -41,30 +41,12 @@ class BlockTest {
         ex2_test(map, block);
     }
 
-    public String getDateFormatRegex(String dateFormatPattern) {
-        String regex = dateFormatPattern
-                .replaceAll("d", "\\d")
-                .replaceAll("M", "\\d")
-                .replaceAll("y", "\\d")
-                .replaceAll("E", "\\p{Alpha}")
-                .replaceAll("a", "\\p{Alpha}")
-                .replaceAll("H", "\\d")
-                .replaceAll("m", "\\d")
-                .replaceAll("s", "\\d");
 
-        regex = "^" + regex + "$";
-        return regex;
-    }
-
-
-    public boolean isDateValid(String dateString, String dateFormatPattern) {
-        DateFormat dateFormat = new SimpleDateFormat(dateFormatPattern);
-        dateFormat.setLenient(false);
-        System.out.println(dateString);
+    public static boolean isDateValid(String dateString) {
         try {
-            dateFormat.parse(dateString);
-            return true;
-        } catch (ParseException e) {
+            String dateFormatPattern = "^\\d{2}(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\\d{2}$";
+            return Pattern.matches(dateFormatPattern, dateString);
+        } catch (Exception e) {
             return false;
         }
     }
@@ -82,11 +64,16 @@ class BlockTest {
                 if (null != block.getRelationships()) {
                     ids = block.getRelationships()[0].getIds();
                     if (index == 1) {
-                        boolean isValid = isDateValid(map.get(ids[0]), "ddMMMyy");
-                        if (isValid) {
+                        if (ids.length == 1) {
+                            if (isDateValid(map.get(ids[0]))) {
+                                schedule.setDate(map.get(ids[0]));
+                            } else {
+                                schedule.setPairing(map.get(ids[0]));
+                            }
+                        } else {
                             schedule.setDate(map.get(ids[0]));
+                            schedule.setPairing(map.get(ids[1]));
                         }
-
                     } else if (index == 3) {
                         schedule.setDc(map.get(ids[0]));
                     } else if (index == 4) {
@@ -113,19 +100,17 @@ class BlockTest {
                         schedule = new Schedule();
                     }
                 }
-            } else {
-                continue;
             }
         }
-        schedules.forEach((n) -> System.out.println(n));
+        schedules.forEach(n->System.out.println(n));
     }
 
     public List<Blocks> readJsonFile() throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.enable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY);
         objectMapper.enable(MapperFeature.ACCEPT_CASE_INSENSITIVE_PROPERTIES);
-        //File file = new File("D:\\Air_Scheduler\\AirAPI\\src\\main\\resources\\analyzeDocResponse.json");
-        File file = new File("C:\\Users\\KIMJAESUNG\\Air_Scheduler\\AirAPI\\src\\main\\resources\\analyzeDocResponse.json");
+        File file = new File("D:\\Air_Scheduler\\AirAPI\\src\\main\\resources\\analyzeDocResponse.json");
+        //File file = new File("C:\\Users\\KIMJAESUNG\\Air_Scheduler\\AirAPI\\src\\main\\resources\\analyzeDocResponse.json");
         try {
             List<Blocks> entities = objectMapper.readValue(file, new TypeReference<List<Blocks>>() {
             });

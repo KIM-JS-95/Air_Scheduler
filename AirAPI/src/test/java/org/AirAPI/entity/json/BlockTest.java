@@ -9,16 +9,11 @@ import org.AirAPI.service.ScheduleService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Schedules;
-import software.amazon.awssdk.services.textract.model.Block;
 
 import java.io.File;
 import java.io.IOException;
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -103,8 +98,6 @@ class BlockTest {
             }
         }
         schedules.forEach(n->System.out.println(n));
-        service.schedule_save(schedules);
-
     }
 
     public List<Blocks> readJsonFile() throws IOException {

@@ -9,6 +9,7 @@ import software.amazon.awssdk.services.textract.TextractClient;
 import software.amazon.awssdk.services.textract.model.Block;
 
 import java.io.InputStream;
+import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -23,15 +24,26 @@ public class ScheduleService {
         return schduleRepository.findById(id).orElseThrow();
     }
 
-    public boolean textrack(InputStream source) {
+    public List<Schedule> textrack(InputStream source) {
         TextractClient textractClient = awstextrack.awsceesser();
-        List<Block> blockIterator = awstextrack.analyzeDoc(textractClient, source);
+        List<Block> block = awstextrack.analyzeDoc(textractClient, source);
+        HashMap<String, String> map = new HashMap<>();
 
-        awstextrack.TexttoEntity(blockIterator);
-        return true;
+        block.forEach(callback -> {
+            if (callback.blockType().equals("WORD")) {
+                map.put(callback.id(), callback.text());
+            }
+        });
+        return awstextrack.TexttoEntity(map,block);
     }
 
-    public List<Schedule> schedule_save(List<Schedule> schedules){
-        return schduleRepository.saveAll(schedules);
+    public boolean schedule_save(List<Schedule> schedules){
+        try {
+            schduleRepository.saveAll(schedules);
+            return true;
+        }catch (Exception e){
+            // 에러 행들링
+            return false;
+        }
     }
 }

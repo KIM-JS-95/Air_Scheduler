@@ -2,7 +2,6 @@
 package org.AirAPI.config;
 
 import org.AirAPI.entity.Schedule;
-import org.AirAPI.entity.json.Blocks;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
@@ -17,7 +16,9 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.regex.Pattern;
 
 @Configuration
 public class AWStextrack {
@@ -151,48 +152,66 @@ public class AWStextrack {
         }
     }
 
-    public void TexttoEntity(List<Block> list) {
+    public static boolean isDateValid(String dateString) {
+        try {
+            String dateFormatPattern = "^\\d{2}(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\\d{2}$";
+            return Pattern.matches(dateFormatPattern, dateString);
+        } catch (Exception e) {
+            return false;
+        }
+    }
+    public List<Schedule> TexttoEntity(HashMap<String, String> map, List<Block> list) {
         List<Schedule> schedules = new ArrayList<>();
         Schedule schedule = new Schedule();
 
         for (int i = 0; i < list.size(); i++) {
-            if (list.get(i).blockType().toString()=="CELL" && list.get(i).rowIndex() != 1) {
+            if (list.get(i).blockType().equals("CELL")) {
                 Block block = list.get(i);
                 int index = block.columnIndex();
-                String chileText = block.text();
-                if (index == 1) {
-                    schedule.setDate(chileText);
-                } else if (index == 2) {
-                    schedule.setPairing(chileText);
-                } else if (index == 3) {
-                    schedule.setDc(chileText);
-                } else if (index == 4) {
-                    schedule.setCi(chileText);
-                } else if (index == 5) {
-                    String[] units = chileText.split(" ");
-                    if (units.length == 1) {
-                        schedule.setActivity(units[0]);
-                    } else {
-                        schedule.setCo(units[0]);
-                        schedule.setActivity(units[1]);
-                    }
-                } else if (index == 6) {
-                    schedule.setCnt_from(chileText);
-                } else if (index == 7) {
-                    schedule.setStd(chileText);
-                } else if (index == 8) {
-                    schedule.setCnt_to(chileText);
-                } else if (index == 9) {
-                    schedule.setSta(chileText);
-                } else if (index == 10) {
-                    schedule.setAchotel(chileText);
-                } else if (index == 11) {
-                    schedule.setBlk(chileText);
+                if (list.get(i).rowIndex() == 1 || index == 2) continue;
+                if(index==11){
                     schedules.add(schedule);
                     schedule = new Schedule();
                 }
+                if (block.relationships()!=null) {
+                    String[] ids = block.relationships().get(0).ids().toArray(new String[0]);
+                    if (index == 1) {
+                        if (ids.length == 1) {
+                            if (isDateValid(map.get(ids[0]))) {
+                                schedule.setDate(map.get(ids[0]));
+                            } else {
+                                schedule.setPairing(map.get(ids[0]));
+                            }
+                        } else {
+                            schedule.setDate(map.get(ids[0]));
+                            schedule.setPairing(map.get(ids[1]));
+                        }
+                    } else if (index == 3) {
+                        schedule.setDc(map.get(ids[0]));
+                    } else if (index == 4) {
+                        schedule.setCi(map.get(ids[0]));
+                    } else if (index == 5) {
+                        schedule.setActivity(map.get(ids[0]));
+                    } else if (index == 6) {
+                        schedule.setCnt_from(map.get(ids[0]));
+                    } else if (index == 7) {
+                        schedule.setStd(map.get(ids[0]));
+                    } else if (index == 8) {
+                        schedule.setCnt_to(map.get(ids[0]));
+                    } else if (index == 9) {
+                        schedule.setSta(map.get(ids[0]));
+                    } else if (index == 10) {
+                        String hotel = "";
+                        for (int j = 0; j < ids.length; j++) {
+                            hotel += map.get(ids[j]);
+                        }
+                        schedule.setAchotel(hotel);
+                    } else if (index == 11) {
+                        schedule.setBlk(map.get(ids[0]));
+                    }
+                }
             }
         }
-        schedules.forEach((n) -> System.out.println(n));
+        return schedules;
     }
 }

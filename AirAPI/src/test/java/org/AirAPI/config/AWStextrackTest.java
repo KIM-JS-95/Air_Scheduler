@@ -1,8 +1,8 @@
 package org.AirAPI.config;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.AirAPI.entity.Schedule;
-import org.AirAPI.entity.json.Blocks;
 import org.junit.jupiter.api.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,10 +12,16 @@ import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.textract.TextractClient;
 import software.amazon.awssdk.services.textract.model.Block;
-import com.fasterxml.jackson.core.type.TypeReference;
 
-import java.io.*;
-import java.util.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Properties;
+import java.util.regex.Pattern;
 
 //@SpringBootTest
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -64,53 +70,80 @@ public class AWStextrackTest {
         //String filePath = "D:\\Air_Scheduler\\AirAPI\\src\\main\\resources\\static\\img\\sample.jpg";
         FileInputStream fileInputStream = new FileInputStream(filePath);
         List<Block> blocks = AWStextrack.analyzeDoc(textractClient, fileInputStream);
-        ex2(blocks);
+        HashMap<String, String> map = new HashMap<>();
+
+        blocks.forEach(callback -> {
+            if (callback.blockType().equals("WORD")) {
+                map.put(callback.id(), callback.text());
+            }
+        });
+
+        ex2(map, blocks);
     }
 
 
-    public void ex2(List<Block> list) {
+    public static boolean isDateValid(String dateString) {
+        try {
+            String dateFormatPattern = "^\\d{2}(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\\d{2}$";
+            return Pattern.matches(dateFormatPattern, dateString);
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    public void ex2(HashMap<String, String> map, List<Block> list) {
         List<Schedule> schedules = new ArrayList<>();
         Schedule schedule = new Schedule();
-/*
-* 타입 CELL에서 id값을 획득해서 word에서 검색하는 방식으로 해야함
-* id : word
-*
-* */
+        /*
+         * 타입 CELL에서 id값을 획득해서 word에서 검색하는 방식으로 해야함
+         * id : word
+         *
+         * */
         for (int i = 0; i < list.size(); i++) {
-            if (list.get(i).blockType().toString()=="CELL" && list.get(i).rowIndex() != 1) {
+            if (list.get(i).blockType().equals("CELL")) {
                 Block block = list.get(i);
                 int index = block.columnIndex();
-                String chileText = block.text();
-                if (index == 1) {
-                    schedule.setDate(chileText);
-                } else if (index == 2) {
-                    schedule.setPairing(chileText);
-                } else if (index == 3) {
-                    schedule.setDc(chileText);
-                } else if (index == 4) {
-                    schedule.setCi(chileText);
-                } else if (index == 5) {
-                    String[] units = chileText.split(" ");
-                    if (units.length == 1) {
-                        schedule.setActivity(units[0]);
-                    } else {
-                        schedule.setCo(units[0]);
-                        schedule.setActivity(units[1]);
-                    }
-                } else if (index == 6) {
-                    schedule.setCnt_from(chileText);
-                } else if (index == 7) {
-                    schedule.setStd(chileText);
-                } else if (index == 8) {
-                    schedule.setCnt_to(chileText);
-                } else if (index == 9) {
-                    schedule.setSta(chileText);
-                } else if (index == 10) {
-                    schedule.setAchotel(chileText);
-                } else if (index == 11) {
-                    schedule.setBlk(chileText);
+                if (list.get(i).rowIndex() == 1 || index == 2) continue;
+                if (index == 11) {
                     schedules.add(schedule);
                     schedule = new Schedule();
+                }
+                if (block.relationships() != null) {
+                    String[] ids = block.relationships().get(0).ids().toArray(new String[0]);
+                    if (index == 1) {
+                        if (ids.length == 1) {
+                            if (isDateValid(map.get(ids[0]))) {
+                                schedule.setDate(map.get(ids[0]));
+                            } else {
+                                schedule.setPairing(map.get(ids[0]));
+                            }
+                        } else {
+                            schedule.setDate(map.get(ids[0]));
+                            schedule.setPairing(map.get(ids[1]));
+                        }
+                    } else if (index == 3) {
+                        schedule.setDc(map.get(ids[0]));
+                    } else if (index == 4) {
+                        schedule.setCi(map.get(ids[0]));
+                    } else if (index == 5) {
+                        schedule.setActivity(map.get(ids[0]));
+                    } else if (index == 6) {
+                        schedule.setCnt_from(map.get(ids[0]));
+                    } else if (index == 7) {
+                        schedule.setStd(map.get(ids[0]));
+                    } else if (index == 8) {
+                        schedule.setCnt_to(map.get(ids[0]));
+                    } else if (index == 9) {
+                        schedule.setSta(map.get(ids[0]));
+                    } else if (index == 10) {
+                        String hotel = "";
+                        for (int j = 0; j < ids.length; j++) {
+                            hotel += map.get(ids[j]);
+                        }
+                        schedule.setAchotel(hotel);
+                    } else if (index == 11) {
+                        schedule.setBlk(map.get(ids[0]));
+                    }
                 }
             }
         }

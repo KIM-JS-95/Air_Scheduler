@@ -5,8 +5,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
-@SpringBootApplication()
-@ComponentScan(basePackages = {"org.AirAPI"})
+@SpringBootApplication
+@ComponentScan(basePackages = {"org.AirAPI.config.*"})
 @EnableJpaRepositories(basePackages = {"org.AirAPI.repository.*"})
 public class Main {
     public static void main(String[] args) {

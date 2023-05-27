@@ -1,4 +1,4 @@
-package org.AirAPI.jwt.controller;
+package org.AirAPI.controller;
 
 
 import org.AirAPI.config.HeaderSetter;

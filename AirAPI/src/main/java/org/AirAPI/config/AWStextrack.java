@@ -3,6 +3,7 @@ package org.AirAPI.config;
 
 import org.AirAPI.entity.Schedule;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
 import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
@@ -11,6 +12,7 @@ import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.textract.TextractClient;
 import software.amazon.awssdk.services.textract.model.*;
 
+import java.awt.*;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -29,7 +31,9 @@ public class AWStextrack {
     @Value("${secretkey}")
     private String secretkey;
 
+
     public TextractClient awsceesser(){
+        System.out.println(secretkey);
         AwsBasicCredentials awsCreds = AwsBasicCredentials.create(accesskey, secretkey);
         TextractClient textractClient = TextractClient.builder()
                 .region(Region.US_WEST_2)
@@ -37,6 +41,7 @@ public class AWStextrack {
                 .build();
         return textractClient;
     }
+
 
     public static List<Block> analyzeDoc(TextractClient textractClient, InputStream sourceDoc) {
         List<Block> docInfo=null;
@@ -160,7 +165,8 @@ public class AWStextrack {
             return false;
         }
     }
-    public List<Schedule> TexttoEntity(HashMap<String, String> map, List<Block> list) {
+    @Bean
+    public static List<Schedule> texttoEntity(HashMap<String, String> map, List<Block> list) {
         List<Schedule> schedules = new ArrayList<>();
         Schedule schedule = new Schedule();
 

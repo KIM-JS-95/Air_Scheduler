@@ -34,7 +34,7 @@ public class ScheduleService {
                 map.put(callback.id(), callback.text());
             }
         });
-        return awstextrack.TexttoEntity(map,block);
+        return awstextrack.texttoEntity(map,block);
     }
 
     public boolean schedule_save(List<Schedule> schedules){

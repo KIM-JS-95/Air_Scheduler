@@ -1,4 +1,4 @@
-package org.AirAPI.jwt.controller;
+package org.AirAPI.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

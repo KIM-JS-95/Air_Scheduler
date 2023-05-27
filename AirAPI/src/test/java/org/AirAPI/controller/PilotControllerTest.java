@@ -7,7 +7,6 @@ import org.AirAPI.entity.Authority;
 import org.AirAPI.entity.Schedule;
 import org.AirAPI.entity.User;
 import org.AirAPI.jwt.JwtTokenProvider;
-import org.AirAPI.jwt.controller.PilotController;
 import org.AirAPI.repository.SchduleRepository;
 import org.AirAPI.repository.TokenRepository;
 import org.AirAPI.repository.UserRepository;
@@ -43,41 +42,28 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class PilotControllerTest {
     @Autowired
     private MockMvc mvc;
-
     @Autowired
     private ObjectMapper objectMapper;
-
     @Autowired
     private AWStextrack awstextrack;
-
     @Autowired
     private SecurityConfig securityConfig;
-
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
-
     @MockBean
     private UserDetailsService userDetailsService;
-
     @MockBean
     private CustomUserDetailService customUserDetailService;
-
-
     @MockBean
     private SchduleRepository schduleRepository;
-
     @MockBean
     private TokenRepository tokenRepository;
-
     @MockBean
     private UserRepository userRepository;
-
     @MockBean
     private ScheduleService scheduleService;
-
     private Schedule schedule1;
     List<Schedule> scheduleList = new ArrayList<>();
-
     User user = null;
 
     @BeforeEach

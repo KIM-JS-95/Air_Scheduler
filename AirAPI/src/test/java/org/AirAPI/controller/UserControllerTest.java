@@ -2,7 +2,6 @@ package org.AirAPI.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.AirAPI.entity.User;
-import org.AirAPI.jwt.controller.UserController;
 import org.AirAPI.repository.SchduleRepository;
 import org.AirAPI.repository.TokenRepository;
 import org.AirAPI.repository.UserRepository;

@@ -36,16 +36,6 @@ class BlockTest {
         ex2_test(map, block);
     }
 
-
-    public static boolean isDateValid(String dateString) {
-        try {
-            String dateFormatPattern = "^\\d{2}(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\\d{2}$";
-            return Pattern.matches(dateFormatPattern, dateString);
-        } catch (Exception e) {
-            return false;
-        }
-    }
-
     public void ex2_test(HashMap<String, String> map, List<Blocks> list) throws ParseException {
         List<Schedule> schedules = new ArrayList<>();
         Schedule schedule = new Schedule();
@@ -100,12 +90,21 @@ class BlockTest {
         schedules.forEach(n->System.out.println(n));
     }
 
+    public static boolean isDateValid(String dateString) {
+        try {
+            String dateFormatPattern = "^\\d{2}(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\\d{2}$";
+            return Pattern.matches(dateFormatPattern, dateString);
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
     public List<Blocks> readJsonFile() throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.enable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY);
         objectMapper.enable(MapperFeature.ACCEPT_CASE_INSENSITIVE_PROPERTIES);
-        File file = new File("D:\\Air_Scheduler\\AirAPI\\src\\main\\resources\\analyzeDocResponse.json");
-        //File file = new File("C:\\Users\\KIMJAESUNG\\Air_Scheduler\\AirAPI\\src\\main\\resources\\analyzeDocResponse.json");
+        //File file = new File("D:\\Air_Scheduler\\AirAPI\\src\\main\\resources\\analyzeDocResponse.json");
+        File file = new File("C:\\Users\\KIMJAESUNG\\Air_Scheduler\\AirAPI\\src\\main\\resources\\analyzeDocResponse.json");
         try {
             List<Blocks> entities = objectMapper.readValue(file, new TypeReference<List<Blocks>>() {
             });

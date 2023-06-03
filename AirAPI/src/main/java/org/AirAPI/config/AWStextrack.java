@@ -2,6 +2,7 @@
 package org.AirAPI.config;
 
 import org.AirAPI.entity.Schedule;
+import org.AirAPI.entity.json.Blocks;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,6 +19,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -220,4 +222,5 @@ public class AWStextrack {
         }
         return schedules;
     }
+
 }

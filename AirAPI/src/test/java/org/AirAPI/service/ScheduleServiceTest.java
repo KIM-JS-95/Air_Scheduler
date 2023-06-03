@@ -1,45 +1,30 @@
 package org.AirAPI.service;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.MapperFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.AirAPI.config.AWStextrack;
 import org.AirAPI.entity.Schedule;
 import org.AirAPI.entity.json.Blocks;
+import org.AirAPI.entity.json.Jsonschedules;
 import org.AirAPI.repository.SchduleRepository;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Spy;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.boot.test.mock.mockito.SpyBean;
-import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import software.amazon.awssdk.services.textract.TextractClient;
-import software.amazon.awssdk.services.textract.model.Block;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.*;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = AWStextrack.class)
+@ContextConfiguration(classes = {AWStextrack.class, Jsonschedules.class})
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @TestPropertySource(locations = "classpath:application.properties")
 class ScheduleServiceTest {
@@ -49,8 +34,12 @@ class ScheduleServiceTest {
     private SchduleRepository schduleRepository;
     @Autowired
     public AWStextrack awstextrack;
-    private List<Block> blocks;
+    @Autowired
+    private Jsonschedules jsonschedules;
+    private List<Blocks> blocks;
 
+
+    /*
     @BeforeEach
     public void init() throws FileNotFoundException {
         TextractClient textractClient = awstextrack.awsceesser();
@@ -59,25 +48,25 @@ class ScheduleServiceTest {
         FileInputStream fileInputStream = new FileInputStream(filePath);
         blocks = awstextrack.analyzeDoc(textractClient, fileInputStream);
     }
-
-
+*/
     @Test
     @DisplayName("save test")
-    public void save() throws FileNotFoundException {
+    public void save() throws IOException, ParseException {
 
         HashMap<String, String> map = new HashMap<>();
+        blocks = jsonschedules.readJsonFile();
         blocks.forEach(callback -> {
-            if (callback.blockType().equals("WORD")) {
-                map.put(callback.id(), callback.text());
+            if (callback.getBlockType().equals("WORD")) {
+                map.put(callback.getId(), callback.getText());
             }
         });
-        List<Schedule> scheduleList = awstextrack.texttoEntity(map, blocks);
+        List<Schedule> scheduleList = jsonschedules.getschedules(map, blocks);
 
         lenient()
                 .when(schduleRepository.saveAll(scheduleList))
                 .thenReturn(scheduleList);
 
-        assertThat(scheduleList.get(0).getCnt_from(), Matchers.is("BKK"));
+        assertThat(scheduleList.get(0).getCnt_from(), Matchers.is("ICN"));
 
     }
 

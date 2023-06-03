@@ -5,9 +5,12 @@ import org.AirAPI.entity.Schedule;
 import org.AirAPI.entity.json.Blocks;
 import org.AirAPI.entity.json.Jsonschedules;
 import org.AirAPI.repository.SchduleRepository;
-import org.hamcrest.Matchers;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ContextConfiguration;
@@ -16,28 +19,26 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.io.IOException;
 import java.text.ParseException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.core.Is.is;
-import static org.mockito.ArgumentMatchers.any;
+import static org.hamcrest.Matchers.is;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {AWStextrack.class, Jsonschedules.class})
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+//@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @TestPropertySource(locations = "classpath:application.properties")
 class ScheduleServiceTest {
     @MockBean
     private ScheduleService scheduleService;
-    @MockBean
+    @Mock
     private SchduleRepository schduleRepository;
-    @Autowired
-    public AWStextrack awstextrack;
     @Autowired
     private Jsonschedules jsonschedules;
     private List<Blocks> blocks;
-
 
     /*
     @BeforeEach
@@ -61,19 +62,17 @@ class ScheduleServiceTest {
             }
         });
         List<Schedule> scheduleList = jsonschedules.getschedules(map, blocks);
-
-        lenient()
-                .when(schduleRepository.saveAll(scheduleList))
-                .thenReturn(scheduleList);
-
-        assertThat(scheduleList.get(0).getCnt_from(), Matchers.is("ICN"));
-
+        List<Schedule> mock_scheduleList = scheduleList;
+        when(schduleRepository.saveAll(scheduleList))
+                .thenReturn(mock_scheduleList);
+        assertThat(mock_scheduleList.get(0).getCnt_from(), is("ICN"));
     }
 
     @Test
-    @DisplayName("3개의 데이터를 호출")
     public void finddata() {
-        // when
+
+        List<Schedule> mock_list = new ArrayList<>();
+        // given
         Schedule schedule = Schedule.builder()
                 .id(1)
                 .date("01Nov22")
@@ -83,14 +82,20 @@ class ScheduleServiceTest {
                 .cnt_to("GMP") // 도착
                 .activity("OFF")
                 .build();
-        when(schduleRepository.findById(any())).thenReturn(Optional.ofNullable(schedule));
 
+        mock_list.add(schedule);
+        mock_list.add(schedule);
+        mock_list.add(schedule);
 
-        // given
-        Schedule schedule2 = scheduleService.findData(1);
-        verify(scheduleService, times(1)).findData(1);
-        assertThat(schedule2.getCnt_to(), Matchers.is("GMP"));
+        // 아이디로 검색하명 schedule 로 리턴할꺼야 ~~
+        when(schduleRepository.findById(schedule.getId()))
+                .thenReturn(mock_list);
+
+        // when
+        List<Schedule> threeDays_schedule = schduleRepository.findById(1);
+
+        // then
+        verify(schduleRepository, times(1)).findById(schedule.getId());
+        assertThat(threeDays_schedule.get(0).getCnt_from(), is("BKK"));
     }
-
-
 }

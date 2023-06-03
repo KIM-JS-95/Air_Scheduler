@@ -17,6 +17,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Pattern;
 
+/**
+ * AWS Textrect 요금이 너무 많이 나와 급하게 만든 테스트 전용 클래스 <br>
+ * Since 1.0 <br>
+ * Author: 김재성 <br>
+ */
 @Component
 public class Jsonschedules {
 

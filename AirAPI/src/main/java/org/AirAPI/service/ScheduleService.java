@@ -20,10 +20,13 @@ public class ScheduleService {
     @Autowired
     private SchduleRepository schduleRepository;
 
-    public Schedule findData(int id) {
-        return schduleRepository.findById(id).orElseThrow();
+    // get 3 dats schedules
+    public List<Schedule> findData(int id) {
+        return schduleRepository.findById(id);
     }
 
+    // GET JPG -> AWS textreck -> user Check
+    // 데이터를 획득하고 유저에게 검증 후 'schedule_save' 함수로 저장할꺼야
     public List<Schedule> textrack(InputStream source) {
         TextractClient textractClient = awstextrack.awsceesser();
         List<Block> block = awstextrack.analyzeDoc(textractClient, source);
@@ -37,12 +40,13 @@ public class ScheduleService {
         return awstextrack.texttoEntity(map,block);
     }
 
+    // SAVE
     public boolean schedule_save(List<Schedule> schedules){
         try {
             schduleRepository.saveAll(schedules);
             return true;
         }catch (Exception e){
-            // 에러 행들링
+
             return false;
         }
     }

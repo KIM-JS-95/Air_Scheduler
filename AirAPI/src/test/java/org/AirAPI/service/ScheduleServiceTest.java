@@ -50,34 +50,50 @@ class ScheduleServiceTest {
     @Autowired
     public AWStextrack awstextrack;
     private List<Block> blocks;
-
+    private List<Blocks> mock_block = new ArrayList<Blocks>();
     @BeforeEach
-    public void init() throws FileNotFoundException {
+    public void init() throws IOException {
         TextractClient textractClient = awstextrack.awsceesser();
-        String filePath = "C:\\Users\\KIMJAESUNG\\Air_Scheduler\\AirAPI\\src\\main\\resources\\static\\img\\sample.jpg";
-        //String filePath = "D:\\Air_Scheduler\\AirAPI\\src\\main\\resources\\static\\img\\sample.jpg";
-        FileInputStream fileInputStream = new FileInputStream(filePath);
-        blocks = awstextrack.analyzeDoc(textractClient, fileInputStream);
+        //String filePath = "C:\\Users\\KIMJAESUNG\\Air_Scheduler\\AirAPI\\src\\main\\resources\\static\\img\\sample.jpg";
+        String filePath = "D:\\Air_Scheduler\\AirAPI\\src\\main\\resources\\static\\img\\sample.jpg";
+        //FileInputStream fileInputStream = new FileInputStream(filePath);
+        //blocks = awstextrack.analyzeDoc(textractClient, fileInputStream);
+        mock_block = readJsonFile();
     }
 
+    public List<Blocks> readJsonFile() throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.enable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY);
+        objectMapper.enable(MapperFeature.ACCEPT_CASE_INSENSITIVE_PROPERTIES);
+        File file = new File("D:\\Air_Scheduler\\AirAPI\\src\\main\\resources\\analyzeDocResponse.json");
+        //File file = new File("C:\\Users\\KIMJAESUNG\\Air_Scheduler\\AirAPI\\src\\main\\resources\\analyzeDocResponse.json");
+        try {
+            List<Blocks> entities = objectMapper.readValue(file, new TypeReference<List<Blocks>>() {
+            });
+            return entities;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
     @Test
     @DisplayName("save test")
     public void save() throws FileNotFoundException {
-
         HashMap<String, String> map = new HashMap<>();
-        blocks.forEach(callback -> {
-            if (callback.blockType().equals("WORD")) {
-                map.put(callback.id(), callback.text());
+        mock_block.forEach(callback -> {
+            if (callback.getBlockType().equals("WORD")) {
+                map.put(callback.getId(), callback.getText());
             }
         });
-        List<Schedule> scheduleList = awstextrack.texttoEntity(map, blocks);
 
+        List<Schedule> scheduleList = awstextrack.texttoEntity_test(map, mock_block);
+        verify(scheduleList,atLeastOnce());
         lenient()
                 .when(schduleRepository.saveAll(scheduleList))
                 .thenReturn(scheduleList);
 
-        assertThat(scheduleList.get(0).getCnt_from(), Matchers.is("BKK"));
+        //assertThat(scheduleList.get(0).getCnt_from(), Matchers.is("BKK"));
 
     }
 

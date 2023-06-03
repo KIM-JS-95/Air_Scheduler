@@ -2,6 +2,7 @@
 package org.AirAPI.config;
 
 import org.AirAPI.entity.Schedule;
+import org.AirAPI.entity.json.Blocks;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,6 +18,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -32,7 +34,7 @@ public class AWStextrack {
     private String secretkey;
 
 
-    public TextractClient awsceesser(){
+    public TextractClient awsceesser() {
         System.out.println(secretkey);
         AwsBasicCredentials awsCreds = AwsBasicCredentials.create(accesskey, secretkey);
         TextractClient textractClient = TextractClient.builder()
@@ -44,7 +46,7 @@ public class AWStextrack {
 
 
     public static List<Block> analyzeDoc(TextractClient textractClient, InputStream sourceDoc) {
-        List<Block> docInfo=null;
+        List<Block> docInfo = null;
         try {
             SdkBytes sourceBytes = SdkBytes.fromInputStream(sourceDoc);
             Document myDoc = Document.builder()
@@ -94,6 +96,7 @@ public class AWStextrack {
         }
         return analyzeDocument;
     }
+
     public static void detectDocTextS3(TextractClient textractClient, String bucketName, String docName) {
 
         try {
@@ -125,6 +128,7 @@ public class AWStextrack {
             System.exit(1);
         }
     }
+
     public static void detectDocText(TextractClient textractClient, String sourceDoc) {
 
         try {
@@ -165,6 +169,62 @@ public class AWStextrack {
             return false;
         }
     }
+
+    @Bean
+    public List<Schedule> texttoEntity_test(HashMap<String, String> map, List<Blocks> list){
+        List<Schedule> schedules = new ArrayList<>();
+        Schedule schedule = new Schedule();
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i).getBlockType().equals("CELL")) {
+                Blocks block = list.get(i);
+                int index = block.getColumnIndex();
+                if (list.get(i).getRowIndex() == 1 || index == 2) continue;
+                if (index == 11) {
+                    schedules.add(schedule);
+                    schedule = new Schedule();
+                }
+                if (block.getRelationships() != null) {
+                    String[] ids = block.getRelationships()[0].getIds();
+                    if (index == 1) {
+                        if (ids.length == 1) {
+                            if (isDateValid(map.get(ids[0]))) {
+                                schedule.setDate(map.get(ids[0]));
+                            } else {
+                                schedule.setPairing(map.get(ids[0]));
+                            }
+                        } else {
+                            schedule.setDate(map.get(ids[0]));
+                            schedule.setPairing(map.get(ids[1]));
+                        }
+                    } else if (index == 3) {
+                        schedule.setDc(map.get(ids[0]));
+                    } else if (index == 4) {
+                        schedule.setCi(map.get(ids[0]));
+                    } else if (index == 5) {
+                        schedule.setActivity(map.get(ids[0]));
+                    } else if (index == 6) {
+                        schedule.setCnt_from(map.get(ids[0]));
+                    } else if (index == 7) {
+                        schedule.setStd(map.get(ids[0]));
+                    } else if (index == 8) {
+                        schedule.setCnt_to(map.get(ids[0]));
+                    } else if (index == 9) {
+                        schedule.setSta(map.get(ids[0]));
+                    } else if (index == 10) {
+                        String hotel = "";
+                        for (int j = 0; j < ids.length; j++) {
+                            hotel += map.get(ids[j]);
+                        }
+                        schedule.setAchotel(hotel);
+                    } else if (index == 11) {
+                        schedule.setBlk(map.get(ids[0]));
+                    }
+                }
+            }
+        }
+        return schedules;
+    }
+
     @Bean
     public static List<Schedule> texttoEntity(HashMap<String, String> map, List<Block> list) {
         List<Schedule> schedules = new ArrayList<>();
@@ -175,11 +235,11 @@ public class AWStextrack {
                 Block block = list.get(i);
                 int index = block.columnIndex();
                 if (list.get(i).rowIndex() == 1 || index == 2) continue;
-                if(index==11){
+                if (index == 11) {
                     schedules.add(schedule);
                     schedule = new Schedule();
                 }
-                if (block.relationships()!=null) {
+                if (block.relationships() != null) {
                     String[] ids = block.relationships().get(0).ids().toArray(new String[0]);
                     if (index == 1) {
                         if (ids.length == 1) {

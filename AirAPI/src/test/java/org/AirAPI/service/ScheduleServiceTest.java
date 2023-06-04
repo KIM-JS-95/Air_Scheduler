@@ -1,56 +1,47 @@
 package org.AirAPI.service;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.MapperFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.AirAPI.config.AWStextrack;
 import org.AirAPI.entity.Schedule;
 import org.AirAPI.entity.json.Blocks;
+import org.AirAPI.entity.json.Jsonschedules;
 import org.AirAPI.repository.SchduleRepository;
-import org.hamcrest.Matchers;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Spy;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.boot.test.mock.mockito.SpyBean;
-import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import software.amazon.awssdk.services.textract.TextractClient;
-import software.amazon.awssdk.services.textract.model.Block;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.*;
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.core.Is.is;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.BDDMockito.given;
+import static org.hamcrest.Matchers.is;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = AWStextrack.class)
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+@ContextConfiguration(classes = {AWStextrack.class, Jsonschedules.class})
+//@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @TestPropertySource(locations = "classpath:application.properties")
 class ScheduleServiceTest {
     @MockBean
     private ScheduleService scheduleService;
-    @MockBean
+    @Mock
     private SchduleRepository schduleRepository;
     @Autowired
-    public AWStextrack awstextrack;
-    private List<Block> blocks;
-    private List<Blocks> mock_block = new ArrayList<Blocks>();
+
+    private Jsonschedules jsonschedules;
+    private List<Blocks> blocks;
+
+    /*
     @BeforeEach
     public void init() throws IOException {
         TextractClient textractClient = awstextrack.awsceesser();
@@ -60,47 +51,30 @@ class ScheduleServiceTest {
         //blocks = awstextrack.analyzeDoc(textractClient, fileInputStream);
         mock_block = readJsonFile();
     }
-
-    public List<Blocks> readJsonFile() throws IOException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.enable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY);
-        objectMapper.enable(MapperFeature.ACCEPT_CASE_INSENSITIVE_PROPERTIES);
-        File file = new File("D:\\Air_Scheduler\\AirAPI\\src\\main\\resources\\analyzeDocResponse.json");
-        //File file = new File("C:\\Users\\KIMJAESUNG\\Air_Scheduler\\AirAPI\\src\\main\\resources\\analyzeDocResponse.json");
-        try {
-            List<Blocks> entities = objectMapper.readValue(file, new TypeReference<List<Blocks>>() {
-            });
-            return entities;
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
+*/
     @Test
     @DisplayName("save test")
-    public void save() throws FileNotFoundException {
+    public void save() throws IOException, ParseException {
         HashMap<String, String> map = new HashMap<>();
-        mock_block.forEach(callback -> {
+        blocks = jsonschedules.readJsonFile();
+        blocks.forEach(callback -> {
             if (callback.getBlockType().equals("WORD")) {
                 map.put(callback.getId(), callback.getText());
             }
         });
 
-        List<Schedule> scheduleList = awstextrack.texttoEntity_test(map, mock_block);
-        verify(scheduleList,atLeastOnce());
-        lenient()
-                .when(schduleRepository.saveAll(scheduleList))
-                .thenReturn(scheduleList);
-
-        //assertThat(scheduleList.get(0).getCnt_from(), Matchers.is("BKK"));
-
+        List<Schedule> scheduleList = jsonschedules.getschedules(map, blocks);
+        List<Schedule> mock_scheduleList = scheduleList;
+        when(schduleRepository.saveAll(scheduleList))
+                .thenReturn(mock_scheduleList);
+        assertThat(mock_scheduleList.get(0).getCnt_from(), is("ICN"));
     }
 
     @Test
-    @DisplayName("3개의 데이터를 호출")
     public void finddata() {
-        // when
+
+        List<Schedule> mock_list = new ArrayList<>();
+        // given
         Schedule schedule = Schedule.builder()
                 .id(1)
                 .date("01Nov22")
@@ -110,14 +84,20 @@ class ScheduleServiceTest {
                 .cnt_to("GMP") // 도착
                 .activity("OFF")
                 .build();
-        when(schduleRepository.findById(any())).thenReturn(Optional.ofNullable(schedule));
 
+        mock_list.add(schedule);
+        mock_list.add(schedule);
+        mock_list.add(schedule);
 
-        // given
-        Schedule schedule2 = scheduleService.findData(1);
-        verify(scheduleService, times(1)).findData(1);
-        assertThat(schedule2.getCnt_to(), Matchers.is("GMP"));
+        // 아이디로 검색하명 schedule 로 리턴할꺼야 ~~
+        when(schduleRepository.findById(schedule.getId()))
+                .thenReturn(mock_list);
+
+        // when
+        List<Schedule> threeDays_schedule = schduleRepository.findById(1);
+
+        // then
+        verify(schduleRepository, times(1)).findById(schedule.getId());
+        assertThat(threeDays_schedule.get(0).getCnt_from(), is("BKK"));
     }
-
-
 }

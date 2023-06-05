@@ -17,6 +17,14 @@ import org.springframework.web.bind.annotation.RestController;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/**
+ * Author : KIM JAE SEONG <br>
+ * Content: 사용자 관리 기능 모음집 <br>
+ * Function <br>
+ * join: 회원가입 <br>
+ * login: 유저 로그인 <br>
+ * log_out: 유저 로그 아웃 <br>
+ */
 @Slf4j
 @RestController
 @RequiredArgsConstructor
@@ -55,5 +63,11 @@ public class UserController {
         return header;
     }
 
-
+    // 로그아웃
+    @PostMapping("/logout")
+    public ResponseEntity logout(){
+        String token="";
+        ResponseEntity header = headerSetter.haederSet(token, "login Success", HttpStatus.OK);
+        return header;
+    }
 }

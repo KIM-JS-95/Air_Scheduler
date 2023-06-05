@@ -4,11 +4,9 @@ import org.AirAPI.config.AWStextrack;
 import org.AirAPI.entity.Schedule;
 import org.AirAPI.entity.json.Blocks;
 import org.AirAPI.entity.json.Jsonschedules;
-import org.AirAPI.repository.SchduleRepository;
+import org.AirAPI.repository.ScheduleRepository;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +20,7 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
@@ -35,7 +34,7 @@ class ScheduleServiceTest {
     @MockBean
     private ScheduleService scheduleService;
     @Mock
-    private SchduleRepository schduleRepository;
+    private ScheduleRepository schduleRepository;
     @Autowired
 
     private Jsonschedules jsonschedules;

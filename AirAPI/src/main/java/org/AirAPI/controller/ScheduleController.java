@@ -1,15 +1,5 @@
 package org.AirAPI.controller;
 
-/**
- * Author : KIM JAE SEONG <br>
- * Content: 스케쥴 관리 모음집  <br>
- * Function <br>
- * upload_schedules: 일정 등록 <br>
- * delete_schedules: 일정 삭제 <br>
- * modify_schedules: 일정 수정 <br>
- * <br>
- */
-
 import org.AirAPI.config.HeaderSetter;
 import org.AirAPI.entity.Schedule;
 import org.AirAPI.service.ScheduleService;
@@ -24,12 +14,20 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
+/**
+ * Author : KIM JAE SEONG <br>
+ * Content: 스케쥴 관리 모음집  <br>
+ * Function <br>
+ *  upload_schedules: 일정 등록 <br>
+ *  delete_schedules: 일정 삭제 <br>
+ *  modify_schedules: 일정 수정 <br>
+ * <br>
+ */
 @RestController
 public class ScheduleController {
 
     @Autowired
     private ScheduleService scheduleService;
-
 
     // JPG 로부터 데이터 추출 후 저장
     @PostMapping("/upload")
@@ -50,5 +48,16 @@ public class ScheduleController {
             System.out.println(e);
         }
         return response;
+    }
+
+    public ResponseEntity modify_schedules(){
+        ResponseEntity header =null;
+        return header;
+    }
+
+
+    public ResponseEntity delete_schedules(){
+        ResponseEntity header =null;
+        return header;
     }
 }

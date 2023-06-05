@@ -14,7 +14,7 @@ import java.util.List;
 class SchduleRepositoryTest {
 
     @Autowired
-    private SchduleRepository schduleRepository;
+    private ScheduleRepository schduleRepository;
 
     private Schedule schedule1;
     private Schedule schedule2;

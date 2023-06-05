@@ -7,7 +7,7 @@ import org.AirAPI.entity.Authority;
 import org.AirAPI.entity.Schedule;
 import org.AirAPI.entity.User;
 import org.AirAPI.jwt.JwtTokenProvider;
-import org.AirAPI.repository.SchduleRepository;
+import org.AirAPI.repository.ScheduleRepository;
 import org.AirAPI.repository.TokenRepository;
 import org.AirAPI.repository.UserRepository;
 import org.AirAPI.service.CustomUserDetailService;
@@ -55,7 +55,7 @@ public class PilotControllerTest {
     @MockBean
     private CustomUserDetailService customUserDetailService;
     @MockBean
-    private SchduleRepository schduleRepository;
+    private ScheduleRepository schduleRepository;
     @MockBean
     private TokenRepository tokenRepository;
     @MockBean

@@ -2,7 +2,7 @@ package org.AirAPI.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.AirAPI.entity.User;
-import org.AirAPI.repository.SchduleRepository;
+import org.AirAPI.repository.ScheduleRepository;
 import org.AirAPI.repository.TokenRepository;
 import org.AirAPI.repository.UserRepository;
 import org.AirAPI.service.CustomUserDetailService;
@@ -42,7 +42,7 @@ public class UserControllerTest {
     private UserRepository userRepository;
 
     @MockBean
-    private SchduleRepository schduleRepository;
+    private ScheduleRepository schduleRepository;
 
     @MockBean
     private TokenRepository tokenRepository;

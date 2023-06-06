@@ -44,6 +44,6 @@ public class PilotController {
     public List<Schedule> getSchedules(@PathVariable int id) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-mm-dd");
         simpleDateFormat.format(new Date());
-        return scheduleService.findData(id);
+        return scheduleService.getSchedules(id);
     }
 }

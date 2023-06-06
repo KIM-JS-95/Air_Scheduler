@@ -10,7 +10,10 @@ import java.util.Optional;
 
 @Repository
 public interface ScheduleRepository extends JpaRepository<Schedule, Integer> {
-    List<Schedule> findById(int i);
+    // 수정
+    Schedule findById(int i);
+    // 일정 저장
     List<Schedule> saveAll(List<Schedule> schedules);
-
+    // 3일치 일정 획득
+    List<Schedule> getScheduleTreedays(int day);
 }

@@ -70,11 +70,10 @@ class ScheduleServiceTest {
     }
 
     @Test
-    public void finddata() {
-
+    public void findAll_data() {
         List<Schedule> mock_list = new ArrayList<>();
         // given
-        Schedule schedule = Schedule.builder()
+        Schedule schedule1 = Schedule.builder()
                 .id(1)
                 .date("01Nov22")
                 .std("0000") // 출발 시간
@@ -83,20 +82,38 @@ class ScheduleServiceTest {
                 .cnt_to("GMP") // 도착
                 .activity("OFF")
                 .build();
+        Schedule schedule2 = Schedule.builder()
+                .id(2)
+                .date("01Nov22")
+                .std("0000") // 출발 시간
+                .sta("2359") // 도착 시간
+                .cnt_from("BKK") // 출발
+                .cnt_to("GMP") // 도착
+                .activity("OFF")
+                .build();
+        Schedule schedule3 = Schedule.builder()
+                .id(3)
+                .date("01Nov22")
+                .std("0000") // 출발 시간
+                .sta("2359") // 도착 시간
+                .cnt_from("BKK") // 출발
+                .cnt_to("GMP") // 도착
+                .activity("OFF")
+                .build();
 
-        mock_list.add(schedule);
-        mock_list.add(schedule);
-        mock_list.add(schedule);
+        mock_list.add(schedule1);
+        mock_list.add(schedule2);
+        mock_list.add(schedule3);
 
         // 아이디로 검색하명 schedule 로 리턴할꺼야 ~~
-        when(schduleRepository.findById(schedule.getId()))
+        when(schduleRepository.getScheduleTreedays(2))
                 .thenReturn(mock_list);
 
         // when
-        List<Schedule> threeDays_schedule = schduleRepository.findById(1);
+        List<Schedule> threeDays_schedule = schduleRepository.getScheduleTreedays(2);
 
         // then
-        verify(schduleRepository, times(1)).findById(schedule.getId());
+        verify(schduleRepository, times(1)).getScheduleTreedays(2);
         assertThat(threeDays_schedule.get(0).getCnt_from(), is("BKK"));
     }
 }

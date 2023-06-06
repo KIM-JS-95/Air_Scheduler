@@ -9,7 +9,6 @@ import software.amazon.awssdk.services.textract.TextractClient;
 import software.amazon.awssdk.services.textract.model.Block;
 
 import java.io.InputStream;
-import java.sql.SQLDataException;
 import java.util.HashMap;
 import java.util.List;
 
@@ -21,9 +20,10 @@ public class ScheduleService {
     private ScheduleRepository schduleRepository;
 
     // get 3 dats schedules
-    public List<Schedule> findData(int id) {
-        return schduleRepository.findById(id);
+    public List<Schedule> getSchedules(int id) {
+        return schduleRepository.getScheduleTreedays(id + 1);
     }
+
     // GET JPG -> AWS textreck -> user Check
     // 데이터를 획득하고 유저에게 검증 후 'schedule_save' 함수로 저장할꺼야
     public List<Schedule> textrack(InputStream source) {
@@ -35,24 +35,26 @@ public class ScheduleService {
                 map.put(callback.id(), callback.text());
             }
         });
-        return awstextrack.texttoEntity(map,block);
+        return awstextrack.texttoEntity(map, block);
     }
 
     // SAVE
-    public boolean schedule_save(List<Schedule> schedules){
+    public boolean schedule_save(List<Schedule> schedules) {
         try {
             schduleRepository.saveAll(schedules);
             return true;
-        }catch (NullPointerException e){
+        } catch (NullPointerException e) {
             throw e;
         }
     }
 
-    public boolean modify(){
+    public boolean modify(int i) {
+        Schedule schedule = schduleRepository.findById(i);
 
+        return true;
     }
 
-    public boolean delete(){
-
+    public boolean delete() {
+        return true;
     }
 }

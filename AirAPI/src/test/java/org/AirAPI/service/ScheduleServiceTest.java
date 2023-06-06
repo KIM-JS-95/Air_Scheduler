@@ -68,7 +68,6 @@ class ScheduleServiceTest {
                 .thenReturn(mock_scheduleList);
         assertThat(mock_scheduleList.get(0).getCnt_from(), is("ICN"));
     }
-
     @Test
     public void findAll_data() {
         List<Schedule> mock_list = new ArrayList<>();
@@ -115,5 +114,57 @@ class ScheduleServiceTest {
         // then
         verify(schduleRepository, times(1)).getScheduleTreedays(2);
         assertThat(threeDays_schedule.get(0).getCnt_from(), is("BKK"));
+    }
+
+    @Test
+    public void modify(){
+        Schedule schedule1 = Schedule.builder()
+                .id(1)
+                .date("01Nov22")
+                .std("0000") // 출발 시간
+                .sta("2359") // 도착 시간
+                .cnt_from("BKK") // 출발
+                .cnt_to("GMP") // 도착
+                .activity("OFF")
+                .build();
+
+        Schedule schedule2 = Schedule.builder()
+                .id(1)
+                .date("01Nov22")
+                .std("0000") // 출발 시간
+                .sta("2359") // 도착 시간
+                .cnt_from("BKK") // 출발
+                .cnt_to("LOS") // 도착
+                .activity("OFF")
+                .build();
+
+        when(schduleRepository.findById(1))
+                .thenReturn(schedule1);
+        when(scheduleService.modify(1, schedule2))
+                .thenReturn(true);
+        boolean update = scheduleService.modify(1, schedule2);
+        assertThat(update, is(true));
+    }
+
+    @Test
+    public void delete(){
+        Schedule schedule1 = Schedule.builder()
+                .id(1)
+                .date("01Nov22")
+                .std("0000") // 출발 시간
+                .sta("2359") // 도착 시간
+                .cnt_from("BKK") // 출발
+                .cnt_to("GMP") // 도착
+                .activity("OFF")
+                .build();
+        when(schduleRepository.save(schedule1))
+                .thenReturn(schedule1);
+        when(schduleRepository.deleteById(1))
+                .thenReturn(true);
+
+        schduleRepository.deleteById(1);
+
+        verify(schduleRepository, times(1)).deleteById(1);
+
     }
 }

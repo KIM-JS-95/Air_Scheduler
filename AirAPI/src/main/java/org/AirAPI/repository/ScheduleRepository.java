@@ -16,4 +16,6 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Integer> {
     List<Schedule> saveAll(List<Schedule> schedules);
     // 3일치 일정 획득
     List<Schedule> getScheduleTreedays(int day);
+
+    boolean deleteById(int i);
 }

@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 @Builder
@@ -16,6 +17,7 @@ import javax.persistence.Id;
 @NoArgsConstructor
 public class Schedule {
     @Id
+    @GeneratedValue
     private int id;
 
     private String date;
@@ -36,4 +38,5 @@ public class Schedule {
     private String achotel;
 
     private String blk;
+
 }

@@ -48,9 +48,25 @@ public class ScheduleService {
         }
     }
 
-    public boolean modify(int i) {
+    public boolean modify(int i, Schedule update_schedule) {
         Schedule schedule = schduleRepository.findById(i);
-
+        try {
+            // 변경감지
+            schedule.setDate(update_schedule.getDate());
+            schedule.setPairing(update_schedule.getPairing());
+            schedule.setDc(update_schedule.getDc());
+            schedule.setCi(update_schedule.getCi());
+            schedule.setCo(update_schedule.getCo());
+            schedule.setActivity(update_schedule.getActivity());
+            schedule.setCnt_from(update_schedule.getCnt_from());
+            schedule.setStd(update_schedule.getStd());
+            schedule.setCnt_to(update_schedule.getCnt_to());
+            schedule.setSta(update_schedule.getSta());
+            schedule.setAchotel(update_schedule.getAchotel());
+            schedule.setBlk(update_schedule.getBlk());
+        } catch (Exception e){
+            return false;
+        }
         return true;
     }
 

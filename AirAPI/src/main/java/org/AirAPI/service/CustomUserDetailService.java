@@ -1,19 +1,18 @@
 package org.AirAPI.service;
 
-import lombok.RequiredArgsConstructor;
 import org.AirAPI.entity.RefreshToken;
 import org.AirAPI.entity.User;
 import org.AirAPI.repository.TokenRepository;
 import org.AirAPI.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
 
 @Service
-@Configuration
-public class CustomUserDetailService implements UserDetailsService {
+public class CustomUserDetailService{
 
     @Autowired
     private  UserRepository userRepository;
@@ -21,7 +20,6 @@ public class CustomUserDetailService implements UserDetailsService {
     @Autowired
     private TokenRepository tokenRepository;
 
-    @Override
     public User loadUserByUsername(String username){
         return userRepository.findByName(username);
     }

@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.text.SimpleDateFormat;
@@ -42,6 +43,7 @@ public class UserController {
 
     // 회원가입
     @PostMapping("/join")
+    @ResponseStatus(HttpStatus.CREATED)
     public String join(@RequestBody User user){
         customUserDetailService.save(user);
         return user.toString();
@@ -56,7 +58,7 @@ public class UserController {
         User member = customUserDetailService.loadUserById(user.getUserId());
 
         String token = jwtTokenProvider.createToken(member.getUserId(), access_time.format(date));
-        String refreshtoken = jwtTokenProvider.createrefreshToken(member.getUsername());
+        String refreshtoken = jwtTokenProvider.createrefreshToken(member.getName());
         customUserDetailService.token_save(refreshtoken);
 
         ResponseEntity header = headerSetter.haederSet(token, "login Success", HttpStatus.OK);

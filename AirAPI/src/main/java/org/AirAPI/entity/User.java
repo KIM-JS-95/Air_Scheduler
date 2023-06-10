@@ -8,12 +8,14 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 
 @Builder
@@ -22,7 +24,7 @@ import java.util.stream.Collectors;
 @Table(name = "T_USER")
 @NoArgsConstructor
 @AllArgsConstructor
-public class User implements UserDetails{
+public class User{
 
     @Id
     private String userId;
@@ -30,30 +32,8 @@ public class User implements UserDetails{
     private String email;
     private String name;
     private String picUrl;
-
     private String password;
-
     private boolean enabled;
+    private Set<GrantedAuthority> authorities;
 
-    private Set<Authority> authorities;
-
-    @Override
-    public String getUsername() {
-        return email;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return enabled;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return enabled;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return enabled;
-    }
 }

@@ -18,6 +18,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
@@ -67,7 +69,7 @@ public class PilotControllerTest {
     User user = null;
 
     @BeforeEach
-    public void init() throws Exception {
+    public void init() {
         schedule1 = Schedule.builder()
                 .id(1)
                 .date("01Nov22")
@@ -81,7 +83,7 @@ public class PilotControllerTest {
 
         String userid = "001200";
         String username = "침착맨";
-        Set<Authority> authorities = Set.of(Authority.USER);
+        Set<GrantedAuthority> authorities = Set.of(new SimpleGrantedAuthority("ROLE_USER"));
         user = User.builder()
                 .userId(userid)
                 .name(username)
@@ -110,7 +112,7 @@ public class PilotControllerTest {
     @DisplayName("기본 테스트")
     @Test
     public void No_refresh_Token() throws Exception {
-        Set<Authority> authorities = Set.of(Authority.USER);
+        Set<GrantedAuthority> authorities = Set.of(new SimpleGrantedAuthority("ROLE_USER"));
 
         String token = jwtTokenProvider.createToken("001200", "침착맨");
         User userDetails = User.builder()

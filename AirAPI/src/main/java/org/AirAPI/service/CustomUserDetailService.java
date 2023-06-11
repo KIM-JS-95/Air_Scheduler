@@ -6,9 +6,14 @@ import org.AirAPI.repository.TokenRepository;
 import org.AirAPI.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
+
+import java.util.HashSet;
+import java.util.Set;
 
 
 @Service
@@ -30,6 +35,9 @@ public class CustomUserDetailService{
 
     // user save
     public User save(User user) {
+        Set<GrantedAuthority> authorities = new HashSet<>();
+        authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
+        user.setAuthorities(authorities);
         userRepository.save(user);
         return user;
     }

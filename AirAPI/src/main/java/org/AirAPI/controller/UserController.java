@@ -44,9 +44,9 @@ public class UserController {
     // 회원가입
     @PostMapping("/join")
     @ResponseStatus(HttpStatus.CREATED)
-    public String join(@RequestBody User user){
+    public User join(@RequestBody User user){
         customUserDetailService.save(user);
-        return user.toString();
+        return user;
     }
 
     // 로그인

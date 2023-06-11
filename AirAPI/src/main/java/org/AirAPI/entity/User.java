@@ -21,7 +21,7 @@ import java.util.Set;
 @Builder
 @Data
 @Entity
-@Table(name = "T_USER")
+@Table(name = "USER")
 @NoArgsConstructor
 @AllArgsConstructor
 public class User{
@@ -33,7 +33,6 @@ public class User{
     private String name;
     private String picUrl;
     private String password;
-    private boolean enabled;
     private Set<GrantedAuthority> authorities;
 
 }

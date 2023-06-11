@@ -14,26 +14,28 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import java.util.HashSet;
 import java.util.Set;
 
-import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.core.Is.is;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 //@ExtendWith(SpringExtension.class)
 @WebMvcTest(controllers = UserController.class)
@@ -76,11 +78,9 @@ public class UserControllerTest {
     public void userset() {
         String userid = "001200";
         String username = "침착맨";
-
         user = User.builder()
                 .userId(userid)
                 .name(username)
-                .authorities(Set.of(new SimpleGrantedAuthority("USER")))
                 .build();
     }
 
@@ -88,35 +88,34 @@ public class UserControllerTest {
     @DisplayName("회원가입")
     @WithMockUser
     public void join() throws Exception {
-
-        user = User.builder()
-                .userId("001200")
-                .name("침착맨")
-                .build();
-
+        Set<GrantedAuthority> authorities = new HashSet<>();
+        authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
         String user_ad_String = objectMapper.writeValueAsString(user);
+        user.setAuthorities(authorities);
 
-        given(customUserDetailService.save(user)).willReturn(user);
         given(jwtUtil.createToken("침착맨", "20220404"))
                 .willReturn("header.payload.signature");
+        given(customUserDetailService.save(any(User.class)))
+                .willReturn(user);
 
         mvc.perform(post("/join")
                         .contentType(MediaType.APPLICATION_JSON)
                         .with(csrf())
                         .content(user_ad_String))
-                .andExpect(status().isCreated());
-    }
+                .andExpect(status().isCreated())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.userId").value("001200"));
 
+    }
     @Test
-    @WithMockUser("USER")
+    @WithMockUser("ROLE_USER")
     @DisplayName("로그인")
     public void login_test() throws Exception {
-        when(customUserDetailService.loadUserById("001200")).thenReturn(user);
 
         String jsonString = "{\"userId\": \"001200\",\"name\": \"침착맨\"}";
         mvc.perform(post("/login")
                         .content(jsonString)
-                        .contentType(MediaType.APPLICATION_JSON))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        )
                 .andExpect(status().isOk())
                 .andDo(print());
 

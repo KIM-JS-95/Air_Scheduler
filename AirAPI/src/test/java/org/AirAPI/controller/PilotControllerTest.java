@@ -35,11 +35,13 @@ import java.util.List;
 import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 //@TestInstance(TestInstance.Lifecycle.PER_METHOD)
@@ -58,6 +60,7 @@ public class PilotControllerTest {
     private AWStextrack awstextrack;
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
+
     @MockBean
     private UserDetailsService userDetailsService;
     @MockBean
@@ -87,25 +90,20 @@ public class PilotControllerTest {
                 .build();
         scheduleList.add(schedule1);
 
-        String userid = "001200";
-        String username = "침착맨";
-
         user = User.builder()
-                .userId(userid)
-                .name(username)
+                .userId("001200")
+                .name("침착맨")
                 .build();
-        Authority userAuthority = Authority.USER; // 또는 new Authority(Authority.ROLE_USER);
+        Authority userAuthority = Authority.USER;
         user.addAuthority(userAuthority);
     }
 
 
     @Test
-    @DisplayName("메인 접속 테스트")
+    @DisplayName("main_page_access")
+    @WithMockUser
     public void 메인페이지에접속합니다() throws Exception {
         String token = jwtTokenProvider.createToken("001200", "침착맨");
-
-        when(customUserDetailService
-                .loadUserById("001200")).thenReturn(user);
 
         mvc.perform(get("/home")
                         .header("Authorization", token)
@@ -115,33 +113,32 @@ public class PilotControllerTest {
     }
 
 
-    @DisplayName("기본 테스트")
+    @DisplayName("Token_test")
     @Test
-    public void No_refresh_Token() throws Exception {
-        Authority userAuthority = Authority.USER; // 또는 new Authority(Authority.ROLE_USER);
-        user.addAuthority(userAuthority);
+    @WithMockUser
+    public void Token_test() throws Exception {
         String token = jwtTokenProvider.createToken("001200", "침착맨");
         User userDetails = User.builder()
                 .userId("001200")
                 .name("침착맨")
                 .build();
+        Authority userAuthority = new Authority(Authority.ROLE_USER);
+        userDetails.addAuthority(userAuthority);
 
-        when(customUserDetailService
-                .loadUserByUsername(jwtTokenProvider.getUserPk(token)))
-                .thenReturn(userDetails);
         try {
             mvc.perform(get("/home").header("Authorization", token))
                     .andExpect(status().isOk())
+                    .andExpect(header().string("Authorization",token))
                     .andDo(print());
-        } catch (IllegalArgumentException e) {
+        } catch (Exception e) {
             assertThat(e.getMessage()).isEqualTo("리프레시 토큰이 없습니다.");
         }
+
     }
 
-
     @Test
-    @DisplayName("textrack_test")
     @Disabled
+    @DisplayName("textrack_test")
     public void jpg_save_test() throws Exception {
         String token = jwtTokenProvider.createToken("001200", "침착맨");
         when(customUserDetailService.loadUserById("001200"))
@@ -151,7 +148,6 @@ public class PilotControllerTest {
         final String filePath = "C:\\Users\\JAESEUNG\\IdeaProjects\\Air_Scheduler\\AirAPI\\src\\main\\resources\\static\\img\\sample.jpg"; //파일경로
         //final String filePath = "D:\\Air_Scheduler\\AirAPI\\src\\main\\resources\\static\\img\\sample.jpg";
         FileInputStream fileInputStream = new FileInputStream(filePath);
-
         MockMultipartFile img = new MockMultipartFile(
                 "file", "sample.jpg", contentType, fileInputStream);
 

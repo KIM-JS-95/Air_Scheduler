@@ -33,6 +33,7 @@ public class PilotController {
     @GetMapping("/home")
     public HttpHeaders index(HttpServletRequest request) {
         String token = request.getHeader("Authorization");
+
         HeaderSetter headers = new HeaderSetter();
         HttpHeaders response = headers.haederSet(token, "main page");
         return response;

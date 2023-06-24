@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.AirAPI.entity.User;
 import org.AirAPI.service.CustomUserDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,7 +21,7 @@ import java.util.Base64;
 import java.util.Date;
 
 @RequiredArgsConstructor
-@Component
+@Configuration
 public class JwtTokenProvider {
     private String secretKey = "myprojectsecret";
 

@@ -3,11 +3,11 @@ package org.AirAPI.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.AirAPI.config.HeaderSetter;
-import org.AirAPI.entity.RefreshToken;
 import org.AirAPI.entity.User;
 import org.AirAPI.jwt.JwtTokenProvider;
 import org.AirAPI.service.CustomUserDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,9 +30,8 @@ import java.util.Date;
 @RestController
 @RequiredArgsConstructor
 public class UserController {
-
     @Autowired
-    private final HeaderSetter headerSetter;
+    private HeaderSetter headerSetter;
 
     @Autowired
     private final CustomUserDetailService customUserDetailService;
@@ -61,15 +60,20 @@ public class UserController {
         String refreshtoken = jwtTokenProvider.createrefreshToken(member.getName());
         customUserDetailService.token_save(refreshtoken);
 
-        ResponseEntity header = headerSetter.haederSet(token, "login Success", HttpStatus.OK);
-        return header;
+        HttpHeaders header = headerSetter.haederSet(token, "login Success");
+
+        return ResponseEntity.ok()
+                .headers(header)
+                .body("Login Success");
     }
 
     // 로그아웃
     @PostMapping("/logout")
     public ResponseEntity logout(){
         String token="";
-        ResponseEntity header = headerSetter.haederSet(token, "login Success", HttpStatus.OK);
-        return header;
+        HttpHeaders header = headerSetter.haederSet(token, "logout Success");
+        return ResponseEntity.ok()
+                .headers(header)
+                .body("Logout Success");
     }
 }

@@ -4,7 +4,7 @@ import org.AirAPI.config.HeaderSetter;
 import org.AirAPI.entity.Schedule;
 import org.AirAPI.service.ScheduleService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestPart;
@@ -31,18 +31,18 @@ public class ScheduleController {
 
     // JPG 로부터 데이터 추출 후 저장
     @PostMapping("/upload")
-    public ResponseEntity upload_schedules(@RequestPart MultipartFile file, HttpServletRequest request) {
+    public HttpHeaders upload_schedules(@RequestPart MultipartFile file, HttpServletRequest request) {
         HeaderSetter headerSetter = new HeaderSetter();
-        ResponseEntity response = null;
+        HttpHeaders response = null;
         try {
             List<Schedule> schedules = scheduleService.textrack(file.getInputStream());
             boolean result = scheduleService.schedule_save(schedules);
             if (result) {
                 response = headerSetter.haederSet(
-                        request.getHeader("Authorization"), "save!", HttpStatus.OK);
+                        request.getHeader("Authorization"), "save!");
             } else {
                 response = headerSetter.haederSet(
-                        request.getHeader("Authorization"), "save error!", HttpStatus.BAD_REQUEST);
+                        request.getHeader("Authorization"), "save error!");
             }
         } catch (Exception e) {
             System.out.println(e);

@@ -4,16 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-import java.util.ArrayList;
-import java.util.Collection;
+import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -34,6 +26,14 @@ public class User{
     private String picUrl;
     private String password;
     private boolean enabled;
-    private Set<GrantedAuthority> authorities;
 
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Set<Authority> authorities;
+
+    public void addAuthority(Authority authority) {
+        if (authorities == null) {
+            authorities = new HashSet<>();
+        }
+        authorities.add(authority);
+    }
 }

@@ -13,18 +13,17 @@ import org.AirAPI.config.HeaderSetter;
 import org.AirAPI.entity.Schedule;
 import org.AirAPI.service.ScheduleService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-@RestController
+@Controller
 public class PilotController {
 
     @Autowired
@@ -32,10 +31,10 @@ public class PilotController {
 
     // 메인 페이지
     @GetMapping("/home")
-    public ResponseEntity index(HttpServletRequest request) {
+    public HttpHeaders index(HttpServletRequest request) {
         String token = request.getHeader("Authorization");
         HeaderSetter headers = new HeaderSetter();
-        ResponseEntity response = headers.haederSet(token, "main page", HttpStatus.OK);
+        HttpHeaders response = headers.haederSet(token, "main page");
         return response;
     }
 

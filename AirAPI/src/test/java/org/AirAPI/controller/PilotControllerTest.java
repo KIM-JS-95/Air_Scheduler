@@ -2,6 +2,7 @@ package org.AirAPI.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.AirAPI.config.AWStextrack;
+import org.AirAPI.config.HeaderSetter;
 import org.AirAPI.config.SecurityConfig;
 import org.AirAPI.entity.Authority;
 import org.AirAPI.entity.Schedule;
@@ -17,10 +18,14 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -39,8 +44,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 //@TestInstance(TestInstance.Lifecycle.PER_METHOD)
 //@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-@ExtendWith(SpringExtension.class)
+//@ExtendWith(SpringExtension.class)
+@Import(PilotController.class)
 @WebMvcTest(controllers = PilotController.class)
+@ContextConfiguration(classes = {AWStextrack.class, JwtTokenProvider.class})
+//@EnableWebSecurity
 public class PilotControllerTest {
     @Autowired
     private MockMvc mvc;
@@ -48,8 +56,6 @@ public class PilotControllerTest {
     private ObjectMapper objectMapper;
     @Autowired
     private AWStextrack awstextrack;
-    @Autowired
-    private SecurityConfig securityConfig;
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
     @MockBean
@@ -83,13 +89,13 @@ public class PilotControllerTest {
 
         String userid = "001200";
         String username = "침착맨";
-        Set<GrantedAuthority> authorities = Set.of(new SimpleGrantedAuthority("ROLE_USER"));
+
         user = User.builder()
                 .userId(userid)
                 .name(username)
-                .authorities(authorities)
                 .build();
-
+        Authority userAuthority = Authority.USER; // 또는 new Authority(Authority.ROLE_USER);
+        user.addAuthority(userAuthority);
     }
 
 
@@ -112,13 +118,12 @@ public class PilotControllerTest {
     @DisplayName("기본 테스트")
     @Test
     public void No_refresh_Token() throws Exception {
-        Set<GrantedAuthority> authorities = Set.of(new SimpleGrantedAuthority("ROLE_USER"));
-
+        Authority userAuthority = Authority.USER; // 또는 new Authority(Authority.ROLE_USER);
+        user.addAuthority(userAuthority);
         String token = jwtTokenProvider.createToken("001200", "침착맨");
         User userDetails = User.builder()
                 .userId("001200")
                 .name("침착맨")
-                .authorities(authorities)
                 .build();
 
         when(customUserDetailService

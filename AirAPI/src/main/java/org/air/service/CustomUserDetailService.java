@@ -7,6 +7,8 @@ import org.air.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 
 @Service
 public class CustomUserDetailService{
@@ -22,7 +24,8 @@ public class CustomUserDetailService{
     }
 
     public User loadUserById(String userid){
-        return userRepository.findByUserId(userid);
+        User user = userRepository.findByUserid(userid).orElseGet(User::new);
+        return user;
     }
 
     // user save

@@ -46,15 +46,21 @@ public class UserController {
 
         Date  date= new Date();
         SimpleDateFormat access_time = new SimpleDateFormat("hh:mm:ss");
-        User member = customUserDetailService.loadUserById(user.getUserId());
-        System.out.println("userId"+member.getUserId());
-        String token = jwtTokenProvider.createToken(member.getUserId(), access_time.format(date));
+        User member = customUserDetailService.loadUserById(user.getUserid());
+
+        if(member.getUserid()==null){
+            return ResponseEntity
+                    .badRequest()
+                    .body("Login Fail");
+
+        }
+        String token = jwtTokenProvider.createToken(member.getUserid(), access_time.format(date));
         String refreshtoken = jwtTokenProvider.createrefreshToken(member.getName());
         customUserDetailService.token_save(refreshtoken);
-
         HttpHeaders header = headerSetter.haederSet(token, "login Success");
 
-        return ResponseEntity.ok()
+        return ResponseEntity
+                .ok()
                 .headers(header)
                 .body("Login Success");
     }

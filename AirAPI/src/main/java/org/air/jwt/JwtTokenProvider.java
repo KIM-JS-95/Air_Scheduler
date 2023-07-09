@@ -37,7 +37,8 @@ public class JwtTokenProvider {
     // JWT 토큰 생성
     public String createToken(String userid, String access_time) {
         Claims claims = Jwts.claims().setSubject(userid); // JWT payload 에 저장되는 정보단위, 보통 여기서 user를 식별하는 값을 넣는다.
-        claims.put("access_time", access_time); // 정보는 key / value 쌍으로 저장된다.
+        claims.put("userid", userid);
+        claims.put("access_time", access_time);
         Date now = new Date();
         return Jwts.builder()
                 .setClaims(claims) // 정보 저장
@@ -48,12 +49,12 @@ public class JwtTokenProvider {
     }
 
     public String createrefreshToken(String userid){
-        Claims claims = Jwts.claims().setSubject(userid); // JWT payload 에 저장되는 정보단위, 보통 여기서 user를 식별하는 값을 넣는다.
-        Date now = new Date();
+        Claims claims = Jwts.claims(); // JWT payload 에 저장되는 정보단위, 보통 여기서 user를 식별하는 값을 넣는다.
+        claims.put("userid", userid);
         return Jwts.builder()
                 .setClaims(claims) // 정보 저장
-                .setIssuedAt(now) // 토큰 발행 시간 정보
-                .setExpiration(new Date(now.getTime() + tokenValidTime+10)) // set Expire Time 30분 + 10분
+                .setIssuedAt(new Date()) // 토큰 발행 시간 정보
+                .setExpiration(new Date(new Date().getTime() + tokenValidTime+10)) // set Expire Time 30분 + 10분
                 .signWith(SignatureAlgorithm.HS256, secretKey)  // 사용할 암호화 알고리즘과
                 .compact();
     }

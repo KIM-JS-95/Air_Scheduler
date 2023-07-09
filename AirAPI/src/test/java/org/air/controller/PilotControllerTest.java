@@ -23,7 +23,11 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.io.FileInputStream;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -83,7 +87,7 @@ public class PilotControllerTest {
         scheduleList.add(schedule1);
 
         user = User.builder()
-                .userId("001200")
+                .userid("001200")
                 .name("침착맨")
                 .build();
         Authority userAuthority = Authority.USER;
@@ -111,7 +115,7 @@ public class PilotControllerTest {
     public void Token_test() throws Exception {
         String token = jwtTokenProvider.createToken("001200", "침착맨");
         User userDetails = User.builder()
-                .userId("001200")
+                .userid("001200")
                 .name("침착맨")
                 .build();
         Authority userAuthority = new Authority(Authority.ROLE_USER);
@@ -120,7 +124,7 @@ public class PilotControllerTest {
         try {
             mvc.perform(get("/home").header("Authorization", token))
                     .andExpect(status().isOk())
-                    .andExpect(header().string("Authorization",token))
+                    .andExpect(header().string("Authorization", token))
                     .andDo(print());
         } catch (Exception e) {
             assertThat(e.getMessage()).isEqualTo("리프레시 토큰이 없습니다.");
@@ -149,6 +153,19 @@ public class PilotControllerTest {
                         .header("Authorization", token)
                 ).andExpect(status().isOk())
                 .andDo(print());
+    }
+
+    @Test
+    public void getSchedules() throws ParseException {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-mm-dd");
+        String s_date = simpleDateFormat.format(new Date());
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(simpleDateFormat.parse(s_date));
+        calendar.add(Calendar.DAY_OF_MONTH, 3);
+        String e_date = simpleDateFormat.format(calendar.getTime());
+
+        System.out.println(s_date + "/" +e_date);
     }
 
 }

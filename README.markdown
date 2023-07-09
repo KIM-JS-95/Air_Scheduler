@@ -38,12 +38,11 @@ pilot 비행 스케줄 이미지에서 스케줄을 분석하여 저장하고 `K
 
 ```http
   POST /join
-
 ```
 
-| Parameter | Type     | Description                       |
-| :-------- | :------- | :-------------------------------- |
-| `User`      | `string` | **Required**. convert Entity to String |
+| Parameter | Type   | Description                                                 | Data                                                                                            |
+| :-------- |:-------|:------------------------------------------------------------|-------------------------------------------------------------------------------------------------|
+| `User`      | `User` | **Required**. userid / password <br/><br/>`userid` is pilot number | {<br/>"userid":"1234",<br/>"name":"홍길동"<br/>"email":"abc@gmail.com",<br/>"password":"1234"<br/>} |
 
 #### Sign in
 
@@ -51,9 +50,9 @@ pilot 비행 스케줄 이미지에서 스케줄을 분석하여 저장하고 `K
   POST /login
 ```
 
-| Parameter | Type     | Description                       |
-| :-------- | :------- | :-------------------------------- |
-| `User`      | `string` | **Required**. userId / name |
+| Parameter | Type     |         Description         | Data                                               |
+| :-------- | :------- |:---------------------------:|----------------------------------------------------|
+| `User`      | `string` | **Required**. userid / name | {<br/>"userid":"1234",<br/>"password":"1234"<br/>} |
 
 
 #### Log out
@@ -65,8 +64,6 @@ pilot 비행 스케줄 이미지에서 스케줄을 분석하여 저장하고 `K
 | Parameter | Type     | Description                       |
 | :-------- | :------- | :-------------------------------- |
 |       |  | |
-
-
 ---
 
 ### PilotController
@@ -82,7 +79,6 @@ Those Entities are used to show at Display which connected by module name 'KT_GE
 | Parameter | Type     | Description                |
 | :-------- | :------- | :------------------------- |
 | `file` | `MockMultipartFile` | * |
-|`JWT key`|`String`|Add at HEADER("Authorization")|
 
 
 ## TODO List

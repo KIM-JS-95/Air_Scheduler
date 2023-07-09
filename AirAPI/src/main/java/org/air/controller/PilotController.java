@@ -19,7 +19,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import javax.servlet.http.HttpServletRequest;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -39,13 +41,17 @@ public class PilotController {
         return response;
     }
 
-    // 해당 유저의 고유 기본키값을 통해 데이터를
-    /*
-    @GetMapping("/schedule/{id}")
-    public List<Schedule> getSchedules(@PathVariable int id) {
+    @GetMapping("/schedule")
+    public List<Schedule> getSchedules() throws ParseException {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-mm-dd");
-        simpleDateFormat.format(new Date());
-        return scheduleService.getSchedules(id);
+        String s_date = simpleDateFormat.format(new Date());
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(simpleDateFormat.parse(s_date));
+        calendar.add(Calendar.DAY_OF_MONTH, 3);
+        String e_date = simpleDateFormat.format(calendar.getTime());
+        List<Schedule> schedules = scheduleService.getSchedules(s_date, e_date);
+        return schedules;
     }
-    */
+
 }

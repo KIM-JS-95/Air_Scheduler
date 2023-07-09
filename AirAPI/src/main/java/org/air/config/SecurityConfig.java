@@ -18,18 +18,19 @@ public class SecurityConfig {
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
 
-        @Bean
-        public WebSecurityCustomizer configure() {
-            return (web) -> web.ignoring().mvcMatchers(
-                    "/v3/api-docs/**",
-                    "/swagger-ui/**",
-                    "/api/v1/login","/h2-console/**"
-            );
-        }
+    @Bean
+    public WebSecurityCustomizer configure() {
+        return (web) -> web.ignoring().mvcMatchers(
+                "/v3/api-docs/**",
+                "/swagger-ui/**",
+                "/api/v1/login","/h2-console/**"
+        );
+    }
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf().disable();
         http.cors().disable();
+        http.headers().frameOptions().disable();
         return http
                 .httpBasic().disable()
                 .authorizeRequests()

@@ -104,14 +104,14 @@ class ScheduleServiceTest {
         mock_list.add(schedule3);
 
         // 아이디로 검색하명 schedule 로 리턴할꺼야 ~~
-        when(schduleRepository.getScheduleTreedays(2))
+        when(schduleRepository.getScheduleTreedays("2023-05-05"))
                 .thenReturn(mock_list);
 
         // when
-        List<Schedule> threeDays_schedule = schduleRepository.getScheduleTreedays(2);
+        List<Schedule> threeDays_schedule = schduleRepository.getScheduleTreedays("2023-05-05");
 
         // then
-        verify(schduleRepository, times(1)).getScheduleTreedays(2);
+        verify(schduleRepository, times(1)).getScheduleTreedays("2023-05-05");
         assertThat(threeDays_schedule.get(0).getCnt_from(), is("BKK"));
     }
 

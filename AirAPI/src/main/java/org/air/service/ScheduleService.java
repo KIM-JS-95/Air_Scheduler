@@ -20,11 +20,11 @@ public class ScheduleService {
     private ScheduleRepository schduleRepository;
 
     // get 3 dats schedules
-    /*
-    public List<Schedule> getSchedules(int id) {
-        return schduleRepository.getScheduleTreedays(id + 1);
+
+    public List<Schedule> getSchedules(String s_date, String e_date) {
+        return schduleRepository.getScheduleTreedays(s_date);
     }
-*/
+
     // GET JPG -> AWS textreck -> user Check
     // 데이터를 획득하고 유저에게 검증 후 'schedule_save' 함수로 저장할꺼야
     public List<Schedule> textrack(InputStream source) {

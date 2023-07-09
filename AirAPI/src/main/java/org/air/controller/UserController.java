@@ -35,7 +35,7 @@ public class UserController {
     // 회원가입
     @PostMapping("/join")
     @ResponseStatus(HttpStatus.CREATED)
-    public User join(@RequestBody User user){
+    public User join(@RequestBody User user) {
         customUserDetailService.save(user);
         return user;
     }
@@ -44,11 +44,11 @@ public class UserController {
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody User user) {
 
-        Date  date= new Date();
+        Date date = new Date();
         SimpleDateFormat access_time = new SimpleDateFormat("hh:mm:ss");
         User member = customUserDetailService.loadUserById(user.getUserid());
 
-        if(member.getUserid()==null){
+        if (member.getUserid() == null) {
             return ResponseEntity
                     .badRequest()
                     .body("Login Fail");
@@ -67,8 +67,8 @@ public class UserController {
 
     // 로그아웃
     @PostMapping("/logout")
-    public ResponseEntity logout(){
-        String token="";
+    public ResponseEntity logout() {
+        String token = "";
         HttpHeaders header = headerSetter.haederSet(token, "logout Success");
         return ResponseEntity.ok()
                 .headers(header)

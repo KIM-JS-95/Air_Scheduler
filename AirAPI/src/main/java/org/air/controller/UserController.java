@@ -49,10 +49,9 @@ public class UserController {
         User member = customUserDetailService.loadUserById(user.getUserid());
 
         if (member == null) {
-            return ResponseEntity
-                    .ok()
-                    .body("Login Fail");
+            return new ResponseEntity<>("Unauthorized", HttpStatus.UNAUTHORIZED);
         }
+
         String token = jwtTokenProvider.createToken(member.getUserid(), access_time.format(date));
         String refreshtoken = jwtTokenProvider.createrefreshToken(member.getName());
         customUserDetailService.token_save(refreshtoken);

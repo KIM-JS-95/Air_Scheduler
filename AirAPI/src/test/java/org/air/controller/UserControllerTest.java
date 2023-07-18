@@ -111,7 +111,6 @@ public class UserControllerTest {
     }
 
     @Test
-    //@WithMockUser("ROLE_USER")
     @DisplayName("login_test")
     public void login_test() throws Exception {
         String jsonString = "{\"userid\": \"001200\",\"name\": \"침착맨\"}";
@@ -119,7 +118,7 @@ public class UserControllerTest {
                 .content(jsonString)
                 .with(csrf())
                 .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().is2xxSuccessful());
+                .andExpect(status().isUnauthorized());
     }
 
     @Test

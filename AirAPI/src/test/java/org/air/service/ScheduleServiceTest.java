@@ -68,7 +68,7 @@ class ScheduleServiceTest {
         assertThat(mock_scheduleList.get(0).getCnt_from(), is("ICN"));
     }
     @Test
-    public void findAll_data() {
+    public void getSchedules_ThreeDay() {
         List<Schedule> mock_list = new ArrayList<>();
         // given
         Schedule schedule1 = Schedule.builder()
@@ -104,14 +104,16 @@ class ScheduleServiceTest {
         mock_list.add(schedule3);
 
         // 아이디로 검색하명 schedule 로 리턴할꺼야 ~~
-        when(schduleRepository.getScheduleTreedays("2023-05-05"))
+        when(schduleRepository.findByDateBetween("2023-05-05", "2023-05-08"))
                 .thenReturn(mock_list);
 
         // when
-        List<Schedule> threeDays_schedule = schduleRepository.getScheduleTreedays("2023-05-05");
+        List<Schedule> threeDays_schedule = schduleRepository
+                .findByDateBetween("2023-05-05", "2023-05-08");
 
         // then
-        verify(schduleRepository, times(1)).getScheduleTreedays("2023-05-05");
+        verify(schduleRepository, times(1))
+                .findByDateBetween("2023-05-05", "2023-05-08");
         assertThat(threeDays_schedule.get(0).getCnt_from(), is("BKK"));
     }
 

@@ -13,8 +13,9 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Integer> {
     Schedule findById(int i);
     // 일정 저장
     // 3일치 일정 획득
-    @Query("SELECT e FROM schedule e WHERE e.date >= startDate limit 3")
-    List<Schedule> getScheduleTreedays(String startDate);
+    List<Schedule> findByDateBetween(String startDate, String endDate);
 
     boolean deleteById(int i);
+
+    boolean existsByDate(String sDate);
 }

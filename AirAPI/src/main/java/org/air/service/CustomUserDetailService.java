@@ -14,6 +14,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 import static org.air.entity.Authority.ROLE_USER;
@@ -32,7 +33,7 @@ public class CustomUserDetailService{
     }
 
     public User loadUserById(String userid){
-        User user = userRepository.findByUserid(userid).orElseGet(User::new);
+        User user = userRepository.existsByUserid() ? userRepository.findByUserid(userid): null;
         return user;
     }
 

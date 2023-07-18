@@ -14,10 +14,13 @@ import org.air.entity.Schedule;
 import org.air.service.ScheduleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -25,7 +28,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-@Controller
+@RestController
 public class PilotController {
 
     @Autowired
@@ -33,25 +36,31 @@ public class PilotController {
 
     // 메인 페이지
     @GetMapping("/home")
-    public HttpHeaders index(HttpServletRequest request) {
+    public ResponseEntity index(HttpServletRequest request) {
         String token = request.getHeader("Authorization");
 
         HeaderSetter headers = new HeaderSetter();
-        HttpHeaders response = headers.haederSet(token, "main page");
-        return response;
+        HttpHeaders header = headers.haederSet(token, "main page");
+        return ResponseEntity.ok()
+                .headers(header)
+                .body("home");
     }
 
-    @GetMapping("/schedule")
-    public List<Schedule> getSchedules() throws ParseException {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-mm-dd");
+    @GetMapping("/getschedule")
+    public ResponseEntity getSchedules(HttpServletRequest request) throws ParseException {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String s_date = simpleDateFormat.format(new Date());
 
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(simpleDateFormat.parse(s_date));
         calendar.add(Calendar.DAY_OF_MONTH, 3);
         String e_date = simpleDateFormat.format(calendar.getTime());
-        List<Schedule> schedules = scheduleService.getSchedules(s_date, e_date);
-        return schedules;
-    }
 
+        HeaderSetter headers = new HeaderSetter();
+        HttpHeaders header = headers.haederSet(request.getHeader("Authorization"), "main page");
+
+        return ResponseEntity.ok()
+                .headers(header)
+                .body(scheduleService.getSchedules(s_date, e_date));
+    }
 }

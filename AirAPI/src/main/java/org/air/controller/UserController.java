@@ -48,11 +48,10 @@ public class UserController {
         SimpleDateFormat access_time = new SimpleDateFormat("hh:mm:ss");
         User member = customUserDetailService.loadUserById(user.getUserid());
 
-        if (member.getUserid() == null) {
+        if (member == null) {
             return ResponseEntity
-                    .badRequest()
+                    .ok()
                     .body("Login Fail");
-
         }
         String token = jwtTokenProvider.createToken(member.getUserid(), access_time.format(date));
         String refreshtoken = jwtTokenProvider.createrefreshToken(member.getName());

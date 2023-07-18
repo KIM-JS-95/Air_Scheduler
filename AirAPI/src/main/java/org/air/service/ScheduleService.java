@@ -22,8 +22,13 @@ public class ScheduleService {
     // get 3 dats schedules
 
     public List<Schedule> getSchedules(String s_date, String e_date) {
-        return schduleRepository.getScheduleTreedays(s_date);
+        return schduleRepository.existsByDate(s_date) ? schduleRepository.findByDateBetween(s_date, e_date) : null;
     }
+
+    public boolean schedulesCheck(String s_date) {
+        return schduleRepository.existsByDate(s_date);
+    }
+
 
     // GET JPG -> AWS textreck -> user Check
     // 데이터를 획득하고 유저에게 검증 후 'schedule_save' 함수로 저장할꺼야

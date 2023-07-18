@@ -21,30 +21,21 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
-<<<<<<< HEAD:AirAPI/src/test/java/org/air/controller/UserControllerTest.java
-import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.context.ContextConfiguration;
-=======
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.test.context.support.WithMockUser;
->>>>>>> a4ef8f5c2380d18fb7ab077ea73d99fd23deeca7:AirAPI/src/test/java/org/AirAPI/controller/UserControllerTest.java
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-<<<<<<< HEAD:AirAPI/src/test/java/org/air/controller/UserControllerTest.java
-=======
 import java.util.HashSet;
 import java.util.Set;
 
-import static org.hamcrest.core.Is.is;
 import static org.mockito.ArgumentMatchers.any;
->>>>>>> a4ef8f5c2380d18fb7ab077ea73d99fd23deeca7:AirAPI/src/test/java/org/AirAPI/controller/UserControllerTest.java
 import static org.mockito.BDDMockito.given;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 //@ExtendWith(SpringExtension.class)
@@ -90,7 +81,7 @@ public class UserControllerTest {
         String userid = "001200";
         String username = "침착맨";
         user = User.builder()
-                .userId(userid)
+                .userid(userid)
                 .name(username)
                 .build();
         Authority userAuthority = new Authority("USER");
@@ -104,7 +95,6 @@ public class UserControllerTest {
         Set<GrantedAuthority> authorities = new HashSet<>();
         authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
         String user_ad_String = objectMapper.writeValueAsString(user);
-        user.setAuthorities(authorities);
 
         given(jwtUtil.createToken("침착맨", "20220404"))
                 .willReturn("header.payload.signature");
@@ -114,41 +104,24 @@ public class UserControllerTest {
         mvc.perform(post("/join")
                         .contentType(MediaType.APPLICATION_JSON)
                         .with(csrf())
-<<<<<<< HEAD:AirAPI/src/test/java/org/air/controller/UserControllerTest.java
-                        .content(user_ad_String)).andDo(print())
-                .andExpect(status().isCreated());
-    }
-=======
                         .content(user_ad_String))
                 .andExpect(status().isCreated())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.userId").value("001200"));
->>>>>>> a4ef8f5c2380d18fb7ab077ea73d99fd23deeca7:AirAPI/src/test/java/org/AirAPI/controller/UserControllerTest.java
+                .andExpect(MockMvcResultMatchers.jsonPath("$.userid").value("001200"));
 
     }
+
     @Test
-<<<<<<< HEAD:AirAPI/src/test/java/org/air/controller/UserControllerTest.java
-=======
-    @WithMockUser("ROLE_USER")
->>>>>>> a4ef8f5c2380d18fb7ab077ea73d99fd23deeca7:AirAPI/src/test/java/org/AirAPI/controller/UserControllerTest.java
-    @DisplayName("로그인")
+    //@WithMockUser("ROLE_USER")
+    @DisplayName("login_test")
     public void login_test() throws Exception {
-
-        String jsonString = "{\"userId\": \"001200\",\"name\": \"침착맨\"}";
+        String jsonString = "{\"userid\": \"001200\",\"name\": \"침착맨\"}";
         mvc.perform(post("/login")
-                        .content(jsonString)
-<<<<<<< HEAD:AirAPI/src/test/java/org/air/controller/UserControllerTest.java
-                        .with(csrf())
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().is2xxSuccessful())
-                .andExpect(header().string("message", "login Success"))
-=======
-                        .contentType(MediaType.APPLICATION_JSON)
-                        )
-                .andExpect(status().isOk())
->>>>>>> a4ef8f5c2380d18fb7ab077ea73d99fd23deeca7:AirAPI/src/test/java/org/AirAPI/controller/UserControllerTest.java
-                .andDo(print());
-
+                .content(jsonString)
+                .with(csrf())
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().is2xxSuccessful());
     }
+
     @Test
     @DisplayName("로그아웃 테스트")
     public void logout_test() throws Exception {

@@ -1,5 +1,6 @@
 package org.AirAPI.entity;
 
+import org.air.entity.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
@@ -18,10 +19,9 @@ class UserTest {
         authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
 
         User user = User.builder()
-                .userId("001200")
+                .userid("001200")
                 .name("kim")
                 .email("123@gmail.com")
-                .authorities(authorities)
                 .build();
         assertThat(user.getAuthorities(), Matchers.is(authorities));
     }

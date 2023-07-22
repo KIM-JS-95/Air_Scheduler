@@ -22,15 +22,11 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 class ScheduleControllerTest {
-
-    private MockMultipartFile pdfFile;
-
+    private File fileInputStream;
     @BeforeEach
     public void setUp() throws IOException {
-
-        String filePath = "C:\\Users\\KIMJAESUNG\\Air_Scheduler\\AirAPI\\src\\main\\resources\\static\\img\\sample.jpg";
-        //String filePath = "D:\\Air_Scheduler\\AirAPI\\src\\main\\resources\\static\\img\\sample.jpg";
-        File fileInputStream = new File(filePath);
+        String filePath = "C:\\Users\\KIMJAESUNG\\Air_Scheduler\\AirAPI\\src\\main\\resources\\static\\img\\pdf_sample.pdf";
+        fileInputStream = new File(filePath);
     }
 
     @AfterEach
@@ -46,22 +42,18 @@ class ScheduleControllerTest {
 
     @Test
     public void testConvertPdfToJpg() {
-
         try {
-            File convertedFile = new File("converted.jpg");
-            File jpgFile = new File("test.jpg");
-            PDDocument document = PDDocument.load(convertedFile);
+            PDDocument document = PDDocument.load(fileInputStream);
+            String  dir = "C:\\Users\\KIMJAESUNG\\Air_Scheduler\\AirAPI\\src\\main\\resources\\static\\img\\converted\\1.jpg";
+            File jpgFile = new File(dir);
 
             PDFRenderer renderer = new PDFRenderer(document);
-            BufferedImage image = renderer.renderImage(0); // 첫 번째 페이지를 이미지로 변환
+            BufferedImage image = renderer.renderImage(0);
             // 이미지를 JPG 파일로 저장
             ImageIO.write(image, "jpg", jpgFile);
             document.close();
-
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
     }
 }

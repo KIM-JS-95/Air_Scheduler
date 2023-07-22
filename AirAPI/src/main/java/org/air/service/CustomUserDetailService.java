@@ -33,7 +33,7 @@ public class CustomUserDetailService{
     }
 
     public User loadUserById(String userid){
-        User user = userRepository.existsByUserid() ? userRepository.findByUserid(userid): null;
+        User user = userRepository.existsByUserid(userid) ? userRepository.findByUserid(userid): null;
         return user;
     }
 

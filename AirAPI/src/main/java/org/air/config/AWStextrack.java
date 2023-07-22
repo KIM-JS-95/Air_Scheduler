@@ -1,6 +1,7 @@
 
 package org.air.config;
 
+import com.zaxxer.hikari.util.SuspendResumeLock;
 import org.air.entity.Schedule;
 import org.air.entity.json.Blocks;
 import org.springframework.beans.factory.annotation.Value;
@@ -30,10 +31,7 @@ public class AWStextrack {
 
     @Value("${secretkey}")
     private String secretkey;
-
-
     public TextractClient awsceesser() {
-        System.out.println(secretkey);
         AwsBasicCredentials awsCreds = AwsBasicCredentials.create(accesskey, secretkey);
         TextractClient textractClient = TextractClient.builder()
                 .region(Region.US_WEST_2)
@@ -66,97 +64,7 @@ public class AWStextrack {
             System.err.println(e.getMessage());
             System.exit(1);
         }
-
         return docInfo;
-    }
-
-    public static AnalyzeDocumentResponse analyzeDoc2(TextractClient textractClient, InputStream sourceDoc) {
-        AnalyzeDocumentResponse analyzeDocument = null;
-        try {
-            SdkBytes sourceBytes = SdkBytes.fromInputStream(sourceDoc);
-            Document myDoc = Document.builder()
-                    .bytes(sourceBytes)
-                    .build();
-            List<FeatureType> featureTypes = new ArrayList<FeatureType>();
-            featureTypes.add(FeatureType.TABLES);
-            //featureTypes.add(FeatureType.FORMS);
-
-            AnalyzeDocumentRequest analyzeDocumentRequest = AnalyzeDocumentRequest.builder()
-                    .featureTypes(featureTypes)
-                    .document(myDoc)
-                    .build();
-
-            analyzeDocument = textractClient.analyzeDocument(analyzeDocumentRequest);
-            //docInfo = analyzeDocument.blocks().iterator();
-        } catch (TextractException e) {
-            System.err.println(e.getMessage());
-            System.exit(1);
-        }
-        return analyzeDocument;
-    }
-
-    public static void detectDocTextS3(TextractClient textractClient, String bucketName, String docName) {
-
-        try {
-            S3Object s3Object = S3Object.builder()
-                    .bucket(bucketName)
-                    .name(docName)
-                    .build();
-
-            // Create a Document object and reference the s3Object instance
-            Document myDoc = Document.builder()
-                    .s3Object(s3Object)
-                    .build();
-
-            DetectDocumentTextRequest detectDocumentTextRequest = DetectDocumentTextRequest.builder()
-                    .document(myDoc)
-                    .build();
-
-            DetectDocumentTextResponse textResponse = textractClient.detectDocumentText(detectDocumentTextRequest);
-            for (Block block : textResponse.blocks()) {
-                System.out.println("The block type is " + block.blockType().toString());
-            }
-
-            DocumentMetadata documentMetadata = textResponse.documentMetadata();
-            System.out.println("The number of pages in the document is " + documentMetadata.pages());
-
-        } catch (TextractException e) {
-
-            System.err.println(e.getMessage());
-            System.exit(1);
-        }
-    }
-
-    public static void detectDocText(TextractClient textractClient, String sourceDoc) {
-
-        try {
-            InputStream sourceStream = new FileInputStream(new File(sourceDoc));
-            SdkBytes sourceBytes = SdkBytes.fromInputStream(sourceStream);
-
-            // Get the input Document object as bytes
-            Document myDoc = Document.builder()
-                    .bytes(sourceBytes)
-                    .build();
-
-            DetectDocumentTextRequest detectDocumentTextRequest = DetectDocumentTextRequest.builder()
-                    .document(myDoc)
-                    .build();
-
-            // Invoke the Detect operation
-            DetectDocumentTextResponse textResponse = textractClient.detectDocumentText(detectDocumentTextRequest);
-            List<Block> docInfo = textResponse.blocks();
-            for (Block block : docInfo) {
-                System.out.println("The block type is " + block.blockType().toString());
-            }
-
-            DocumentMetadata documentMetadata = textResponse.documentMetadata();
-            System.out.println("The number of pages in the document is " + documentMetadata.pages());
-
-        } catch (TextractException | FileNotFoundException e) {
-
-            System.err.println(e.getMessage());
-            System.exit(1);
-        }
     }
 
     public static boolean isDateValid(String dateString) {
@@ -167,22 +75,21 @@ public class AWStextrack {
             return false;
         }
     }
-
     @Bean
-    public List<Schedule> texttoEntity_test(HashMap<String, String> map, List<Blocks> list){
+    public static List<Schedule> texttoEntity(HashMap<String, String> map, List<Block> list) {
         List<Schedule> schedules = new ArrayList<>();
         Schedule schedule = new Schedule();
         for (int i = 0; i < list.size(); i++) {
-            if (list.get(i).getBlockType().equals("CELL")) {
-                Blocks block = list.get(i);
-                int index = block.getColumnIndex();
-                if (list.get(i).getRowIndex() == 1 || index == 2) continue;
+            if (list.get(i).blockType().equals("CELL")) {
+                Block block = list.get(i);
+                int index = block.columnIndex();
+                if (list.get(i).rowIndex() == 1 || index == 2) continue;
                 if (index == 11) {
                     schedules.add(schedule);
                     schedule = new Schedule();
                 }
-                if (block.getRelationships() != null) {
-                    String[] ids = block.getRelationships()[0].getIds();
+                if (block.relationships() != null) {
+                    String[] ids = block.relationships().get(0).ids().toArray(new String[0]);
                     if (index == 1) {
                         if (ids.length == 1) {
                             if (isDateValid(map.get(ids[0]))) {
@@ -223,22 +130,22 @@ public class AWStextrack {
         return schedules;
     }
 
+
     @Bean
-    public static List<Schedule> texttoEntity(HashMap<String, String> map, List<Block> list) {
+    public List<Schedule> texttoEntity_test(HashMap<String, String> map, List<Blocks> list){
         List<Schedule> schedules = new ArrayList<>();
         Schedule schedule = new Schedule();
-
         for (int i = 0; i < list.size(); i++) {
-            if (list.get(i).blockType().equals("CELL")) {
-                Block block = list.get(i);
-                int index = block.columnIndex();
-                if (list.get(i).rowIndex() == 1 || index == 2) continue;
+            if (list.get(i).getBlockType().equals("CELL")) {
+                Blocks block = list.get(i);
+                int index = block.getColumnIndex();
+                if (list.get(i).getRowIndex() == 1 || index == 2) continue;
                 if (index == 11) {
                     schedules.add(schedule);
                     schedule = new Schedule();
                 }
-                if (block.relationships() != null) {
-                    String[] ids = block.relationships().get(0).ids().toArray(new String[0]);
+                if (block.getRelationships() != null) {
+                    String[] ids = block.getRelationships()[0].getIds();
                     if (index == 1) {
                         if (ids.length == 1) {
                             if (isDateValid(map.get(ids[0]))) {

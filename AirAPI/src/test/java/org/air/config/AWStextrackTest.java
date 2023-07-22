@@ -71,7 +71,6 @@ public class AWStextrackTest {
         FileInputStream fileInputStream = new FileInputStream(filePath);
         List<Block> blocks = AWStextrack.analyzeDoc(textractClient, fileInputStream);
         HashMap<String, String> map = new HashMap<>();
-
         blocks.forEach(callback -> {
             if (callback.blockType().equals("WORD")) {
                 map.put(callback.id(), callback.text());

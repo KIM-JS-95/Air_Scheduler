@@ -29,7 +29,6 @@ public class ScheduleService {
         return schduleRepository.existsByDate(s_date);
     }
 
-
     // GET JPG -> AWS textreck -> user Check
     // 데이터를 획득하고 유저에게 검증 후 'schedule_save' 함수로 저장할꺼야
     public List<Schedule> textrack(InputStream source) {
@@ -37,6 +36,8 @@ public class ScheduleService {
         TextractClient textractClient = awstextrack.awsceesser();
         List<Block> block = awstextrack.analyzeDoc(textractClient, source);
         block.forEach(callback -> {
+            // 아 왜또 안되는데...
+            System.out.println(callback.text());
             if (callback.blockType().equals("WORD")) {
                 map.put(callback.id(), callback.text());
             }
@@ -47,7 +48,8 @@ public class ScheduleService {
     // SAVE
     public boolean schedule_save(List<Schedule> schedules) {
         try {
-            schduleRepository.saveAll(schedules);
+            List<Schedule> re = schduleRepository.saveAll(schedules);
+            System.out.println(re.get(0));
             return true;
         } catch (NullPointerException e) {
             throw e;
@@ -70,7 +72,7 @@ public class ScheduleService {
             schedule.setSta(update_schedule.getSta());
             schedule.setAchotel(update_schedule.getAchotel());
             schedule.setBlk(update_schedule.getBlk());
-        } catch (Exception e){
+        } catch (Exception e) {
             return false;
         }
         return true;

@@ -35,7 +35,10 @@ public class ScheduleController {
         HeaderSetter headerSetter = new HeaderSetter();
         HttpHeaders response = null;
         try {
+            // 텍스트 추출 시작
+
             List<Schedule> schedules = scheduleService.textrack(file.getInputStream());
+            System.out.println(schedules.size());
             boolean result = scheduleService.schedule_save(schedules);
             if (result) {
                 response = headerSetter.haederSet(

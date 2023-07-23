@@ -31,26 +31,23 @@ public class ScheduleController {
 
     // JPG 로부터 데이터 추출 후 저장
     @PostMapping("/upload")
-    public HttpHeaders upload_schedules(@RequestPart MultipartFile file, HttpServletRequest request) {
+    public ResponseEntity upload_schedules(@RequestPart MultipartFile file,
+                                        HttpServletRequest request) {
         HeaderSetter headerSetter = new HeaderSetter();
-        HttpHeaders response = null;
+        HttpHeaders headers = null;
         try {
             // 텍스트 추출 시작
-
             List<Schedule> schedules = scheduleService.textrack(file.getInputStream());
-            System.out.println(schedules.size());
+            System.out.println("schedules size : " + schedules.size());
             boolean result = scheduleService.schedule_save(schedules);
-            if (result) {
-                response = headerSetter.haederSet(
-                        request.getHeader("Authorization"), "save!");
-            } else {
-                response = headerSetter.haederSet(
-                        request.getHeader("Authorization"), "save error!");
-            }
+            String msg = result ? "save" : "save errors";
+            headers = headerSetter.haederSet("save result", msg);
         } catch (Exception e) {
             System.out.println(e);
         }
-        return response;
+        return ResponseEntity.ok()
+                .headers(headers)
+                .body("Save Success!");
     }
 
     public ResponseEntity modify_schedules(){

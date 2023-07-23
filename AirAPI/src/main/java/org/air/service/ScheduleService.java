@@ -9,6 +9,7 @@ import software.amazon.awssdk.services.textract.TextractClient;
 import software.amazon.awssdk.services.textract.model.Block;
 
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -33,23 +34,27 @@ public class ScheduleService {
     // 데이터를 획득하고 유저에게 검증 후 'schedule_save' 함수로 저장할꺼야
     public List<Schedule> textrack(InputStream source) {
         HashMap<String, String> map = new HashMap<>();
+        List<Block> list_block = new ArrayList<>();
         TextractClient textractClient = awstextrack.awsceesser();
         List<Block> block = awstextrack.analyzeDoc(textractClient, source);
+
         block.forEach(callback -> {
-            // 아 왜또 안되는데...
-            System.out.println(callback.text());
-            if (callback.blockType().equals("WORD")) {
+            if (callback.blockType().toString()=="WORD") {
                 map.put(callback.id(), callback.text());
+            }else if(callback.blockType().toString() == "CELL"){
+                list_block.add(callback);
             }
         });
-        return awstextrack.texttoEntity(map, block);
+        System.out.println("map size : " + map.size()); // 343
+
+        return awstextrack.texttoEntity(map, list_block);
     }
 
     // SAVE
     public boolean schedule_save(List<Schedule> schedules) {
         try {
-            List<Schedule> re = schduleRepository.saveAll(schedules);
-            System.out.println(re.get(0));
+            System.out.println("schedules.size(): "+schedules.size());
+            schduleRepository.saveAll(schedules);
             return true;
         } catch (NullPointerException e) {
             throw e;

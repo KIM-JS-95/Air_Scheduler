@@ -31,6 +31,7 @@ public class AWStextrack {
 
     @Value("${secretkey}")
     private String secretkey;
+
     public TextractClient awsceesser() {
         AwsBasicCredentials awsCreds = AwsBasicCredentials.create(accesskey, secretkey);
         TextractClient textractClient = TextractClient.builder()
@@ -53,11 +54,15 @@ public class AWStextrack {
             featureTypes.add(FeatureType.TABLES);
             featureTypes.add(FeatureType.FORMS);
 
-            AnalyzeDocumentRequest analyzeDocumentRequest = AnalyzeDocumentRequest.builder()
+            AnalyzeDocumentRequest analyzeDocumentRequest = AnalyzeDocumentRequest
+                    .builder()
                     .featureTypes(featureTypes)
                     .document(myDoc)
                     .build();
-            AnalyzeDocumentResponse analyzeDocument = textractClient.analyzeDocument(analyzeDocumentRequest);
+
+            AnalyzeDocumentResponse analyzeDocument = textractClient
+                    .analyzeDocument(analyzeDocumentRequest);
+
             docInfo = analyzeDocument.blocks();
 
         } catch (TextractException e) {
@@ -75,21 +80,27 @@ public class AWStextrack {
             return false;
         }
     }
+
     @Bean
     public static List<Schedule> texttoEntity(HashMap<String, String> map, List<Block> list) {
         List<Schedule> schedules = new ArrayList<>();
         Schedule schedule = new Schedule();
-        for (int i = 0; i < list.size(); i++) {
-            if (list.get(i).blockType().equals("CELL")) {
+        try {
+            for (int i = 0; i < list.size(); i++) {
                 Block block = list.get(i);
                 int index = block.columnIndex();
+
+                // 릴레이션이 없는거 처리해야함
+                if(block.relationships().isEmpty())
+
+                String[] ids = block.relationships().get(0).ids().toArray(new String[0]);
+
                 if (list.get(i).rowIndex() == 1 || index == 2) continue;
                 if (index == 11) {
                     schedules.add(schedule);
                     schedule = new Schedule();
                 }
                 if (block.relationships() != null) {
-                    String[] ids = block.relationships().get(0).ids().toArray(new String[0]);
                     if (index == 1) {
                         if (ids.length == 1) {
                             if (isDateValid(map.get(ids[0]))) {
@@ -126,64 +137,11 @@ public class AWStextrack {
                     }
                 }
             }
+        } catch (Exception e) {
+            throw e;
         }
         return schedules;
     }
 
-
-    @Bean
-    public List<Schedule> texttoEntity_test(HashMap<String, String> map, List<Blocks> list){
-        List<Schedule> schedules = new ArrayList<>();
-        Schedule schedule = new Schedule();
-        for (int i = 0; i < list.size(); i++) {
-            if (list.get(i).getBlockType().equals("CELL")) {
-                Blocks block = list.get(i);
-                int index = block.getColumnIndex();
-                if (list.get(i).getRowIndex() == 1 || index == 2) continue;
-                if (index == 11) {
-                    schedules.add(schedule);
-                    schedule = new Schedule();
-                }
-                if (block.getRelationships() != null) {
-                    String[] ids = block.getRelationships()[0].getIds();
-                    if (index == 1) {
-                        if (ids.length == 1) {
-                            if (isDateValid(map.get(ids[0]))) {
-                                schedule.setDate(map.get(ids[0]));
-                            } else {
-                                schedule.setPairing(map.get(ids[0]));
-                            }
-                        } else {
-                            schedule.setDate(map.get(ids[0]));
-                            schedule.setPairing(map.get(ids[1]));
-                        }
-                    } else if (index == 3) {
-                        schedule.setDc(map.get(ids[0]));
-                    } else if (index == 4) {
-                        schedule.setCi(map.get(ids[0]));
-                    } else if (index == 5) {
-                        schedule.setActivity(map.get(ids[0]));
-                    } else if (index == 6) {
-                        schedule.setCnt_from(map.get(ids[0]));
-                    } else if (index == 7) {
-                        schedule.setStd(map.get(ids[0]));
-                    } else if (index == 8) {
-                        schedule.setCnt_to(map.get(ids[0]));
-                    } else if (index == 9) {
-                        schedule.setSta(map.get(ids[0]));
-                    } else if (index == 10) {
-                        String hotel = "";
-                        for (int j = 0; j < ids.length; j++) {
-                            hotel += map.get(ids[j]);
-                        }
-                        schedule.setAchotel(hotel);
-                    } else if (index == 11) {
-                        schedule.setBlk(map.get(ids[0]));
-                    }
-                }
-            }
-        }
-        return schedules;
-    }
 
 }

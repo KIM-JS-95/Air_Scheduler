@@ -85,15 +85,13 @@ public class AWStextrack {
     public static List<Schedule> texttoEntity(HashMap<String, String> map, List<Block> list) {
         List<Schedule> schedules = new ArrayList<>();
         Schedule schedule = new Schedule();
+        String[] weeks = {"null"};
+        System.out.println(map.toString());
         try {
             for (int i = 0; i < list.size(); i++) {
                 Block block = list.get(i);
                 int index = block.columnIndex();
-
-                // 릴레이션이 없는거 처리해야함
-                if(block.relationships().isEmpty())
-
-                String[] ids = block.relationships().get(0).ids().toArray(new String[0]);
+                String[] ids = block.relationships().isEmpty() ? weeks : block.relationships().get(0).ids().toArray(new String[0]);
 
                 if (list.get(i).rowIndex() == 1 || index == 2) continue;
                 if (index == 11) {
@@ -140,6 +138,8 @@ public class AWStextrack {
         } catch (Exception e) {
             throw e;
         }
+
+        schedules.forEach((n) -> System.out.println(n));
         return schedules;
     }
 

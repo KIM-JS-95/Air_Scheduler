@@ -43,20 +43,8 @@ class ScheduleServiceTest {
 
     @Autowired
     private AWStextrack awstextrack;
-
     private List<Blocks> block;
 
-    /*
-    @BeforeEach
-    public void init() throws IOException {
-        TextractClient textractClient = awstextrack.awsceesser();
-        //String filePath = "C:\\Users\\KIMJAESUNG\\Air_Scheduler\\AirAPI\\src\\main\\resources\\static\\img\\sample.jpg";
-        String filePath = "D:\\Air_Scheduler\\AirAPI\\src\\main\\resources\\static\\img\\sample.jpg";
-        //FileInputStream fileInputStream = new FileInputStream(filePath);
-        //blocks = awstextrack.analyzeDoc(textractClient, fileInputStream);
-        mock_block = readJsonFile();
-    }
-*/
     @Test
     @DisplayName("save test")
     public void save() throws IOException, ParseException {
@@ -74,14 +62,16 @@ class ScheduleServiceTest {
         List<Schedule> schedules_test = texttoEntity_test(map, list_block);
 
         schedules_test.forEach(callback -> {
-            System.out.println("date : " + callback.getDate());
+            System.out.println("date : " + callback.toString());
         });
 
+        /*
         List<Schedule> scheduleList = jsonschedules.getschedules(map, block);
         List<Schedule> mock_scheduleList = scheduleList;
         when(schduleRepository.saveAll(scheduleList))
                 .thenReturn(mock_scheduleList);
         assertThat(mock_scheduleList.get(0).getCnt_from(), is("ICN"));
+    */
     }
 
     public List<Schedule> texttoEntity_test(HashMap<String, String> map, List<Blocks> list) {

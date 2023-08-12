@@ -77,7 +77,6 @@ public class PilotControllerTest {
     List<Schedule> scheduleList = new ArrayList<>();
     User user = null;
     List<Schedule> l = new ArrayList<>();
-
     @BeforeEach
     public void init() {
         Schedule schedule1 = Schedule.builder()
@@ -159,7 +158,7 @@ public class PilotControllerTest {
 
         when(scheduleService.getSchedules(any(), any())).thenReturn(l);
         JSONObject obj = new JSONObject();
-        String answer = obj.put("schedule", l).toString();
+        String answer = obj.put("schedule",l).toString();
 
         mvc.perform(get("/getschedule")
                         .contentType(MediaType.APPLICATION_JSON)

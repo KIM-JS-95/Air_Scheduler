@@ -10,16 +10,20 @@ import org.air.repository.TokenRepository;
 import org.air.repository.UserRepository;
 import org.air.service.CustomUserDetailService;
 import org.air.service.ScheduleService;
+import org.json.simple.JSONObject;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
+import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultMatcher;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.io.FileInputStream;
 import java.text.ParseException;
@@ -32,12 +36,12 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 //@TestInstance(TestInstance.Lifecycle.PER_METHOD)
 //@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -49,6 +53,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class PilotControllerTest {
     @Autowired
     private MockMvc mvc;
+
     @Autowired
     private ObjectMapper objectMapper;
     @Autowired
@@ -71,24 +76,22 @@ public class PilotControllerTest {
     private Schedule schedule1;
     List<Schedule> scheduleList = new ArrayList<>();
     User user = null;
+    List<Schedule> l = new ArrayList<>();
 
     @BeforeEach
     public void init() {
-        schedule1 = Schedule.builder()
+        Schedule schedule1 = Schedule.builder()
                 .id(1L)
                 .date("01Nov22")
                 .std("0000") // 출발 시간
                 .sta("2359") // 도착 시간
-                .cntFrom("BKK") // 출발
+                .cntFrom("GMP") // 출발
                 .cntTo("GMP") // 도착
                 .activity("OFF")
                 .build();
-        scheduleList.add(schedule1);
 
-        user = User.builder()
-                .userid("001200")
-                .name("침착맨")
-                .build();
+        l.add(schedule1);
+
     }
 
 
@@ -151,16 +154,18 @@ public class PilotControllerTest {
     }
 
     @Test
-    public void getSchedules() throws ParseException {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-mm-dd");
-        String s_date = simpleDateFormat.format(new Date());
+    @WithMockUser
+    public void getSchedules() throws Exception {
 
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(simpleDateFormat.parse(s_date));
-        calendar.add(Calendar.DAY_OF_MONTH, 3);
-        String e_date = simpleDateFormat.format(calendar.getTime());
+        when(scheduleService.getSchedules(any(), any())).thenReturn(l);
+        JSONObject obj = new JSONObject();
+        String answer = obj.put("schedule", l).toString();
 
-        System.out.println(s_date + "/" +e_date);
+        mvc.perform(get("/getschedule")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .with(csrf()))
+                .andExpect(status().is2xxSuccessful())
+                .andExpect(content().string(answer));
     }
 
 }

@@ -64,13 +64,6 @@ class ScheduleServiceTest {
             System.out.println("date : " + callback.toString());
         });
 
-        /*
-        List<Schedule> scheduleList = jsonschedules.getschedules(map, block);
-        List<Schedule> mock_scheduleList = scheduleList;
-        when(schduleRepository.saveAll(scheduleList))
-                .thenReturn(mock_scheduleList);
-        assertThat(mock_scheduleList.get(0).getCnt_from(), is("ICN"));
-    */
     }
 
     public List<Schedule> texttoEntity_test(HashMap<String, String> map, List<Blocks> list) {
@@ -171,25 +164,23 @@ class ScheduleServiceTest {
         mock_list.add(schedule2);
         mock_list.add(schedule3);
 
-        String startdateString = "01Nov22";
-        String enddateString = "03Nov22";
+        String sdate = "01Nov22";
+        String edate = "03Nov22";
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("ddMMMyy");
-        //String sdate = dateFormat.parse(startdateString);
-        //String edate = dateFormat.parse(enddateString);
 
         // 아이디로 검색하명 schedule 로 리턴할꺼야 ~~
-        when(schduleRepository.findByDateBetween(startdateString, enddateString))
+        when(schduleRepository.findByDateBetween(sdate, edate))
                 .thenReturn(mock_list);
 
-//        // when
-//        List<Schedule> threeDays_schedule = schduleRepository
-//                .findByDateBetween(sdate, edate);
-//
-//        // then
-//        verify(schduleRepository, times(1))
-//                .findByDateBetween(sdate, edate);
-        //assertThat(threeDays_schedule.get(0).getCntFrom(), is("BKK"));
+        // when
+        List<Schedule> threeDays_schedule = schduleRepository
+                .findByDateBetween(sdate, edate);
+
+        // then
+        verify(schduleRepository, times(1))
+                .findByDateBetween(sdate, edate);
+        assertThat(threeDays_schedule.get(0).getCntFrom(), is("BKK"));
     }
 
     @Test

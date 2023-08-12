@@ -22,7 +22,6 @@ public class ScheduleService {
     private ScheduleRepository schduleRepository;
 
     // get 3 dats schedules
-
     public List<Schedule> getSchedules(String s_date, String e_date) {
         return schduleRepository.existsByDate(s_date) ? schduleRepository.findByDateBetween(s_date, e_date) : null;
     }

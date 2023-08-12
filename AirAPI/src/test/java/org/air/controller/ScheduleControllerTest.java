@@ -1,29 +1,46 @@
 package org.air.controller;
 
-import org.apache.commons.imaging.ImageFormats;
-import org.apache.commons.imaging.ImageWriteException;
-import org.apache.commons.imaging.Imaging;
+import org.air.config.HeaderSetter;
+import org.air.config.SecurityConfig;
+import org.air.entity.Schedule;
+import org.air.repository.ScheduleRepository;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.rendering.PDFRenderer;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.http.ResponseEntity;
-import org.springframework.mock.web.MockMultipartFile;
+import org.junit.jupiter.api.TestInstance;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.context.annotation.Import;
+import org.springframework.http.MediaType;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+
+@Import(ScheduleController.class)
+@WebMvcTest(controllers = ScheduleController.class)
+@ContextConfiguration(classes = {SecurityConfig.class, HeaderSetter.class})
+//@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class ScheduleControllerTest {
+
+    @Autowired
+    private MockMvc mvc;
     private File fileInputStream;
-    @BeforeEach
+
+
     public void setUp() throws IOException {
         String filePath = "C:\\Users\\KIMJAESUNG\\Air_Scheduler\\AirAPI\\src\\main\\resources\\static\\img\\pdf_sample.pdf";
         fileInputStream = new File(filePath);
@@ -41,7 +58,9 @@ class ScheduleControllerTest {
     }
 
     @Test
-    public void testConvertPdfToJpg() {
+    public void testConvertPdfToJpg() throws IOException {
+
+        setUp();
         try {
             PDDocument document = PDDocument.load(fileInputStream);
             String  dir = "C:\\Users\\KIMJAESUNG\\Air_Scheduler\\AirAPI\\src\\main\\resources\\static\\img\\converted\\1.jpg";
@@ -56,4 +75,5 @@ class ScheduleControllerTest {
             e.printStackTrace();
         }
     }
+
 }

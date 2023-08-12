@@ -10,7 +10,9 @@ package org.air.controller;
  */
 
 import org.air.config.HeaderSetter;
+import org.air.entity.Schedule;
 import org.air.service.ScheduleService;
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +24,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 
 @RestController
 public class PilotController {
@@ -43,19 +47,25 @@ public class PilotController {
 
     @GetMapping("/getschedule")
     public ResponseEntity getSchedules(HttpServletRequest request) throws ParseException {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        String s_date = simpleDateFormat.format(new Date());
+        SimpleDateFormat dateFormat = new SimpleDateFormat("ddMMMyy", Locale.ENGLISH);
+        String s_date = dateFormat.format(new Date());
 
         Calendar calendar = Calendar.getInstance();
-        calendar.setTime(simpleDateFormat.parse(s_date));
+        calendar.setTime(dateFormat.parse(s_date));
         calendar.add(Calendar.DAY_OF_MONTH, 3);
-        String e_date = simpleDateFormat.format(calendar.getTime());
+        String e_date = dateFormat.format(calendar.getTime());
+
+
 
         HeaderSetter headers = new HeaderSetter();
         HttpHeaders header = headers.haederSet(request.getHeader("Authorization"), "main page");
+        List<Schedule> list = scheduleService.getSchedules(s_date, e_date);
+
+        JSONObject obj = new JSONObject(); // json object 생성
+        obj.put("schedule",list);
 
         return ResponseEntity.ok()
                 .headers(header)
-                .body(scheduleService.getSchedules(s_date, e_date));
+                .body(obj.toString());
     }
 }

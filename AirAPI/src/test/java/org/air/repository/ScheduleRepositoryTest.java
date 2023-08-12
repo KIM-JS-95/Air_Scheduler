@@ -102,10 +102,6 @@ class ScheduleRepositoryTest {
         String startdateString = "01Nov22";
         String enddateString = "03Nov22";
 
-
-        //Date sdate = dateFormat.parse(startdateString);
-        //Date edate = dateFormat.parse(enddateString);
-
         List<Schedule> schedules = scheduleRepository.findByDateBetween(startdateString, enddateString);
 
         assertThat(schedules.get(2).getDate(),is("03Nov22"));

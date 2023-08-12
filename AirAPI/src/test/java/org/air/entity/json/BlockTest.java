@@ -30,6 +30,6 @@ class BlockTest {
             }
         });
         List<Schedule> scheduleList = jsonschedules.getschedules(map, blocks);
-        assertThat(scheduleList.get(0).getCnt_from(), is("ICN"));
+        assertThat(scheduleList.get(0).getCntFrom(), is("ICN"));
     }
 }

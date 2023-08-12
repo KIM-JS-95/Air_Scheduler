@@ -127,11 +127,11 @@ public class AWStextrackTest {
                     } else if (index == 5) {
                         schedule.setActivity(map.get(ids[0]));
                     } else if (index == 6) {
-                        schedule.setCnt_from(map.get(ids[0]));
+                        schedule.setCntFrom(map.get(ids[0]));
                     } else if (index == 7) {
                         schedule.setStd(map.get(ids[0]));
                     } else if (index == 8) {
-                        schedule.setCnt_to(map.get(ids[0]));
+                        schedule.setCntTo(map.get(ids[0]));
                     } else if (index == 9) {
                         schedule.setSta(map.get(ids[0]));
                     } else if (index == 10) {

@@ -1,9 +1,7 @@
 
 package org.air.config;
 
-import com.zaxxer.hikari.util.SuspendResumeLock;
 import org.air.entity.Schedule;
-import org.air.entity.json.Blocks;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,9 +12,6 @@ import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.textract.TextractClient;
 import software.amazon.awssdk.services.textract.model.*;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -86,14 +81,12 @@ public class AWStextrack {
         List<Schedule> schedules = new ArrayList<>();
         Schedule schedule = new Schedule();
         String[] weeks = {"null"};
-        System.out.println(map.toString());
         try {
             for (int i = 0; i < list.size(); i++) {
                 Block block = list.get(i);
                 int index = block.columnIndex();
                 String[] ids = block.relationships().isEmpty() ? weeks : block.relationships().get(0).ids().toArray(new String[0]);
-
-                if (list.get(i).rowIndex() == 1 || index == 2) continue;
+                if (list.get(i).rowIndex() == 1) continue;
                 if (index == 11) {
                     schedules.add(schedule);
                     schedule = new Schedule();
@@ -110,18 +103,20 @@ public class AWStextrack {
                             schedule.setDate(map.get(ids[0]));
                             schedule.setPairing(map.get(ids[1]));
                         }
-                    } else if (index == 3) {
+                    } else if (index == 2) {
                         schedule.setDc(map.get(ids[0]));
-                    } else if (index == 4) {
+                    } else if (index == 3) {
                         schedule.setCi(map.get(ids[0]));
+                    } else if (index == 4) {
+                        schedule.setCo(map.get(ids[0]));
                     } else if (index == 5) {
                         schedule.setActivity(map.get(ids[0]));
                     } else if (index == 6) {
-                        schedule.setCnt_from(map.get(ids[0]));
+                        schedule.setCntFrom(map.get(ids[0]));
                     } else if (index == 7) {
                         schedule.setStd(map.get(ids[0]));
                     } else if (index == 8) {
-                        schedule.setCnt_to(map.get(ids[0]));
+                        schedule.setCntTo(map.get(ids[0]));
                     } else if (index == 9) {
                         schedule.setSta(map.get(ids[0]));
                     } else if (index == 10) {
@@ -138,8 +133,6 @@ public class AWStextrack {
         } catch (Exception e) {
             throw e;
         }
-
-        schedules.forEach((n) -> System.out.println(n));
         return schedules;
     }
 

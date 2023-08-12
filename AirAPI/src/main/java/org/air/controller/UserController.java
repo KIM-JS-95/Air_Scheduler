@@ -54,7 +54,7 @@ public class UserController {
 
         String token = jwtTokenProvider.createToken(member.getUserid(), access_time.format(date));
         String refreshtoken = jwtTokenProvider.createrefreshToken(member.getName());
-        customUserDetailService.token_save(refreshtoken);
+        customUserDetailService.token_save(refreshtoken, member.getUserid());
         HttpHeaders header = headerSetter.haederSet(token, "login Success");
 
         return ResponseEntity

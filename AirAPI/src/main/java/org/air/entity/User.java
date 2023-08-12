@@ -4,38 +4,57 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Transient;
+import java.util.ArrayList;
+import java.util.Collection;
 
 
+@Entity
 @Builder
 @Data
-@Entity
-@Table(name = "T_USER")
 @NoArgsConstructor
 @AllArgsConstructor
-public class User{
+public class User implements UserDetails {
 
     @Id
-    @GeneratedValue
-    private Integer id;
-
     private String userid;
     private String email;
     private String name;
     private String picUrl;
     private String password;
+    @Transient
     private boolean enabled;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Set<Authority> authorities;
+    private ArrayList<GrantedAuthority> authorities;
 
-    public void addAuthority(Authority authority) {
-        if (authorities == null) {
-            authorities = new HashSet<>();
-        }
-        authorities.add(authority);
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        ArrayList<GrantedAuthority> authList = new ArrayList<GrantedAuthority>(authorities);
+        return authList;
+    }
+
+    @Override
+    public String getUsername() {
+        return null;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return false;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return false;
     }
 }

@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="org.air.repository.ScheduleRepositoryTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2023-08-12T08:32:44" hostname="DESKTOP-MCHQU2R" time="0.218">
+  <properties/>
+  <testcase name="call_schedule()" classname="org.air.repository.ScheduleRepositoryTest" time="0.218"/>
+  <system-out><![CDATA[17:32:41.433 [Test worker] DEBUG org.springframework.test.context.BootstrapUtils - Instantiating CacheAwareContextLoaderDelegate from class [org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate]
+17:32:41.439 [Test worker] DEBUG org.springframework.test.context.BootstrapUtils - Instantiating BootstrapContext using constructor [public org.springframework.test.context.support.DefaultBootstrapContext(java.lang.Class,org.springframework.test.context.CacheAwareContextLoaderDelegate)]
+17:32:41.457 [Test worker] DEBUG org.springframework.test.context.BootstrapUtils - Instantiating TestContextBootstrapper for test class [org.air.repository.ScheduleRepositoryTest] from class [org.springframework.boot.test.context.SpringBootTestContextBootstrapper]
+17:32:41.462 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Neither @ContextConfiguration nor @ContextHierarchy found for test class [org.air.repository.ScheduleRepositoryTest], using SpringBootContextLoader
+17:32:41.464 [Test worker] DEBUG org.springframework.test.context.support.AbstractContextLoader - Did not detect default resource location for test class [org.air.repository.ScheduleRepositoryTest]: class path resource [org/air/repository/ScheduleRepositoryTest-context.xml] does not exist
+17:32:41.465 [Test worker] DEBUG org.springframework.test.context.support.AbstractContextLoader - Did not detect default resource location for test class [org.air.repository.ScheduleRepositoryTest]: class path resource [org/air/repository/ScheduleRepositoryTestContext.groovy] does not exist
+17:32:41.465 [Test worker] INFO org.springframework.test.context.support.AbstractContextLoader - Could not detect default resource locations for test class [org.air.repository.ScheduleRepositoryTest]: no resource found for suffixes {-context.xml, Context.groovy}.
+17:32:41.465 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.air.repository.ScheduleRepositoryTest]: ScheduleRepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+17:32:41.487 [Test worker] DEBUG org.springframework.test.context.support.ActiveProfilesUtils - Could not find an 'annotation declaring class' for annotation type [org.springframework.test.context.ActiveProfiles] and class [org.air.repository.ScheduleRepositoryTest]
+17:32:41.530 [Test worker] DEBUG org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider - Identified candidate component class: file [C:\Users\KIMJAESUNG\Air_Scheduler\AirAPI\build\classes\java\main\org\air\MainApplication.class]
+17:32:41.530 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration org.air.MainApplication for test class org.air.repository.ScheduleRepositoryTest
+17:32:41.577 [Test worker] DEBUG org.springframework.boot.test.context.SpringBootTestContextBootstrapper - @TestExecutionListeners is not present for class [org.air.repository.ScheduleRepositoryTest]: using defaults.
+17:32:41.577 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.security.test.context.support.WithSecurityContextTestExecutionListener, org.springframework.security.test.context.support.ReactorContextTestExecutionListener, org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener, org.springframework.boot.test.autoconfigure.webservices.client.MockWebServiceServerTestExecutionListener, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener, org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener, org.springframework.test.context.event.ApplicationEventsTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener, org.springframework.test.context.event.EventPublishingTestExecutionListener]
+17:32:41.585 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@710b30ef, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener@a68df9, org.springframework.test.context.event.ApplicationEventsTestExecutionListener@28b576a9, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener@7cf7aee, org.springframework.boot.test.autoconfigure.SpringBootDependencyInjectionTestExecutionListener@2f6bbeb0, org.springframework.test.context.support.DirtiesContextTestExecutionListener@1b1637e1, org.springframework.test.context.transaction.TransactionalTestExecutionListener@18151a14, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@64711bf2, org.springframework.security.test.context.support.WithSecurityContextTestExecutionListener@169da7f2, org.springframework.test.context.event.EventPublishingTestExecutionListener@3c1e23ff, org.springframework.security.test.context.support.ReactorContextTestExecutionListener@ceb4bd2, org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener@60297f36, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener@1bf0f6f6, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener@56bc3fac, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener@df4b72, org.springframework.boot.test.autoconfigure.webservices.client.MockWebServiceServerTestExecutionListener@2ba45490, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener@37ff4054]
+17:32:41.587 [Test worker] DEBUG org.springframework.test.context.support.AbstractDirtiesContextTestExecutionListener - Before test class: context [DefaultTestContext@2f19f2aa testClass = ScheduleRepositoryTest, testInstance = [null], testMethod = [null], testException = [null], mergedContextConfiguration = [WebMergedContextConfiguration@344b8190 testClass = ScheduleRepositoryTest, locations = '{}', classes = '{class org.air.MainApplication}', contextInitializerClasses = '[]', activeProfiles = '{}', propertySourceLocations = '{}', propertySourceProperties = '{org.springframework.boot.test.context.SpringBootTestContextBootstrapper=true}', contextCustomizers = set[org.springframework.boot.test.autoconfigure.actuate.metrics.MetricsExportContextCustomizerFactory$DisableMetricExportContextCustomizer@24d4d7c9, org.springframework.boot.test.autoconfigure.properties.PropertyMappingContextCustomizer@0, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverContextCustomizerFactory$Customizer@44828f6b, org.springframework.boot.test.context.filter.ExcludeFilterContextCustomizer@62fe6067, org.springframework.boot.test.json.DuplicateJsonObjectContextCustomizerFactory$DuplicateJsonObjectContextCustomizer@305f7627, org.springframework.boot.test.mock.mockito.MockitoContextCustomizer@0, org.springframework.boot.test.web.client.TestRestTemplateContextCustomizer@1433046b, org.springframework.boot.test.context.SpringBootTestArgs@1, org.springframework.boot.test.context.SpringBootTestWebEnvironment@62833051], resourceBasePath = 'src/main/webapp', contextLoader = 'org.springframework.boot.test.context.SpringBootContextLoader', parent = [null]], attributes = map['org.springframework.test.context.web.ServletTestExecutionListener.activateListener' -> true]], class annotated with @DirtiesContext [false] with mode [null].
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::                (v2.7.5)
+
+2023-08-12 17:32:41.740  INFO 3624 --- [    Test worker] o.air.repository.ScheduleRepositoryTest  : Starting ScheduleRepositoryTest using Java 11.0.19 on DESKTOP-MCHQU2R with PID 3624 (started by KIMJAESUNG in C:\Users\KIMJAESUNG\Air_Scheduler\AirAPI)
+2023-08-12 17:32:41.741  INFO 3624 --- [    Test worker] o.air.repository.ScheduleRepositoryTest  : No active profile set, falling back to 1 default profile: "default"
+2023-08-12 17:32:41.992  INFO 3624 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-08-12 17:32:42.017  INFO 3624 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 20 ms. Found 3 JPA repository interfaces.
+2023-08-12 17:32:42.407  INFO 3624 --- [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-08-12 17:32:42.431  INFO 3624 --- [    Test worker] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.6.12.Final
+2023-08-12 17:32:42.518  INFO 3624 --- [    Test worker] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2023-08-12 17:32:42.579  INFO 3624 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2023-08-12 17:32:42.790  INFO 3624 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2023-08-12 17:32:42.812  INFO 3624 --- [    Test worker] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+Hibernate: 
+    
+    drop table if exists hibernate_sequence
+Hibernate: 
+    
+    drop table if exists refresh
+Hibernate: 
+    
+    drop table if exists schedule
+Hibernate: 
+    
+    drop table if exists user
+Hibernate: 
+    
+    create table hibernate_sequence (
+       next_val bigint
+    ) engine=InnoDB
+Hibernate: 
+    
+    insert into hibernate_sequence values ( 1 )
+Hibernate: 
+    
+    create table refresh (
+       id bigint not null,
+        token varchar(255),
+        userid varchar(255),
+        primary key (id)
+    ) engine=InnoDB
+Hibernate: 
+    
+    create table schedule (
+       id bigint not null,
+        achotel varchar(255),
+        activity varchar(255),
+        blk varchar(255),
+        ci varchar(255),
+        cnt_from varchar(255),
+        cnt_to varchar(255),
+        co varchar(255),
+        date varchar(255),
+        dc varchar(255),
+        pairing varchar(255),
+        sta varchar(255),
+        std varchar(255),
+        primary key (id)
+    ) engine=InnoDB
+Hibernate: 
+    
+    create table user (
+       userid varchar(255) not null,
+        authorities tinyblob,
+        email varchar(255),
+        name varchar(255),
+        password varchar(255),
+        pic_url varchar(255),
+        primary key (userid)
+    ) engine=InnoDB
+2023-08-12 17:32:43.173  INFO 3624 --- [    Test worker] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-08-12 17:32:43.177  INFO 3624 --- [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-08-12 17:32:43.505  WARN 3624 --- [    Test worker] .s.s.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: 5d39ae83-3cfb-454a-82a7-50f694b207c7
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2023-08-12 17:32:43.585  INFO 3624 --- [    Test worker] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@4d682397, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@444ebefd, org.springframework.security.web.context.SecurityContextPersistenceFilter@7e84af34, org.springframework.security.web.header.HeaderWriterFilter@5e643402, org.springframework.security.web.authentication.logout.LogoutFilter@11ad327f, org.air.jwt.JwtAuthenticationFilter@2ecf4b3e, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@612531a3, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@3a83cfbc, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@5f1c406e, org.springframework.security.web.session.SessionManagementFilter@9863ed5, org.springframework.security.web.access.ExceptionTranslationFilter@1d45c4b7, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@46a9c368]
+2023-08-12 17:32:43.600  WARN 3624 --- [    Test worker] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-08-12 17:32:43.828  WARN 3624 --- [    Test worker] o.s.s.c.a.web.builders.WebSecurity       : You are asking Spring Security to ignore Mvc [pattern='/v3/api-docs/**']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2023-08-12 17:32:43.829  INFO 3624 --- [    Test worker] o.s.s.web.DefaultSecurityFilterChain     : Will not secure Mvc [pattern='/v3/api-docs/**']
+2023-08-12 17:32:43.829  WARN 3624 --- [    Test worker] o.s.s.c.a.web.builders.WebSecurity       : You are asking Spring Security to ignore Mvc [pattern='/swagger-ui/**']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2023-08-12 17:32:43.829  INFO 3624 --- [    Test worker] o.s.s.web.DefaultSecurityFilterChain     : Will not secure Mvc [pattern='/swagger-ui/**']
+2023-08-12 17:32:43.829  WARN 3624 --- [    Test worker] o.s.s.c.a.web.builders.WebSecurity       : You are asking Spring Security to ignore Mvc [pattern='/api/v1/login']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2023-08-12 17:32:43.829  INFO 3624 --- [    Test worker] o.s.s.web.DefaultSecurityFilterChain     : Will not secure Mvc [pattern='/api/v1/login']
+2023-08-12 17:32:43.829  WARN 3624 --- [    Test worker] o.s.s.c.a.web.builders.WebSecurity       : You are asking Spring Security to ignore Mvc [pattern='/h2-console/**']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2023-08-12 17:32:43.829  INFO 3624 --- [    Test worker] o.s.s.web.DefaultSecurityFilterChain     : Will not secure Mvc [pattern='/h2-console/**']
+2023-08-12 17:32:44.086  INFO 3624 --- [    Test worker] o.air.repository.ScheduleRepositoryTest  : Started ScheduleRepositoryTest in 2.483 seconds (JVM running for 3.124)
+Hibernate: 
+    select
+        schedule0_.id as id1_1_0_,
+        schedule0_.achotel as achotel2_1_0_,
+        schedule0_.activity as activity3_1_0_,
+        schedule0_.blk as blk4_1_0_,
+        schedule0_.ci as ci5_1_0_,
+        schedule0_.cnt_from as cnt_from6_1_0_,
+        schedule0_.cnt_to as cnt_to7_1_0_,
+        schedule0_.co as co8_1_0_,
+        schedule0_.date as date9_1_0_,
+        schedule0_.dc as dc10_1_0_,
+        schedule0_.pairing as pairing11_1_0_,
+        schedule0_.sta as sta12_1_0_,
+        schedule0_.std as std13_1_0_ 
+    from
+        schedule schedule0_ 
+    where
+        schedule0_.id=?
+Hibernate: 
+    select
+        next_val as id_val 
+    from
+        hibernate_sequence for update
+            
+Hibernate: 
+    update
+        hibernate_sequence 
+    set
+        next_val= ? 
+    where
+        next_val=?
+Hibernate: 
+    select
+        schedule0_.id as id1_1_0_,
+        schedule0_.achotel as achotel2_1_0_,
+        schedule0_.activity as activity3_1_0_,
+        schedule0_.blk as blk4_1_0_,
+        schedule0_.ci as ci5_1_0_,
+        schedule0_.cnt_from as cnt_from6_1_0_,
+        schedule0_.cnt_to as cnt_to7_1_0_,
+        schedule0_.co as co8_1_0_,
+        schedule0_.date as date9_1_0_,
+        schedule0_.dc as dc10_1_0_,
+        schedule0_.pairing as pairing11_1_0_,
+        schedule0_.sta as sta12_1_0_,
+        schedule0_.std as std13_1_0_ 
+    from
+        schedule schedule0_ 
+    where
+        schedule0_.id=?
+Hibernate: 
+    select
+        next_val as id_val 
+    from
+        hibernate_sequence for update
+            
+Hibernate: 
+    update
+        hibernate_sequence 
+    set
+        next_val= ? 
+    where
+        next_val=?
+Hibernate: 
+    select
+        schedule0_.id as id1_1_0_,
+        schedule0_.achotel as achotel2_1_0_,
+        schedule0_.activity as activity3_1_0_,
+        schedule0_.blk as blk4_1_0_,
+        schedule0_.ci as ci5_1_0_,
+        schedule0_.cnt_from as cnt_from6_1_0_,
+        schedule0_.cnt_to as cnt_to7_1_0_,
+        schedule0_.co as co8_1_0_,
+        schedule0_.date as date9_1_0_,
+        schedule0_.dc as dc10_1_0_,
+        schedule0_.pairing as pairing11_1_0_,
+        schedule0_.sta as sta12_1_0_,
+        schedule0_.std as std13_1_0_ 
+    from
+        schedule schedule0_ 
+    where
+        schedule0_.id=?
+Hibernate: 
+    select
+        next_val as id_val 
+    from
+        hibernate_sequence for update
+            
+Hibernate: 
+    update
+        hibernate_sequence 
+    set
+        next_val= ? 
+    where
+        next_val=?
+Hibernate: 
+    insert 
+    into
+        schedule
+        (achotel, activity, blk, ci, cnt_from, cnt_to, co, date, dc, pairing, sta, std, id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    insert 
+    into
+        schedule
+        (achotel, activity, blk, ci, cnt_from, cnt_to, co, date, dc, pairing, sta, std, id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    insert 
+    into
+        schedule
+        (achotel, activity, blk, ci, cnt_from, cnt_to, co, date, dc, pairing, sta, std, id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    select
+        schedule0_.id as id1_1_,
+        schedule0_.achotel as achotel2_1_,
+        schedule0_.activity as activity3_1_,
+        schedule0_.blk as blk4_1_,
+        schedule0_.ci as ci5_1_,
+        schedule0_.cnt_from as cnt_from6_1_,
+        schedule0_.cnt_to as cnt_to7_1_,
+        schedule0_.co as co8_1_,
+        schedule0_.date as date9_1_,
+        schedule0_.dc as dc10_1_,
+        schedule0_.pairing as pairing11_1_,
+        schedule0_.sta as sta12_1_,
+        schedule0_.std as std13_1_ 
+    from
+        schedule schedule0_ 
+    where
+        schedule0_.date between ? and ?
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

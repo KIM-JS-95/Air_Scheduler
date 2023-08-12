@@ -2,7 +2,6 @@ package org.air.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.air.config.AWStextrack;
-import org.air.entity.Authority;
 import org.air.entity.Schedule;
 import org.air.entity.User;
 import org.air.jwt.JwtTokenProvider;
@@ -76,12 +75,12 @@ public class PilotControllerTest {
     @BeforeEach
     public void init() {
         schedule1 = Schedule.builder()
-                .id(1)
+                .id(1L)
                 .date("01Nov22")
                 .std("0000") // 출발 시간
                 .sta("2359") // 도착 시간
-                .cnt_from("BKK") // 출발
-                .cnt_to("GMP") // 도착
+                .cntFrom("BKK") // 출발
+                .cntTo("GMP") // 도착
                 .activity("OFF")
                 .build();
         scheduleList.add(schedule1);
@@ -90,8 +89,6 @@ public class PilotControllerTest {
                 .userid("001200")
                 .name("침착맨")
                 .build();
-        Authority userAuthority = Authority.USER;
-        user.addAuthority(userAuthority);
     }
 
 
@@ -118,8 +115,6 @@ public class PilotControllerTest {
                 .userid("001200")
                 .name("침착맨")
                 .build();
-        Authority userAuthority = new Authority(Authority.ROLE_USER);
-        userDetails.addAuthority(userAuthority);
 
         try {
             mvc.perform(get("/home").header("Authorization", token))

@@ -10,6 +10,7 @@ import software.amazon.awssdk.services.textract.model.Block;
 
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -45,7 +46,6 @@ public class ScheduleService {
                 list_block.add(callback);
             }
         });
-        System.out.println("map size : " + map.size()); // 343
 
         return awstextrack.texttoEntity(map, list_block);
     }
@@ -71,9 +71,9 @@ public class ScheduleService {
             schedule.setCi(update_schedule.getCi());
             schedule.setCo(update_schedule.getCo());
             schedule.setActivity(update_schedule.getActivity());
-            schedule.setCnt_from(update_schedule.getCnt_from());
+            schedule.setCntFrom(update_schedule.getCntFrom());
             schedule.setStd(update_schedule.getStd());
-            schedule.setCnt_to(update_schedule.getCnt_to());
+            schedule.setCntTo(update_schedule.getCntTo());
             schedule.setSta(update_schedule.getSta());
             schedule.setAchotel(update_schedule.getAchotel());
             schedule.setBlk(update_schedule.getBlk());

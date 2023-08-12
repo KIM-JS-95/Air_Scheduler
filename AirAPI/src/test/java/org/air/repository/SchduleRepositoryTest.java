@@ -25,12 +25,12 @@ class SchduleRepositoryTest {
     public void init() {
 
         schedule1 = Schedule.builder()
-                .id(1)
+                .id(1L)
                 .date("01Nov22")
                 .std("0000") // 출발 시간
                 .sta("2359") // 도착 시간
-                .cnt_from("GMP") // 출발
-                .cnt_to("GMP") // 도착
+                .cntFrom("GMP") // 출발
+                .cntTo("GMP") // 도착
                 .activity("OFF")
                 .build();
 

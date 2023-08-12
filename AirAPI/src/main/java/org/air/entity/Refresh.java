@@ -6,18 +6,20 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Table;
 
-@Builder
-@Table
-@Data
 @Entity
+@Builder
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class RefreshToken {
+public class Refresh {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
     private String userid;
     private String token;
 

@@ -6,19 +6,18 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Builder
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+//@Table(name = "T_SCHEDULE") //추가
 public class Schedule {
     @Id
-    @GeneratedValue
-    private int id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
     private String date;
     private String pairing;
@@ -29,10 +28,10 @@ public class Schedule {
 
     private String activity;
 
-    private String cnt_from;
+    private String cntFrom;
     private String std;
 
-    private String cnt_to;
+    private String cntTo;
     private String sta;
 
     private String achotel;

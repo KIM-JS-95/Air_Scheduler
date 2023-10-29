@@ -16,9 +16,9 @@ import java.util.List;
  * Author : KIM JAE SEONG <br>
  * Content: 스케쥴 관리 모음집  <br>
  * Function <br>
- *  upload_schedules: 일정 등록 <br>
- *  delete_schedules: 일정 삭제 <br>
- *  modify_schedules: 일정 수정 <br>
+     *  upload: 일정 등록 <br>
+     *  delete: 일정 삭제 <br>
+     *  modify: 일정 수정 <br>
  * <br>
  */
 @RestController
@@ -29,12 +29,11 @@ public class ScheduleController {
 
     // JPG 로부터 데이터 추출 후 저장
     @PostMapping("/upload")
-    public ResponseEntity upload_schedules(@RequestPart MultipartFile file,
+    public ResponseEntity upload(@RequestParam("file") MultipartFile file,
                                         HttpServletRequest request) {
         HeaderSetter headerSetter = new HeaderSetter();
         HttpHeaders headers = null;
         try {
-            // 텍스트 추출 시작
             List<Schedule> schedules = scheduleService.textrack(file.getInputStream());
             System.out.println("schedules size : " + schedules.size());
             boolean result = scheduleService.schedule_save(schedules);
@@ -48,14 +47,27 @@ public class ScheduleController {
                 .body("Save Success!");
     }
 
-    public ResponseEntity modify_schedules(){
-        ResponseEntity header =null;
-        return header;
+    @PostMapping("/modify/{id}")
+    public ResponseEntity modify(@PathVariable("id")Long id, @RequestBody Schedule schedule){
+        HttpHeaders header = new HttpHeaders();
+        Schedule schedule1= scheduleService.modify(id, schedule);
+        return ResponseEntity.ok()
+                .headers(header)
+                .body(schedule1);
     }
 
-
-    public ResponseEntity delete_schedules(){
-        ResponseEntity header =null;
-        return header;
+    @DeleteMapping("/delete")
+    public ResponseEntity delete(HttpServletRequest request){
+        HeaderSetter headerSetter = new HeaderSetter();
+        HttpHeaders headers = null;
+        Boolean rst = scheduleService.delete(); //  Table all clear
+        if(rst){
+            headers = headerSetter.haederSet(request.getHeader("Authorization"), "All clear your Schedules!");
+        }else{
+            headers = headerSetter.haederSet(request.getHeader("Authorization"), "clear fail!");
+        }
+        return ResponseEntity.ok()
+                .headers(headers)
+                .body("");
     }
 }

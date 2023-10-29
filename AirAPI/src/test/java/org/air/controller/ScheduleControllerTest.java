@@ -1,31 +1,29 @@
 package org.air.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.air.config.HeaderSetter;
 import org.air.config.SecurityConfig;
 import org.air.entity.Schedule;
-import org.air.repository.ScheduleRepository;
+import org.air.jwt.JwtTokenProvider;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.rendering.PDFRenderer;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -33,12 +31,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Import(ScheduleController.class)
 @WebMvcTest(controllers = ScheduleController.class)
 @ContextConfiguration(classes = {SecurityConfig.class, HeaderSetter.class})
-//@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class ScheduleControllerTest {
 
     @Autowired
     private MockMvc mvc;
     private File fileInputStream;
+
+    @MockBean
+    private JwtTokenProvider jwtTokenProvider;
 
 
     public void setUp() throws IOException {
@@ -63,7 +63,7 @@ class ScheduleControllerTest {
         setUp();
         try {
             PDDocument document = PDDocument.load(fileInputStream);
-            String  dir = "C:\\Users\\KIMJAESUNG\\Air_Scheduler\\AirAPI\\src\\main\\resources\\static\\img\\converted\\1.jpg";
+            String dir = "C:\\Users\\KIMJAESUNG\\Air_Scheduler\\AirAPI\\src\\main\\resources\\static\\img\\converted\\1.jpg";
             File jpgFile = new File(dir);
 
             PDFRenderer renderer = new PDFRenderer(document);

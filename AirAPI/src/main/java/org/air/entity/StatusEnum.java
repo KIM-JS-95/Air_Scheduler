@@ -1,5 +1,9 @@
 package org.air.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
+@NoArgsConstructor
 public enum StatusEnum {
 
     OK(200, "OK"),
@@ -14,4 +18,5 @@ public enum StatusEnum {
         this.statusCode = statusCode;
         this.code = code;
     }
+
 }

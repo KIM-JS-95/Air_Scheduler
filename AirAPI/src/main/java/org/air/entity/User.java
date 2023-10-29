@@ -1,5 +1,7 @@
 package org.air.entity;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,6 +21,7 @@ import java.util.Collection;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+
 public class User implements UserDetails {
 
     @Id
@@ -33,9 +36,9 @@ public class User implements UserDetails {
     private ArrayList<GrantedAuthority> authorities;
 
     @Override
+    @JsonSerialize(using = GrantedAuthoritySerializer.class) // authorities 필드를 커스텀 직렬화
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        ArrayList<GrantedAuthority> authList = new ArrayList<GrantedAuthority>(authorities);
-        return authList;
+        return authorities;
     }
 
     @Override

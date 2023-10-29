@@ -18,9 +18,9 @@ import java.util.Date;
  * Author : KIM JAE SEONG <br>
  * Content: 사용자 관리 기능 모음집 <br>
  * Function <br>
- * join: 회원가입 <br>
- * login: 유저 로그인 <br>
- * log_out: 유저 로그 아웃 <br>
+     * join: 회원가입 <br>
+     * login: 유저 로그인 <br>
+     * log_out: 유저 로그 아웃 <br>
  */
 @Slf4j
 @RestController
@@ -35,9 +35,12 @@ public class UserController {
     // 회원가입
     @PostMapping("/join")
     @ResponseStatus(HttpStatus.CREATED)
-    public User join(@RequestBody User user) {
+    public ResponseEntity join(@RequestBody User user) {
         customUserDetailService.save(user);
-        return user;
+        //System.out.println(user1.toString());
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(user);
     }
 
     // 로그인
@@ -57,8 +60,7 @@ public class UserController {
         customUserDetailService.token_save(refreshtoken, member.getUserid());
         HttpHeaders header = headerSetter.haederSet(token, "login Success");
 
-        return ResponseEntity
-                .ok()
+        return ResponseEntity.ok()
                 .headers(header)
                 .body("Login Success");
     }
@@ -66,7 +68,7 @@ public class UserController {
     // 로그아웃
     @PostMapping("/logout")
     public ResponseEntity logout() {
-        String token = "";
+        String token = ""; //  로그아웃시 토큰 비워주기
         HttpHeaders header = headerSetter.haederSet(token, "logout Success");
         return ResponseEntity.ok()
                 .headers(header)

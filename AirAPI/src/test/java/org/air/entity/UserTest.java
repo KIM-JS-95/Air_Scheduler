@@ -1,4 +1,4 @@
-package org.AirAPI.entity;
+package org.air.entity;
 
 import org.air.entity.User;
 import org.springframework.security.core.GrantedAuthority;

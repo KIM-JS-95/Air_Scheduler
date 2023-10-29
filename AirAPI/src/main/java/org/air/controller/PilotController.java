@@ -32,7 +32,8 @@ public class PilotController {
 
     @Autowired
     private ScheduleService scheduleService;
-
+    @Autowired
+    private HeaderSetter headerSetter;
     // 메인 페이지
     @GetMapping("/home")
     public ResponseEntity index(HttpServletRequest request) {
@@ -45,21 +46,19 @@ public class PilotController {
                 .body("home");
     }
 
-    @GetMapping("/getschedule")
+    @GetMapping("/getschedule") // today and 2-days
     public ResponseEntity getSchedules(HttpServletRequest request) throws ParseException {
         SimpleDateFormat dateFormat = new SimpleDateFormat("ddMMMyy", Locale.ENGLISH);
-        String s_date = dateFormat.format(new Date());
+        String startDate = dateFormat.format(new Date());
 
         Calendar calendar = Calendar.getInstance();
-        calendar.setTime(dateFormat.parse(s_date));
+        calendar.setTime(dateFormat.parse(startDate));
         calendar.add(Calendar.DAY_OF_MONTH, 3);
-        String e_date = dateFormat.format(calendar.getTime());
-
-
+        String endDate = dateFormat.format(calendar.getTime());
 
         HeaderSetter headers = new HeaderSetter();
         HttpHeaders header = headers.haederSet(request.getHeader("Authorization"), "main page");
-        List<Schedule> list = scheduleService.getSchedules(s_date, e_date);
+        List<Schedule> list = scheduleService.getSchedules(startDate, endDate);
 
         JSONObject obj = new JSONObject(); // json object 생성
         obj.put("schedule",list);
@@ -67,5 +66,22 @@ public class PilotController {
         return ResponseEntity.ok()
                 .headers(header)
                 .body(obj.toString());
+    }
+
+
+    @GetMapping("/show-schedule")
+    public ResponseEntity showAllSchedules(HttpServletRequest request){
+        String msg ="";
+        List<Schedule> schedules = scheduleService.getALlSchedules();
+        if(schedules.size()==0){
+            msg="No Data";
+        }else {
+            msg="find All!";
+        }
+        HttpHeaders header =headerSetter.haederSet(request.getHeader("Authorization"),msg);
+
+        return ResponseEntity.ok()
+                .headers(header)
+                .body(schedules);
     }
 }

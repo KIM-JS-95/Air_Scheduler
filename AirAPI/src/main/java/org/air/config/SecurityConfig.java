@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 
 @EnableWebSecurity
 @Configuration
@@ -35,15 +36,22 @@ public class SecurityConfig {
                 .httpBasic().disable()
                 .authorizeRequests()
                 .antMatchers("/upload","/join", "/login").permitAll()
-                .antMatchers("/home").authenticated()
+                .antMatchers("/show-schedule").authenticated() // 이후 잡아주기
                 .and()
                 .formLogin().disable()
                 .logout()
+                .logoutUrl("/logout")
                 .logoutSuccessUrl("/login")
+                .permitAll()
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class)
                 .build();
+    }
+
+    @Bean
+    public HandlerMappingIntrospector mvcHandlerMappingIntrospector() {
+        return new HandlerMappingIntrospector();
     }
 }

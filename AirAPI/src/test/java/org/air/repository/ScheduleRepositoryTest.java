@@ -1,10 +1,13 @@
 package org.air.repository;
 
 import org.air.entity.Schedule;
+import org.air.jwt.JwtTokenProvider;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -19,12 +22,14 @@ import java.util.List;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
-
-@SpringBootTest
+// @Springboot -> @DataJpaTest 으로 경량화 진행
+@DataJpaTest
 class ScheduleRepositoryTest {
 
     @Autowired
     private ScheduleRepository scheduleRepository;
+    @MockBean
+    private JwtTokenProvider jwtTokenProvider;
 
     @BeforeEach
     public void init() {
@@ -48,20 +53,10 @@ class ScheduleRepositoryTest {
                 .activity("OFF")
                 .build();
 
-        Schedule schedule3 = Schedule.builder()
-                .id(3L)
-                .date("03Nov22")
-                .std("0000") // 출발 시간
-                .sta("2359") // 도착 시간
-                .cntFrom("GMP") // 출발
-                .cntTo("GMP") // 도착
-                .activity("OFF")
-                .build();
         List<Schedule> l = new ArrayList<>();
-
         l.add(schedule1);
         l.add(schedule2);
-        l.add(schedule3);
+
 
         scheduleRepository.saveAll(l);
     }
@@ -104,7 +99,7 @@ class ScheduleRepositoryTest {
 
         List<Schedule> schedules = scheduleRepository.findByDateBetween(startdateString, enddateString);
 
-        assertThat(schedules.get(2).getDate(),is("03Nov22"));
+        assertThat(schedules.get(1).getDate(),is("02Nov22"));
 
     }
 }

@@ -8,7 +8,6 @@ import org.air.repository.ScheduleRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ContextConfiguration;
@@ -19,9 +18,9 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 import java.util.regex.Pattern;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -29,14 +28,14 @@ import static org.hamcrest.Matchers.is;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = {AWStextrack.class, Jsonschedules.class})
+@ContextConfiguration(classes = {AWStextrack.class, Jsonschedules.class, ScheduleService.class})
 //@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @TestPropertySource(locations = "classpath:application.properties")
 class ScheduleServiceTest {
     @MockBean
+    private ScheduleRepository scheduleRepository;
+    @Autowired
     private ScheduleService scheduleService;
-    @Mock
-    private ScheduleRepository schduleRepository;
     @Autowired
     private Jsonschedules jsonschedules;
 
@@ -170,22 +169,22 @@ class ScheduleServiceTest {
         SimpleDateFormat dateFormat = new SimpleDateFormat("ddMMMyy");
 
         // 아이디로 검색하명 schedule 로 리턴할꺼야 ~~
-        when(schduleRepository.findByDateBetween(sdate, edate))
+        when(scheduleRepository.findByDateBetween(sdate, edate))
                 .thenReturn(mock_list);
 
         // when
-        List<Schedule> threeDays_schedule = schduleRepository
+        List<Schedule> threeDays_schedule = scheduleRepository
                 .findByDateBetween(sdate, edate);
 
         // then
-        verify(schduleRepository, times(1))
+        verify(scheduleRepository, times(1))
                 .findByDateBetween(sdate, edate);
         assertThat(threeDays_schedule.get(0).getCntFrom(), is("BKK"));
     }
 
     @Test
     public void modify() {
-        Schedule schedule1 = Schedule.builder()
+        Optional<Schedule> origin_schdule = Optional.ofNullable(Schedule.builder()
                 .id(1L)
                 .date("01Nov22")
                 .std("0000") // 출발 시간
@@ -193,11 +192,12 @@ class ScheduleServiceTest {
                 .cntFrom("BKK") // 출발
                 .cntTo("GMP") // 도착
                 .activity("OFF")
-                .build();
+                .build());
 
-        Schedule schedule2 = Schedule.builder()
+        // 업데이트를 원하는 대상
+        Schedule update_schedule = Schedule.builder()
                 .id(1L)
-                .date("01Nov22")
+                .date("01Nov23")
                 .std("0000") // 출발 시간
                 .sta("2359") // 도착 시간
                 .cntFrom("BKK") // 출발
@@ -205,33 +205,16 @@ class ScheduleServiceTest {
                 .activity("OFF")
                 .build();
 
-        when(schduleRepository.findById(1))
-                .thenReturn(schedule1);
-        when(scheduleService.modify(1, schedule2))
-                .thenReturn(true);
-        boolean update = scheduleService.modify(1, schedule2);
-        assertThat(update, is(true));
+        when(scheduleRepository.findById(1L)).thenReturn(origin_schdule);
+        Schedule update = scheduleService.modify(0L,update_schedule);
+        assertThat(update.getDate(), is("01Nov23"));
+
     }
 
     @Test
     public void delete() {
-        Schedule schedule1 = Schedule.builder()
-                .id(1L)
-                .date("01Nov22")
-                .std("0000") // 출발 시간
-                .sta("2359") // 도착 시간
-                .cntFrom("BKK") // 출발
-                .cntTo("GMP") // 도착
-                .activity("OFF")
-                .build();
-        when(schduleRepository.save(schedule1))
-                .thenReturn(schedule1);
-        when(schduleRepository.deleteById(1))
-                .thenReturn(true);
 
-        schduleRepository.deleteById(1);
-
-        verify(schduleRepository, times(1)).deleteById(1);
+        scheduleRepository.truncateTable();
 
     }
 }

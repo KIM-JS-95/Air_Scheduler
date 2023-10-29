@@ -8,14 +8,10 @@ import org.springframework.http.MediaType;
 public class HeaderSetter {
 
     public HttpHeaders haederSet(String token, String msg){
-
-
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application", "json"));
         headers.set("Authorization",token);
-        headers.set("message", "login Success");
-        headers.set("msg",msg);
-
+        headers.set("message", msg);
         return headers;
     }
 }

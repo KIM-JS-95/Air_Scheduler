@@ -11,10 +11,14 @@ import org.air.repository.UserRepository;
 import org.air.service.CustomUserDetailService;
 import org.air.service.ScheduleService;
 import org.json.simple.JSONObject;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
@@ -22,30 +26,21 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultMatcher;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.io.FileInputStream;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.BDDMockito.then;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-//@TestInstance(TestInstance.Lifecycle.PER_METHOD)
-//@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-//@ExtendWith(SpringExtension.class)
+
 @Import(PilotController.class)
 @WebMvcTest(controllers = PilotController.class)
 @ContextConfiguration(classes = {AWStextrack.class, JwtTokenProvider.class})
@@ -73,7 +68,6 @@ public class PilotControllerTest {
     private UserRepository userRepository;
     @MockBean
     private ScheduleService scheduleService;
-    private Schedule schedule1;
     List<Schedule> scheduleList = new ArrayList<>();
     User user = null;
     List<Schedule> l = new ArrayList<>();
@@ -95,7 +89,7 @@ public class PilotControllerTest {
 
 
     @Test
-    @DisplayName("main_page_access")
+    @DisplayName("Success main_page_access")
     @WithMockUser
     public void 메인페이지에접속합니다() throws Exception {
         String token = jwtTokenProvider.createToken("001200", "침착맨");
@@ -105,6 +99,18 @@ public class PilotControllerTest {
                 )
                 .andExpect(status().isOk())
                 .andDo(print());
+    }
+
+    @Test
+    @DisplayName("faile to main_page_access")
+    public void 메인페이지에접속실패() throws Exception {
+
+        //String token = jwtTokenProvider.createToken("001200", "침착맨");
+
+        mvc.perform(get("/home")
+                        .header("Authorization", "fail token")
+                )
+                .andExpect(status().is4xxClientError());
     }
 
 
@@ -158,7 +164,8 @@ public class PilotControllerTest {
 
         when(scheduleService.getSchedules(any(), any())).thenReturn(l);
         JSONObject obj = new JSONObject();
-        String answer = obj.put("schedule",l).toString();
+        obj.put("schedule",l);
+        String answer = obj.toString();
 
         mvc.perform(get("/getschedule")
                         .contentType(MediaType.APPLICATION_JSON)

@@ -36,9 +36,13 @@ public class ScheduleController {
         try {
             List<Schedule> schedules = scheduleService.textrack(file.getInputStream());
             System.out.println("schedules size : " + schedules.size());
-            boolean result = scheduleService.schedule_save(schedules);
-            String msg = result ? "save" : "save errors";
-            headers = headerSetter.haederSet("save result", msg);
+            if(schedules.size()!=0) {
+                boolean result = scheduleService.schedule_save(schedules);
+                String msg = result ? "save" : "save errors";
+                headers = headerSetter.haederSet("save result", msg);
+            }else{
+                headers = headerSetter.haederSet("save result", "No data");
+            }
         } catch (Exception e) {
             System.out.println(e);
         }

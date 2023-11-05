@@ -73,11 +73,11 @@ public class Jsonschedules {
                     } else if (index == 6) {
                         schedule.setCntFrom(map.get(ids[0]));
                     } else if (index == 7) {
-                        schedule.setStd(map.get(ids[0]));
+                        schedule.setStdL(map.get(ids[0]));
                     } else if (index == 8) {
                         schedule.setCntTo(map.get(ids[0]));
                     } else if (index == 9) {
-                        schedule.setSta(map.get(ids[0]));
+                        schedule.setStaB(map.get(ids[0]));
                     } else if (index == 10) {
                         String hotel = "";
                         for (int j = 0; j < ids.length; j++) {

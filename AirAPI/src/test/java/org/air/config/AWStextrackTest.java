@@ -93,22 +93,18 @@ public class AWStextrackTest {
     public void ex2(HashMap<String, String> map, List<Block> list) {
         List<Schedule> schedules = new ArrayList<>();
         Schedule schedule = new Schedule();
-        /*
-         * 타입 CELL에서 id값을 획득해서 word에서 검색하는 방식으로 해야함
-         * id : word
-         *
-         * */
-        for (int i = 0; i < list.size(); i++) {
-            if (list.get(i).blockType().equals("CELL")) {
+        String[] weeks = {"null"};
+        try {
+            for (int i = 0; i < list.size(); i++) {
                 Block block = list.get(i);
                 int index = block.columnIndex();
-                if (list.get(i).rowIndex() == 1 || index == 2) continue;
-                if (index == 11) {
+                String[] ids = block.relationships().isEmpty() ? weeks : block.relationships().get(0).ids().toArray(new String[0]);
+                if (list.get(i).rowIndex() == 1) continue;
+                if (index == 13) {
                     schedules.add(schedule);
                     schedule = new Schedule();
                 }
                 if (block.relationships() != null) {
-                    String[] ids = block.relationships().get(0).ids().toArray(new String[0]);
                     if (index == 1) {
                         if (ids.length == 1) {
                             if (isDateValid(map.get(ids[0]))) {
@@ -120,31 +116,41 @@ public class AWStextrackTest {
                             schedule.setDate(map.get(ids[0]));
                             schedule.setPairing(map.get(ids[1]));
                         }
-                    } else if (index == 3) {
+                    } else if (index == 2) {
                         schedule.setDc(map.get(ids[0]));
-                    } else if (index == 4) {
+                    } else if (index == 3) {
                         schedule.setCi(map.get(ids[0]));
+                    } else if (index == 4) {
+                        schedule.setCo(map.get(ids[0]));
                     } else if (index == 5) {
                         schedule.setActivity(map.get(ids[0]));
                     } else if (index == 6) {
+
                         schedule.setCntFrom(map.get(ids[0]));
                     } else if (index == 7) {
-                        schedule.setStd(map.get(ids[0]));
+                        schedule.setStdL(map.get(ids[0]));
                     } else if (index == 8) {
-                        schedule.setCntTo(map.get(ids[0]));
+                        schedule.setStdB(map.get(ids[0]));
                     } else if (index == 9) {
-                        schedule.setSta(map.get(ids[0]));
+
+                        schedule.setCntTo(map.get(ids[0]));
                     } else if (index == 10) {
+                        schedule.setStaL(map.get(ids[0]));
+                    } else if (index == 11) {
+                        schedule.setStaB(map.get(ids[0]));
+                    } else if (index == 12) {
                         String hotel = "";
                         for (int j = 0; j < ids.length; j++) {
                             hotel += map.get(ids[j]);
                         }
                         schedule.setAchotel(hotel);
-                    } else if (index == 11) {
+                    } else if (index == 13) {
                         schedule.setBlk(map.get(ids[0]));
                     }
                 }
             }
+        } catch (Exception e) {
+            throw e;
         }
         schedules.forEach((n) -> System.out.println(n));
     }

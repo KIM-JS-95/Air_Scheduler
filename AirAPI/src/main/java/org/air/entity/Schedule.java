@@ -31,10 +31,12 @@ public class Schedule {
     private String activity;
 
     private String cntFrom;
-    private String std;
+    private String stdL;
+    private String stdB;
 
     private String cntTo;
-    private String sta;
+    private String staL;
+    private String staB;
 
     private String achotel;
 

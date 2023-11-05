@@ -65,7 +65,7 @@ public class PilotController {
 
         return ResponseEntity.ok()
                 .headers(header)
-                .body(obj.toString());
+                .body(obj);
     }
 
 

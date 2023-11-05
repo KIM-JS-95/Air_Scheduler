@@ -27,8 +27,8 @@ class SchduleRepositoryTest {
         schedule1 = Schedule.builder()
                 .id(1L)
                 .date("01Nov22")
-                .std("0000") // 출발 시간
-                .sta("2359") // 도착 시간
+                .stdL("0000") // 출발 시간
+                .staL("2359") // 도착 시간
                 .cntFrom("GMP") // 출발
                 .cntTo("GMP") // 도착
                 .activity("OFF")

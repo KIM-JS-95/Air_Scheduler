@@ -12,11 +12,15 @@ import software.amazon.awssdk.services.textract.TextractClient;
 import software.amazon.awssdk.services.textract.model.Block;
 
 import javax.transaction.Transactional;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 @Configuration
@@ -28,13 +32,29 @@ public class ScheduleService {
 
     // get 3 dats schedules
     public List<Schedule> getSchedules(String startDate, String endDate) {
-        startDate = "23Oct23";
         Schedule schedule = schduleRepository.findByDate(startDate);
 
         Long start_id = schedule.getId();
         Long end_id = start_id + 3L;
+        List<Schedule> schedules= schduleRepository.findByIdBetween(start_id, end_id);
 
-        return schduleRepository.findByIdBetween(start_id, end_id);
+        AtomicReference<String> previousDateRef = new AtomicReference<>();
+        Stream<Schedule> updatedStream = schedules.stream()
+                .map(s -> {
+                    String date = s.getDate();
+                    if (s.getDate()==null) {
+                        // date가 비어 있으면 이전 값을 사용
+                        s.setDate(previousDateRef.get());
+                    } else {
+                        previousDateRef.set(date);
+                    }
+                    return s;
+                });
+        // 스트림을 리스트로 변환 (optional)
+        List<Schedule> updatedSchedules = updatedStream.collect(Collectors.toList());
+
+
+        return updatedSchedules; //schduleRepository.findByIdBetween(start_id, end_id);
     }
 
     public boolean schedulesCheck(String s_date) {
@@ -71,10 +91,15 @@ public class ScheduleService {
             schedule.setCi(update_schedule.getCi());
             schedule.setCo(update_schedule.getCo());
             schedule.setActivity(update_schedule.getActivity());
+
             schedule.setCntFrom(update_schedule.getCntFrom());
-            schedule.setStd(update_schedule.getStd());
+            schedule.setStdL(update_schedule.getStdL());
+            schedule.setStdB(update_schedule.getStdB());
+
             schedule.setCntTo(update_schedule.getCntTo());
-            schedule.setSta(update_schedule.getSta());
+            schedule.setStaL(update_schedule.getStaL());
+            schedule.setStaB(update_schedule.getStaB());
+
             schedule.setAchotel(update_schedule.getAchotel());
             schedule.setBlk(update_schedule.getBlk());
             return schedule;
@@ -95,12 +120,11 @@ public class ScheduleService {
 
     // GET JPG -> AWS textreck -> user Check
     // 데이터를 획득하고 유저에게 검증 후 'schedule_save' 함수로 저장할꺼야
-    public List<Schedule> textrack(InputStream source) {
+    public List<Schedule> textrack(InputStream source){
         HashMap<String, String> map = new HashMap<>();
         List<Block> list_block = new ArrayList<>();
         TextractClient textractClient = awstextrack.awsceesser();
         List<Block> block = awstextrack.analyzeDoc(textractClient, source);
-
         block.forEach(callback -> {
             if (callback.blockType().toString() == "WORD") {
                 map.put(callback.id(), callback.text());

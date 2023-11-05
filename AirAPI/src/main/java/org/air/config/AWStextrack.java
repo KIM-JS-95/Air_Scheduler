@@ -87,7 +87,7 @@ public class AWStextrack {
                 int index = block.columnIndex();
                 String[] ids = block.relationships().isEmpty() ? weeks : block.relationships().get(0).ids().toArray(new String[0]);
                 if (list.get(i).rowIndex() == 1) continue;
-                if (index == 11) {
+                if (index == 13) {
                     schedules.add(schedule);
                     schedule = new Schedule();
                 }
@@ -104,30 +104,40 @@ public class AWStextrack {
                             schedule.setPairing(map.get(ids[1]));
                         }
                     } else if (index == 2) {
-                        schedule.setDc(map.get(ids[0]));
+                        schedule.setPairing(map.get(ids[0]));
                     } else if (index == 3) {
-                        schedule.setCi(map.get(ids[0]));
+                        schedule.setDc(map.get(ids[0]));
                     } else if (index == 4) {
-                        schedule.setCo(map.get(ids[0]));
+                        schedule.setCi(map.get(ids[0]));
                     } else if (index == 5) {
-                        schedule.setActivity(map.get(ids[0]));
+                        schedule.setCo(map.get(ids[0]));
                     } else if (index == 6) {
-                        schedule.setCntFrom(map.get(ids[0]));
+                        schedule.setActivity(map.get(ids[0]));
                     } else if (index == 7) {
-                        schedule.setStd(map.get(ids[0]));
+
+                        schedule.setCntFrom(map.get(ids[0]));
                     } else if (index == 8) {
-                        schedule.setCntTo(map.get(ids[0]));
+                        schedule.setStdL(map.get(ids[0]));
                     } else if (index == 9) {
-                        schedule.setSta(map.get(ids[0]));
+                        schedule.setStdB(map.get(ids[0]));
                     } else if (index == 10) {
+
+                        schedule.setCntTo(map.get(ids[0]));
+                    } else if (index == 11) {
+                        schedule.setStaL(map.get(ids[0]));
+                    } else if (index == 12) {
+                        schedule.setStaB(map.get(ids[0]));
+                    } else if (index == 13) {
                         String hotel = "";
                         for (int j = 0; j < ids.length; j++) {
                             hotel += map.get(ids[j]);
                         }
                         schedule.setAchotel(hotel);
-                    } else if (index == 11) {
+                    }
+                    /*else if (index == 14) {
                         schedule.setBlk(map.get(ids[0]));
                     }
+                    */
                 }
             }
         } catch (Exception e) {

@@ -99,11 +99,11 @@ class ScheduleServiceTest {
                 } else if (index == 6) {
                     schedule.setCntFrom(map.get(ids[0]));
                 } else if (index == 7) {
-                    schedule.setStd(map.get(ids[0]));
+                    schedule.setStdL(map.get(ids[0]));
                 } else if (index == 8) {
                     schedule.setCntTo(map.get(ids[0]));
                 } else if (index == 9) {
-                    schedule.setSta(map.get(ids[0]));
+                    schedule.setStaL(map.get(ids[0]));
                 } else if (index == 10) {
                     String hotel = "";
                     for (int j = 0; j < ids.length; j++) {
@@ -134,26 +134,34 @@ class ScheduleServiceTest {
         Schedule schedule1 = Schedule.builder()
                 .id(1L)
                 .date("01Nov22")
-                .std("0000") // 출발 시간
-                .sta("2359") // 도착 시간
+                .stdL("0000") // 출발 시간
+                .stdB("0000") // 출발 시간
+                .staL("2359") // 도착 시간
+                .staB("2359") // 도착 시간
                 .cntFrom("BKK") // 출발
                 .cntTo("GMP") // 도착
                 .activity("OFF")
                 .build();
+
         Schedule schedule2 = Schedule.builder()
-                .id(2L)
-                .date("02Nov22")
-                .std("0000") // 출발 시간
-                .sta("2359") // 도착 시간
+                .id(1L)
+                .date("01Nov22")
+                .stdL("0000") // 출발 시간
+                .stdB("0000") // 출발 시간
+                .staL("2359") // 도착 시간
+                .staB("2359") // 도착 시간
                 .cntFrom("BKK") // 출발
                 .cntTo("GMP") // 도착
                 .activity("OFF")
                 .build();
+
         Schedule schedule3 = Schedule.builder()
-                .id(3L)
-                .date("03Nov22")
-                .std("0000") // 출발 시간
-                .sta("2359") // 도착 시간
+                .id(1L)
+                .date("01Nov22")
+                .stdL("0000") // 출발 시간
+                .stdB("0000") // 출발 시간
+                .staL("2359") // 도착 시간
+                .staB("2359") // 도착 시간
                 .cntFrom("BKK") // 출발
                 .cntTo("GMP") // 도착
                 .activity("OFF")
@@ -187,8 +195,10 @@ class ScheduleServiceTest {
         Optional<Schedule> origin_schdule = Optional.ofNullable(Schedule.builder()
                 .id(1L)
                 .date("01Nov22")
-                .std("0000") // 출발 시간
-                .sta("2359") // 도착 시간
+                .stdL("0000") // 출발 시간
+                .stdB("0000") // 출발 시간
+                .staL("2359") // 도착 시간
+                .staB("2359") // 도착 시간
                 .cntFrom("BKK") // 출발
                 .cntTo("GMP") // 도착
                 .activity("OFF")
@@ -198,8 +208,10 @@ class ScheduleServiceTest {
         Schedule update_schedule = Schedule.builder()
                 .id(1L)
                 .date("01Nov23")
-                .std("0000") // 출발 시간
-                .sta("2359") // 도착 시간
+                .stdL("2359") // 도착 시간
+                .stdB("2359") // 도착 시간
+                .staL("2359") // 도착 시간
+                .staB("2359") // 도착 시간
                 .cntFrom("BKK") // 출발
                 .cntTo("LOS") // 도착
                 .activity("OFF")

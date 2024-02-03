@@ -92,14 +92,11 @@ class ScheduleRepositoryTest {
     }
 
     @Test
-    public void call_schedule() throws ParseException {
+    public void call_schedule(){
         SimpleDateFormat dateFormat = new SimpleDateFormat("ddMMMyy");
         String startdateString = "01Nov22";
         String enddateString = "03Nov22";
-
         List<Schedule> schedules = scheduleRepository.findByDateBetween(startdateString, enddateString);
-
         assertThat(schedules.get(1).getDate(),is("02Nov22"));
-
     }
 }

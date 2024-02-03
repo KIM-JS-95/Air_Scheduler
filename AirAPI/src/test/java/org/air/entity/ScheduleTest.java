@@ -21,7 +21,7 @@ class ScheduleTest {
                 .activity("OFF")
                 .build();
 
-        assertThat(schedule.getId(), Matchers.is(1));
+        assertThat(schedule.getId(), Matchers.is(1L));
 
     }
 

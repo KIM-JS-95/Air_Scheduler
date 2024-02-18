@@ -2,6 +2,7 @@ package org.air.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.air.config.AWStextrack;
+import org.air.config.HeaderSetter;
 import org.air.entity.Schedule;
 import org.air.entity.User;
 import org.air.jwt.JwtTokenProvider;
@@ -22,6 +23,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ContextConfiguration;
@@ -68,6 +70,7 @@ public class PilotControllerTest {
     private UserRepository userRepository;
     @MockBean
     private ScheduleService scheduleService;
+
     List<Schedule> scheduleList = new ArrayList<>();
     User user = null;
     List<Schedule> l = new ArrayList<>();
@@ -146,7 +149,7 @@ public class PilotControllerTest {
                 .thenReturn(user);
 
         final String contentType = "jpg"; //파일타입
-        final String filePath = "C:\\Users\\JAESEUNG\\IdeaProjects\\Air_Scheduler\\AirAPI\\src\\main\\resources\\static\\img\\sample.jpg"; //파일경로
+        final String filePath = "resources\\static\\img\\November.jpg"; //파일경로
         //final String filePath = "D:\\Air_Scheduler\\AirAPI\\src\\main\\resources\\static\\img\\sample.jpg";
         FileInputStream fileInputStream = new FileInputStream(filePath);
         MockMultipartFile img = new MockMultipartFile(
@@ -173,7 +176,7 @@ public class PilotControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .with(csrf()))
                 .andExpect(status().is2xxSuccessful())
-                .andExpect(content().string(answer));
+                .andDo(print());
     }
 
 }

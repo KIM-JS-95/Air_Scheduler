@@ -18,7 +18,7 @@
 - 스케쥴 수정 및 전체 삭제 로직
 - ResponseEntity 잡아주기 -> Return 코드 만들어 보기
 
-![sample.jpg](AirAPI%2Fsrc%2Fmain%2Fresources%2Fstatic%2Fimg%2FNovember.jpg)
+![Novenber.jpg](AirAPI%2Fsrc%2Fmain%2Fresources%2Fstatic%2Fimg%2FNovember.jpg)
 * 2023년 11월 부터 양식이 바뀜
 
 ## API Reference

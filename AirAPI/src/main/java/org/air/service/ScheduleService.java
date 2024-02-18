@@ -31,7 +31,7 @@ public class ScheduleService {
     private ScheduleRepository schduleRepository;
 
     // get 3 dats schedules
-    public List<Schedule> getSchedules(String startDate, String endDate) {
+    public List<Schedule> getSchedules(String startDate) {
         Schedule schedule = schduleRepository.findByDate(startDate);
 
         Long start_id = schedule.getId();

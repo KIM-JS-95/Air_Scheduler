@@ -32,22 +32,38 @@ public class PilotController {
 
     @Autowired
     private ScheduleService scheduleService;
-    @Autowired
-    private HeaderSetter headerSetter;
+
     // 메인 페이지
     @GetMapping("/home")
     public ResponseEntity index(HttpServletRequest request) {
         String token = request.getHeader("Authorization");
 
-        HeaderSetter headers = new HeaderSetter();
-        HttpHeaders header = headers.haederSet(token, "main page");
+        HeaderSetter headerSetter = new HeaderSetter();
+        HttpHeaders header = headerSetter.haederSet(token, "main page");
         return ResponseEntity.ok()
                 .headers(header)
                 .body("home");
     }
 
-    @GetMapping("/getschedule") // today and 2-days
-    public ResponseEntity getSchedules(HttpServletRequest request) throws ParseException {
+    @GetMapping("/getschedule_by_today") /// 당일 스케쥴 가져오기 (복수 일정)
+    public ResponseEntity getTodaySchedules(HttpServletRequest request) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("ddMMMyy", Locale.ENGLISH);
+        String today = dateFormat.format(new Date());
+        
+        HeaderSetter headers = new HeaderSetter();
+        HttpHeaders header = headers.haederSet(request.getHeader("Authorization"), "main page");
+        List<Schedule> list = scheduleService.getSchedules(today);
+
+        JSONObject obj = new JSONObject(); // json object 생성
+        obj.put("schedules",list);
+
+        return ResponseEntity.ok()
+                .headers(header)
+                .body(obj);
+    }
+
+    @GetMapping("/getschedule_by_date") /// 요청일 스케쥴 가져오기 (request: sDate / eDate)
+    public ResponseEntity getDateSchedules(HttpServletRequest request) throws ParseException {
         SimpleDateFormat dateFormat = new SimpleDateFormat("ddMMMyy", Locale.ENGLISH);
         String startDate = dateFormat.format(new Date());
 
@@ -58,10 +74,10 @@ public class PilotController {
 
         HeaderSetter headers = new HeaderSetter();
         HttpHeaders header = headers.haederSet(request.getHeader("Authorization"), "main page");
-        List<Schedule> list = scheduleService.getSchedules(startDate, endDate);
+        List<Schedule> list = scheduleService.getSchedules(startDate);
 
         JSONObject obj = new JSONObject(); // json object 생성
-        obj.put("schedule",list);
+        obj.put("schedules",list);
 
         return ResponseEntity.ok()
                 .headers(header)
@@ -78,6 +94,8 @@ public class PilotController {
         }else {
             msg="find All!";
         }
+
+        HeaderSetter headerSetter = new HeaderSetter();
         HttpHeaders header =headerSetter.haederSet(request.getHeader("Authorization"),msg);
 
         return ResponseEntity.ok()

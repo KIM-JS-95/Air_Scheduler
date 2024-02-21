@@ -17,13 +17,12 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
     Optional<Schedule> findById(Long id);
 
     // 일정 저장
-    // 3일치 일정 획득
     @Query("SELECT s FROM Schedule s WHERE s.date >= :startDate AND s.date <= :endDate")
     List<Schedule> findByDateBetween(@Param("startDate") String startDate, @Param("endDate") String endDate);
-    List<Schedule> findByIdBetween(Long startDate, Long endDate);
+
     void deleteById(Long i);
 
-    Schedule findByDate(String date);
+    List<Schedule> findByDate(String date);
 
     boolean existsByDate(String sDate);
 

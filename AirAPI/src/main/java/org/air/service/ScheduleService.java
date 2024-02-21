@@ -30,13 +30,32 @@ public class ScheduleService {
     @Autowired
     private ScheduleRepository schduleRepository;
 
-    // get 3 dats schedules
-    public List<Schedule> getSchedules(String startDate) {
-        Schedule schedule = schduleRepository.findByDate(startDate);
+    // 당일 일정 획득
+    public List<Schedule> getSchedules(String today) {
+        List<Schedule> schedules = schduleRepository.findByDate(today);
 
-        Long start_id = schedule.getId();
-        Long end_id = start_id + 3L;
-        List<Schedule> schedules= schduleRepository.findByIdBetween(start_id, end_id);
+        AtomicReference<String> previousDateRef = new AtomicReference<>();
+        Stream<Schedule> updatedStream = schedules.stream()
+                .map(s -> {
+                    String date = s.getDate();
+                    if (s.getDate()==null) {
+                        // date가 비어 있으면 이전 값을 사용
+                        s.setDate(previousDateRef.get());
+                    } else {
+                        previousDateRef.set(date);
+                    }
+                    return s;
+                });
+        // 스트림을 리스트로 변환 (optional)
+        List<Schedule> updatedSchedules = updatedStream.collect(Collectors.toList());
+
+
+        return updatedSchedules;
+    }
+
+
+    public List<Schedule> getSchedulesBydate(String sdate, String edate) {
+        List<Schedule> schedules = schduleRepository.findByDateBetween(sdate, edate);
 
         AtomicReference<String> previousDateRef = new AtomicReference<>();
         Stream<Schedule> updatedStream = schedules.stream()
@@ -56,6 +75,7 @@ public class ScheduleService {
 
         return updatedSchedules; //schduleRepository.findByIdBetween(start_id, end_id);
     }
+
 
     public boolean schedulesCheck(String s_date) {
         return schduleRepository.existsByDate(s_date);

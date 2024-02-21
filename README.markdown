@@ -18,7 +18,8 @@
 - 스케쥴 수정 및 전체 삭제 로직
 - ResponseEntity 잡아주기 -> Return 코드 만들어 보기
 
-![Novenber.jpg](AirAPI%2Fsrc%2Fmain%2Fresources%2Fstatic%2Fimg%2FNovember.jpg)
+[Novenber.jpg](AirAPI%2Fsrc%2Fmain%2Fresources%2Fstatic%2Fimg%2FNovember.jpg)
+
 * 2023년 11월 부터 양식이 바뀜
 
 ## API Reference
@@ -57,9 +58,11 @@
 
 ### PilotController
 
-| URL            | Method | Parameter | Type | Description                              |
-|:---------------|:-------|:----------|:-----|:-----------------------------------------|
-| `/getschedule` | `GET`  | ``        | ''   | `today + 2days` '해당 국가의 날씨 데이터도 같이 가져오기' |
+| URL            | Method | Parameter                       | Return Type      | Description        |
+|:---------------|:-------|:--------------------------------|:-----------------|:-------------------|
+| `/getTodaySchedules` | `GET`  | ``                              | 'List<Schedule>' | 당일 모든 일정 가져오기      |
+| `/getDateSchedules` | `GET`  | {<br/>sdate: 01Nov23,<br/>edate: 05Nov23<br/>} | 'List<Schedule>'         | 지정한 기간 동안의 일정 가져오기 |
+| `/showAllSchedules` | `GET`  | ``                              | ''               | 모든 일정 가져오기         |
 
 
 ### Flutter

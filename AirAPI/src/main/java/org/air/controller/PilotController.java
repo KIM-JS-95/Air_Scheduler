@@ -5,7 +5,9 @@ package org.air.controller;
  * Content: 사용자가 일반적으로 사용 가능한 기능 모음집 <br>
  * Function <br>
  * index: 일정 호출 <br>
- * getSchedules: 유저의 3일(Today + 2) 일정 획득 + 해당 지역의 날씨 <br>
+ * getTodaySchedules: 당일 모든 일정 획득 <br>
+ * getDateSchedules : 요청일 스케줄 가져오기 <br>
+ * showAllSchedules : 모든 스케쥴 가져오기 <br>
  * <br>
  */
 
@@ -17,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
@@ -45,7 +48,7 @@ public class PilotController {
                 .body("home");
     }
 
-    @GetMapping("/getschedule_by_today") /// 당일 스케쥴 가져오기 (복수 일정)
+    @GetMapping("/getschedule_by_today") // 당일 스케쥴 가져오기 (복수 일정)
     public ResponseEntity getTodaySchedules(HttpServletRequest request) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("ddMMMyy", Locale.ENGLISH);
         String today = dateFormat.format(new Date());
@@ -62,27 +65,25 @@ public class PilotController {
                 .body(obj);
     }
 
-    @GetMapping("/getschedule_by_date") /// 요청일 스케쥴 가져오기 (request: sDate / eDate)
-    public ResponseEntity getDateSchedules(HttpServletRequest request) throws ParseException {
+    @GetMapping("/getschedule_by_date")
+    public ResponseEntity getDateSchedules(@RequestParam("s_date") String sDate, @RequestParam("e_date") String eDate, HttpServletRequest request) throws ParseException {
         SimpleDateFormat dateFormat = new SimpleDateFormat("ddMMMyy", Locale.ENGLISH);
-        String startDate = dateFormat.format(new Date());
-
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(dateFormat.parse(startDate));
-        calendar.add(Calendar.DAY_OF_MONTH, 3);
-        String endDate = dateFormat.format(calendar.getTime());
+        String startDate = sDate != null ? sDate : dateFormat.format(new Date());
+        String endDate = eDate != null ? eDate : "";
 
         HeaderSetter headers = new HeaderSetter();
         HttpHeaders header = headers.haederSet(request.getHeader("Authorization"), "main page");
-        List<Schedule> list = scheduleService.getSchedules(startDate);
+        List<Schedule> list = scheduleService.getSchedules(startDate, endDate);
 
-        JSONObject obj = new JSONObject(); // json object 생성
-        obj.put("schedules",list);
+        JSONObject obj = new JSONObject();
+        obj.put("schedules", list);
 
         return ResponseEntity.ok()
                 .headers(header)
                 .body(obj);
     }
+
+
 
 
     @GetMapping("/show-schedule")

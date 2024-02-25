@@ -12,12 +12,10 @@ import software.amazon.awssdk.services.textract.TextractClient;
 import software.amazon.awssdk.services.textract.model.Block;
 
 import javax.transaction.Transactional;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -48,11 +46,8 @@ public class ScheduleService {
                 });
         // 스트림을 리스트로 변환 (optional)
         List<Schedule> updatedSchedules = updatedStream.collect(Collectors.toList());
-
-
         return updatedSchedules;
     }
-
 
     public List<Schedule> getSchedulesBydate(String sdate, String edate) {
         List<Schedule> schedules = schduleRepository.findByDateBetween(sdate, edate);
@@ -71,9 +66,7 @@ public class ScheduleService {
                 });
         // 스트림을 리스트로 변환 (optional)
         List<Schedule> updatedSchedules = updatedStream.collect(Collectors.toList());
-
-
-        return updatedSchedules; //schduleRepository.findByIdBetween(start_id, end_id);
+        return updatedSchedules;
     }
 
 

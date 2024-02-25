@@ -5,15 +5,14 @@ import org.air.config.AWStextrack;
 import org.air.config.HeaderSetter;
 import org.air.config.SecurityConfig;
 import org.air.entity.Schedule;
+import org.air.entity.User;
 import org.air.jwt.JwtTokenProvider;
 import org.air.repository.ScheduleRepository;
+import org.air.service.CustomUserDetailService;
 import org.air.service.ScheduleService;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.rendering.PDFRenderer;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -32,15 +31,21 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
 @Import(ScheduleController.class)
 @WebMvcTest(controllers = ScheduleController.class)
-@ContextConfiguration(classes = {AWStextrack.class,SecurityConfig.class, HeaderSetter.class})
+@ContextConfiguration(classes = {AWStextrack.class, SecurityConfig.class, HeaderSetter.class})
 class ScheduleControllerTest {
 
     @Autowired
@@ -51,63 +56,44 @@ class ScheduleControllerTest {
     @MockBean
     private ScheduleRepository scheduleRepository;
 
-    private File fileInputStream;
+    @MockBean
+    private CustomUserDetailService customUserDetailService;
 
     @MockBean
     private JwtTokenProvider jwtTokenProvider;
 
-
+    private User user;
+    private String token;
 
     @BeforeEach
-    public void setUp(@Autowired ScheduleService scheduleService) throws IOException {
-        String filePath = "C:\\Users\\KIMJAESUNG\\Air_Scheduler\\AirAPI\\src\\main\\resources\\static\\img\\pdf_sample.pdf";
-        fileInputStream = new File(filePath);
-    }
-
-    /*
-    @AfterEach
-    public void tearDown() {
-        // Clean up temporary files after each test
-        File[] tempFiles = new File(".").listFiles((dir, name) -> name.startsWith("page_") && name.endsWith(".jpg"));
-        if (tempFiles != null) {
-            for (File tempFile : tempFiles) {
-                tempFile.delete();
-            }
-        }
+    public void init() {
+        user = User.builder()
+                .userid("001200")
+                .name("tester")
+                .build();
+        SimpleDateFormat access_time = new SimpleDateFormat("hh:mm:ss");
+        token = jwtTokenProvider.createToken(user.getUserid(), access_time.format(new Date()));
     }
 
     @Test
-    public void testConvertPdfToJpg() throws IOException {
+    @Disabled
+    @DisplayName("textrack_test")
+    public void jpg_save_test() throws Exception {
 
-        setUp();
-        try {
-            PDDocument document = PDDocument.load(fileInputStream);
-            String dir = "C:\\Users\\KIMJAESUNG\\Air_Scheduler\\AirAPI\\src\\main\\resources\\static\\img\\converted\\1.jpg";
-            File jpgFile = new File(dir);
+        when(customUserDetailService.loadUserById(user.getUserid()))
+                .thenReturn(user);
 
-            PDFRenderer renderer = new PDFRenderer(document);
-            BufferedImage image = renderer.renderImage(0);
-            // 이미지를 JPG 파일로 저장
-            ImageIO.write(image, "jpg", jpgFile);
-            document.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        final String filePath = "resources\\static\\img\\November.jpg"; //파일경로
+        FileInputStream fileInputStream = new FileInputStream(filePath);
+        MockMultipartFile img = new MockMultipartFile(
+                "file", "sample.jpg", "jpg", fileInputStream);
+
+        mvc.perform(multipart("/upload")
+                        .file(img)
+                        .header("Authorization", token)
+                ).andExpect(status().isOk())
+                .andDo(print());
     }
-    */
-    @Test
-    public void save() throws Exception {
-        // Create a sample file to upload
-        MockMultipartFile file =
-                new MockMultipartFile("file", "C:\\Users\\KIMJAESUNG\\Air_Scheduler\\AirAPI\\src\\main\\resources\\static\\img\\November.jpg", MediaType.IMAGE_JPEG_VALUE, "Test file content".getBytes());
 
-        mvc.perform(MockMvcRequestBuilders.multipart("/upload")
-                        .file(file)
-                        .contentType(MediaType.MULTIPART_FORM_DATA)
-                        .accept(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.status().isOk());
-
-        // You can add additional assertions based on your controller's behavior
-    }
 
 }

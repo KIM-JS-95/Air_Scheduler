@@ -43,7 +43,7 @@ public class PilotController {
 
         HeaderSetter headerSetter = new HeaderSetter();
         HttpHeaders header = headerSetter.haederSet(token, "main page");
-        return ResponseEntity.ok()
+        return ResponseEntity.ok() // 200
                 .headers(header)
                 .body("home");
     }
@@ -52,13 +52,13 @@ public class PilotController {
     public ResponseEntity getTodaySchedules(HttpServletRequest request) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("ddMMMyy", Locale.ENGLISH);
         String today = dateFormat.format(new Date());
-        
+
         HeaderSetter headers = new HeaderSetter();
         HttpHeaders header = headers.haederSet(request.getHeader("Authorization"), "main page");
         List<Schedule> list = scheduleService.getSchedules(today);
 
-        JSONObject obj = new JSONObject(); // json object 생성
-        obj.put("schedules",list);
+        JSONObject obj = new JSONObject();
+        obj.put("schedules", list);
 
         return ResponseEntity.ok()
                 .headers(header)
@@ -73,7 +73,7 @@ public class PilotController {
 
         HeaderSetter headers = new HeaderSetter();
         HttpHeaders header = headers.haederSet(request.getHeader("Authorization"), "main page");
-        List<Schedule> list = scheduleService.getSchedules(startDate, endDate);
+        List<Schedule> list = scheduleService.getSchedulesBydate(startDate, endDate);
 
         JSONObject obj = new JSONObject();
         obj.put("schedules", list);
@@ -84,20 +84,18 @@ public class PilotController {
     }
 
 
-
-
     @GetMapping("/show-schedule")
-    public ResponseEntity showAllSchedules(HttpServletRequest request){
-        String msg ="";
+    public ResponseEntity showAllSchedules(HttpServletRequest request) {
+        String msg = "";
         List<Schedule> schedules = scheduleService.getALlSchedules();
-        if(schedules.size()==0){
-            msg="No Data";
-        }else {
-            msg="find All!";
+        if (schedules.size() == 0) {
+            msg = "No Data";
+        } else {
+            msg = "find All!";
         }
 
         HeaderSetter headerSetter = new HeaderSetter();
-        HttpHeaders header =headerSetter.haederSet(request.getHeader("Authorization"),msg);
+        HttpHeaders header = headerSetter.haederSet(request.getHeader("Authorization"), msg);
 
         return ResponseEntity.ok()
                 .headers(header)

@@ -23,6 +23,7 @@
 * 2023년 11월 부터 양식이 바뀜
 
 ## API Reference
+
 1. User (파일럿)
     1. 스케줄 관리(등록, 수정, 삭제)
         2. **스케줄 관리는 별도의 컨트롤러에서 관리**
@@ -35,65 +36,68 @@
     2. 회원관리
 
 ### UserController
-> Sign Up & In & Out
 
-| URL       | Method | Method Parameter | Type     | Description (* is Required)                            | Response    |
-|:----------|:-------|:-----------------|:---------|:-------------------------------------------------------|:------------|
-| `/join`   | `POST` | `User`           | `User`   | * userid / password <br/><br/>`userid` is pilot number | `Boolean`   |
-| `/login`  | `POST` | `User`           | `string` | * userid / name                                        | `JWT Token` |
-| `/logout` | `POST` | `User`           | `string` | 헤더에 토큰이 포함되어 있을 것                                      | `Boolean`   |
+> 유저 관리 [회원가입 / 로그인 / 로그아웃]
+
+| URL       | Method | Method Parameter | Type     | Description | Request                               | Response    |
+|:----------|:-------|:-----------------|:---------|-------------|:--------------------------------------|:------------|
+| `/join`   | `POST` | `User`           | `User`   | 회원가입        | [user ID / user PW](#UserConstroller) | `Boolean`   |
+| `/login`  | `POST` | `User`           | `string` | 로그인         | [user ID / Name](#UserConstroller)    | `JWT Token` |
+| `/logout` | `POST` | `User`           | `string` | 로그아웃        | `JWT Token`                             | `Boolean`   |
 
 ### SchedulesController
 
-```
-    This Function converts your schedule image to save at Entity with AWS_Textrack.
-    Those Entities are used to show at Display which connected by module name 'KT_GEINE'.
-```
+> 일정 관리 [업로드 / 수정 / 삭제]
 
-| URL            | Method   | Parameter  | Type                | Description |
-|:---------------|:---------|:-----------|:--------------------|:------------|
-| `/upload`      | `POST`   | `file`     | `MockMultipartFile` | *           |
-| `/modify/{id}` | `POST`   | `Schedule` | `Schedule`          | `단일 스케줄 수정` |
-| `/delete`      | `Delete` | `Id`       | *                   | `스케줄 전체 삭제` |
+| URL       | Method   | Parameter  | Type                | Description     | Request     | Response |
+|:----------|:---------|:-----------|:--------------------|:----------------|:------------|:---------|
+| `/upload` | `POST`   | `file`     | `MockMultipartFile` | 스케쥴 이미지 분적 후 저장 | Image file  | *        |
+| `/modify` | `POST`   | `Schedule` | `Schedule`          | 단일 스케줄 수정       | Schedule Id | *        |
+| `/delete` | `Delete` | `Id`       | *                   | 스케줄 전체 삭제       | Schedule Id | *        |
 
 ### PilotController
 
-| URL            | Method | Parameter                       | Return Type      | Description        |
-|:---------------|:-------|:--------------------------------|:-----------------|:-------------------|
-| `/getTodaySchedules` | `GET`  | ``                              | 'List<Schedule>' | 당일 모든 일정 가져오기      |
-| `/getDateSchedules` | `GET`  | {<br/>sdate: 01Nov23,<br/>edate: 05Nov23<br/>} | 'List<Schedule>'         | 지정한 기간 동안의 일정 가져오기 |
-| `/showAllSchedules` | `GET`  | ``                              | ''               | 모든 일정 가져오기         |
+> 일정 요청[오늘일정 / 날짜 선택 일정 / 모든 일정]
 
-
-### Flutter
-
-- 이미지 편집 기능 및 ajax 전송✅
-- 로그인 기능
-
-
-## PAGE Layout(Flutter)
-| layout                       | Method | Parameter | Type | Description                         |
-|:-----------------------------|:-------|:----------|:-----|:------------------------------------|
-| `/join`                      |        | ``        | ''   | `sign up!`                          |
-| `/login`                     |        | ``        | ''   | `Home layout is a login page!`      |
-| `/schedules_Upload and Edit` |        | ``        | ''   | `Schedules Edit and POST To server` |
-| `/schedules_view_all`        |        | ``        | ''   | `Total Schedules show up!`          |
-| `/schedules_view`            |        | ``        | ''   | `3-days  Schedules show up!`        |
-| `/schedules_modify`          |        | ``        | ''   | `modify your  Schedules`            |
-
-* 별도의 메인 홈 페이지 없이 바로 로그인 페이지로 이동합니다.
-** 솔직히 로그인 계정을 사용하기 보다 지문이 조금더 편리하지 않을까요?
-
+| URL                  | Method | Parameter | Return Type      | Description        | Request(Sample)       | Response |
+|:---------------------|:-------|:----------|:-----------------|:-------------------|:----------------------|:---------|
+| `/getTodaySchedules` | `GET`  | ``        | 'List<Schedule>' | 당일 모든 일정 가져오기      | *                     | *        |
+| `/getDateSchedules`  | `GET`  | `Date`    | 'List<Schedule>' | 지정한 기간 동안의 일정 가져오기 | [getDateSchedules](#PilotController) | *        |
+| `/showAllSchedules`  | `GET`  | ``        | ''               | 모든 일정 가져오기         | *                     |          |
 
 ## Framework
+```
+Back_end: SpringBoot, Spring JPA, Spring Security(whit. JWT)
 
-	Back_end: SpringBoot, Spring JPA, Spring Security(whit. JWT)
-    Front_end: FLutter (android)
+Front_end: FLutter (android)
 
-## API
+Infra structure: Docker, AWS
 
-	AWS Textrack, KT_Genie_API
+API: AWS Textrack
+```
 
-## Infra structure
 
-	Docker, AWS, KT_Genie
+## Sample Json
+#### UserController
+```json
+{
+  "userid": "<pilot Number>",
+  "password": "<pilot PW>"
+}
+```
+
+```json
+{
+  "userid": "<pilot Number>",
+  "name": "<pilot Name>"
+}
+```
+
+
+#### PilotController
+```json
+{
+  "sdate": "01Nov23",
+  "edate": "05Nov23"
+}
+```

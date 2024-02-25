@@ -5,6 +5,7 @@ import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.air.entity.User;
 import org.air.service.CustomUserDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,7 @@ import java.util.Date;
 
 @RequiredArgsConstructor
 @Configuration
+@Slf4j
 public class JwtTokenProvider {
     private String secretKey = "myprojectsecret";
 

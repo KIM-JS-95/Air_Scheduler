@@ -35,8 +35,8 @@ public class SecurityConfig {
         return http
                 .httpBasic().disable()
                 .authorizeRequests()
-                .antMatchers("/upload","/join", "/login").permitAll()
-                .antMatchers("/show-schedule").authenticated() // 이후 잡아주기
+                .antMatchers("/join", "/login").permitAll()
+                .antMatchers("/show-schedule", "/home").authenticated()
                 .and()
                 .formLogin().disable()
                 .logout()

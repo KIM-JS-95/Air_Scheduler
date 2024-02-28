@@ -25,7 +25,6 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 @Slf4j
 @SpringBootTest
-@TestPropertySource(locations = "classpath:application.properties")
 class ScheduleServiceTest {
     @Autowired
     private ScheduleService scheduleService;

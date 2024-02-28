@@ -31,8 +31,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@SpringBootTest
 @Slf4j
+@SpringBootTest
 @AutoConfigureMockMvc
 public class PilotControllerTest {
     @Autowired
@@ -42,32 +42,15 @@ public class PilotControllerTest {
     @MockBean
     private CustomUserDetailService customUserDetailService;
     @MockBean
-    private UserDetailsService userDetailsService;
-    @MockBean
     private ScheduleService scheduleService;
-
-    List<Schedule> l = new ArrayList<>();
     User user;
     String token;
 
     @BeforeEach
     public void init() {
-        Schedule schedule1 = Schedule.builder()
-                .id(1L)
-                .date("01Nov22")
-                .stdL("0000") // 출발 시간
-                .stdB("0000") // 출발 시간
-                .staL("2359") // 도착 시간
-                .staB("0000") // 출발 시간
-                .cntFrom("GMP") // 출발
-                .cntTo("GMP") // 도착
-                .activity("OFF")
-                .build();
-        l.add(schedule1);
-
         user = User.builder()
                 .userid("001200")
-                .name("침작맨")
+                .name("tester")
                 .build();
         SimpleDateFormat access_time = new SimpleDateFormat("hh:mm:ss");
         token = jwtTokenProvider.createToken(user.getUserid(), access_time.format(new Date()));

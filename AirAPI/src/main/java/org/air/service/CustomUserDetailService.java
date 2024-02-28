@@ -21,9 +21,6 @@ public class CustomUserDetailService{
     @Autowired
     private TokenRepository tokenRepository;
 
-    public User loadUserByUsername(String username){
-        return userRepository.findByName(username);
-    }
 
     public User loadUserById(String userid){
         User user = userRepository.existsByUserid(userid) ? userRepository.findByUserid(userid): null;

@@ -15,6 +15,8 @@ import org.springframework.security.core.Authentication;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Base64;
 import java.util.Date;
 
@@ -38,6 +40,7 @@ public class JwtTokenProvider {
 
     // JWT 토큰 생성
     public String createToken(String userid, String access_time) {
+
         Claims claims = Jwts.claims().setSubject(userid); // JWT payload 에 저장되는 정보단위, 보통 여기서 user를 식별하는 값을 넣는다.
         claims.put("userid", userid);
         claims.put("access_time", access_time);
@@ -88,7 +91,6 @@ public class JwtTokenProvider {
             Jws<Claims> claims = Jwts.parser()
                     .setSigningKey(secretKey)
                     .parseClaimsJws(jwtToken);
-
             return !claims.getBody().getExpiration().before(new Date());
         } catch (Exception e) {
             return false;

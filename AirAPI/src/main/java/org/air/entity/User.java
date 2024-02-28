@@ -14,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.Transient;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 
 @Entity
@@ -37,7 +38,7 @@ public class User implements UserDetails {
 
     @Override
     @JsonSerialize(using = GrantedAuthoritySerializer.class) // authorities 필드를 커스텀 직렬화
-    public Collection<? extends GrantedAuthority> getAuthorities() {
+    public List<? extends GrantedAuthority> getAuthorities() {
         return authorities;
     }
 

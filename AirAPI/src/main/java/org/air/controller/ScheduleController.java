@@ -36,7 +36,7 @@ public class ScheduleController {
         try {
             List<Schedule> schedules = scheduleService.textrack(file.getInputStream());
             System.out.println("schedules size : " + schedules.size());
-            if(schedules.size()!=0) {
+            if(!schedules.isEmpty()) {
                 boolean result = scheduleService.schedule_save(schedules);
                 String msg = result ? "save" : "save errors";
                 headers = headerSetter.haederSet("save result", msg);
@@ -51,10 +51,10 @@ public class ScheduleController {
                 .body("Save Success!");
     }
 
-    @PostMapping("/modify/{id}")
-    public ResponseEntity modify(@PathVariable("id")Long id, @RequestBody Schedule schedule){
+    @PostMapping("/modify")
+    public ResponseEntity modify(@RequestBody Schedule schedule){
         HttpHeaders header = new HttpHeaders();
-        Schedule schedule1= scheduleService.modify(id, schedule);
+        Schedule schedule1= scheduleService.modify(schedule.getId(), schedule);
         return ResponseEntity.ok()
                 .headers(header)
                 .body(schedule1);

@@ -5,8 +5,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import static org.hamcrest.MatcherAssert.assertThat;
 import org.hamcrest.Matchers;
+import org.springframework.boot.test.context.SpringBootTest;
 
 
+@SpringBootTest
 class ScheduleTest {
     @DisplayName("스케쥴_엔티티_테스트")
     @Test
@@ -33,4 +35,6 @@ class ScheduleTest {
         else System.out.println(false);
 
     }
+
+
 }

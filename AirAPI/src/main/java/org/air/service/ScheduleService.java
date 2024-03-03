@@ -1,7 +1,7 @@
 package org.air.service;
 
 import org.air.config.AWStextrack;
-import org.air.config.CustomErrors;
+import org.air.config.CustomCode;
 import org.air.entity.Schedule;
 import org.air.entity.StatusEnum;
 import org.air.repository.ScheduleRepository;
@@ -16,6 +16,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -36,7 +37,7 @@ public class ScheduleService {
         Stream<Schedule> updatedStream = schedules.stream()
                 .map(s -> {
                     String date = s.getDate();
-                    if (s.getDate()==null) {
+                    if (s.getDate() == null) {
                         // date가 비어 있으면 이전 값을 사용
                         s.setDate(previousDateRef.get());
                     } else {
@@ -56,7 +57,7 @@ public class ScheduleService {
         Stream<Schedule> updatedStream = schedules.stream()
                 .map(s -> {
                     String date = s.getDate();
-                    if (s.getDate()==null) {
+                    if (s.getDate() == null) {
                         // date가 비어 있으면 이전 값을 사용
                         s.setDate(previousDateRef.get());
                     } else {
@@ -75,26 +76,22 @@ public class ScheduleService {
     }
 
     // get 3 dats schedules
-    public List<Schedule> getALlSchedules() {
+    public List<Schedule> getAllSchedules() {
         List<Schedule> schedule = schduleRepository.findAll();
         return schedule;
     }
 
     // SAVE
-    public boolean schedule_save(List<Schedule> schedules) {
-        try {
-            System.out.println("schedules.size(): " + schedules.size());
-            schduleRepository.saveAll(schedules);
-            return true;
-        } catch (NullPointerException e) {
-            throw e;
-        }
+    public List<Schedule> schedule_save(List<Schedule> schedules) {
+        List<Schedule> result = schduleRepository.saveAll(schedules);
+        return result;
+
     }
 
 
     // 형식이 또 바뀌었었어요! 극혐이에요!
     @Transactional
-    public Schedule modify(Long id, Schedule update_schedule) {
+    public CustomCode modify(Long id, Schedule update_schedule) {
         Schedule schedule = schduleRepository.findById(id).orElseThrow();
         try {
             // Dirty checking 은 전체 필드를 update 하는 방식을 기본으로 사용함
@@ -115,9 +112,9 @@ public class ScheduleService {
 
             schedule.setAchotel(update_schedule.getAchotel());
             schedule.setBlk(update_schedule.getBlk());
-            return schedule;
+            return new CustomCode(StatusEnum.OK);
         } catch (Exception e) {
-            throw new CustomErrors(StatusEnum.BAD_REQUEST);
+            return new CustomCode(StatusEnum.BAD_REQUEST);
         }
     }
 
@@ -133,15 +130,15 @@ public class ScheduleService {
 
     // GET JPG -> AWS textreck -> user Check
     // 데이터를 획득하고 유저에게 검증 후 'schedule_save' 함수로 저장할꺼야
-    public List<Schedule> textrack(InputStream source){
+    public List<Schedule> textrack(InputStream source) {
         HashMap<String, String> map = new HashMap<>();
         List<Block> list_block = new ArrayList<>();
         TextractClient textractClient = awstextrack.awsceesser();
         List<Block> block = awstextrack.analyzeDoc(textractClient, source);
         block.forEach(callback -> {
-            if (callback.blockType().toString() == "WORD") {
+            if (Objects.equals(callback.blockType().toString(), "WORD")) {
                 map.put(callback.id(), callback.text());
-            } else if (callback.blockType().toString() == "CELL") {
+            } else if (Objects.equals(callback.blockType().toString(), "CELL")) {
                 list_block.add(callback);
             }
         });

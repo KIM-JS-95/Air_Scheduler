@@ -26,6 +26,8 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
 
     boolean existsByDate(String sDate);
 
+    //Boolean saveAll(List<Schedule> schedule);
+
 
     @Modifying
     @Transactional

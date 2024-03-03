@@ -3,7 +3,6 @@ package org.air.controller;
 import lombok.extern.slf4j.Slf4j;
 import org.air.entity.Schedule;
 import org.air.entity.User;
-import org.air.jwt.JwtAuthenticationFilter;
 import org.air.jwt.JwtTokenProvider;
 import org.air.service.CustomUserDetailService;
 import org.air.service.ScheduleService;
@@ -15,8 +14,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.text.SimpleDateFormat;
@@ -24,11 +21,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @Slf4j
@@ -78,6 +73,26 @@ public class PilotControllerTest {
                         .header("Authorization", "fail token")
                 )
                 .andExpect(status().is4xxClientError());
+    }
+
+    @Test
+    public void getAllSchedules() throws Exception {
+        when(customUserDetailService.loadUserById(jwtTokenProvider.getUserPk(token)))
+                .thenReturn(user);
+
+        List<Schedule> schedule = new ArrayList<>();
+        schedule.add(Schedule.builder()
+                .id(1L)
+                .build());
+
+        when(scheduleService.getAllSchedules()).thenReturn(schedule);
+
+        mvc.perform(get("/show-schedule")
+                        .header("Authorization", token)
+                        .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andExpect(status().is2xxSuccessful())
+                .andDo(print());
     }
 
     @Test

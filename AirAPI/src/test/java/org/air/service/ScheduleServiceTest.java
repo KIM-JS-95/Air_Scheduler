@@ -1,7 +1,6 @@
 package org.air.service;
 
 import lombok.extern.slf4j.Slf4j;
-import org.air.config.AWStextrack;
 import org.air.entity.Schedule;
 import org.air.entity.json.Blocks;
 import org.air.entity.json.Jsonschedules;
@@ -10,7 +9,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.TestPropertySource;
 
 import java.io.IOException;
 import java.text.ParseException;
@@ -61,7 +59,7 @@ class ScheduleServiceTest {
     @Test
     @DisplayName("select All Date")
     public void getAllSchedules() {
-        List<Schedule> schedules = scheduleService.getALlSchedules();
+        List<Schedule> schedules = scheduleService.getAllSchedules();
         assertThat(schedules.get(0).getDate(), is("01Nov23"));
     }
 

@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -34,10 +35,8 @@ public class UserController {
 
     // 회원가입
     @PostMapping("/join")
-    @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity join(@RequestBody User user) {
         customUserDetailService.save(user);
-        //System.out.println(user1.toString());
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(user);
@@ -45,7 +44,7 @@ public class UserController {
 
     // 로그인
     @PostMapping("/login")
-    public ResponseEntity login(@RequestBody User user) {
+    public ResponseEntity login(HttpServletRequest request, @RequestBody User user) {
 
         Date date = new Date();
         SimpleDateFormat access_time = new SimpleDateFormat("hh:mm:ss");
@@ -56,10 +55,10 @@ public class UserController {
         }
 
         String token = jwtTokenProvider.createToken(member.getUserid(), access_time.format(date));
-        String refreshtoken = jwtTokenProvider.createrefreshToken(member.getName());
-        customUserDetailService.token_save(refreshtoken, member.getUserid());
-        HttpHeaders header = headerSetter.haederSet(token, "login Success");
+        customUserDetailService.token_save(member, member.getUserid());
+        request.setAttribute("Authorization", token);
 
+        HttpHeaders header = headerSetter.haederSet(request, "login Success");
         return ResponseEntity.ok()
                 .headers(header)
                 .body("Login Success");
@@ -67,9 +66,11 @@ public class UserController {
 
     // 로그아웃
     @PostMapping("/logout")
-    public ResponseEntity logout() {
-        String token = ""; //  로그아웃시 토큰 비워주기
-        HttpHeaders header = headerSetter.haederSet(token, "logout Success");
+    public ResponseEntity logout(HttpServletRequest request) {
+
+        boolean result = customUserDetailService.logout(request);
+
+        HttpHeaders header = headerSetter.haederSet(request, "logout Success");
         return ResponseEntity.ok()
                 .headers(header)
                 .body("Logout Success");

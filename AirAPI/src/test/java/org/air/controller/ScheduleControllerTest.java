@@ -2,7 +2,9 @@ package org.air.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
+import org.air.config.CustomCode;
 import org.air.entity.Schedule;
+import org.air.entity.StatusEnum;
 import org.air.entity.User;
 import org.air.jwt.JwtTokenProvider;
 import org.air.service.CustomUserDetailService;
@@ -96,14 +98,18 @@ class ScheduleControllerTest {
     public void testModify() throws Exception {
         Schedule schedule = new Schedule();
         schedule.setId(1L);
-        when(scheduleService.modify(schedule.getId(), schedule)).thenReturn(schedule);
+
+        when(scheduleService.modify(schedule.getId(), schedule))
+                .thenReturn(new CustomCode(StatusEnum.OK));
+
         mvc.perform(post("/modify")
                         .header("Authorization", token)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(schedule))
                         .with(csrf())
                 )
-                .andExpect(status().isOk()).andDo(print());
+                .andExpect(status().isOk())
+                .andDo(print());
     }
 
     @Test

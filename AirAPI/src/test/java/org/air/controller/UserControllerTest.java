@@ -3,6 +3,7 @@ package org.air.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.air.config.HeaderSetter;
 import org.air.config.SecurityConfig;
+import org.air.entity.Authority;
 import org.air.entity.Messege;
 import org.air.entity.User;
 import org.air.jwt.JwtAuthenticationFilter;
@@ -90,9 +91,11 @@ public class UserControllerTest {
     @Test
     @DisplayName("Sign Up")
     public void join() throws Exception {
-        ArrayList<GrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
-        user.setAuthorities(authorities);
+        Authority authority = Authority.builder()
+                .authority("ROLE_USER")
+                .build();
+
+        user.setAuthority(authority);
 
         // 객체를 JSON으로 직렬화
         ObjectMapper objectMapper = new ObjectMapper();

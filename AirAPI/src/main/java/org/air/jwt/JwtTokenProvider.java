@@ -66,9 +66,8 @@ public class JwtTokenProvider {
 
     // JWT 토큰에서 인증 정보 조회
     public Authentication getAuthentication(String token) {
-        User userDetails = customUserDetailService.loadUserById(this.getUserPk(token));
-        return new UsernamePasswordAuthenticationToken(userDetails, "",
-                userDetails.getAuthorities());
+        User user = customUserDetailService.loadUserById(this.getUserPk(token));
+        return new UsernamePasswordAuthenticationToken(user, "");
     }
 
     // 토큰에서 회원 정보 추출
@@ -93,10 +92,23 @@ public class JwtTokenProvider {
                     .parseClaimsJws(jwtToken);
             return !claims.getBody().getExpiration().before(new Date());
         } catch (Exception e) {
+            // 파싱중 오류발행
             return false;
         }
     }
 
+
+    public boolean Tokencheck(String jwtToken) {
+        try {
+            Jws<Claims> claims = Jwts.parser()
+                    .setSigningKey(secretKey)
+                    .parseClaimsJws(jwtToken);
+            return true;
+        } catch (Exception e) {
+            // 파싱중 오류발행
+            return false;
+        }
+    }
 
 
 }

@@ -1,28 +1,40 @@
 package org.air.jwt;
 
+import lombok.extern.slf4j.Slf4j;
+import org.air.entity.Authority;
 import org.air.entity.User;
-import org.air.service.CustomUserDetailService;
+import org.air.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
+import javax.transaction.Transactional;
 import java.util.Date;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.empty;
+import static org.hamcrest.Matchers.nullValue;
+import static org.hamcrest.core.Is.is;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
+
+@Slf4j
+@SpringBootTest
 public class JwtTokenProviderTest {
-
-    @InjectMocks
+    @Autowired
     private JwtTokenProvider jwtTokenProvider;
 
-    @Mock
-    private CustomUserDetailService customUserDetailService;
+    @Autowired
+    private UserDetailsService userDetailsService;
+
+    @MockBean
+    private UserRepository userRepository;
 
     private final String userId = "testUser";
     private final String token = "exampleToken";
@@ -63,20 +75,6 @@ public class JwtTokenProviderTest {
         assertTrue(jwtTokenProvider.validateToken(refreshToken));
     }
 
-    @Test
-    @DisplayName("Test getting authentication from token")
-    public void testGetAuthentication() {
-        User user = new User();
-        user.setName("testUser");
-        Authentication expectedAuthentication = new UsernamePasswordAuthenticationToken(user, "", user.getAuthorities());
-
-        when(customUserDetailService.loadUserById(userId)).thenReturn(user);
-
-        if(jwtTokenProvider.validateToken(token)){
-            Authentication authentication = jwtTokenProvider.getAuthentication(token);
-            assertEquals(expectedAuthentication, authentication);
-        }
-    }
 
     @Test
     @DisplayName("Test token validation")
@@ -85,6 +83,42 @@ public class JwtTokenProviderTest {
         String validToken = jwtTokenProvider.createToken(userId, new Date().toString());
 
         assertTrue(jwtTokenProvider.validateToken(validToken));
+    }
+
+
+    @Test
+    @Transactional
+    @DisplayName("Token Check")
+    public void Toke_refresh() {
+        Authority authority = Authority.builder()
+                .id(1L)
+                .authority("USER")
+                .build();
+
+        User user = User.builder()
+                .userid("001201")
+                .name("tester")
+                .email("test@123")
+                .authority(authority)
+                .build();
+
+        String token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIwMDEyMDEiLCJ1c2VyaWQiOiIwMDEyMDEiLCJhY2Nlc3NfdGltZSI6IjEwOjE0OjM4IiwiaWF0IjoxNzA5NDI4NDc4LCJleHAiOjE3MDk0MzAyNzh9.i_N1cBqyzXm960OufSRNsZF8QnejylwYAkVWDq7iGRM";
+
+        if (jwtTokenProvider.Tokencheck(token)) { // 1. 토큰 형식체크
+            String userid = jwtTokenProvider.getUserPk(token);
+
+            if (jwtTokenProvider.validateToken(token)) { // 날짜 유효성 체크
+                log.info(userid);
+                User user1 = userRepository.findByUserid(userid);
+                assertThat(user1.getUserid(), is("001201"));
+            } else { // refresh
+                assertThat(jwtTokenProvider.createrefreshToken(userid), is(nullValue()));
+                log.info("Refresh your Token");
+            }
+        } else {
+            log.info("토큰이 적합하지 않습니다.");
+        }
+
     }
 
 }

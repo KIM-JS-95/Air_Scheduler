@@ -13,6 +13,7 @@ package org.air.controller;
 
 import org.air.config.HeaderSetter;
 import org.air.entity.Schedule;
+import org.air.entity.StatusEnum;
 import org.air.service.ScheduleService;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,6 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletRequest;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -40,9 +40,9 @@ public class PilotController {
     @GetMapping("/home")
     public ResponseEntity index(HttpServletRequest request) {
         String token = request.getHeader("Authorization");
-
         HeaderSetter headerSetter = new HeaderSetter();
-        HttpHeaders header = headerSetter.haederSet(token, "main page");
+
+        HttpHeaders header = headerSetter.haederSet(request, "main page");
         return ResponseEntity.ok() // 200
                 .headers(header)
                 .body("home");
@@ -54,7 +54,7 @@ public class PilotController {
         String today = dateFormat.format(new Date());
 
         HeaderSetter headers = new HeaderSetter();
-        HttpHeaders header = headers.haederSet(request.getHeader("Authorization"), "main page");
+        HttpHeaders header = headers.haederSet(request, "main page");
         List<Schedule> list = scheduleService.getSchedules(today);
 
         JSONObject obj = new JSONObject();
@@ -72,7 +72,7 @@ public class PilotController {
         String endDate = eDate != null ? eDate : "";
 
         HeaderSetter headers = new HeaderSetter();
-        HttpHeaders header = headers.haederSet(request.getHeader("Authorization"), "main page");
+        HttpHeaders header = headers.haederSet(request, "main page");
         List<Schedule> list = scheduleService.getSchedulesBydate(startDate, endDate);
 
         JSONObject obj = new JSONObject();
@@ -86,18 +86,15 @@ public class PilotController {
 
     @GetMapping("/show-schedule")
     public ResponseEntity showAllSchedules(HttpServletRequest request) {
-        String msg = "";
-        List<Schedule> schedules = scheduleService.getALlSchedules();
-        if (schedules.size() == 0) {
-            msg = "No Data";
-        } else {
-            msg = "find All!";
-        }
+        List<Schedule> schedules = scheduleService.getAllSchedules();
+        StatusEnum status = schedules.isEmpty()
+                    ? StatusEnum.No_DATA : StatusEnum.OK;
 
         HeaderSetter headerSetter = new HeaderSetter();
-        HttpHeaders header = headerSetter.haederSet(request.getHeader("Authorization"), msg);
+        HttpHeaders header = headerSetter.haederSet(request, "");
 
-        return ResponseEntity.ok()
+        return ResponseEntity
+                .status(Integer.parseInt(status.getStatusCode()))
                 .headers(header)
                 .body(schedules);
     }

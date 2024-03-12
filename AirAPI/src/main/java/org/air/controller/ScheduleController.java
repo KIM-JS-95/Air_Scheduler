@@ -32,7 +32,9 @@ public class ScheduleController {
 
     // JPG 로부터 데이터 추출 후 저장
     @PostMapping("/upload")
-    public ResponseEntity upload(@RequestParam("file") MultipartFile file, HttpServletRequest request) {
+    public ResponseEntity upload(HttpServletRequest request,
+                                 @RequestParam("file") MultipartFile file) {
+
         HeaderSetter headerSetter = new HeaderSetter();
         try {
             List<Schedule> schedules = scheduleService.textrack(file.getInputStream());

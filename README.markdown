@@ -1,7 +1,4 @@
-# KT_지니 & pilot time table
-
-1. Goal
-   pilot 비행 스케줄 이미지에서 스케줄을 분석하여 저장하고 `KT_GENIE`를 통해 호출하여 일정을 확인할 수 있도록 개발
+# Ppilot time table
 
 ## Problem
 
@@ -59,11 +56,11 @@
 
 > 일정 요청[오늘일정 / 날짜 선택 일정 / 모든 일정]
 
-| URL                  | Method | Parameter | Return Type      | Description        | Request(Sample)       | Response |
-|:---------------------|:-------|:----------|:-----------------|:-------------------|:----------------------|:---------|
-| `/getTodaySchedules` | `GET`  | ``        | 'List<Schedule>' | 당일 모든 일정 가져오기      | *                     | *        |
-| `/getDateSchedules`  | `GET`  | `Date`    | 'List<Schedule>' | 지정한 기간 동안의 일정 가져오기 | [getDateSchedules](#PilotController) | *        |
-| `/showAllSchedules`  | `GET`  | ``        | ''               | 모든 일정 가져오기         | *                     |          |
+| URL                  | Method | Parameter | Return Type      | Description        | Request(Sample)                          | Response |
+|:---------------------|:-------|:----------|:-----------------|:-------------------|:-----------------------------------------|:---------|
+| `/getTodaySchedules` | `GET`  | ``        | 'List<Schedule>' | 당일 모든 일정 가져오기      | *                                        | *        |
+| `/getDateSchedules`  | `GET`  | `Date`    | 'List<Schedule>' | 지정한 기간 동안의 일정 가져오기 | [getDateSchedules]([[#PilotController]]) | *        |
+| `/showAllSchedules`  | `GET`  | ``        | ''               | 모든 일정 가져오기         | *                                        |          |
 
 ## Framework
 ```
@@ -81,6 +78,7 @@ API: AWS Textrack
 #### UserController
 ```json
 {
+  // /join
   "userid": "<pilot Number>",
   "password": "<pilot PW>"
 }
@@ -88,6 +86,7 @@ API: AWS Textrack
 
 ```json
 {
+  // /login
   "userid": "<pilot Number>",
   "name": "<pilot Name>"
 }
@@ -97,7 +96,23 @@ API: AWS Textrack
 #### PilotController
 ```json
 {
+  // /getDateSchedules
   "sdate": "01Nov23",
   "edate": "05Nov23"
+}
+```
+
+#### ScheduleController
+```json
+{
+  // /upload
+  "file": "<image>"
+}
+```
+
+```json
+// /modify
+{
+  "Schedule" : "<Schedule Entity>"
 }
 ```

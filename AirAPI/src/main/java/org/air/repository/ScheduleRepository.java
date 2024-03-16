@@ -17,19 +17,23 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
     Optional<Schedule> findById(Long id);
 
     // 일정 저장
-    // 3일치 일정 획득
     @Query("SELECT s FROM Schedule s WHERE s.date >= :startDate AND s.date <= :endDate")
     List<Schedule> findByDateBetween(@Param("startDate") String startDate, @Param("endDate") String endDate);
-    List<Schedule> findByIdBetween(Long startDate, Long endDate);
+
     void deleteById(Long i);
 
     List<Schedule> findByDate(String date);
 
     boolean existsByDate(String sDate);
 
+    //Boolean saveAll(List<Schedule> schedule);
+
 
     @Modifying
     @Transactional
     @Query(value = "TRUNCATE TABLE schedule", nativeQuery = true)
     void truncateTable();
+
+    @Query("SELECT s FROM Schedule s WHERE s.id >= :startId AND s.id <= :endId")
+    List<Schedule> findByIdBetween(@Param("startId")Long startId, @Param("endId") Long endId);
 }

@@ -13,8 +13,9 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 
-@EnableWebSecurity
+
 @Configuration
+@EnableWebSecurity
 public class SecurityConfig {
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
@@ -35,8 +36,8 @@ public class SecurityConfig {
         return http
                 .httpBasic().disable()
                 .authorizeRequests()
-                .antMatchers("/upload","/join", "/login").permitAll()
-                .antMatchers("/show-schedule").authenticated() // 이후 잡아주기
+                .antMatchers("/join", "/login").permitAll()
+                .antMatchers("/show-schedule", "/home","/modify","/delete").authenticated()
                 .and()
                 .formLogin().disable()
                 .logout()

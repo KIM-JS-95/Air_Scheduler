@@ -23,7 +23,7 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
     List<Schedule> findByIdBetween(Long startDate, Long endDate);
     void deleteById(Long i);
 
-    Schedule findByDate(String date);
+    List<Schedule> findByDate(String date);
 
     boolean existsByDate(String sDate);
 

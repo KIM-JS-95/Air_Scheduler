@@ -2,8 +2,10 @@ package org.air.service;
 
 import org.air.config.AWStextrack;
 import org.air.config.CustomErrors;
+import org.air.entity.NationCode;
 import org.air.entity.Schedule;
 import org.air.entity.StatusEnum;
+import org.air.repository.NationCodeRepository;
 import org.air.repository.ScheduleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -14,10 +16,7 @@ import software.amazon.awssdk.services.textract.model.Block;
 import javax.transaction.Transactional;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -30,11 +29,13 @@ public class ScheduleService {
     @Autowired
     private ScheduleRepository schduleRepository;
 
-    // get 3 dats schedules
-    public List<Schedule> getSchedules(String startDate, String endDate) {
-        Schedule schedule = schduleRepository.findByDate(startDate);
+    @Autowired
+    private NationCodeRepository nationCodeRepository;
 
-        Long start_id = schedule.getId();
+    public List<Schedule> getSchedules(String startDate, String endDate) {
+        List<Schedule> schedule = schduleRepository.findByDate(startDate);
+
+        Long start_id = schedule.get(0).getId();
         Long end_id = start_id + 3L;
         List<Schedule> schedules= schduleRepository.findByIdBetween(start_id, end_id);
 
@@ -52,9 +53,47 @@ public class ScheduleService {
                 });
         // 스트림을 리스트로 변환 (optional)
         List<Schedule> updatedSchedules = updatedStream.collect(Collectors.toList());
+        return updatedSchedules;
+    }
 
+    public List<Schedule> getTodaySchedules(String startDate) {
+        List<Schedule> schedules = schduleRepository.findByDate(startDate);
 
-        return updatedSchedules; //schduleRepository.findByIdBetween(start_id, end_id);
+        AtomicReference<String> previousDateRef = new AtomicReference<>();
+        Stream<Schedule> updatedStream = schedules.stream()
+                .map(s -> {
+                    String date = s.getDate();
+                    if (s.getDate()==null) {
+                        // date가 비어 있으면 이전 값을 사용
+                        s.setDate(previousDateRef.get());
+                    } else {
+                        previousDateRef.set(date);
+                    }
+                    return s;
+                });
+        // 스트림을 리스트로 변환 (optional)
+        List<Schedule> updatedSchedules = updatedStream.collect(Collectors.toList());
+        return updatedSchedules;
+    }
+
+    public Map<String, Map<String, String>> getNationCode(){
+        List<NationCode> codes = nationCodeRepository.findAll();
+        Map<String, Map<String, String>> codeCountryMap = convertToMap(codes);
+
+        return codeCountryMap;
+    }
+    public Map<String, Map<String, String>> convertToMap(List<NationCode> nationCodes) {
+        Map<String, Map<String, String>> codeCountryMap = new HashMap<>();
+
+        for (NationCode nationCode : nationCodes) {
+            Map<String, String> metadate =new HashMap<>();
+            metadate.put("code", nationCode.getCode()); // code
+            metadate.put("lat",nationCode.getLat()); // lat
+            metadate.put("lon",nationCode.getLon()); // lon
+            codeCountryMap.put(nationCode.getCountry(), metadate);
+        }
+
+        return codeCountryMap;
     }
 
     public boolean schedulesCheck(String s_date) {

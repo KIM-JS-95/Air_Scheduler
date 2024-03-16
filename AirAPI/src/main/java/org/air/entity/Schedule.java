@@ -15,7 +15,6 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @DynamicUpdate
-//@Table(name = "T_SCHEDULE") //추가
 public class Schedule {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

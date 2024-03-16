@@ -50,7 +50,6 @@ public class UserController {
         Date date = new Date();
         SimpleDateFormat access_time = new SimpleDateFormat("hh:mm:ss");
         User member = customUserDetailService.loadUserById(user.getUserid());
-
         if (member == null) {
             return new ResponseEntity<>("Unauthorized", HttpStatus.UNAUTHORIZED);
         }

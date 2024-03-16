@@ -5,40 +5,45 @@ package org.air.controller;
  * Content: 사용자가 일반적으로 사용 가능한 기능 모음집 <br>
  * Function <br>
  * index: 일정 호출 <br>
- * getSchedules: 유저의 3일(Today + 2) 일정 획득 + 해당 지역의 날씨 <br>
+ * getTodaySchedules: 당일 모든 일정 획득 <br>
+ * getDateSchedules : 요청일 스케줄 가져오기 <br>
+ * showAllSchedules : 모든 스케쥴 가져오기 <br>
  * <br>
  */
 
 import org.air.config.HeaderSetter;
-import org.air.entity.NationCode;
 import org.air.entity.Schedule;
+import org.air.entity.StatusEnum;
 import org.air.service.ScheduleService;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+
 import org.springframework.web.bind.annotation.*;
+
 
 import javax.servlet.http.HttpServletRequest;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+
 import java.util.*;
+
 
 @RestController
 public class PilotController {
 
     @Autowired
     private ScheduleService scheduleService;
-    @Autowired
-    private HeaderSetter headerSetter;
+
     // 메인 페이지
     @GetMapping("/home")
     public ResponseEntity index(HttpServletRequest request) {
         String token = request.getHeader("Authorization");
+        HeaderSetter headerSetter = new HeaderSetter();
 
-        HeaderSetter headers = new HeaderSetter();
-        HttpHeaders header = headers.haederSet(token, "main page");
-        return ResponseEntity.ok()
+        HttpHeaders header = headerSetter.haederSet(request, "main page");
+        return ResponseEntity.ok() // 200
                 .headers(header)
                 .body("home");
     }
@@ -47,17 +52,25 @@ public class PilotController {
     public ResponseEntity getSchedules(HttpServletRequest request, @RequestBody Map<String, String> requestBody) throws ParseException {
         String receivedDateTime = requestBody.get("dateTime");
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat("ddMMMyy", Locale.ENGLISH);
-        String startDate = dateFormat.format(new Date());
+        HeaderSetter headers = new HeaderSetter();
+        HttpHeaders header = headers.haederSet(request, "main page");
+        List<Schedule> list = scheduleService.getSchedules(receivedDateTime);
 
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(dateFormat.parse(startDate));
-        calendar.add(Calendar.DAY_OF_MONTH, 3);
-        String endDate = dateFormat.format(calendar.getTime());
+        return ResponseEntity.ok()
+                .headers(header)
+                .body(list);
+    }
+
+    // 사용 안함~~
+    @GetMapping("/getschedule_by_date")
+    public ResponseEntity getDateSchedules(@RequestParam("s_date") String sDate, @RequestParam("e_date") String eDate, HttpServletRequest request) throws ParseException {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("ddMMMyy", Locale.ENGLISH);
+        String startDate = sDate != null ? sDate : dateFormat.format(new Date());
+        String endDate = eDate != null ? eDate : "";
 
         HeaderSetter headers = new HeaderSetter();
-        HttpHeaders header = headers.haederSet(request.getHeader("Authorization"), "main page");
-        List<Schedule> list = scheduleService.getSchedules(receivedDateTime, endDate);
+        HttpHeaders header = headers.haederSet(request, "main page");
+        List<Schedule> list = scheduleService.getSchedulesBydate(startDate, endDate);
 
         return ResponseEntity.ok()
                 .headers(header)
@@ -70,7 +83,7 @@ public class PilotController {
         //String startDate = dateFormat.format(new Date());
         String startDate = "02Nov23";
         HeaderSetter headers = new HeaderSetter();
-        HttpHeaders header = headers.haederSet(request.getHeader("Authorization"), "main page");
+        HttpHeaders header = headers.haederSet(request, "main page");
         List<Schedule> list = scheduleService.getTodaySchedules(startDate);
 
         return ResponseEntity.ok()
@@ -83,7 +96,7 @@ public class PilotController {
     public ResponseEntity getnationcode(HttpServletRequest request) throws ParseException {
 
         HeaderSetter headers = new HeaderSetter();
-        HttpHeaders header = headers.haederSet(request.getHeader("Authorization"), "main page");
+        HttpHeaders header = headers.haederSet(request, "main page");
         Map<String, Map<String, String>> list = scheduleService.getNationCode();
 
         return ResponseEntity.ok()
@@ -92,16 +105,17 @@ public class PilotController {
     }
 
     @GetMapping("/show-schedule")
-    public ResponseEntity showAllSchedules(HttpServletRequest request){
-        String msg ="";
-        List<Schedule> schedules = scheduleService.getALlSchedules();
-        if(schedules.size()==0){
-            msg="No Data";
-        }else {
-            msg="find All!";
-        }
-        HttpHeaders header =headerSetter.haederSet(request.getHeader("Authorization"),msg);
-        return ResponseEntity.ok()
+    public ResponseEntity showAllSchedules(HttpServletRequest request) {
+        List<Schedule> schedules = scheduleService.getAllSchedules();
+        StatusEnum status = schedules.isEmpty()
+                    ? StatusEnum.No_DATA : StatusEnum.OK;
+
+        HeaderSetter headerSetter = new HeaderSetter();
+        HttpHeaders header = headerSetter.haederSet(request, "");
+
+        return ResponseEntity
+                .status(Integer.parseInt(status.getStatusCode()))
+
                 .headers(header)
                 .body(schedules);
     }

@@ -5,6 +5,7 @@ import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.air.entity.User;
 import org.air.service.CustomUserDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,11 +15,14 @@ import org.springframework.security.core.Authentication;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Base64;
 import java.util.Date;
 
 @RequiredArgsConstructor
 @Configuration
+@Slf4j
 public class JwtTokenProvider {
     private String secretKey = "myprojectsecret";
 
@@ -36,6 +40,7 @@ public class JwtTokenProvider {
 
     // JWT 토큰 생성
     public String createToken(String userid, String access_time) {
+
         Claims claims = Jwts.claims().setSubject(userid); // JWT payload 에 저장되는 정보단위, 보통 여기서 user를 식별하는 값을 넣는다.
         claims.put("userid", userid);
         claims.put("access_time", access_time);
@@ -61,9 +66,8 @@ public class JwtTokenProvider {
 
     // JWT 토큰에서 인증 정보 조회
     public Authentication getAuthentication(String token) {
-        User userDetails = customUserDetailService.loadUserById(this.getUserPk(token));
-        return new UsernamePasswordAuthenticationToken(userDetails, "",
-                userDetails.getAuthorities());
+        User user = customUserDetailService.loadUserById(this.getUserPk(token));
+        return new UsernamePasswordAuthenticationToken(user, "");
     }
 
     // 토큰에서 회원 정보 추출
@@ -86,13 +90,25 @@ public class JwtTokenProvider {
             Jws<Claims> claims = Jwts.parser()
                     .setSigningKey(secretKey)
                     .parseClaimsJws(jwtToken);
-
             return !claims.getBody().getExpiration().before(new Date());
         } catch (Exception e) {
+            // 파싱중 오류발행
             return false;
         }
     }
 
+
+    public boolean Tokencheck(String jwtToken) {
+        try {
+            Jws<Claims> claims = Jwts.parser()
+                    .setSigningKey(secretKey)
+                    .parseClaimsJws(jwtToken);
+            return true;
+        } catch (Exception e) {
+            // 파싱중 오류발행
+            return false;
+        }
+    }
 
 
 }

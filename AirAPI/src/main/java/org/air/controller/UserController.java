@@ -56,21 +56,19 @@ public class UserController {
 
         String token = jwtTokenProvider.createToken(member.getUserid(), access_time.format(date));
         customUserDetailService.token_save(member, token);
-        request.setAttribute("Authorization", token);
+        log.info("token: "+token);
+        HttpHeaders header = headerSetter.haederSet(token, "login Success");
 
-        HttpHeaders header = headerSetter.haederSet(request, "login Success");
         return ResponseEntity.ok()
                 .headers(header)
                 .body("Login Success");
     }
 
-    // 로그아웃
+    // 로그아웃 (서블렛 토큰 제거)
     @PostMapping("/logout")
     public ResponseEntity logout(HttpServletRequest request) {
-
         boolean result = customUserDetailService.logout(request);
-
-        HttpHeaders header = headerSetter.haederSet(request, "logout Success");
+        HttpHeaders header = headerSetter.haederSet("", "logout Success");
         return ResponseEntity.ok()
                 .headers(header)
                 .body("Logout Success");

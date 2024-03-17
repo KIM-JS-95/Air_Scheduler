@@ -30,22 +30,26 @@ public class SecurityConfig {
     }
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.csrf().disable();
-        http.cors().disable();
-        http.headers().frameOptions().disable();
+
         return http
+                .cors().disable()
+                .csrf().disable()
                 .httpBasic().disable()
                 .authorizeRequests()
                 .antMatchers("/join", "/login").permitAll()
-                .antMatchers("/show-schedule", "/home","/modify","/delete").authenticated()
+                .antMatchers("/showschedule", "/home","/modify","/delete").authenticated()
+
                 .and()
                 .formLogin().disable()
                 .logout()
                 .logoutUrl("/logout")
                 .logoutSuccessUrl("/login")
                 .permitAll()
+
                 .and()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+
                 .and()
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class)
                 .build();

@@ -23,8 +23,10 @@ public class User {
     @Transient
     private boolean enabled;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @JoinColumn(name = "authority_id")
+    @ToString.Exclude // Exclude from toString()
+    @EqualsAndHashCode.Exclude // Exclude from equals() and hashCode()
     private Authority authority;
 
 

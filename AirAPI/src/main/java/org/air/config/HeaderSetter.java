@@ -9,10 +9,11 @@ import javax.servlet.http.HttpServletRequest;
 @Configuration
 public class HeaderSetter {
 
-    public HttpHeaders haederSet(HttpServletRequest request, String msg){
+    public HttpHeaders haederSet(String token, String msg){
+
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application", "json"));
-        headers.set("Authorization",request.getHeader("Authorization"));
+        headers.set("Authorization", token);
         headers.set("message", msg);
         return headers;
     }

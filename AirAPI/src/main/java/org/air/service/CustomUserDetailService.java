@@ -26,10 +26,10 @@ public class CustomUserDetailService{
     @Autowired
     private TokenRepository tokenRepository;
 
-
+    @Transactional
     public User loadUserById(String userid){
         User user = userRepository.existsByUserid(userid) ? userRepository.findByUserid(userid): null;
-        //log.info(user.getRefresh().getToken());
+        log.info(user.getAuthority().toString());
         return user;
     }
 

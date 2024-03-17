@@ -2,11 +2,11 @@ package org.air.config;
 
 import org.air.entity.StatusEnum;
 
-public class CustomErrors extends RuntimeException {
+public class CustomCode extends RuntimeException {
 
     private final StatusEnum status;
 
-    public CustomErrors(StatusEnum status) {
+    public CustomCode(StatusEnum status) {
         this.status = status;
     }
 

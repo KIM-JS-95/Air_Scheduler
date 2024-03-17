@@ -1,6 +1,5 @@
 package org.air.entity;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,11 +8,10 @@ import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Transient;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 
 @Entity
@@ -22,7 +20,7 @@ import java.util.Collection;
 @NoArgsConstructor
 @AllArgsConstructor
 
-public class User implements UserDetails {
+public class User {
 
     @Id
     private String userid;
@@ -30,34 +28,30 @@ public class User implements UserDetails {
     private String name;
     private String picUrl;
     private String password;
+
     @Transient
     private boolean enabled;
 
-    private ArrayList<GrantedAuthority> authorities;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "authority_id")
+    private Authority authority;
 
-    @Override
-    @JsonSerialize(using = GrantedAuthoritySerializer.class) // authorities 필드를 커스텀 직렬화
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return authorities;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name="userid")
+    private Refresh refresh;
+
+    public void setRefreshToken(Refresh refresh) {
+        this.refresh = refresh;
+        refresh.setUser(this); // 양방향 관계 설정
     }
 
-    @Override
-    public String getUsername() {
-        return null;
+    // 편의 메서드: 사용자의 리프레시 토큰 삭제
+    public void removeRefreshToken() {
+        if (this.refresh != null) {
+            this.refresh.setUser(null); // 양방향 관계 해제
+            this.refresh = null;
+        }
     }
 
-    @Override
-    public boolean isAccountNonExpired() {
-        return false;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return false;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return false;
-    }
 }

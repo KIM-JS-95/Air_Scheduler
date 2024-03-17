@@ -41,4 +41,8 @@ public class Schedule {
 
     private String blk;
 
+    @ManyToOne
+    @JoinColumn(name = "userid") // 외래 키 컬럼명
+    private User userid;
+
 }

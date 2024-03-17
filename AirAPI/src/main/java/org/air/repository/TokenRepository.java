@@ -10,4 +10,6 @@ import org.springframework.stereotype.Repository;
 public interface TokenRepository extends JpaRepository<Refresh, Long> {
 
     Refresh findByToken(String token);
+
+    Refresh findByUser_userid(String userid);
 }

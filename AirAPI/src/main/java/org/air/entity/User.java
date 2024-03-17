@@ -1,17 +1,9 @@
 package org.air.entity;
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.*;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 
 
 @Entity
@@ -19,7 +11,6 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-
 public class User {
 
     @Id
@@ -38,7 +29,9 @@ public class User {
 
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name="userid")
+    @JoinColumn(name="user_id")
+    @ToString.Exclude // Exclude from toString()
+    @EqualsAndHashCode.Exclude // Exclude from equals() and hashCode()
     private Refresh refresh;
 
     public void setRefreshToken(Refresh refresh) {

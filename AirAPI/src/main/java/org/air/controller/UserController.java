@@ -49,12 +49,13 @@ public class UserController {
         Date date = new Date();
         SimpleDateFormat access_time = new SimpleDateFormat("hh:mm:ss");
         User member = customUserDetailService.loadUserById(user.getUserid());
+
         if (member == null) {
             return new ResponseEntity<>("Unauthorized", HttpStatus.UNAUTHORIZED);
         }
 
         String token = jwtTokenProvider.createToken(member.getUserid(), access_time.format(date));
-        customUserDetailService.token_save(member, member.getUserid());
+        customUserDetailService.token_save(member, token);
         request.setAttribute("Authorization", token);
 
         HttpHeaders header = headerSetter.haederSet(request, "login Success");

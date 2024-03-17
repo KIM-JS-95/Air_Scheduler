@@ -1,6 +1,7 @@
 package org.air.controller;
 
 import lombok.extern.slf4j.Slf4j;
+import org.air.config.CustomCode;
 import org.air.config.HeaderSetter;
 import org.air.entity.User;
 import org.air.jwt.JwtTokenProvider;
@@ -19,9 +20,9 @@ import java.util.Date;
  * Author : KIM JAE SEONG <br>
  * Content: 사용자 관리 기능 모음집 <br>
  * Function <br>
-     * join: 회원가입 <br>
-     * login: 유저 로그인 <br>
-     * log_out: 유저 로그 아웃 <br>
+ * join: 회원가입 <br>
+ * login: 유저 로그인 <br>
+ * log_out: 유저 로그 아웃 <br>
  */
 @Slf4j
 @RestController
@@ -56,7 +57,7 @@ public class UserController {
 
         String token = jwtTokenProvider.createToken(member.getUserid(), access_time.format(date));
         customUserDetailService.token_save(member, token);
-        log.info("token: "+token);
+        log.info("token: " + token);
         HttpHeaders header = headerSetter.haederSet(token, "login Success");
 
         return ResponseEntity.ok()
@@ -67,8 +68,15 @@ public class UserController {
     // 로그아웃 (서블렛 토큰 제거)
     @PostMapping("/logout")
     public ResponseEntity logout(HttpServletRequest request) {
-        boolean result = customUserDetailService.logout(request);
-        HttpHeaders header = headerSetter.haederSet("", "logout Success");
+        String token = request.getHeader("Authorization");
+        User user = customUserDetailService.loadUserById(jwtTokenProvider.getUserPk(token));
+        HttpHeaders header = null;
+        CustomCode result = customUserDetailService.logout(user.getAuthority().getId());
+        if (result.getStatus().toString().contains("E")) {
+            header = headerSetter.haederSet(token, "logout fail");
+        } else {
+            header = headerSetter.haederSet(null, "logout Success");
+        }
         return ResponseEntity.ok()
                 .headers(header)
                 .body("Logout Success");

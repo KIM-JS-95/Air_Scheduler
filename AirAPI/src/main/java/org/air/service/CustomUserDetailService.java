@@ -1,19 +1,16 @@
 package org.air.service;
 
 import lombok.extern.slf4j.Slf4j;
+import org.air.config.CustomCode;
 import org.air.entity.Authority;
 import org.air.entity.Refresh;
+import org.air.entity.StatusEnum;
 import org.air.entity.User;
 import org.air.repository.TokenRepository;
 import org.air.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
 
 
 @Slf4j
@@ -66,14 +63,12 @@ public class CustomUserDetailService{
     }
 
     // findByToken
-    public boolean logout(HttpServletRequest request){
+    public CustomCode logout(Long id){
         try {
-            Refresh refresh = tokenRepository.findByToken(request.getHeader("Authorization"));
-            refresh.setToken("");
-            refresh.getUser().setRefresh(null);
-            return true;
+            tokenRepository.deleteById(id);
+            return new CustomCode(StatusEnum.OK);
         }catch (Exception e){
-            return false;
+            return new CustomCode(StatusEnum.DELETE_ERROR);
         }
     }
 

@@ -25,9 +25,10 @@ public class SecurityConfig {
         return (web) -> web.ignoring().mvcMatchers(
                 "/v3/api-docs/**",
                 "/swagger-ui/**",
-                "/api/v1/login","/h2-console/**"
+                "/api/v1/login", "/h2-console/**"
         );
     }
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
@@ -36,8 +37,9 @@ public class SecurityConfig {
                 .csrf().disable()
                 .httpBasic().disable()
                 .authorizeRequests()
-                .antMatchers("/join", "/login").permitAll()
-                .antMatchers("/showschedule", "/home","/modify","/delete").authenticated()
+                .antMatchers("/join", "/login", "/logout").permitAll()
+                .antMatchers("/showschedule", "/gettodayschedule", "/getnationcode").authenticated()
+                .antMatchers("/home", "/modify", "/delete","/upload").authenticated()
 
                 .and()
                 .formLogin().disable()

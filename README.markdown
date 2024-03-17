@@ -5,6 +5,7 @@
 - Pilot 개인 ID와 Schedule 유출에 관한 문제
 
 ## TODO
+- Error Exception logic
 
 ### Spring Boot
 

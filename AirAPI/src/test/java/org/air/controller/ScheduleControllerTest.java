@@ -60,7 +60,7 @@ class ScheduleControllerTest {
     public void init() {
         user = User.builder()
                 .userid("001200")
-                .name("tester")
+                .name("침착맨")
                 .build();
 
         SimpleDateFormat access_time = new SimpleDateFormat("hh:mm:ss");

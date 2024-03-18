@@ -37,8 +37,8 @@ public class SecurityConfig {
                 .csrf().disable()
                 .httpBasic().disable()
                 .authorizeRequests()
-                .antMatchers("/join", "/login", "/logout").permitAll()
-                .antMatchers("/showschedule", "/gettodayschedule", "/getnationcode").authenticated()
+                .antMatchers("/join", "/login").permitAll()
+                .antMatchers("/showschedule", "/gettodayschedule", "/getnationcode", "/logout").authenticated()
                 .antMatchers("/home", "/modify", "/delete","/upload").authenticated()
 
                 .and()

@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 public class HeaderSetter {
 
     public HttpHeaders haederSet(String token, String msg){
-
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application", "json"));
         headers.set("Authorization", token);

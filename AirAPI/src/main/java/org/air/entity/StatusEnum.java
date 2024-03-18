@@ -3,24 +3,31 @@ package org.air.entity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-@AllArgsConstructor
 @Getter
+@AllArgsConstructor
 public enum StatusEnum {
-
+    // 20X goot reseponse
     OK("200", "OK"),
-
     BAD_REQUEST("400", "BAD_REQUEST"),
-    NO_DATA("401","No_Data"),
-    NOT_FOUND("404", "NOT_FOUND"),
 
-    INTERNAL_SERER_ERROR("500", "INTERNAL_SERVER_ERROR"),
-    SAVE_ERROR("505","SAVE ERROR"),
+    /// 00x AWS_ERROR
+    CONNECT_ERROR("001", "CONNECT_ERROR"),
+    TEXTRACK_ERROR("002", "PARSING_ERROR"),
+    TEXTRACK_EMPTY_ERROR("003", "PARSING_EMPTY_ERROR"),
 
-    DELETE_ERROR("E402","delete fail");
+    /// 10x SQL_GLOBAL_ERROR
+    INTERNAL_SERVER_ERROR("101", "INTERNAL_SERVER_ERROR"),
 
+    /// 10x SQL_EXCEPTION_ERROR
+    FIND_DATA("102", "SELECT ERROR"),
+    SAVE_ERROR("104", "SAVE ERROR"),
+    MODIFY_ERROR("105", "MODIFY ERROR"),
+    DELETE_ERROR("105", "DELETE ERROR"),
+
+    // 10x SQL_DATA_ERROR
+    NOT_FOUND("103", "NOT_FOUND");
 
     String statusCode;
     String message;
-
 
 }

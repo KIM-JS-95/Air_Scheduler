@@ -3,6 +3,8 @@ package org.air.controller;
 import lombok.extern.slf4j.Slf4j;
 import org.air.config.CustomCode;
 import org.air.config.HeaderSetter;
+import org.air.entity.Schedule;
+import org.air.entity.StatusEnum;
 import org.air.entity.User;
 import org.air.jwt.JwtTokenProvider;
 import org.air.service.CustomUserDetailService;
@@ -37,10 +39,16 @@ public class UserController {
     // 회원가입
     @PostMapping("/join")
     public ResponseEntity join(@RequestBody User user) {
-        customUserDetailService.save(user);
-        return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(user);
+        // 회원가입 성공시 로그인 페이지로 이동시켜주기
+        if (customUserDetailService.save(user)) {
+            return ResponseEntity
+                    .status(HttpStatus.CREATED)
+                    .body(user);
+        } else {
+            return ResponseEntity
+                    .status(Integer.parseInt(StatusEnum.SAVE_ERROR.getStatusCode()))
+                    .body("");
+        }
     }
 
     // 로그인
@@ -51,17 +59,17 @@ public class UserController {
         SimpleDateFormat access_time = new SimpleDateFormat("hh:mm:ss");
         User member = customUserDetailService.loadUserById(user.getUserid());
 
-        if (member == null) {
-            return new ResponseEntity<>("Unauthorized", HttpStatus.UNAUTHORIZED);
+        if (member == null) { // your not my User
+            return ResponseEntity
+                    .status(HttpStatus.UNAUTHORIZED)
+                    .body("");
         }
 
         String token = jwtTokenProvider.createToken(member.getUserid(), access_time.format(date));
         customUserDetailService.token_save(member, token);
-        log.info("token: " + token);
-        HttpHeaders header = headerSetter.haederSet(token, "login Success");
 
         return ResponseEntity.ok()
-                .headers(header)
+                .headers(headerSetter.haederSet(token, "login Success"))
                 .body("Login Success");
     }
 
@@ -70,15 +78,15 @@ public class UserController {
     public ResponseEntity logout(HttpServletRequest request) {
         String token = request.getHeader("Authorization");
         User user = customUserDetailService.loadUserById(jwtTokenProvider.getUserPk(token));
-        HttpHeaders header = null;
-        CustomCode result = customUserDetailService.logout(user.getAuthority().getId());
-        if (result.getStatus().toString().contains("E")) {
-            header = headerSetter.haederSet(token, "logout fail");
+
+        if (customUserDetailService.logout(user.getAuthority().getId())) {
+            return ResponseEntity.ok()
+                    .headers(headerSetter.haederSet(token, "logout fail"))
+                    .body("");
         } else {
-            header = headerSetter.haederSet(null, "logout Success");
+            return ResponseEntity.ok()
+                    .headers(headerSetter.haederSet(null, "logout Success"))
+                    .body("");
         }
-        return ResponseEntity.ok()
-                .headers(header)
-                .body("Logout Success");
     }
 }

@@ -185,7 +185,7 @@ public class ScheduleService {
         HashMap<String, String> map = new HashMap<>();
         List<Block> list_block = new ArrayList<>();
         TextractClient textractClient = awstextrack.awsceesser();
-        List<Block> block = awstextrack.analyzeDoc(textractClient, source);
+        List<Block> block = AWStextrack.analyzeDoc(textractClient, source);
         block.forEach(callback -> {
             if (Objects.equals(callback.blockType().toString(), "WORD")) {
                 map.put(callback.id(), callback.text());
@@ -194,6 +194,6 @@ public class ScheduleService {
             }
         });
 
-        return awstextrack.texttoEntity(map, list_block);
+        return AWStextrack.texttoEntity(map, list_block);
     }
 }

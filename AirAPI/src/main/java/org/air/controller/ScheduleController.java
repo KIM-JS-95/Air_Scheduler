@@ -2,12 +2,12 @@ package org.air.controller;
 
 import org.air.config.CustomCode;
 import org.air.config.HeaderSetter;
+import org.air.entity.Messege;
 import org.air.entity.Schedule;
 import org.air.entity.StatusEnum;
 import org.air.service.ScheduleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -38,24 +38,38 @@ public class ScheduleController {
         try {
             List<Schedule> schedules = scheduleService.textrack(file.getInputStream());
 
+            // 201 성공
             if (!schedules.isEmpty()) {
                 List<Schedule> result = scheduleService.schedule_save(schedules);
-                String msg = (!result.isEmpty()) ? "save" : "save errors";
 
-                return ResponseEntity.ok()
-                        .headers(headerSetter.haederSet(token, msg))
-                        .body("Save Success!");
+                if (result.isEmpty()) { // 저장 실패
+                    return ResponseEntity
+                            .status(Integer.parseInt(StatusEnum.SAVE_ERROR.getStatusCode()))
+                            .headers(headerSetter.haederSet(token, "SAVE ERROR"))
+                            .body(new Messege(StatusEnum.SAVE_ERROR.getStatusCode(),
+                                    StatusEnum.SAVE_ERROR.getMessage()));
+                } else { // 저장 성공
+                    return ResponseEntity
+                            .ok()
+                            .headers(headerSetter.haederSet(token, "SAVE!"))
+                            .body(new Messege(StatusEnum.TEXTRACK_EMPTY_ERROR.getStatusCode(),
+                                    StatusEnum.TEXTRACK_EMPTY_ERROR.getMessage()));
+                }
             } else {
+                // 저장 실패
                 return ResponseEntity
-                        .status(Integer.parseInt(StatusEnum.No_DATA.getStatusCode()))
-                        .headers(headerSetter.haederSet(token, "No data"))
-                        .body("");
+                        .status(Integer.parseInt(StatusEnum.TEXTRACK_EMPTY_ERROR.getStatusCode()))
+                        .headers(headerSetter.haederSet(token, "plz, check your Image or Schedule sheet"))
+                        .body(
+                                new Messege(StatusEnum.TEXTRACK_EMPTY_ERROR.getStatusCode(),
+                                        StatusEnum.TEXTRACK_EMPTY_ERROR.getMessage())
+                        );
             }
         } catch (Exception e) {
             return ResponseEntity
-                    .status(Integer.parseInt(StatusEnum.No_DATA.getStatusCode()))
-                    .headers(headerSetter.haederSet(token, e.getMessage()))
-                    .body("");
+                    .status(Integer.parseInt(StatusEnum.TEXTRACK_ERROR.getStatusCode()))
+                    .headers(headerSetter.haederSet(token, ""))
+                    .body(new Messege(StatusEnum.TEXTRACK_ERROR.getStatusCode(), e.getMessage()));
         }
     }
 
@@ -67,7 +81,7 @@ public class ScheduleController {
 
         return ResponseEntity
                 .status(Integer.parseInt(customCode.getStatus().getStatusCode()))
-                .headers(headerSetter.haederSet(token,"Success modify"))
+                .headers(headerSetter.haederSet(token, "Success modify"))
                 .body("");
     }
 
@@ -81,7 +95,7 @@ public class ScheduleController {
         if (rst) {
             headers = headerSetter.haederSet(token, "All clear your Schedules!");
         } else {
-            headers = headerSetter.haederSet(token, "clear fail!");
+            headers = headerSetter.haederSet(token, "DELETE fail!");
         }
         return ResponseEntity.ok()
                 .headers(headers)

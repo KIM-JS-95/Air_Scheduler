@@ -12,9 +12,13 @@ import lombok.NoArgsConstructor;
 @Builder
 public class Messege {
 
-    private StatusEnum status;
+    private String statuscode;
     private String message;
-    private Object data;
 
-
+    public Messege Messege(String statusCode, String messege) {
+        return Messege.builder()
+                .statuscode(statusCode)
+                .message(messege)
+                .build();
+    }
 }

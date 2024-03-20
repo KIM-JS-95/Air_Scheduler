@@ -1,9 +1,20 @@
-# 2023.04.16
-
-################
-<Work log>
-- test code : Aws Textreck output Type convert to Array from Iterater
 ################
 
-<Next Work>
-- Set Data to Schedule Entity
+[FEAT]: 기능 개선 / 테스트 코드 추가
+
+[FIX]:
+
+[DOCS]:
+
+################
+
+[REFACTOR]: Schedule Save function 개선
+
+################
+
+[ISSUE]:
+
+################
+
+[test]:
+    Controller_Test > MVC 테스드 기능 추가 : HTTP Status code 추가

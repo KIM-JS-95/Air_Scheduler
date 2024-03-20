@@ -51,7 +51,7 @@ class ScheduleServiceTest {
         List<Schedule> schedules_test = jsonschedules.getschedules(map, list_block);
 
         schedules_test.forEach(callback -> {
-            log.debug(callback.toString());
+            log.info(callback.toString());
         });
 
     }

@@ -134,6 +134,17 @@ public class ScheduleService {
 
     // SAVE
     public List<Schedule> schedule_save(List<Schedule> schedules) {
+
+        for (int i = 0; i < schedules.size(); i++) {
+            if (schedules.get(i).getDate() == null && i > 0) {
+                schedules.get(i).setDate(schedules.get(i - 1).getDate());
+            }
+            if (schedules.get(i).getCi() == null && i > 0) {
+                schedules.get(i).setCi(schedules.get(i - 1).getCi());
+            }
+        }
+
+
         List<Schedule> result = schduleRepository.saveAll(schedules);
         return result;
 

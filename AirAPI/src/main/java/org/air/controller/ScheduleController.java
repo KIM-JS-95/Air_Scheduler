@@ -37,7 +37,6 @@ public class ScheduleController {
         HeaderSetter headerSetter = new HeaderSetter();
         try {
             List<Schedule> schedules = scheduleService.textrack(file.getInputStream());
-
             // 201 성공
             if (!schedules.isEmpty()) {
                 List<Schedule> result = scheduleService.schedule_save(schedules);

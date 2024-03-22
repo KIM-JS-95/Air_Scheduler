@@ -190,13 +190,13 @@ public class ScheduleService {
     }
 
 
-    // GET JPG -> AWS textreck -> user Check
-    // 데이터를 획득하고 유저에게 검증 후 'schedule_save' 함수로 저장할꺼야
     public List<Schedule> textrack(InputStream source) {
+
         HashMap<String, String> map = new HashMap<>();
         List<Block> list_block = new ArrayList<>();
         TextractClient textractClient = awstextrack.awsceesser();
         List<Block> block = AWStextrack.analyzeDoc(textractClient, source);
+
         block.forEach(callback -> {
             if (Objects.equals(callback.blockType().toString(), "WORD")) {
                 map.put(callback.id(), callback.text());

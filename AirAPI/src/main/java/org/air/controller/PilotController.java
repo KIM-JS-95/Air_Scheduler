@@ -64,9 +64,9 @@ public class PilotController {
         HeaderSetter headers = new HeaderSetter();
 
         String token = request.getHeader("Authorization");
-        //SimpleDateFormat dateFormat = new SimpleDateFormat("ddMMMyy", Locale.ENGLISH);
-        //String startDate = dateFormat.format(new Date());
-        String startDate = "01Nov23";
+        SimpleDateFormat dateFormat = new SimpleDateFormat("ddMMMyy", Locale.ENGLISH);
+        String startDate = dateFormat.format(new Date());
+        //String startDate = "01Nov23";
 
         List<Schedule> list = scheduleService.getTodaySchedules(startDate);
 

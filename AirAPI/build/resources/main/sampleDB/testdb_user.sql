@@ -39,7 +39,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES ('001200',_binary '¨\Ì\0sr\0java.util.ArrayListxÅ\“ô\«aù\0I\0sizexp\0\0\0w\0\0\0sr\0Borg.springframework.security.core.authority.SimpleGrantedAuthority\0\0\0\0\0\0:\0L\0rolet\0Ljava/lang/String;xpt\0	ROLE_USERx',NULL,'Ïπ®Ï∞©Îß®','123',NULL),('001201',_binary '¨\Ì\0sr\0java.util.ArrayListxÅ\“ô\«aù\0I\0sizexp\0\0\0w\0\0\0sr\0Borg.springframework.security.core.authority.SimpleGrantedAuthority\0\0\0\0\0\0:\0L\0rolet\0Ljava/lang/String;xpt\0	ROLE_USERx',NULL,'Ïπ®Ï∞©Îß®','123',NULL);
+INSERT INTO `user` VALUES ('001200',_binary 'ÔøΩ\ÔøΩ\0sr\0java.util.ArrayListxÔøΩ\ÔøΩÔøΩ\ÔøΩaÔøΩ\0I\0sizexp\0\0\0w\0\0\0sr\0Borg.springframework.security.core.authority.SimpleGrantedAuthority\0\0\0\0\0\0:\0L\0rolet\0Ljava/lang/String;xpt\0	ROLE_USERx',NULL,'Ïπ®Ï∞©Îß®','123',NULL),('001201',_binary 'ÔøΩ\ÔøΩ\0sr\0java.util.ArrayListxÔøΩ\ÔøΩÔøΩ\ÔøΩaÔøΩ\0I\0sizexp\0\0\0w\0\0\0sr\0Borg.springframework.security.core.authority.SimpleGrantedAuthority\0\0\0\0\0\0:\0L\0rolet\0Ljava/lang/String;xpt\0	ROLE_USERx',NULL,'Ïπ®Ï∞©Îß®','123',NULL);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;

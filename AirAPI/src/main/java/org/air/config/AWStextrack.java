@@ -85,6 +85,7 @@ public class AWStextrack {
             for (int i = 0; i < list.size(); i++) {
                 Block block = list.get(i);
                 int index = block.columnIndex();
+                System.out.println(block.toString());
                 String[] ids = block.relationships().isEmpty() ? weeks : block.relationships().get(0).ids().toArray(new String[0]);
                 if (list.get(i).rowIndex() == 1) continue;
                 if (index == 13) {
@@ -134,15 +135,12 @@ public class AWStextrack {
                         }
                         schedule.setAchotel(hotel);
                     }
-                    /*else if (index == 14) {
-                        schedule.setBlk(map.get(ids[0]));
-                    }
-                    */
                 }
             }
         } catch (Exception e) {
             throw e;
         }
+
         return schedules;
     }
 

@@ -1,99 +1,23 @@
-# schdulesapp
+# Schedules - FRONT
 
-A new Flutter project.
+### Framework
+flutter(Dart)
 
-## Getting Started
+### API
+Open Weather Map API
 
-This project is a starting point for a Flutter application.
+## 패치노트
+[2024-04-06]
 
-A few resources to get you started if this is your first Flutter project:
+### Image update widget
+1. 이미지 전송 직전 `ImagePicker 위젯` 이 중복으로 노출되는 문제를 해결했습니다.
+2. 이미지 업데이트 시 유저가 인식할 수 있도록 로딩 위젯을 추가했습니다.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+### Date select widget
+1날짜 선택 위젯에서 날짜 형식을 수정했습니다.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
-
-- 비행코드 입력 (ex. GMP / 김포공항)
+---
 
 # TODO
-- 비행코드 입력 (ex. GMP / 김포공항)
-
-# API 
-|mathod| request type | response type | content |
-|:--:|:---:|:---:|:---:|
-| getScheduleByDate() | DateTime selectedDay | List<ScheduleModel> | 특정일 데이터 가져오기 & 메인 페이지 금일 일정 가져오기 |
-| getAllSchedules() | . | List<ScheduleModel> | 모든 일정 가져오기 |
-| uploadajax() | MultipartFile | ? | 이미지 전송 |
-## getAllSchedules
-- url: /show-schedule
-### Request
-``` json
-    header: {
-        "Content-Type": "application/json; charset=UTF-8",
-        "Authorization": "<JWT Token>"
-    },
-    body: {
-        "dateTime" : "2023-11-02"
-    }
-```
-### Response
-
-``` json
-   {
-        "id": 1,
-        "date": "01Nov23",
-        "pairing": null,
-        "dc": null,
-        "ci": null,
-        "co": null,
-        "activity": "VAC",
-        "cntFrom": "GMP",
-        "stdL": "0000",
-        "stdB": "0000",
-        "cntTo": "GMP",
-        "staL": "2359",
-        "staB": "2359",
-        "achotel": null,
-        "blk": null
-  }
-  ...
-  
-```
-
-
-## getScheduleByDate
-- url: /getschedule
-### Request
-``` json
-    header: {
-        "Content-Type": "application/json; charset=UTF-8",
-        "Authorization": "<JWT Token>"
-    },
-    body: {
-        "dateTime" : "2023-11-02"
-    }
-```
-
-### Response
-``` json
-  {
-    "id": 2,
-    "date": "02Nov23",
-    "pairing": "F1508A",
-    "dc": null,
-    "ci": "0840",
-    "co": null,
-    "activity": "1508",
-    "cntFrom": "ICN",
-    "stdL": "1050",
-    "stdB": "1050",
-    "cntTo": "OIT",
-    "staL": "1245",
-    "staB": "1245",
-    "achotel": "null",
-    "blk": null
-  }
-```
+- 당일 일정 OFF 일경우 위젯을 변경해 줍니다.
 

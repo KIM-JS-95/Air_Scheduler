@@ -1,4 +1,7 @@
 import 'dart:convert';
+import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
+
 import '../models/flight_data.dart';
 import '../models/schedule_model.dart';
 import '../utils/r.dart';
@@ -20,7 +23,6 @@ class ScheduleRepository {
     print(response.statusCode);
     if (response.statusCode == 200) {
       codes = await getNationCode(Authorization);
-
       List<dynamic> jsonList = json.decode(response.body);
       List<ScheduleModel> s_list = jsonList.map((json) => ScheduleModel.fromJson(json)).toList();
       return generateFlightsData(jsonList.length, s_list, codes!);
@@ -33,16 +35,19 @@ class ScheduleRepository {
   static Future<List<FlightData>> getScheduleByDate(DateTime selectedDay, String Authorization) async {
     Map<String, dynamic>? codes;
 
+    String formattedDate = DateFormat('ddMMMyy').format(selectedDay);
+    print(formattedDate); // 출력: 03Nov23
+
     final response = await http.post(Uri.parse('${R.back_addr}/getschedule'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
           'Authorization': Authorization
         },
-        //body: jsonEncode({'dateTime': selectedDay.toIso8601String()}),
-        body: jsonEncode({'dateTime': '15Apr23'}));
+        body: jsonEncode({'dateTime': formattedDate}));
+        print(selectedDay.toIso8601String());
+
     if (response.statusCode == 200) {
       codes = await getNationCode(Authorization);
-
       List<dynamic> jsonList = json.decode(response.body);
       List<ScheduleModel> s_list =
           jsonList.map((json) => ScheduleModel.fromJson(json)).toList();

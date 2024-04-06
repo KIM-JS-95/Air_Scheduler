@@ -63,41 +63,6 @@ public class PilotControllerTest {
         token = jwtTokenProvider.createToken(user.getUserid(), access_time.format(new Date()));
     }
 
-    @Test
-    @DisplayName("OK: getSchedules")
-    public void getSchedules_OK() throws Exception {
-        when(customUserDetailService.loadUserById(jwtTokenProvider.getUserPk(token)))
-                .thenReturn(user);
-        List<Schedule> schedule = new ArrayList<>();
-        schedule.add(Schedule.builder()
-                .id(1L)
-                .build());
-
-        when(scheduleService.getSchedules(any())).thenReturn(schedule);
-
-        mvc.perform(post("/getschedule")
-                        .header("Authorization", token)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"dateTime\": \"01Nov23\"}") // Corrected JSON string
-                ).andExpect(status().is2xxSuccessful())
-                .andDo(print());
-    }
-
-    @Test
-    @DisplayName("FAIL: getSchedules")
-    public void getSchedules_FAIL() throws Exception {
-        when(customUserDetailService.loadUserById(jwtTokenProvider.getUserPk(token)))
-                .thenReturn(user);
-
-        when(scheduleService.getSchedules(any())).thenReturn(new ArrayList<>());
-
-        mvc.perform(post("/getschedule")
-                        .header("Authorization", token)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"dateTime\": \"01Nov23\"}") // Corrected JSON string
-                ).andExpect(status().is(Integer.parseInt(StatusEnum.NOT_FOUND.getStatusCode())))
-                .andDo(print());
-    }
 
     @Test
     @DisplayName("OK: all schedules")

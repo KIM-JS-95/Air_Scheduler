@@ -134,6 +134,8 @@ public class AWStextrack {
                             hotel += map.get(ids[j]);
                         }
                         schedule.setAchotel(hotel);
+                    }else{
+                        continue;
                     }
                 }
             }

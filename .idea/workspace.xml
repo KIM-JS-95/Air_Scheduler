@@ -5,212 +5,33 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="25d31d41-43b1-4d47-8dd9-2d1f2a0cd970" name="변경" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitmessage.txt" beforeDir="false" afterPath="$PROJECT_DIR$/.gitmessage.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/Air_Scheduler.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dbnavigator.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/jpa-buddy.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules/AirAPI.main.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/AirAPI.main.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules/AirAPI.test.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/AirAPI.test.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/uiDesigner.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/.gradle/8.0/checksums/checksums.lock" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/.gradle/8.0/checksums/md5-checksums.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/.gradle/8.0/checksums/sha1-checksums.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/.gradle/8.0/dependencies-accessors/dependencies-accessors.lock" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/.gradle/8.0/dependencies-accessors/gc.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/.gradle/8.0/executionHistory/executionHistory.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/.gradle/8.0/executionHistory/executionHistory.lock" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/.gradle/8.0/fileChanges/last-build.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/.gradle/8.0/fileHashes/fileHashes.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/.gradle/8.0/fileHashes/fileHashes.lock" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/.gradle/8.0/fileHashes/resourceHashesCache.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/.gradle/8.0/gc.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/.gradle/8.4/checksums/checksums.lock" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/.gradle/8.4/checksums/md5-checksums.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/.gradle/8.4/checksums/sha1-checksums.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/.gradle/8.4/dependencies-accessors/dependencies-accessors.lock" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/.gradle/8.4/dependencies-accessors/gc.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/.gradle/8.4/executionHistory/executionHistory.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/.gradle/8.4/executionHistory/executionHistory.lock" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/.gradle/8.4/fileChanges/last-build.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/.gradle/8.4/fileHashes/fileHashes.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/.gradle/8.4/fileHashes/fileHashes.lock" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/.gradle/8.4/fileHashes/resourceHashesCache.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/.gradle/8.4/gc.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/.gradle/buildOutputCleanup/cache.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/.gradle/file-system.probe" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/.gradle/vcs-1/gc.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/bin/main/org/AirAPI/Main.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/bin/main/org/AirAPI/config/AWStextrack.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/bin/main/org/AirAPI/controller/HelloController.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/bin/main/org/AirAPI/entity/Messege.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/bin/main/org/AirAPI/entity/Schedule$ScheduleBuilder.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/bin/main/org/AirAPI/entity/Schedule.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/bin/main/org/AirAPI/entity/StatusEnum.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/bin/main/org/AirAPI/repository/SchduleRepository.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/bin/main/org/AirAPI/service/ScheduleService.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/bin/main/static/css/ticket.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/bin/main/static/img/esso.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/bin/main/static/img/sample.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/bin/main/templates/ticket.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/bin/test/org/AirAPI/MainTest.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/bin/test/org/AirAPI/config/AWStextrackTest.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/bin/test/org/AirAPI/controller/HelloControllerTest.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/bin/test/org/AirAPI/entity/ScheduleTest.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/bin/test/org/AirAPI/repository/SchduleRepositoryTest.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/bin/test/org/AirAPI/service/ScheduleServiceTest.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/build.gradle" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/build/classes/java/main/org/air/MainApplication.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/build/classes/java/main/org/air/config/AWStextrack.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/build/classes/java/main/org/air/config/CustomCode.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/build/classes/java/main/org/air/config/HeaderSetter.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/build/classes/java/main/org/air/config/PdfConverted.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/build/classes/java/main/org/air/config/SecurityConfig.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/build/classes/java/main/org/air/controller/PilotController.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/build/classes/java/main/org/air/controller/ScheduleController.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/build/classes/java/main/org/air/controller/UserController.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/build/classes/java/main/org/air/entity/Authority$AuthorityBuilder.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/build/classes/java/main/org/air/entity/Authority.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/build/classes/java/main/org/air/entity/GrantedAuthoritySerializer.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/build/classes/java/main/org/air/entity/Messege$MessegeBuilder.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/build/classes/java/main/org/air/entity/Messege.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/build/classes/java/main/org/air/entity/NationCode$NationCodeBuilder.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/build/classes/java/main/org/air/entity/NationCode.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/build/classes/java/main/org/air/entity/Refresh$RefreshBuilder.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/build/classes/java/main/org/air/entity/Refresh.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/build/classes/java/main/org/air/entity/Schedule$ScheduleBuilder.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/build/classes/java/main/org/air/entity/Schedule.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/build/classes/java/main/org/air/entity/StatusEnum.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/build/classes/java/main/org/air/entity/User$UserBuilder.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/build/classes/java/main/org/air/entity/User.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/build/classes/java/main/org/air/entity/json/AWS_Block.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/build/classes/java/main/org/air/entity/json/Blocks.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/build/classes/java/main/org/air/entity/json/BoundingBox.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/build/classes/java/main/org/air/entity/json/DocumentMetadata.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/build/classes/java/main/org/air/entity/json/Geometry.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/build/classes/java/main/org/air/entity/json/Polygon.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/build/classes/java/main/org/air/entity/json/Relationships.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/build/classes/java/main/org/air/jwt/JwtAuthenticationFilter.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/build/classes/java/main/org/air/jwt/JwtTokenProvider.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/build/classes/java/main/org/air/repository/AuthorityRepository.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/build/classes/java/main/org/air/repository/NationCodeRepository.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/build/classes/java/main/org/air/repository/ScheduleRepository.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/build/classes/java/main/org/air/repository/TokenRepository.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/build/classes/java/main/org/air/repository/UserRepository.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/build/classes/java/main/org/air/service/CustomUserDetailService.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/build/classes/java/main/org/air/service/ScheduleService.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/build/classes/java/test/org/air/MainTest.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/build/classes/java/test/org/air/config/AWStextrackTest$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/build/classes/java/test/org/air/config/AWStextrackTest.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/build/classes/java/test/org/air/config/CustomCodeTest.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/build/classes/java/test/org/air/controller/PilotControllerTest.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/build/classes/java/test/org/air/controller/ScheduleControllerTest.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/build/classes/java/test/org/air/controller/UserControllerTest.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/build/classes/java/test/org/air/entity/MessegeTest.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/build/classes/java/test/org/air/entity/ScheduleTest.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/build/classes/java/test/org/air/entity/UserTest.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/build/classes/java/test/org/air/entity/json/BlockTest.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/build/classes/java/test/org/air/entity/json/Jsonschedules$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/build/classes/java/test/org/air/entity/json/Jsonschedules.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/build/classes/java/test/org/air/jwt/JwtTokenProviderTest.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/build/classes/java/test/org/air/repository/ScheduleRepositoryTest.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/build/classes/java/test/org/air/repository/UserRepositoryTest.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/build/classes/java/test/org/air/service/ScheduleServiceTest$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/build/classes/java/test/org/air/service/ScheduleServiceTest.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/build/resources/main/analyzeDocResponse.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/build/resources/main/analyzeDocResponse_test.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/build/resources/main/application.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/build/resources/main/sampleDB/testdb_nation_code.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/build/resources/main/sampleDB/testdb_refresh.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/build/resources/main/sampleDB/testdb_schedule.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/build/resources/main/sampleDB/testdb_user.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/build/resources/main/static/css/ticket.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/build/resources/main/static/img/November.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/build/resources/main/static/img/esso.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/build/resources/main/static/img/pdf_sample.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/build/resources/main/static/img/sample.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/build/resources/main/templates/analyzeDocResponse.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/build/test-results/test/TEST-org.air.service.ScheduleServiceTest.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/build/test-results/test/binary/output.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/build/test-results/test/binary/output.bin.idx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/build/test-results/test/binary/results.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/build/tmp/compileJava/compileTransaction/stash-dir/AWStextrack.class.uniqueId1" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/build/tmp/compileJava/compileTransaction/stash-dir/ScheduleService.class.uniqueId0" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/build/tmp/compileJava/previous-compilation-data.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/build/tmp/compileTestJava/compileTransaction/stash-dir/ScheduleServiceTest$1.class.uniqueId1" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/build/tmp/compileTestJava/compileTransaction/stash-dir/ScheduleServiceTest.class.uniqueId0" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/build/tmp/compileTestJava/previous-compilation-data.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/gradle/wrapper/gradle-wrapper.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/gradlew" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/gradlew.bat" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/settings.gradle" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/src/main/java/org/air/MainApplication.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/src/main/java/org/air/config/AWStextrack.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/src/main/java/org/air/config/CustomCode.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/src/main/java/org/air/config/HeaderSetter.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/src/main/java/org/air/config/PdfConverted.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/src/main/java/org/air/config/SecurityConfig.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/src/main/java/org/air/controller/PilotController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/src/main/java/org/air/controller/ScheduleController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/src/main/java/org/air/controller/UserController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/src/main/java/org/air/entity/Authority.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/src/main/java/org/air/entity/GrantedAuthoritySerializer.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/src/main/java/org/air/entity/Messege.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/src/main/java/org/air/entity/NationCode.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/src/main/java/org/air/entity/Refresh.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/src/main/java/org/air/entity/Schedule.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/src/main/java/org/air/entity/StatusEnum.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/src/main/java/org/air/entity/User.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/src/main/java/org/air/entity/json/AWS_Block.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/src/main/java/org/air/entity/json/Blocks.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/src/main/java/org/air/entity/json/BoundingBox.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/src/main/java/org/air/entity/json/DocumentMetadata.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/src/main/java/org/air/entity/json/Geometry.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/src/main/java/org/air/entity/json/Polygon.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/src/main/java/org/air/entity/json/Relationships.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/src/main/java/org/air/jwt/JwtAuthenticationFilter.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/src/main/java/org/air/jwt/JwtTokenProvider.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/src/main/java/org/air/repository/AuthorityRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/src/main/java/org/air/repository/NationCodeRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/src/main/java/org/air/repository/ScheduleRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/src/main/java/org/air/repository/TokenRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/src/main/java/org/air/repository/UserRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/src/main/java/org/air/service/CustomUserDetailService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/src/main/java/org/air/service/ScheduleService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/src/main/resources/analyzeDocResponse.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/src/main/resources/analyzeDocResponse_test.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/src/main/resources/sampleDB/testdb_nation_code.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/src/main/resources/sampleDB/testdb_refresh.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/src/main/resources/sampleDB/testdb_schedule.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/src/main/resources/sampleDB/testdb_user.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/src/main/resources/static/css/ticket.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/src/main/resources/static/img/November.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/src/main/resources/static/img/esso.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/src/main/resources/static/img/sample.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/src/main/resources/templates/analyzeDocResponse.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/src/test/java/org/air/MainTest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/src/test/java/org/air/config/AWStextrackTest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/src/test/java/org/air/config/CustomCodeTest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/src/test/java/org/air/controller/PilotControllerTest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/src/test/java/org/air/controller/ScheduleControllerTest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/src/test/java/org/air/controller/UserControllerTest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/src/test/java/org/air/entity/MessegeTest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/src/test/java/org/air/entity/ScheduleTest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/src/test/java/org/air/entity/UserTest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/src/test/java/org/air/entity/json/BlockTest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/src/test/java/org/air/entity/json/Jsonschedules.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/src/test/java/org/air/jwt/JwtTokenProviderTest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/src/test/java/org/air/repository/ScheduleRepositoryTest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/src/test/java/org/air/repository/UserRepositoryTest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AirAPI/src/test/java/org/air/service/ScheduleServiceTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Air_Scheduler/AirAPI/.gradle/8.0/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/Air_Scheduler/AirAPI/.gradle/8.0/executionHistory/executionHistory.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Air_Scheduler/AirAPI/.gradle/8.0/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/Air_Scheduler/AirAPI/.gradle/8.0/executionHistory/executionHistory.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Air_Scheduler/AirAPI/.gradle/8.0/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/Air_Scheduler/AirAPI/.gradle/8.0/fileHashes/fileHashes.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Air_Scheduler/AirAPI/.gradle/8.0/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/Air_Scheduler/AirAPI/.gradle/8.0/fileHashes/fileHashes.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Air_Scheduler/AirAPI/.gradle/8.0/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/Air_Scheduler/AirAPI/.gradle/8.0/fileHashes/resourceHashesCache.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Air_Scheduler/AirAPI/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/Air_Scheduler/AirAPI/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Air_Scheduler/AirAPI/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/Air_Scheduler/AirAPI/.gradle/file-system.probe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Air_Scheduler/AirAPI/build/classes/java/main/org/air/config/AWStextrack.class" beforeDir="false" afterPath="$PROJECT_DIR$/Air_Scheduler/AirAPI/build/classes/java/main/org/air/config/AWStextrack.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Air_Scheduler/AirAPI/build/classes/java/main/org/air/config/SecurityConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/Air_Scheduler/AirAPI/build/classes/java/main/org/air/config/SecurityConfig.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Air_Scheduler/AirAPI/build/classes/java/main/org/air/controller/PilotController.class" beforeDir="false" afterPath="$PROJECT_DIR$/Air_Scheduler/AirAPI/build/classes/java/main/org/air/controller/PilotController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Air_Scheduler/AirAPI/build/classes/java/main/org/air/controller/ScheduleController.class" beforeDir="false" afterPath="$PROJECT_DIR$/Air_Scheduler/AirAPI/build/classes/java/main/org/air/controller/ScheduleController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Air_Scheduler/AirAPI/build/classes/java/main/org/air/service/ScheduleService.class" beforeDir="false" afterPath="$PROJECT_DIR$/Air_Scheduler/AirAPI/build/classes/java/main/org/air/service/ScheduleService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Air_Scheduler/AirAPI/build/tmp/compileJava/compileTransaction/stash-dir/AWStextrack.class.uniqueId1" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Air_Scheduler/AirAPI/build/tmp/compileJava/compileTransaction/stash-dir/ScheduleService.class.uniqueId0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Air_Scheduler/AirAPI/build/tmp/compileJava/previous-compilation-data.bin" beforeDir="false" afterPath="$PROJECT_DIR$/Air_Scheduler/AirAPI/build/tmp/compileJava/previous-compilation-data.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Air_Scheduler/AirAPI/src/main/java/org/air/config/AWStextrack.java" beforeDir="false" afterPath="$PROJECT_DIR$/Air_Scheduler/AirAPI/src/main/java/org/air/config/AWStextrack.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Air_Scheduler/AirAPI/src/main/java/org/air/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/Air_Scheduler/AirAPI/src/main/java/org/air/config/SecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Air_Scheduler/AirAPI/src/main/java/org/air/controller/PilotController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Air_Scheduler/AirAPI/src/main/java/org/air/controller/PilotController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Air_Scheduler/AirAPI/src/main/java/org/air/controller/ScheduleController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Air_Scheduler/AirAPI/src/main/java/org/air/controller/ScheduleController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Air_Scheduler/AirAPI/src/main/java/org/air/service/ScheduleService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Air_Scheduler/AirAPI/src/main/java/org/air/service/ScheduleService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Air_Scheduler/AirAPI/src/test/java/org/air/controller/PilotControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/Air_Scheduler/AirAPI/src/test/java/org/air/controller/PilotControllerTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.markdown" beforeDir="false" afterPath="$PROJECT_DIR$/README.markdown" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Schdulesapp/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/Schdulesapp/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Schdulesapp/lib/ajax/schedule_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/Schdulesapp/lib/ajax/schedule_repository.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Schdulesapp/lib/ajax/upload_ajax.dart" beforeDir="false" afterPath="$PROJECT_DIR$/Schdulesapp/lib/ajax/upload_ajax.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Schdulesapp/lib/component/MyApp.dart" beforeDir="false" afterPath="$PROJECT_DIR$/Schdulesapp/lib/component/MyApp.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -256,18 +77,19 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "jdk.selected.JAVA_MODULE": "corretto-20",
-    "last_opened_file_path": "C:/Users/KIMJAESUNG/IdeaProjects/Air_Scheduler_pack/Air_Scheduler",
-    "project.structure.last.edited": "프로젝트",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.43103448",
-    "settings.editor.selected.configurable": "preferences.lookFeel"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;jdk.selected.JAVA_MODULE&quot;: &quot;corretto-20&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/KIMJAESUNG/IdeaProjects/Air_Scheduler_pack/Air_Scheduler&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;프로젝트&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.43103448&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager">
     <configuration name="MainApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="org.air.MainApplication" />

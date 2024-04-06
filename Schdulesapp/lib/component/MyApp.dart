@@ -12,12 +12,12 @@ import '../ajax/upload_ajax.dart';
 import '../models/UserProvider.dart';
 import '../utils/r.dart';
 
-
 class MyApp extends StatelessWidget {
-
   const MyApp({
     Key? key, // Correct declaration of key parameter
-  }) : super(key: key); // Correct way to pass the key parameter to the superclass
+  }) : super(
+            key:
+                key); // Correct way to pass the key parameter to the superclass
 
   // This widget is the root of your application.
   @override
@@ -42,13 +42,11 @@ class MyApp extends StatelessWidget {
             foregroundColor: Colors.white,
             actionsIconTheme: IconThemeData(color: Colors.white),
           ),
-
           elevatedButtonTheme: ElevatedButtonThemeData(
             style: ButtonStyle(
               backgroundColor: MaterialStateColor.resolveWith(
                   (states) => const Color(0xFFBC764A)),
             ),
-
           ),
           outlinedButtonTheme: OutlinedButtonThemeData(
             style: ButtonStyle(
@@ -81,21 +79,22 @@ class ImageCrop extends StatefulWidget {
 class _ImageCropState extends State<ImageCrop> {
   XFile? _pickedFile;
   CroppedFile? _croppedFile;
+  bool _isLoading = false; // 로딩 상태 변수 추가
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: !kIsWeb ? AppBar(title: Text(widget.title)) : null,
       body: Column(
         mainAxisSize: MainAxisSize.max,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+
           GestureDetector(
             onTap: () {
               Future.delayed(
                 const Duration(milliseconds: 500),
-                    () => Navigator.push(
+                () => Navigator.push(
                   context,
                   PageRouteBuilder(
                     transitionDuration: const Duration(milliseconds: 500),
@@ -130,16 +129,24 @@ class _ImageCropState extends State<ImageCrop> {
                     .copyWith(color: Theme.of(context).highlightColor),
               ),
             ),
-          Expanded(child: _body()),
+          Expanded(
+              child:
+          _body()
+          ),
         ],
       ),
     );
   }
 
   Widget _body() {
-    if (_croppedFile != null || _pickedFile != null) {
+    if (_isLoading) {
+      // 로딩 중이면 로딩 인디케이터 표시
+      return Center(child: CircularProgressIndicator());
+    } else if (_croppedFile != null || _pickedFile != null) {
+      // 이미지가 선택되었으면 이미지 표시
       return _imageCard();
     } else {
+      // 아무것도 선택되지 않았으면 업로더 카드 표시
       return _uploaderCard();
     }
   }
@@ -223,10 +230,38 @@ class _ImageCropState extends State<ImageCrop> {
           Padding(
             padding: const EdgeInsets.only(left: 32.0),
             child: FloatingActionButton(
+
               onPressed: () async {
-                print("123");
-                XFile? uploadedImage = await Uploadajax.uploadajax(userProvider.user); /// 이거 리턴 어떤 타임으로?
+                setState(() => _isLoading = true); // 로딩 시작
+                bool? uploadedImage = await Uploadajax.uploadajax(userProvider.user);
+                /// 테스트 전용 입니다.
+                //bool? uploadedImage = await Uploadajax.uploadajax_test(userProvider.user, _pickedFile!);
+                setState(() => _isLoading = false); // 로딩 종료
+                if (uploadedImage == true) {
+                  Future.delayed(
+                    const Duration(milliseconds: 500),
+                        () => Navigator.push(
+                      context,
+                      PageRouteBuilder(
+                        transitionDuration: const Duration(milliseconds: 500),
+                        pageBuilder: (context, animation, secondaryAnimation) =>
+                            HomePage(routeTransitionValue: animation),
+                      ),
+                    ),
+                  );
+                } else {
+                  String errorMessage = uploadedImage == false
+                      ? "Upload failed."
+                      : "Upload cancelled.";
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(errorMessage),
+                      duration: const Duration(seconds: 2),
+                    ),
+                  );
+                }
               },
+
               backgroundColor: const Color(0xFFBC764A),
               tooltip: 'Save',
               child: const Icon(Icons.save),
@@ -347,8 +382,8 @@ class _ImageCropState extends State<ImageCrop> {
   }
 
   Future<void> _uploadImage() async {
-    final pickedFile =
-        await ImagePicker().pickImage(source: ImageSource.gallery);
+    print("이미지 선택");
+    final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
       setState(() {
         _pickedFile = pickedFile;

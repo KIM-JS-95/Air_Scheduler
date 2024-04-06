@@ -34,29 +34,6 @@ public class ScheduleService {
     @Autowired
     private NationCodeRepository nationCodeRepository;
 
-    public List<Schedule> getSchedules(String startDate) {
-        List<Schedule> schedule = schduleRepository.findByDate(startDate);
-
-        Long start_id = schedule.get(0).getId();
-        Long end_id = start_id + 3L;
-        List<Schedule> schedules = schduleRepository.findByIdBetween(start_id, end_id);
-
-        AtomicReference<String> previousDateRef = new AtomicReference<>();
-        Stream<Schedule> updatedStream = schedules.stream()
-                .map(s -> {
-                    String date = s.getDate();
-                    if (s.getDate() == null) {
-                        // date가 비어 있으면 이전 값을 사용
-                        s.setDate(previousDateRef.get());
-                    } else {
-                        previousDateRef.set(date);
-                    }
-                    return s;
-                });
-        // 스트림을 리스트로 변환 (optional)
-        List<Schedule> updatedSchedules = updatedStream.collect(Collectors.toList());
-        return updatedSchedules;
-    }
 
     public List<Schedule> getTodaySchedules(String startDate) {
         List<Schedule> schedules = schduleRepository.findByDate(startDate);

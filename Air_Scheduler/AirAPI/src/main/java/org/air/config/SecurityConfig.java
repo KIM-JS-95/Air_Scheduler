@@ -41,7 +41,7 @@ public class SecurityConfig {
                 .authorizeRequests()
                 .antMatchers("/join", "/login").permitAll()
                 .antMatchers("/showschedule", "/gettodayschedule", "/getnationcode", "/logout").authenticated()
-                .antMatchers("/home", "/modify", "/delete","/upload").authenticated()
+                .antMatchers("/home", "/modify", "/delete","/upload", "/sleep").authenticated()
 
                 .and()
                 .formLogin().disable()

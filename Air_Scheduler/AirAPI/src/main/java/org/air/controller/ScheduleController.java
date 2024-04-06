@@ -35,6 +35,7 @@ public class ScheduleController {
     public ResponseEntity upload(HttpServletRequest request, @RequestParam("file") MultipartFile file) {
         String token = request.getHeader("Authorization");
         HeaderSetter headerSetter = new HeaderSetter();
+
         try {
             List<Schedule> schedules = scheduleService.textrack(file.getInputStream());
             // 201 성공
@@ -51,11 +52,10 @@ public class ScheduleController {
                     return ResponseEntity
                             .ok()
                             .headers(headerSetter.haederSet(token, "SAVE!"))
-                            .body(new Messege(StatusEnum.TEXTRACK_EMPTY_ERROR.getStatusCode(),
-                                    StatusEnum.TEXTRACK_EMPTY_ERROR.getMessage()));
+                            .body(new Messege("201", ""));
                 }
             } else {
-                // 저장 실패
+                // textrack 실패
                 return ResponseEntity
                         .status(Integer.parseInt(StatusEnum.TEXTRACK_EMPTY_ERROR.getStatusCode()))
                         .headers(headerSetter.haederSet(token, "plz, check your Image or Schedule sheet"))

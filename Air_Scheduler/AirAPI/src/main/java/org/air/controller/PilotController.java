@@ -45,7 +45,7 @@ public class PilotController {
         String receivedDateTime = requestBody.get("dateTime");
 
         HeaderSetter headers = new HeaderSetter();
-        List<Schedule> list = scheduleService.getSchedules(receivedDateTime);
+        List<Schedule> list = scheduleService.getTodaySchedules(receivedDateTime);
 
         if(list.isEmpty()){
             return ResponseEntity

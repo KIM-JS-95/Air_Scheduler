@@ -1,5 +1,6 @@
 package org.air.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -20,9 +21,5 @@ public class Authority {
 
     private String authority;
 
-    @OneToMany(mappedBy = "authority", fetch = FetchType.LAZY)
-    @ToString.Exclude // Exclude from toString()
-    @EqualsAndHashCode.Exclude // Exclude from equals() and hashCode()
-    private List<User> users;
 
 }

@@ -15,6 +15,7 @@ import org.air.config.HeaderSetter;
 import org.air.entity.Messege;
 import org.air.entity.Schedule;
 import org.air.entity.StatusEnum;
+import org.air.jwt.JwtTokenProvider;
 import org.air.service.ScheduleService;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,9 @@ public class PilotController {
 
     @Autowired
     private ScheduleService scheduleService;
+
+    @Autowired
+    private  JwtTokenProvider jwtTokenProvider;
 
     @PostMapping("/getschedule")
     public ResponseEntity getSchedules(HttpServletRequest request,
@@ -100,7 +104,8 @@ public class PilotController {
     public ResponseEntity showAllSchedules(HttpServletRequest request) {
         HeaderSetter headers = new HeaderSetter();
         String token = request.getHeader("Authorization");
-        List<Schedule> schedules = scheduleService.getAllSchedules();
+        String userid = jwtTokenProvider.getUserPk(token);
+        List<Schedule> schedules = scheduleService.getAllSchedules(userid);
 
         if(schedules.isEmpty()){
             return ResponseEntity

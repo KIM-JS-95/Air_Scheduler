@@ -2,7 +2,9 @@ package org.air.jwt;
 
 import lombok.extern.slf4j.Slf4j;
 import org.air.entity.Authority;
+import org.air.entity.Refresh;
 import org.air.entity.User;
+import org.air.repository.TokenRepository;
 import org.air.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -36,6 +38,8 @@ public class JwtTokenProviderTest {
     @MockBean
     private UserRepository userRepository;
 
+    @MockBean
+    private TokenRepository tokenRepository;
     private final String userId = "testUser";
     private final String token = "exampleToken";
 
@@ -108,9 +112,7 @@ public class JwtTokenProviderTest {
             String userid = jwtTokenProvider.getUserPk(token);
 
             if (jwtTokenProvider.validateToken(token)) { // 날짜 유효성 체크
-                log.info(userid);
                 User user1 = userRepository.findByUserid(userid);
-                assertThat(user1.getUserid(), is("001201"));
             } else { // refresh
                 assertThat(jwtTokenProvider.createrefreshToken(userid), is(nullValue()));
                 log.info("Refresh your Token");

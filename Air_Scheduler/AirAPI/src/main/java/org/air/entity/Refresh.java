@@ -18,9 +18,4 @@ public class Refresh {
     private Integer id;
     private String token;
 
-    @OneToOne(fetch = FetchType.EAGER)
-    @ToString.Exclude // Exclude from toString()
-    @EqualsAndHashCode.Exclude // Exclude from equals() and hashCode()
-    private User user;
-
 }

@@ -5,6 +5,7 @@ import org.air.config.HeaderSetter;
 import org.air.entity.Messege;
 import org.air.entity.Schedule;
 import org.air.entity.StatusEnum;
+import org.air.jwt.JwtTokenProvider;
 import org.air.service.ScheduleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -30,17 +31,21 @@ public class ScheduleController {
     @Autowired
     private ScheduleService scheduleService;
 
+    @Autowired
+    private JwtTokenProvider jwtTokenProvider;
+
     // JPG 로부터 데이터 추출 후 저장
     @PostMapping("/upload")
     public ResponseEntity upload(HttpServletRequest request, @RequestParam("file") MultipartFile file) {
         String token = request.getHeader("Authorization");
+        String userid = jwtTokenProvider.getUserPk(token);
         HeaderSetter headerSetter = new HeaderSetter();
 
         try {
             List<Schedule> schedules = scheduleService.textrack(file.getInputStream());
             // 201 성공
             if (!schedules.isEmpty()) {
-                List<Schedule> result = scheduleService.schedule_save(schedules);
+                List<Schedule> result = scheduleService.schedule_save(schedules, userid);
 
                 if (result.isEmpty()) { // 저장 실패
                     return ResponseEntity
@@ -88,16 +93,19 @@ public class ScheduleController {
     public ResponseEntity delete(HttpServletRequest request) {
         String token = request.getHeader("Authorization");
         HeaderSetter headerSetter = new HeaderSetter();
-        HttpHeaders headers = null;
+        String userid = jwtTokenProvider.getUserPk(token);
 
-        Boolean rst = scheduleService.delete(); //  Table all clear
+        Boolean rst = scheduleService.delete(userid); //  Table all clear
         if (rst) {
-            headers = headerSetter.haederSet(token, "All clear your Schedules!");
+            HttpHeaders headers = headerSetter.haederSet(token, "All clear your Schedules!");
+            return ResponseEntity.ok()
+                    .headers(headers)
+                    .body("");
         } else {
-            headers = headerSetter.haederSet(token, "DELETE fail!");
+            HttpHeaders headers  = headerSetter.haederSet(token, "DELETE fail!");
+            return ResponseEntity.ok()
+                    .headers(headers)
+                    .body("");
         }
-        return ResponseEntity.ok()
-                .headers(headers)
-                .body("");
     }
 }

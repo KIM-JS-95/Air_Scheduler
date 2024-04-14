@@ -40,8 +40,8 @@ class UserRepositoryTest {
     @Test
     @WithMockUser
     public void findByUserid() {
-        User user = userRepository.findByUserid("001201");
-        assertThat(user.getUserid(), is("001201"));
+        User user = userRepository.findByUseridAndPassword("001200", "1234");
+        assertThat(user.getUserid(), is("001200"));
     }
 
     @Test
@@ -81,19 +81,17 @@ class UserRepositoryTest {
 
         users.add(user);
 
-        authority.setUsers(users);
         assertThat(result.getName(), is(user.getName()));
     }
 
     @Test
     @DisplayName("login")
     public void login() {
-        User user = userRepository.findByUserid("001201");
+        User user = userRepository.findByUseridAndPassword("001201", "1234");
         SimpleDateFormat access_time = new SimpleDateFormat("hh:mm:ss");
         String token = jwtTokenProvider.createToken(user.getUserid(), access_time.format(new Date()));
         Refresh refresh = Refresh.builder()
                 .token(token)
-                .user(user)
                 .build();
 
         tokenRepository.save(refresh);

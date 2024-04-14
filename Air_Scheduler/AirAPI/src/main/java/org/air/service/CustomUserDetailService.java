@@ -22,9 +22,16 @@ public class CustomUserDetailService {
     private TokenRepository tokenRepository;
 
     @Transactional
-    public User loadUserById(String userid) {
+    public User loadUserByUser(User login_user) {
+        User user = userRepository.existsByUseridAndPassword(login_user.getUserid(), login_user.getPassword())
+                ? userRepository.findByUseridAndPassword(login_user.getUserid(), login_user.getPassword()) : null;
+
+        return user;
+    }
+
+    @Transactional
+    public User loadUserByToken(String userid) {
         User user = userRepository.existsByUserid(userid) ? userRepository.findByUserid(userid) : null;
-        log.info(user.getAuthority().toString());
         return user;
     }
 
@@ -45,33 +52,27 @@ public class CustomUserDetailService {
     // token save
 
     @Transactional
-    public Refresh token_save(User user, String token) {
+    public boolean token_save(User user, String token) {
         // 없는 유저라면 토큰을 저장하고
-        // 기존에 존재하는 유저라면 토큰을 update
+        // 로그인중인 유저라면 토큰을 update
         if (user.getRefresh() == null) {
             Refresh refreshToken = Refresh.builder()
                     .id(0)
-                    .user(user)
                     .token(token)
                     .build();
-            return tokenRepository.save(refreshToken);
+            tokenRepository.save(refreshToken);
+            return true;
+
         } else {
-            Refresh refreshToken = tokenRepository.findByUser_userid(user.getUserid());
-            refreshToken.setToken(token);
-            log.info(refreshToken.toString());
-            return refreshToken;
+            User user1 = userRepository.findByUserid(user.getUserid());
+            user1.getRefresh().setToken(token);
+            return true;
         }
 
     }
-
     // findByToken
-    public boolean logout(Long id) {
-        try {
-            tokenRepository.deleteById(id);
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
+    public boolean logout(String userid) {
+        return true;
     }
 
 }

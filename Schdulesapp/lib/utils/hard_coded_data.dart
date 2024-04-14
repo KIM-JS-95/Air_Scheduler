@@ -20,7 +20,7 @@ class HardCodedData {
           Icons.email,
           color: R.secondaryColor,
         ),
-        "이메일",
+        "아이디",
         TextEditingController(),
         "001200",
       ),
@@ -31,7 +31,7 @@ class HardCodedData {
         ),
         "비밀번호",
         TextEditingController(),
-        "123123",
+        "1234",
       ),
     ];
   }

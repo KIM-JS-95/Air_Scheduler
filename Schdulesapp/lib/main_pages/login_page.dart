@@ -4,13 +4,14 @@ import 'package:provider/provider.dart';
 import '../ajax/user_repository.dart';
 import '../models/User.dart';
 import '../models/UserProvider.dart';
+import '../utils/custom_flutter_logo.dart';
 import '../utils/hard_coded_data.dart';
 import '../utils/r.dart';
-import '../utils/custom_flutter_logo.dart';
 import '../widgets/custom_text_field.dart';
 import '../widgets/fade_in_out_widget/fade_in_out_widget.dart';
 import '../widgets/fade_in_out_widget/fade_in_out_widget_controller.dart';
 import 'home_page.dart';
+
 
 class LoginPage extends StatelessWidget {
   final FadeInOutWidgetController _fadeInOutWidgetController =
@@ -77,7 +78,6 @@ class LoginPage extends StatelessWidget {
           ),
         ),
         onPressed: () async {
-          // 사용자가 입력한 아이디와 패스워드를 가져오기
           String userid = HardCodedData.loginPageFieldsData[0].controller.text;
           String password = HardCodedData.loginPageFieldsData[1].controller.text;
 
@@ -147,7 +147,6 @@ class LoginPage extends StatelessWidget {
           style: TextStyle(color: R.tertiaryColor),
           children: [
             TextSpan(
-              text: R.back_addr,
               style: TextStyle(
                 color: R.secondaryColor,
               ),

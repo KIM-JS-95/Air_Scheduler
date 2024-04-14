@@ -71,7 +71,7 @@ class ScheduleControllerTest {
     @Disabled
     @DisplayName("textrack_test")
     public void jpg_save_test() throws Exception {
-        when(customUserDetailService.loadUserById(user.getUserid()))
+        when(customUserDetailService.loadUserByToken(user.getUserid()))
                 .thenReturn(user);
 
         final String filePath = "resources\\static\\img\\November.jpg"; //파일경로

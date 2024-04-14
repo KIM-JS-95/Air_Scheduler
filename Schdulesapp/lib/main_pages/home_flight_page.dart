@@ -43,7 +43,8 @@ class _HomeFlightPage extends State<HomeFlightPage> {
           if (snapshot.hasData && snapshot.data!.isNotEmpty) {
             return ListView.builder(
               itemCount: snapshot.data!.length,
-              itemBuilder: (context, index) => TodayFlight(flightData: snapshot.data![index]),
+              itemBuilder: (context, index)
+              => TodayFlight(flightData: snapshot.data![index]),
             );
           } else {
             return Center(

@@ -17,6 +17,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Collection;
@@ -46,6 +47,7 @@ public class JwtTokenProvider {
         Claims claims = Jwts.claims().setSubject(userid); // JWT payload 에 저장되는 정보단위, 보통 여기서 user를 식별하는 값을 넣는다.
         claims.put("userid", userid);
         claims.put("access_time", access_time);
+
         Date now = new Date();
         return Jwts.builder()
                 .setClaims(claims) // 정보 저장
@@ -67,8 +69,11 @@ public class JwtTokenProvider {
     }
 
     // JWT 토큰에서 인증 정보 조회
+    @Transactional
     public Authentication getAuthentication(String token) {
-        User user = customUserDetailService.loadUserById(this.getUserPk(token));
+
+        User user = customUserDetailService.loadUserByToken(this.getUserPk(token));
+
         Collection<GrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority(user.getAuthority().getAuthority()));
 

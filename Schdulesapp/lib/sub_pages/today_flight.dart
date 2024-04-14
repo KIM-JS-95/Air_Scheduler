@@ -45,12 +45,12 @@ class TodayFlight extends StatelessWidget {
               ],
             ),
           )
-        : const Padding(
+        : Padding(
             padding: EdgeInsets.symmetric(horizontal: 32.0),
             child: Text(
               'No flight data available',
               style: TextStyle(
-                color: Colors.black,
+                color: R.secondaryColor,
                 fontSize: 16.0,
                 fontWeight: FontWeight.bold,
               ),
@@ -72,17 +72,17 @@ class TodayFlight extends StatelessWidget {
       ),
       Text(
         flightData.departure,
-        style: const TextStyle(
-          color: Colors.white,
+        style:  TextStyle(
+          color: R.secondaryColor,
           fontWeight: FontWeight.bold,
         ),
       )
     ];
     final secondColumn = [
-      const Text(
+       Text(
         "FLIGHT DATE",
         style: TextStyle(
-          color: Colors.white,
+          color: R.secondaryColor,
         ),
       ),
       const SizedBox(
@@ -90,36 +90,37 @@ class TodayFlight extends StatelessWidget {
       ),
       Text(
         flightData.date,
-        style: const TextStyle(
-          color: Colors.white,
+        style:  TextStyle(
+          color: R.secondaryColor,
           fontWeight: FontWeight.bold,
         ),
       )
     ];
     final thirdColumn = [
-      const Text(
+       Text(
         "BOARDING TIME",
         style: TextStyle(
-          color: Colors.white,
+          color: R.secondaryColor,
         ),
       ),
       const SizedBox(height: 8.0),
       Text(
         'STD(L): ${flightData.stdl}',
-        style: const TextStyle(
-          color: Colors.white,
+        style:  TextStyle(
+          color: R.secondaryColor,
           fontWeight: FontWeight.bold,
         ),
       ),
       SizedBox(height: 5),
       Text(
         'STD(B): ${flightData.stdb}',
-        style: const TextStyle(
-          color: Colors.white,
+        style:  TextStyle(
+          color: R.secondaryColor,
           fontWeight: FontWeight.bold,
         ),
       )
     ];
+
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -148,43 +149,41 @@ class TodayFlight extends StatelessWidget {
 
       Text(
         flightData.flightNumber,
-
-        /// Pairing
-        style: const TextStyle(
-          color: Colors.white,
+        style: TextStyle(
+          color: R.secondaryColor,
           fontWeight: FontWeight.bold,
         ),
       ),
     ];
     final secondColumn = [
-      const Text(
+       Text(
         "C/I(L)",
         style: TextStyle(
-          color: Colors.white,
+          color: R.secondaryColor,
         ),
       ),
       const SizedBox(height: 8.0),
       Text(
         flightData.ci,
-        style: const TextStyle(
-          color: Colors.white,
+        style: TextStyle(
+          color: R.secondaryColor,
           fontWeight: FontWeight.bold,
         ),
       )
     ];
 
     final thirdColumn = [
-      const Text(
+       Text(
         "C/O(L)",
         style: TextStyle(
-          color: Colors.white,
+          color: R.secondaryColor,
         ),
       ),
       const SizedBox(height: 8.0),
       Text(
         flightData.co,
-        style: const TextStyle(
-          color: Colors.white,
+        style: TextStyle(
+          color: R.secondaryColor,
           fontWeight: FontWeight.bold,
         ),
       )
@@ -218,17 +217,17 @@ class TodayFlight extends StatelessWidget {
       ),
       Text(
         flightData.destination,
-        style: const TextStyle(
-          color: Colors.white,
+        style: TextStyle(
+          color: R.secondaryColor,
           fontWeight: FontWeight.bold,
         ),
       ),
     ];
     final secondColumn = [
-      const Text(
+       Text(
         "FLIGHT NO",
         style: TextStyle(
-          color: Colors.white,
+          color: R.secondaryColor,
         ),
       ),
       const SizedBox(
@@ -236,32 +235,32 @@ class TodayFlight extends StatelessWidget {
       ),
       Text(
         flightData.flightNumber,
-        style: const TextStyle(
-          color: Colors.white,
+        style:  TextStyle(
+          color: R.secondaryColor,
           fontWeight: FontWeight.bold,
         ),
       )
     ];
     final thirdColumn = [
-      const Text(
+       Text(
         "BOARDING TIME",
         style: TextStyle(
-          color: Colors.white,
+          color: R.secondaryColor,
         ),
       ),
       const SizedBox(height: 8.0),
       Text(
         'STA(L): ${flightData.stal}',
-        style: const TextStyle(
-          color: Colors.white,
+        style:  TextStyle(
+          color: R.secondaryColor,
           fontWeight: FontWeight.bold,
         ),
       ),
       SizedBox(height: 5),
       Text(
         'STA(B): ${flightData.stab}',
-        style: const TextStyle(
-          color: Colors.white,
+        style:  TextStyle(
+          color: R.secondaryColor,
           fontWeight: FontWeight.bold,
         ),
       )

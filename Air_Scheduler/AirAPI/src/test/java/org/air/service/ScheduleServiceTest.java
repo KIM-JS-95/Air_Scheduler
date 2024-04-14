@@ -63,7 +63,7 @@ class ScheduleServiceTest {
     @Test
     @DisplayName("select All Date")
     public void getAllSchedules() {
-        List<Schedule> schedules = scheduleService.getAllSchedules();
+        List<Schedule> schedules = scheduleService.getAllSchedules("001200");
         assertThat(schedules.get(0).getDate(), is("01Nov23"));
     }
 

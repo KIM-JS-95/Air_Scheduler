@@ -50,7 +50,8 @@ class _CustomTabBarState extends State<CustomTabBar>
         labelColor: R.secondaryColor,
         unselectedLabelColor: R.tertiaryColor,
         splashFactory: NoSplash.splashFactory,
-        onTap: (_) {
+        physics: NeverScrollableScrollPhysics(),
+        onTap: (index) {
           // 클릭 기능을 제거하기 위해 아무 동작도 하지 않음
         },
         tabs: const [

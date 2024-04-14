@@ -1,5 +1,6 @@
 package org.air.repository;
 
+import org.air.entity.Refresh;
 import org.air.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -9,8 +10,12 @@ import java.util.Optional;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long>{
-    User findByUserid(String userid);
+    User findByUseridAndPassword(String userid, String password);
+    boolean existsByUseridAndPassword(String userid, String password);
+    List<User> findAll();
+
     List<User> findByName(String username);
     boolean existsByUserid(String userid);
-    List<User> findAll();
+
+    User findByUserid(String userid);
 }

@@ -40,7 +40,7 @@ public class SecurityConfig {
                 .httpBasic().disable()
                 .authorizeRequests()
                 .antMatchers("/join", "/login").permitAll()
-                .antMatchers("/showschedule", "/gettodayschedule", "/getnationcode", "/logout").authenticated()
+                .antMatchers("/showschedule","/getnationcode","/gettodayschedule", "/logout").authenticated()
                 .antMatchers("/home", "/modify", "/delete","/upload", "/sleep").authenticated()
 
                 .and()

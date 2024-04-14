@@ -90,7 +90,7 @@ class _DateFlightsPageState extends State<DateFlightsPage> {
                             child: ElevatedButton(
                               style: ElevatedButton.styleFrom(
                                 backgroundColor:
-                                    R.tertiaryColor.withOpacity(0.5),
+                                    R.tertiaryColor,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(20.0),
                                   side: BorderSide(color: R.tertiaryColor),

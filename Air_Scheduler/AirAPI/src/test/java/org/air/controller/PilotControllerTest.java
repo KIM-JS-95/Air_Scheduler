@@ -17,7 +17,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -25,7 +24,6 @@ import java.util.Date;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.isA;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -67,14 +65,14 @@ public class PilotControllerTest {
     @Test
     @DisplayName("OK: all schedules")
     public void getAllSchedules_OK() throws Exception {
-        when(customUserDetailService.loadUserById(jwtTokenProvider.getUserPk(token)))
+        when(customUserDetailService.loadUserByToken(jwtTokenProvider.getUserPk(token)))
                 .thenReturn(user);
         List<Schedule> schedule = new ArrayList<>();
         schedule.add(Schedule.builder()
                 .id(1L)
                 .build());
 
-        when(scheduleService.getAllSchedules()).thenReturn(schedule);
+        when(scheduleService.getAllSchedules("001200")).thenReturn(schedule);
 
         mvc.perform(get("/showschedule")
                         .header("Authorization", token)
@@ -87,12 +85,12 @@ public class PilotControllerTest {
     @Test
     @DisplayName("FAIL: all schedules")
     public void getAllSchedules_FAIL() throws Exception {
-        when(customUserDetailService.loadUserById(jwtTokenProvider.getUserPk(token)))
+        when(customUserDetailService.loadUserByToken(jwtTokenProvider.getUserPk(token)))
                 .thenReturn(user);
 
         List<Schedule> schedule = new ArrayList<>();
 
-        when(scheduleService.getAllSchedules()).thenReturn(schedule);
+        when(scheduleService.getAllSchedules("001200")).thenReturn(schedule);
 
         mvc.perform(
                         get("/showschedule")
@@ -108,7 +106,7 @@ public class PilotControllerTest {
     @Test
     @DisplayName("OK: Today schedule")
     public void getTodaySchedules_OK() throws Exception {
-        when(customUserDetailService.loadUserById(jwtTokenProvider.getUserPk(token)))
+        when(customUserDetailService.loadUserByToken(jwtTokenProvider.getUserPk(token)))
                 .thenReturn(user);
 
         when(scheduleService.getTodaySchedules("01Nov23"))
@@ -127,7 +125,7 @@ public class PilotControllerTest {
     @Test
     @DisplayName("FALI:Today schedule")
     public void getTodaySchedules_FAIL() throws Exception {
-        when(customUserDetailService.loadUserById(jwtTokenProvider.getUserPk(token)))
+        when(customUserDetailService.loadUserByToken(jwtTokenProvider.getUserPk(token)))
                 .thenReturn(user);
 
         when(scheduleService.getTodaySchedules("01Nov23"))

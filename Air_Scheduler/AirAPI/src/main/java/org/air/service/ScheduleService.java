@@ -7,8 +7,10 @@ import org.air.config.CustomCode;
 import org.air.entity.NationCode;
 import org.air.entity.Schedule;
 import org.air.entity.StatusEnum;
+import org.air.entity.User;
 import org.air.repository.NationCodeRepository;
 import org.air.repository.ScheduleRepository;
+import org.air.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Service;
@@ -30,13 +32,14 @@ public class ScheduleService {
     @Autowired
     private AWStextrack awstextrack;
     @Autowired
-    private ScheduleRepository schduleRepository;
+    private ScheduleRepository scheduleRepository;
     @Autowired
     private NationCodeRepository nationCodeRepository;
-
+    @Autowired
+    private UserRepository userRepository;
 
     public List<Schedule> getTodaySchedules(String startDate) {
-        List<Schedule> schedules = schduleRepository.findByDate(startDate);
+        List<Schedule> schedules = scheduleRepository.findByDate(startDate);
 
         AtomicReference<String> previousDateRef = new AtomicReference<>();
         Stream<Schedule> updatedStream = schedules.stream()
@@ -56,7 +59,7 @@ public class ScheduleService {
     }
 
     public List<Schedule> getSchedulesBydate(String sdate, String edate) {
-        List<Schedule> schedules = schduleRepository.findByDateBetween(sdate, edate);
+        List<Schedule> schedules = scheduleRepository.findByDateBetween(sdate, edate);
 
         AtomicReference<String> previousDateRef = new AtomicReference<>();
         Stream<Schedule> updatedStream = schedules.stream()
@@ -75,13 +78,16 @@ public class ScheduleService {
         return updatedSchedules;
     }
 
-    public List<Schedule> getAllSchedules() {
-        List<Schedule> schedule = schduleRepository.findAll();
+    public List<Schedule> getAllSchedules(String userid) {
+        List<Schedule> schedule = scheduleRepository.findByUserid(userid);
         return schedule;
     }
 
     @Transactional
-    public List<Schedule> schedule_save(List<Schedule> schedules) {
+    public List<Schedule> schedule_save(List<Schedule> schedules, String userid) {
+
+        User user = userRepository.findByUserid(userid);
+
         try {
             for (int i = 0; i < schedules.size(); i++) {
                 if (schedules.get(i).getDate() == null && i > 0) {
@@ -90,10 +96,10 @@ public class ScheduleService {
                 if (schedules.get(i).getCi() == null && i > 0) {
                     schedules.get(i).setCi(schedules.get(i - 1).getCi());
                 }
+                schedules.get(i).setUserid(user); // 일정의 주인 추가
             }
-
-            schduleRepository.deleteAll();
-            List<Schedule> result = schduleRepository.saveAll(schedules);
+            scheduleRepository.deleteAllByUserid(userid); // 기존 일정은 모두 삭제
+            List<Schedule> result = scheduleRepository.saveAll(schedules);
             return result;
         } catch (RuntimeException e) {
             e.printStackTrace(); // 예외 로그 출력
@@ -103,7 +109,7 @@ public class ScheduleService {
 
     @Transactional
     public CustomCode modify(Long id, Schedule update_schedule) {
-        Schedule schedule = schduleRepository.findById(id).orElseThrow();
+        Schedule schedule = scheduleRepository.findById(id).orElseThrow();
         try {
             // Dirty checking 은 전체 필드를 update 하는 방식을 기본으로 사용함
             schedule.setDate(update_schedule.getDate());
@@ -129,9 +135,9 @@ public class ScheduleService {
         }
     }
 
-    public boolean delete() {
+    public boolean delete(String userid) {
         try {
-            schduleRepository.truncateTable();
+            scheduleRepository.deleteAllByUserid(userid);
             return true;
         } catch (Exception e) {
             return false;

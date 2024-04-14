@@ -24,10 +24,6 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
 
     List<Schedule> findByDate(String date);
 
-    boolean existsByDate(String sDate);
-
-    //Boolean saveAll(List<Schedule> schedule);
-
 
     @Modifying
     @Transactional
@@ -36,4 +32,8 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
 
     @Query("SELECT s FROM Schedule s WHERE s.id >= :startId AND s.id <= :endId")
     List<Schedule> findByIdBetween(@Param("startId")Long startId, @Param("endId") Long endId);
+
+    void deleteAllByUserid(String userid);
+
+    List<Schedule> findByUserid(String userid);
 }

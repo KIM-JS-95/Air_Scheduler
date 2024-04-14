@@ -12,6 +12,7 @@ import '../widgets/fading_item_list/fading_item_list_controller.dart';
 import 'add_flight_page.dart';
 import 'add_flight_page_controller.dart';
 import 'home_flight_page.dart';
+
 /*
 * title: 메인페이지
 * HomePage.dart
@@ -62,7 +63,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     );
 
     _sheetAnimationController.forward().whenComplete(
-          () {
+      () {
         _headerFadeInOutController.show();
         _fadingItemListController.showItems();
       },
@@ -70,19 +71,20 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
 
     _currentMainPage = ValueNotifier(MainPageEnum.myFlights);
     _addFlightPageController = AddFlightPageController();
-
   }
 
   void _initPages() {
     _pages = {
-      MainPageEnum.myFlights: HomeFlightPage(user: Provider.of<UserProvider>(context).user),
-      MainPageEnum.addFlight: AddFlightPage(addFlightPageController: _addFlightPageController),
+      MainPageEnum.myFlights:
+          HomeFlightPage(user: Provider.of<UserProvider>(context).user),
+      MainPageEnum.addFlight:
+          AddFlightPage(addFlightPageController: _addFlightPageController),
     };
   }
 
-
   @override
   Widget build(BuildContext context) => Scaffold(
+        backgroundColor: R.secondaryColor,
         floatingActionButton: Column(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
@@ -130,48 +132,52 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       );
 
   Widget get _buildHeader => AnimatedBuilder(
-      animation: widget.routeTransitionValue,
-      builder: (context, child) {
-        return Opacity(
-          opacity: 1.0 * widget.routeTransitionValue.value,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => MyApp()),
-                  );
-                },
-                child: Icon(
-                  Icons.menu,
-                  color: R.primaryColor,
-                ),
-              ),
-              GestureDetector(
-                onTap: () {
-                  homeButton();
-                },
-                child: Container(
-                  height: 40.0,
-                  width: 40.0,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10.0),
-                    color: R.primaryColor,
+        animation: widget.routeTransitionValue,
+        builder: (context, child) {
+          return Container(
+            // 배경색을 변경할 컨테이너 추가
+            color: R.secondaryColor, // 원하는 배경색으로 변경
+            child: Opacity(
+              opacity: 1.0 * widget.routeTransitionValue.value,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => MyApp()),
+                      );
+                    },
+                    child: Icon(
+                      Icons.menu,
+                      color: R.primaryColor,
+                    ),
                   ),
-                  child: Icon(
-                    Icons.home,
-                    color: R.secondaryColor,
-                    size: 40.0,
+                  GestureDetector(
+                    onTap: () {
+                      homeButton();
+                    },
+                    child: Container(
+                      height: 40.0,
+                      width: 40.0,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10.0),
+                        color: R.primaryColor,
+                      ),
+                      child: Icon(
+                        Icons.home,
+                        color: R.secondaryColor,
+                        size: 40.0,
+                      ),
+                    ),
                   ),
-                ),
+                ],
               ),
-            ],
-          ),
-        );
-      });
+            ),
+          );
+        },
+      );
 
   Widget get _buildBottomSheet => Container(
         height: double.infinity,
@@ -252,27 +258,23 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     }
   }
 
-
   Text get _myFlightsTextWidget => Text(
-    "My flights",
-    style: TextStyle(
-      color: R.primaryColor,
-      fontSize: 30.0,
-      fontWeight: FontWeight.w600,
-    ),
-  );
+        "My flights",
+        style: TextStyle(
+          color: R.textColor,
+          fontSize: 30.0,
+          fontWeight: FontWeight.w600,
+        ),
+      );
 
   Text get _addFlightTextWidget => Text(
-    "Add flight",
-    style: TextStyle(
-      color: R.primaryColor,
-      fontSize: 30.0,
-      fontWeight: FontWeight.w600,
-    ),
-  );
-
+        "Add flight",
+        style: TextStyle(
+          color: R.textColor,
+          fontSize: 30.0,
+          fontWeight: FontWeight.w600,
+        ),
+      );
 
   bool get _isMyFlightsPage => _currentMainPage.value == MainPageEnum.myFlights;
-
-
 }

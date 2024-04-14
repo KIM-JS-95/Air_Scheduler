@@ -68,17 +68,11 @@ class UserTest {
     @DisplayName("login and set token")
     public void login_user() {
         Refresh refresh = Refresh.builder()
-                .user(user)
                 .token(token)
                 .build();
-        user.setRefreshToken(refresh);
+        user.setRefresh(refresh);
 
         assertThat(user.getRefresh().getToken(), Matchers.is(token));
     }
 
-    @Test
-    @DisplayName("Refresh your Token")
-    public void refresh_test(){
-
-    }
 }

@@ -1,15 +1,12 @@
 package org.air.controller;
 
 import lombok.extern.slf4j.Slf4j;
-import org.air.config.CustomCode;
 import org.air.config.HeaderSetter;
-import org.air.entity.Schedule;
 import org.air.entity.StatusEnum;
 import org.air.entity.User;
 import org.air.jwt.JwtTokenProvider;
 import org.air.service.CustomUserDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -57,15 +54,16 @@ public class UserController {
 
         Date date = new Date();
         SimpleDateFormat access_time = new SimpleDateFormat("hh:mm:ss");
-        User member = customUserDetailService.loadUserById(user.getUserid());
+        User member = customUserDetailService.loadUserByUser(user);
 
-        if (member == null) { // your not my User
+        if (member == null) {
             return ResponseEntity
                     .status(HttpStatus.UNAUTHORIZED)
                     .body("");
         }
 
         String token = jwtTokenProvider.createToken(member.getUserid(), access_time.format(date));
+
         customUserDetailService.token_save(member, token);
 
         return ResponseEntity.ok()
@@ -77,9 +75,10 @@ public class UserController {
     @PostMapping("/logout")
     public ResponseEntity logout(HttpServletRequest request) {
         String token = request.getHeader("Authorization");
-        User user = customUserDetailService.loadUserById(jwtTokenProvider.getUserPk(token));
+        String user_string = jwtTokenProvider.getUserPk(token); // body: userid
+        User user = customUserDetailService.loadUserByToken(user_string);
 
-        if (customUserDetailService.logout(user.getAuthority().getId())) {
+        if (customUserDetailService.logout(user.getUserid())) {
             return ResponseEntity.ok()
                     .headers(headerSetter.haederSet(token, "logout fail"))
                     .body("");

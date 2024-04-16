@@ -41,8 +41,27 @@ public class Schedule {
 
     private String blk;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "userid") // 외래 키 컬럼명
     private User userid;
 
+    public ScheduleDTO toDTO() {
+        return new ScheduleDTO(
+                this.id,
+                this.date,
+                this.pairing,
+                this.dc,
+                this.ci,
+                this.co,
+                this.activity,
+                this.cntFrom,
+                this.stdL,
+                this.stdB,
+                this.cntTo,
+                this.staL,
+                this.staB,
+                this.achotel,
+                this.blk
+        );
+    }
 }

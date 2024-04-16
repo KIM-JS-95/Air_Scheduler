@@ -4,10 +4,7 @@ import org.air.config.AWStextrack;
 
 import org.air.config.CustomCode;
 
-import org.air.entity.NationCode;
-import org.air.entity.Schedule;
-import org.air.entity.StatusEnum;
-import org.air.entity.User;
+import org.air.entity.*;
 import org.air.repository.NationCodeRepository;
 import org.air.repository.ScheduleRepository;
 import org.air.repository.UserRepository;
@@ -38,11 +35,11 @@ public class ScheduleService {
     @Autowired
     private UserRepository userRepository;
 
-    public List<Schedule> getTodaySchedules(String startDate) {
+    public List<ScheduleDTO> getTodaySchedules(String startDate) {
         List<Schedule> schedules = scheduleRepository.findByDate(startDate);
 
         AtomicReference<String> previousDateRef = new AtomicReference<>();
-        Stream<Schedule> updatedStream = schedules.stream()
+        Stream<ScheduleDTO> updatedStream = schedules.stream()
                 .map(s -> {
                     String date = s.getDate();
                     if (s.getDate() == null) {
@@ -51,18 +48,18 @@ public class ScheduleService {
                     } else {
                         previousDateRef.set(date);
                     }
-                    return s;
+                    return s.toDTO();
                 });
         // 스트림을 리스트로 변환 (optional)
-        List<Schedule> updatedSchedules = updatedStream.collect(Collectors.toList());
+        List<ScheduleDTO> updatedSchedules = updatedStream.collect(Collectors.toList());
         return updatedSchedules;
     }
 
-    public List<Schedule> getSchedulesBydate(String sdate, String edate) {
+    public List<ScheduleDTO> getSchedulesBydate(String sdate, String edate) {
         List<Schedule> schedules = scheduleRepository.findByDateBetween(sdate, edate);
 
         AtomicReference<String> previousDateRef = new AtomicReference<>();
-        Stream<Schedule> updatedStream = schedules.stream()
+        Stream<ScheduleDTO> updatedStream = schedules.stream()
                 .map(s -> {
                     String date = s.getDate();
                     if (s.getDate() == null) {
@@ -71,16 +68,21 @@ public class ScheduleService {
                     } else {
                         previousDateRef.set(date);
                     }
-                    return s;
+                    return s.toDTO();
                 });
-        // 스트림을 리스트로 변환 (optional)
-        List<Schedule> updatedSchedules = updatedStream.collect(Collectors.toList());
+
+        List<ScheduleDTO> updatedSchedules = updatedStream.collect(Collectors.toList());
         return updatedSchedules;
     }
 
-    public List<Schedule> getAllSchedules(String userid) {
-        List<Schedule> schedule = scheduleRepository.findByUserid(userid);
-        return schedule;
+    public List<ScheduleDTO> getAllSchedules(String userid) {
+        User user = userRepository.findByUserid(userid);
+        List<Schedule> schedules = scheduleRepository.findByUserid(user);
+        Stream<ScheduleDTO> updatedStream = schedules.stream()
+                .map(s -> {
+                    return s.toDTO();
+                });
+        return updatedStream.collect(Collectors.toList());
     }
 
     @Transactional

@@ -38,21 +38,26 @@ class _CustomTabBarState extends State<CustomTabBar>
         child: Container(
           height: 0.5,
           width: 500,
-          color: R.tertiaryColor,
+          color: R.textColor,
         ),
       ),
       TabBar(
         controller: _tabController,
-        isScrollable: false,
+        isScrollable: true,
         indicatorColor: R.secondaryColor,
         indicatorPadding: const EdgeInsets.symmetric(horizontal: 24.0),
         indicatorWeight: 3.0,
         labelColor: R.secondaryColor,
-        unselectedLabelColor: R.tertiaryColor,
+        unselectedLabelColor: R.textColor,
         splashFactory: NoSplash.splashFactory,
         physics: NeverScrollableScrollPhysics(),
         onTap: (index) {
           // 클릭 기능을 제거하기 위해 아무 동작도 하지 않음
+          if (_tabController.indexIsChanging) {
+            _tabController.index = _tabController.previousIndex;
+          } else {
+            return;
+          }
         },
         tabs: const [
           Tab(

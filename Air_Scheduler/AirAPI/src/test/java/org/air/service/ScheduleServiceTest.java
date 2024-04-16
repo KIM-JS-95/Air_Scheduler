@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.air.entity.Schedule;
+import org.air.entity.ScheduleDTO;
 import org.air.entity.json.Blocks;
 import org.air.entity.json.Jsonschedules;
 import org.junit.jupiter.api.Disabled;
@@ -63,8 +64,8 @@ class ScheduleServiceTest {
     @Test
     @DisplayName("select All Date")
     public void getAllSchedules() {
-        List<Schedule> schedules = scheduleService.getAllSchedules("001200");
-        assertThat(schedules.get(0).getDate(), is("01Nov23"));
+        List<ScheduleDTO> schedules = scheduleService.getAllSchedules("001200");
+        assertThat(schedules.get(0).getDate(), is("01Nov24"));
     }
 
     @Test
@@ -72,7 +73,7 @@ class ScheduleServiceTest {
     public void getSchedulesBydate() {
         String sdate = "01Nov223";
         String edate = "03Nov23";
-        List<Schedule> schedules = scheduleService.getSchedulesBydate(sdate, edate);
+        List<ScheduleDTO> schedules = scheduleService.getSchedulesBydate(sdate, edate);
 
         log.info(schedules.get(0).toString());
         assertAll("Schedules by Date",

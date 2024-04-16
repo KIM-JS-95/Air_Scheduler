@@ -1,10 +1,7 @@
 package org.air.controller;
 
 import lombok.extern.slf4j.Slf4j;
-import org.air.entity.Authority;
-import org.air.entity.Schedule;
-import org.air.entity.StatusEnum;
-import org.air.entity.User;
+import org.air.entity.*;
 import org.air.jwt.JwtTokenProvider;
 import org.air.service.CustomUserDetailService;
 import org.air.service.ScheduleService;
@@ -67,10 +64,11 @@ public class PilotControllerTest {
     public void getAllSchedules_OK() throws Exception {
         when(customUserDetailService.loadUserByToken(jwtTokenProvider.getUserPk(token)))
                 .thenReturn(user);
-        List<Schedule> schedule = new ArrayList<>();
+        List<ScheduleDTO> schedule = new ArrayList<>();
+
         schedule.add(Schedule.builder()
                 .id(1L)
-                .build());
+                .build().toDTO());
 
         when(scheduleService.getAllSchedules("001200")).thenReturn(schedule);
 
@@ -88,7 +86,7 @@ public class PilotControllerTest {
         when(customUserDetailService.loadUserByToken(jwtTokenProvider.getUserPk(token)))
                 .thenReturn(user);
 
-        List<Schedule> schedule = new ArrayList<>();
+        List<ScheduleDTO> schedule = new ArrayList<>();
 
         when(scheduleService.getAllSchedules("001200")).thenReturn(schedule);
 
@@ -110,7 +108,7 @@ public class PilotControllerTest {
                 .thenReturn(user);
 
         when(scheduleService.getTodaySchedules("01Nov23"))
-                .thenReturn(List.of(Schedule.builder()
+                .thenReturn((List<ScheduleDTO>) List.of(ScheduleDTO.builder()
                         .id(1L)
                         .build()));
 

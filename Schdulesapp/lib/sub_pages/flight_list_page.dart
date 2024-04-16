@@ -82,7 +82,7 @@ class _FlightListPageState extends State<FlightListPage> {
                   padding: const EdgeInsets.all(10.0),
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: R.tertiaryColor.withOpacity(0.5),
+                      backgroundColor: R.tertiaryColor,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20.0),
                         side: BorderSide(color: R.tertiaryColor),

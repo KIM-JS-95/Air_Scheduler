@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class R {
   static const Color _primaryColor = Color(0xFFFF8800);
   static const Color _secondaryColor = Color(0xFFFFFFFF);
-  static const Color _tertiaryColor = Color(0xFFFCBE00);
+  static const Color _tertiaryColor = Color(0xBBB3CFEC);
   static const Color _textColor = Color(0xFF000000);
 
   static Color get primaryColor => _primaryColor;

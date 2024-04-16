@@ -14,6 +14,7 @@ package org.air.controller;
 import org.air.config.HeaderSetter;
 import org.air.entity.Messege;
 import org.air.entity.Schedule;
+import org.air.entity.ScheduleDTO;
 import org.air.entity.StatusEnum;
 import org.air.jwt.JwtTokenProvider;
 import org.air.service.ScheduleService;
@@ -49,7 +50,7 @@ public class PilotController {
         String receivedDateTime = requestBody.get("dateTime");
 
         HeaderSetter headers = new HeaderSetter();
-        List<Schedule> list = scheduleService.getTodaySchedules(receivedDateTime);
+        List<ScheduleDTO> list = scheduleService.getTodaySchedules(receivedDateTime);
 
         if(list.isEmpty()){
             return ResponseEntity
@@ -72,7 +73,7 @@ public class PilotController {
         String startDate = dateFormat.format(new Date());
         //String startDate = "01Nov23";
 
-        List<Schedule> list = scheduleService.getTodaySchedules(startDate);
+        List<ScheduleDTO> list = scheduleService.getTodaySchedules(startDate);
 
         // 상태코드는 status 에 넣고 나머지는 헤더에 넣자
         if(list.isEmpty()){
@@ -105,7 +106,8 @@ public class PilotController {
         HeaderSetter headers = new HeaderSetter();
         String token = request.getHeader("Authorization");
         String userid = jwtTokenProvider.getUserPk(token);
-        List<Schedule> schedules = scheduleService.getAllSchedules(userid);
+
+        List<ScheduleDTO> schedules = scheduleService.getAllSchedules(userid);
 
         if(schedules.isEmpty()){
             return ResponseEntity

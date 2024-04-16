@@ -1,6 +1,7 @@
 package org.air.repository;
 
 import org.air.entity.Schedule;
+import org.air.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -35,5 +36,6 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
 
     void deleteAllByUserid(String userid);
 
-    List<Schedule> findByUserid(String userid);
+    List<Schedule> findByUserid(User userid);
+
 }

@@ -73,7 +73,7 @@ class FlightsListItemWidget extends StatelessWidget {
       ),
       Text(
         "DATE",
-        style: TextStyle(color: R.tertiaryColor),
+        style: TextStyle(color: R.textColor),
       ),
       const SizedBox(
         height: 6.0,
@@ -112,7 +112,7 @@ class FlightsListItemWidget extends StatelessWidget {
       ),
       Text(
         "FLIGHT NO",
-        style: TextStyle(color: R.tertiaryColor),
+        style: TextStyle(color: R.textColor),
       ),
       const SizedBox(
         height: 6.0,
@@ -136,7 +136,7 @@ class FlightsListItemWidget extends StatelessWidget {
       ),
       Text(
         "FLIGHT NO",
-        style: TextStyle(color: R.tertiaryColor),
+        style: TextStyle(color: R.textColor),
       ),
       const SizedBox(
         height: 6.0,

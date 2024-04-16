@@ -1,21 +1,15 @@
 package org.air.repository;
 
 import org.air.entity.Schedule;
+import org.air.entity.User;
 import org.air.jwt.JwtTokenProvider;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.TemporalAccessor;
 import java.util.*;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -29,35 +23,6 @@ class ScheduleRepositoryTest {
     private ScheduleRepository scheduleRepository;
     @MockBean
     private JwtTokenProvider jwtTokenProvider;
-
-    @BeforeEach
-    public void init() {
-        Schedule schedule1 = Schedule.builder()
-                .id(1L)
-                .date("01Nov22")
-                .stdL("0000") // 출발 시간
-                .staL("2359") // 도착 시간
-                .cntFrom("GMP") // 출발
-                .cntTo("GMP") // 도착
-                .activity("OFF")
-                .build();
-
-        Schedule schedule2 = Schedule.builder()
-                .id(2L)
-                .date("02Nov22")
-                .stdL("0000") // 출발 시간
-                .staL("2359") // 도착 시간
-                .cntFrom("GMP") // 출발
-                .cntTo("GMP") // 도착
-                .activity("OFF")
-                .build();
-
-        List<Schedule> l = new ArrayList<>();
-        l.add(schedule1);
-        l.add(schedule2);
-
-        //scheduleRepository.saveAll(l);
-    }
 
     @Test
     @Disabled
@@ -112,5 +77,14 @@ class ScheduleRepositoryTest {
             // 요소에 대한 작업 수행
             System.out.println(element);
         });
+    }
+
+    @Test
+    public void qa(){
+        User user = User.builder()
+                .userid("001200")
+                .build();
+        List<Schedule> schedules = scheduleRepository.findByUserid(user);
+
     }
 }

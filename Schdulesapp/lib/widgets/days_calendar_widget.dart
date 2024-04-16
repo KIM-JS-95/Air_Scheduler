@@ -1,7 +1,7 @@
 
+import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-
 import '../utils/r.dart';
 
 class DaysCalendarWidget extends StatefulWidget {
@@ -47,55 +47,61 @@ class _DaysCalendarWidgetState extends State<DaysCalendarWidget> {
 
   Widget _buildDayWidget({
     required DateTime day,
-  }) =>
-      GestureDetector(
-        onTap: () {
-          dateNotifier.value = day;
-          widget.onDayPressed?.call(day);
-        },
-        child: ValueListenableBuilder(
-            valueListenable: dateNotifier,
-            builder: (_, value, __) {
-              final bool isSelected = isDateSelected(
-                day,
-                value,
-              );
-              return Container(
-                width: 60.0,
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: isSelected ? R.secondaryColor : R.tertiaryColor,
-                  ),
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      daysMap[day.weekday].toString(),
-                      style: TextStyle(
-                        color: isSelected ? R.secondaryColor : R.tertiaryColor,
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 4.0,
-                    ),
-                    Text(
-                      day.day.toString(),
-                      style: TextStyle(
-                        color: isSelected ? R.secondaryColor : Colors.white,
-                        fontSize: 24.0,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
-                ),
-              );
-            }),
-      );
+  }) {
+    final DateTime now = DateTime.now();
+    final bool isToday = now.year == day.year && now.month == day.month &&
+        now.day == day.day;
 
+    return GestureDetector(
+      onTap: () {
+        dateNotifier.value = day;
+        widget.onDayPressed?.call(day);
+      },
+      child: ValueListenableBuilder(
+          valueListenable: dateNotifier,
+          builder: (_, value, __) {
+            final bool isSelected = isDateSelected(
+              day,
+              value,
+            ) || isToday ;
+            return Container(
+              width: 60.0,
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: isSelected ? R.secondaryColor : R.textColor,
+                ),
+                borderRadius: BorderRadius.circular(10.0),
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    daysMap[day.weekday].toString(),
+                    style: TextStyle(
+                      color: isSelected ? R.secondaryColor : Colors.black,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 4.0,
+                  ),
+                  Text(
+                    day.day.toString(),
+                    style: TextStyle(
+                      color: isSelected ? R.secondaryColor : Colors.white,
+                      fontSize: 24.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  if (isToday) // 선택된 날짜 또는 오늘이면 아이콘 추가
+                    Icon(Icons.airplanemode_active, color: R.secondaryColor, size: 16.0)
+                ],
+              ),
+            );
+          }),
+    );
+  }
   List<DateTime> generateDays({
     required DateTime month,
   }) =>

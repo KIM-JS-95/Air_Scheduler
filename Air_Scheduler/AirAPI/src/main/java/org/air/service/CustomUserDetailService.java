@@ -30,12 +30,11 @@ public class CustomUserDetailService {
     }
 
     @Transactional
-    public User loadUserByToken(String userid) {
-        User user = userRepository.existsByUserid(userid) ? userRepository.findByUserid(userid) : null;
+    public User loadUserByToken(String userToken) {
+        User user = userRepository.existsByUserid(userToken) ? userRepository.findByUserid(userToken) : null;
         return user;
     }
 
-    // user sign up
     public boolean save(User user) {
         try {
             Authority authority = Authority.builder()
@@ -50,7 +49,6 @@ public class CustomUserDetailService {
     }
 
     // token save
-
     @Transactional
     public boolean token_save(User user, String token) {
         // 없는 유저라면 토큰을 저장하고
@@ -70,6 +68,20 @@ public class CustomUserDetailService {
         }
 
     }
+
+    @Transactional
+    public boolean modify(User user_modify, String token) {
+        try {
+            User user = userRepository.existsByUserid(token) ? userRepository.findByUserid(token) : null;
+            user.setUserid(user_modify.getUserid());
+            user.setEmail(user_modify.getEmail());
+            user.setPassword(user_modify.getPassword());
+            return true;
+        }catch (Exception e){
+            return false;
+        }
+    }
+
     // findByToken
     public boolean logout(String userid) {
         return true;

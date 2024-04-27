@@ -27,7 +27,7 @@ class LoginPage extends StatelessWidget {
     );
     return Stack(
       children: [
-        const Scaffold(),
+        //const Scaffold(),
         FadeInOutWidget(
           fadeInOutWidgetController: _fadeInOutWidgetController,
           slideEndingOffset: const Offset(0, 0.01),
@@ -81,7 +81,7 @@ class LoginPage extends StatelessWidget {
           String userid = HardCodedData.loginPageFieldsData[0].controller.text;
           String password = HardCodedData.loginPageFieldsData[1].controller.text;
 
-          User user = User(userid: userid, password: password); /// 테스트
+          User user = User(userid: userid, password: password, email: '');
           Map<String, dynamic> loginResult = await UserRepository.login(user);
           print(user.toString());
           // 로그인 성공 여부 확인

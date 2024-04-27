@@ -12,8 +12,8 @@ import '../ajax/upload_ajax.dart';
 import '../models/UserProvider.dart';
 import '../utils/r.dart';
 
-class MyApp extends StatelessWidget {
-  const MyApp({
+class Schedule_import extends StatelessWidget {
+  const Schedule_import({
     Key? key, // Correct declaration of key parameter
   }) : super(
             key:

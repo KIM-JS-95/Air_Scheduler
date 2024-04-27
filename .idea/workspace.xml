@@ -6,14 +6,17 @@
   <component name="ChangeListManager">
     <list default="true" id="25d31d41-43b1-4d47-8dd9-2d1f2a0cd970" name="변경" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Air_Scheduler/AirAPI/.gradle/8.0/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/Air_Scheduler/AirAPI/.gradle/8.0/executionHistory/executionHistory.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Air_Scheduler/AirAPI/.gradle/8.0/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/Air_Scheduler/AirAPI/.gradle/8.0/fileHashes/fileHashes.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Air_Scheduler/AirAPI/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/Air_Scheduler/AirAPI/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Air_Scheduler/AirAPI/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/Air_Scheduler/AirAPI/.gradle/file-system.probe" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Air_Scheduler/AirAPI/src/main/java/org/air/controller/PilotController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Air_Scheduler/AirAPI/src/main/java/org/air/controller/PilotController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Air_Scheduler/AirAPI/src/main/java/org/air/entity/Schedule.java" beforeDir="false" afterPath="$PROJECT_DIR$/Air_Scheduler/AirAPI/src/main/java/org/air/entity/Schedule.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Air_Scheduler/AirAPI/src/main/java/org/air/repository/ScheduleRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/Air_Scheduler/AirAPI/src/main/java/org/air/repository/ScheduleRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Air_Scheduler/AirAPI/src/main/java/org/air/service/ScheduleService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Air_Scheduler/AirAPI/src/main/java/org/air/service/ScheduleService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Air_Scheduler/AirAPI/src/test/java/org/air/controller/PilotControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/Air_Scheduler/AirAPI/src/test/java/org/air/controller/PilotControllerTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Air_Scheduler/AirAPI/src/test/java/org/air/repository/ScheduleRepositoryTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/Air_Scheduler/AirAPI/src/test/java/org/air/repository/ScheduleRepositoryTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Air_Scheduler/AirAPI/src/test/java/org/air/service/ScheduleServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/Air_Scheduler/AirAPI/src/test/java/org/air/service/ScheduleServiceTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Air_Scheduler/AirAPI/src/main/java/org/air/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Air_Scheduler/AirAPI/src/main/java/org/air/controller/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Air_Scheduler/AirAPI/src/main/java/org/air/service/CustomUserDetailService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Air_Scheduler/AirAPI/src/main/java/org/air/service/CustomUserDetailService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Schdulesapp/lib/ajax/user_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/Schdulesapp/lib/ajax/user_repository.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Schdulesapp/lib/component/MyApp.dart" beforeDir="false" afterPath="$PROJECT_DIR$/Schdulesapp/lib/component/Schedule_import.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Schdulesapp/lib/main_pages/home_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/Schdulesapp/lib/main_pages/home_page.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Schdulesapp/lib/main_pages/login_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/Schdulesapp/lib/main_pages/login_page.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Schdulesapp/lib/utils/hard_coded_data.dart" beforeDir="false" afterPath="$PROJECT_DIR$/Schdulesapp/lib/utils/hard_coded_data.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -75,13 +78,14 @@
     &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary&quot;: &quot;JUnit5&quot;,
     &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5&quot;: &quot;&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
     &quot;jdk.selected.JAVA_MODULE&quot;: &quot;corretto-20&quot;,
     &quot;last_opened_file_path&quot;: &quot;C:/Users/KIMJAESUNG/IdeaProjects/Air_Scheduler_pack/Air_Scheduler&quot;,
     &quot;project.structure.last.edited&quot;: &quot;프로젝트&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.43103448&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
   }
 }</component>
   <component name="RecentsManager">

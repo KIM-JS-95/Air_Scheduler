@@ -2,10 +2,12 @@ package org.air.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.air.config.HeaderSetter;
+import org.air.entity.Messege;
 import org.air.entity.StatusEnum;
 import org.air.entity.User;
 import org.air.jwt.JwtTokenProvider;
 import org.air.service.CustomUserDetailService;
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -69,6 +71,47 @@ public class UserController {
         return ResponseEntity.ok()
                 .headers(headerSetter.haederSet(token, "login Success"))
                 .body("Login Success");
+    }
+
+    @PostMapping("/user_modify")
+    public ResponseEntity modify(HttpServletRequest request, @RequestBody User user){
+        String token = request.getHeader("Authorization");
+        String user_string = jwtTokenProvider.getUserPk(token); // body: userid
+        boolean flag = customUserDetailService.modify(user, user_string);
+        if(flag) {
+            Date date = new Date();
+            SimpleDateFormat access_time = new SimpleDateFormat("hh:mm:ss");
+            String new_token = jwtTokenProvider.createToken(user.getUserid(), access_time.format(date));
+
+            return ResponseEntity.ok()
+                    .headers(headerSetter.haederSet(new_token, "login Success"))
+                    .body("Login Success");
+        }else{
+            return ResponseEntity
+                    .status(Integer.parseInt(StatusEnum.SAVE_ERROR.getStatusCode()))
+                    .headers(headerSetter.haederSet(token, "SAVE ERROR"))
+                    .body(new Messege(StatusEnum.SAVE_ERROR.getStatusCode(),
+                            StatusEnum.SAVE_ERROR.getMessage()));
+        }
+    }
+
+
+    @PostMapping("/getuserinfobyToken")
+    public ResponseEntity getUserinfo(HttpServletRequest request) {
+
+        String token = request.getHeader("Authorization");
+        String user_token = jwtTokenProvider.getUserPk(token); // body: userid
+        User user = customUserDetailService.loadUserByToken(user_token);
+
+        // Create a JSON object with required fields
+        JSONObject member = new JSONObject();
+        member.put("userid", user.getUserid());
+        member.put("email", user.getEmail());
+        member.put("password", user.getPassword());
+        System.out.println(member.toString());
+        return ResponseEntity.ok()
+                .headers(headerSetter.haederSet(token, "login Success"))
+                .body(member.toString());
     }
 
     // 로그아웃 (서블렛 토큰 제거)

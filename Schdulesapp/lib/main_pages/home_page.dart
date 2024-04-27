@@ -2,9 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../component/MyApp.dart';
+import '../component/Schedule_import.dart';
 import '../models/MainPageEnum.dart';
 import '../models/UserProvider.dart';
+import '../sub_pages/user_modify.dart';
 import '../utils/r.dart';
 import '../widgets/fade_in_out_widget/fade_in_out_widget.dart';
 import '../widgets/fade_in_out_widget/fade_in_out_widget_controller.dart';
@@ -142,17 +143,40 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => MyApp()),
-                      );
+                  PopupMenuButton<int>(
+                    icon: Icon(Icons.menu, color: R.primaryColor), // 메뉴 아이콘
+                    onSelected: (item) {
+                      switch (item) {
+                        case 0:
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => Schedule_import()),
+                          );
+                          break;
+                        case 1:
+                        //다른 화면으로 이동하거나 다른 기능을 수행
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => UserModify()),
+                          );
+                          break;
+                      }
                     },
-                    child: Icon(
-                      Icons.menu,
-                      color: R.primaryColor,
-                    ),
+                    itemBuilder: (context) => [
+                      PopupMenuItem<int>(
+                        value: 0,
+                        child: Text('일정 등록'),
+                      ),
+                      PopupMenuItem<int>(
+                        value: 0,
+                        child: Text('일정 수정'),
+                      ),
+                      PopupMenuItem<int>(
+                        value: 1,
+                        child: Text('회원정보 수정'),
+                      ),
+                      // 여기에 더 많은 메뉴 아이템을 추가할 수 있습니다.
+                    ],
                   ),
                   GestureDetector(
                     onTap: () {

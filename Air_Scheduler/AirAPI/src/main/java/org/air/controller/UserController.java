@@ -74,11 +74,11 @@ public class UserController {
     }
 
     @PostMapping("/user_modify")
-    public ResponseEntity modify(HttpServletRequest request, @RequestBody User user){
+    public ResponseEntity modify(HttpServletRequest request, @RequestBody User user) {
         String token = request.getHeader("Authorization");
         String user_string = jwtTokenProvider.getUserPk(token); // body: userid
         boolean flag = customUserDetailService.modify(user, user_string);
-        if(flag) {
+        if (flag) {
             Date date = new Date();
             SimpleDateFormat access_time = new SimpleDateFormat("hh:mm:ss");
             String new_token = jwtTokenProvider.createToken(user.getUserid(), access_time.format(date));
@@ -86,7 +86,7 @@ public class UserController {
             return ResponseEntity.ok()
                     .headers(headerSetter.haederSet(new_token, "login Success"))
                     .body("Login Success");
-        }else{
+        } else {
             return ResponseEntity
                     .status(Integer.parseInt(StatusEnum.SAVE_ERROR.getStatusCode()))
                     .headers(headerSetter.haederSet(token, "SAVE ERROR"))

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-
+import 'package:schdulesapp/main_pages/home_page.dart';
+import 'package:schdulesapp/sub_pages/user_modify.dart';
 import 'package:schdulesapp/sub_pages/view_flight_page.dart';
 
-import '../main_pages/home_page.dart';
+import '../component/Schedule_import.dart';
 import '../models/MainPageEnum.dart';
 import '../models/flight_data.dart';
 import '../utils/r.dart';
@@ -59,43 +60,43 @@ class _ViewFlightState extends State<ViewFlight> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-    body: SafeArea(
-      bottom: false,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 30.0),
-            child: _buildHeader,
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 32.0),
-            child: FadeInOutWidget(
-              initialVisibilityValue: false,
-              slideDuration: const Duration(milliseconds: 500),
-              fadeInOutWidgetController: _headerFadeInOutController,
-              child: ValueListenableBuilder<MainPageEnum>(
-                valueListenable: _currentMainPage,
-                builder: (_, value, __) => _myFlightsTextWidget,
+      body: SafeArea(
+        bottom: false,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 30.0),
+              child: _buildHeader,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 32.0),
+              child: FadeInOutWidget(
+                initialVisibilityValue: false,
+                slideDuration: const Duration(milliseconds: 500),
+                fadeInOutWidgetController: _headerFadeInOutController,
+                child: ValueListenableBuilder<MainPageEnum>(
+                  valueListenable: _currentMainPage,
+                  builder: (_, value, __) => _myFlightsTextWidget,
+                ),
               ),
             ),
-          ),
-          const SizedBox(
-            height: 20.0,
-          ),
-          AnimatedBuilder(
-            animation: _sheetAnimationController,
-            builder: (context, child) => Container(
-              height: (1 - _sheetAnimationController.value) * 600,
+            const SizedBox(
+              height: 20.0,
             ),
-          ),
-          Flexible(
-            child: _buildBottomSheet,
-          ),
-        ],
+            AnimatedBuilder(
+              animation: _sheetAnimationController,
+              builder: (context, child) => Container(
+                height: (1 - _sheetAnimationController.value) * 600,
+              ),
+            ),
+            Flexible(
+              child: _buildBottomSheet,
+            ),
+          ],
+        ),
       ),
-    ),
-  );}
+    );}
 
   Text get _myFlightsTextWidget => Text(
     "My flight",
@@ -106,49 +107,94 @@ class _ViewFlightState extends State<ViewFlight> with TickerProviderStateMixin {
     ),
   );
 
-  Widget get _buildHeader => Row(
-    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    children: [
-      GestureDetector(
-        onTap: () {
-          // Handle menu icon tap
-        },
-        child: Icon(
-          Icons.menu,
-          color: R.primaryColor,
-        ),
-      ),
-      GestureDetector(
-        onTap: () {
-          _headerFadeInOutController.hide();
-          Future.delayed(
-            const Duration(milliseconds: 500),
-                () => Navigator.push(
-              context,
-              PageRouteBuilder(
-                transitionDuration: const Duration(milliseconds: 500),
-                pageBuilder: (context, animation, secondaryAnimation) =>
-                    HomePage(routeTransitionValue: animation),
-              ),
+  Widget get _buildHeader {
+    final AnimationController controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 500),
+    );
+
+    return AnimatedBuilder(
+      animation: controller,
+      builder: (context, child) {
+        return Container(
+          // 배경색을 변경할 컨테이너 추가
+          color: R.secondaryColor, // 원하는 배경색으로 변경
+          child: Opacity(
+            opacity: 1.0,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                PopupMenuButton<int>(
+                  icon: Icon(Icons.menu, color: R.primaryColor), // 메뉴 아이콘
+                  onSelected: (item) {
+                    switch (item) {
+                      case 0:
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => Schedule_import()),
+                        );
+                        break;
+                      case 1:
+                      //다른 화면으로 이동하거나 다른 기능을 수행
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => UserModify()),
+                        );
+                        break;
+                    }
+                  },
+                  itemBuilder: (context) => [
+                    PopupMenuItem<int>(
+                      value: 0,
+                      child: Text('일정 등록'),
+                    ),
+                    PopupMenuItem<int>(
+                      value: 0,
+                      child: Text('일정 수정'),
+                    ),
+                    PopupMenuItem<int>(
+                      value: 1,
+                      child: Text('회원정보 수정'),
+                    ),
+                    // 여기에 더 많은 메뉴 아이템을 추가할 수 있습니다.
+                  ],
+                ),
+                GestureDetector(
+                  onTap: () {
+                    Future.delayed(
+                      const Duration(milliseconds: 500),
+                          () => Navigator.push(
+                        context,
+                        PageRouteBuilder(
+                          transitionDuration: const Duration(milliseconds: 500),
+                          pageBuilder: (context, animation, secondaryAnimation) =>
+                              HomePage(routeTransitionValue: animation),
+                        ),
+                      ),
+                    );
+                  },
+                  child: Container(
+                    height: 40.0,
+                    width: 40.0,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10.0),
+                      color: R.primaryColor,
+                    ),
+                    child: Icon(
+                      Icons.home,
+                      color: R.secondaryColor,
+                      size: 40.0,
+                    ),
+                  ),
+                ),
+              ],
             ),
-          );
-        },
-        child: Container(
-          height: 40.0,
-          width: 40.0,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10.0),
-            color: R.primaryColor,
           ),
-          child: Icon(
-            Icons.home,
-            color: R.secondaryColor,
-            size: 40.0,
-          ),
-        ),
-      ),
-    ],
-  );
+        );
+      },
+    );
+  }
+
 
   Widget get _buildBottomSheet => Container(
     height: double.infinity,
@@ -168,4 +214,5 @@ class _ViewFlightState extends State<ViewFlight> with TickerProviderStateMixin {
       ),
     ),
   );
+
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../sub_pages/darte_flights_page.dart';
+import '../sub_pages/date_flights_page.dart';
 import '../sub_pages/flight_list_page.dart';
 import '../widgets/custom_tab_bar/custom_tab_bar.dart';
 import '../widgets/custom_tab_bar/custom_tab_bar_controller.dart';

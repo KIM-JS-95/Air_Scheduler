@@ -76,13 +76,11 @@ class _DateFlightsPageState extends State<DateFlightsPage> {
                 } else {
                   return FutureBuilder<List<FlightData>>(
                     future: ScheduleRepository.getScheduleByDate(
-                        selectedDate, userSnapshot.data!.user.auth),
+                        selectedDate, userSnapshot.data!.user.auth, context),
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return Center(child: CircularProgressIndicator());
-                      } else if (snapshot.hasError) {
-                        return Center(child: Text('Error: ${snapshot.error}'));
-                      } else {
+                      } else if (snapshot.hasData) {
                         return ListView.builder(
                           itemCount: snapshot.data!.length,
                           itemBuilder: (context, index) => Padding(
@@ -90,7 +88,7 @@ class _DateFlightsPageState extends State<DateFlightsPage> {
                             child: ElevatedButton(
                               style: ElevatedButton.styleFrom(
                                 backgroundColor:
-                                    R.tertiaryColor,
+                                R.tertiaryColor,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(20.0),
                                   side: BorderSide(color: R.tertiaryColor),
@@ -100,11 +98,13 @@ class _DateFlightsPageState extends State<DateFlightsPage> {
                                 TodayFlight(flightData: snapshot.data![index]);
                               },
                               child: FlightsListItemWidget(
-                                flightData: snapshot.data![index],
+                                flightData: snapshot.data![index]
                               ),
                             ),
                           ),
                         );
+                      } else {
+                        return Center(child: Text('DB에 등록된 일정이 없어요! \n 일정을 등록해 주세요!'));
                       }
                     },
                   );

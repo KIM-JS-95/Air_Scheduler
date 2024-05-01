@@ -29,26 +29,25 @@ class _HomeFlightPage extends State<HomeFlightPage> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<FlightData>>(
-      future: ScheduleRepository.gettodayschedule(widget.user.auth),
+      future: ScheduleRepository.gettodayschedule(widget.user.auth, context),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           // Show UI when data is loading
           return Center(
             child: CircularProgressIndicator(),
           );
-        } else if (snapshot.hasError) {
-          // Show UI when an error occurs
-          return Text('Error: ${snapshot.error}');
         } else {
           if (snapshot.hasData && snapshot.data!.isNotEmpty) {
             return ListView.builder(
               itemCount: snapshot.data!.length,
-              itemBuilder: (context, index)
-              => TodayFlight(flightData: snapshot.data![index]),
+              itemBuilder: (context, index) =>
+                  TodayFlight(flightData: snapshot.data![index]),
             );
+          } else if (!snapshot.hasData) {
+            return Center(child: Text('DB에 등록된 일정이 없어요! \n 일정을 등록해 주세요!'));
           } else {
             return Center(
-              child: Text('No flight data available!'),
+              child: Text(snapshot.hasError.toString()),
             );
           }
         }

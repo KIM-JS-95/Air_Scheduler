@@ -23,6 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 
+import org.springframework.security.access.method.P;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -67,15 +68,11 @@ public class PilotController {
     @PostMapping("/gettodayschedule") // today or specific date
     public ResponseEntity gettodayschedule(HttpServletRequest request) throws ParseException {
         HeaderSetter headers = new HeaderSetter();
-
         String token = request.getHeader("Authorization");
         SimpleDateFormat dateFormat = new SimpleDateFormat("ddMMMyy", Locale.ENGLISH);
         String startDate = dateFormat.format(new Date());
-        //String startDate = "01Nov23";
 
         List<ScheduleDTO> list = scheduleService.getTodaySchedules(startDate);
-
-        // 상태코드는 status 에 넣고 나머지는 헤더에 넣자
         if(list.isEmpty()){
             return ResponseEntity
                     .status(Integer.parseInt(StatusEnum.NOT_FOUND.getStatusCode()))
@@ -88,20 +85,7 @@ public class PilotController {
         }
     }
 
-
-    @GetMapping("/getnationcode") // today or specific date
-    public ResponseEntity getnationcode(HttpServletRequest request) throws ParseException {
-        String token = request.getHeader("Authorization");
-        HeaderSetter headers = new HeaderSetter();
-        HttpHeaders header = headers.haederSet(token, "main page");
-        Map<String, Map<String, String>> list = scheduleService.getNationCode();
-
-        return ResponseEntity.ok()
-                .headers(header)
-                .body(list);
-    }
-
-    @GetMapping("/showschedule")
+    @PostMapping("/showschedules")
     public ResponseEntity showAllSchedules(HttpServletRequest request) {
         HeaderSetter headers = new HeaderSetter();
         String token = request.getHeader("Authorization");
@@ -120,4 +104,38 @@ public class PilotController {
                     .body(schedules);
         }
     }
+
+    @PostMapping("/viewschedule")
+    public ResponseEntity viewSchedule(HttpServletRequest request, @RequestBody Map<String, String> requestBody){
+        HeaderSetter headers = new HeaderSetter();
+        String token = request.getHeader("Authorization");
+        String userid = jwtTokenProvider.getUserPk(token);
+
+        Long id = Long.valueOf(requestBody.get("id"));
+        ScheduleDTO schedule = scheduleService.getViewSchedule(userid, id);
+        if(schedule==null){
+            return ResponseEntity
+                    .status(Integer.parseInt(StatusEnum.NOT_FOUND.getStatusCode()))
+                    .headers(headers.haederSet(token, StatusEnum.NOT_FOUND.getMessage()))
+                    .body("");
+        }else {
+            return ResponseEntity.ok()
+                    .headers(headers.haederSet(token, ""))
+                    .body(schedule);
+        }
+    }
+
+    @GetMapping("/getnationcode") // today or specific date
+    public ResponseEntity getnationcode(HttpServletRequest request) throws ParseException {
+        String token = request.getHeader("Authorization");
+        HeaderSetter headers = new HeaderSetter();
+        HttpHeaders header = headers.haederSet(token, "main page");
+        Map<String, Map<String, String>> list = scheduleService.getNationCode();
+
+        return ResponseEntity.ok()
+                .headers(header)
+                .body(list);
+    }
+
+
 }

@@ -24,21 +24,18 @@ class ViewFlightPage extends StatefulWidget {
 
 class _ViewFlightPage extends State<ViewFlightPage> {
   late final FadingItemListController fadingItemListController;
-  DateTime currentDate = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
     UserProvider userProvider = Provider.of<UserProvider>(context);
     return FutureBuilder<List<FlightData>>(
-      future: ScheduleRepository.getScheduleByDate(currentDate, userProvider.user.auth),
+      future: ScheduleRepository.getViewSchedule(widget.flightData.id, userProvider.user.auth, context),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           // 데이터 로딩 중인 경우에 보여줄 UI
           return Center(child: CircularProgressIndicator());
-        } else if (snapshot.hasError) {
+        } else if (snapshot.hasData) {
           // 에러 발생 시에 보여줄 UI
-          return Text('Error: ${snapshot.error}');
-        } else {
           return SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 32.0),
@@ -58,10 +55,18 @@ class _ViewFlightPage extends State<ViewFlightPage> {
                   Divider(color: R.secondaryColor),
                   const SizedBox(height: 10.0),
                   WeatherWidget(lat: widget.flightData.lat, lon: widget.flightData.lon),
+                  IconButton(
+                    icon: Icon(Icons.arrow_back),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  )
                 ],
               ),
             ),
           );
+        } else {
+          return Text('Error!!: ${snapshot.error}');
         }
       },
     );

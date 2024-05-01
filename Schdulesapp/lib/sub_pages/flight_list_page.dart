@@ -28,18 +28,15 @@ class _FlightListPageState extends State<FlightListPage> {
   @override
   void initState() {
     super.initState();
-    flightDatas = _loadFlightData(); /// Assign the future to flightDatas
+    flightDatas = _loadFlightData();
   }
 
   Future<List<FlightData>> _loadFlightData() async {
     UserProvider userProvider = Provider.of<UserProvider>(context, listen: false);
     try {
-      return ScheduleRepository.getAllSchedules(userProvider.user.auth); // Return the future directly
+      return ScheduleRepository.getAllSchedules(userProvider.user.auth, context); // Return the future directly
     } catch (error) {
-      // Handle error
-
-      print('Error loading flight data: $error');
-      return []; // Return an empty list in case of error
+      return [];
     }
   }
 
@@ -91,16 +88,17 @@ class _FlightListPageState extends State<FlightListPage> {
                     onPressed: () {
                       TodayFlight(flightData: snapshot.data![index]);
                     },
-                    child: FlightsListItemWidget(
-                        flightData: snapshot.data![index]),
+                    child: FlightsListItemWidget(flightData: snapshot.data![index]),
                   ),
                 ),
               );
+
             }
           },
         ),
       ),
     ],
   );
+
 }
 

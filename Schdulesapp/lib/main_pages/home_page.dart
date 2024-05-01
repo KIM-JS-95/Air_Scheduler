@@ -26,7 +26,7 @@ class HomePage extends StatefulWidget {
 
   const HomePage({
     super.key,
-    required this.routeTransitionValue,
+    required this.routeTransitionValue
   });
 
   @override
@@ -153,8 +153,12 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                             MaterialPageRoute(builder: (context) => Schedule_import()),
                           );
                           break;
+
                         case 1:
-                        //다른 화면으로 이동하거나 다른 기능을 수행
+                          _showErrorDialog(context, "준비중 입니다.");
+                          break;
+
+                        case 2:
                           Navigator.push(
                             context,
                             MaterialPageRoute(builder: (context) => UserModify()),
@@ -163,16 +167,16 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                       }
                     },
                     itemBuilder: (context) => [
-                      PopupMenuItem<int>(
+                      const PopupMenuItem<int>(
                         value: 0,
                         child: Text('일정 등록'),
                       ),
-                      PopupMenuItem<int>(
-                        value: 0,
+                      const PopupMenuItem<int>(
+                        value: 1,
                         child: Text('일정 수정'),
                       ),
-                      PopupMenuItem<int>(
-                        value: 1,
+                      const PopupMenuItem<int>(
+                        value: 2,
                         child: Text('회원정보 수정'),
                       ),
                       // 여기에 더 많은 메뉴 아이템을 추가할 수 있습니다.
@@ -285,7 +289,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   Text get _myFlightsTextWidget => Text(
         "My flights",
         style: TextStyle(
-          color: R.textColor,
+          color: R.primaryColor,
           fontSize: 30.0,
           fontWeight: FontWeight.w600,
         ),
@@ -294,7 +298,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   Text get _addFlightTextWidget => Text(
         "Add flight",
         style: TextStyle(
-          color: R.textColor,
+          color: R.primaryColor,
           fontSize: 30.0,
           fontWeight: FontWeight.w600,
         ),
@@ -302,3 +306,24 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
 
   bool get _isMyFlightsPage => _currentMainPage.value == MainPageEnum.myFlights;
 }
+
+void _showErrorDialog(BuildContext context, String message) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: const Text("Error!"),
+        content: Text(message),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop(); // 닫기 버튼을 누르면 다이얼로그를 닫습니다.
+            },
+            child: const Text("OK"),
+          ),
+        ],
+      );
+    },
+  );
+}
+

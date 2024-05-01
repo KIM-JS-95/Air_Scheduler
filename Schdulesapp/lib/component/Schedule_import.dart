@@ -26,7 +26,7 @@ class Schedule_import extends StatelessWidget {
       title: 'Flutter Demo',
       theme: ThemeData(
           highlightColor: const Color(0xFFD0996F),
-          canvasColor: const Color(0xFFFDF5EC),
+          canvasColor: R.primaryColor,
           textTheme: TextTheme(
             headlineSmall: ThemeData.light()
                 .textTheme
@@ -58,7 +58,7 @@ class Schedule_import extends StatelessWidget {
             ),
           ),
           colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.blue)
-              .copyWith(background: const Color(0xFFFDF5EC))),
+              .copyWith(background: R.primaryColor)),
       home: ImageCrop(title: '일정 PDF 편집기'),
     );
   }
@@ -84,40 +84,11 @@ class _ImageCropState extends State<ImageCrop> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: !kIsWeb ? AppBar(title: Text(widget.title)) : null,
+      appBar: null,
       body: Column(
         mainAxisSize: MainAxisSize.max,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-
-          GestureDetector(
-            onTap: () {
-              Future.delayed(
-                const Duration(milliseconds: 500),
-                () => Navigator.push(
-                  context,
-                  PageRouteBuilder(
-                    transitionDuration: const Duration(milliseconds: 500),
-                    pageBuilder: (context, animation, secondaryAnimation) =>
-                        HomePage(routeTransitionValue: animation),
-                  ),
-                ),
-              );
-            },
-            child: Container(
-              height: 40.0,
-              width: 40.0,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10.0),
-                color: R.primaryColor,
-              ),
-              child: Icon(
-                Icons.home,
-                color: R.secondaryColor,
-                size: 40.0,
-              ),
-            ),
-          ),
           if (kIsWeb)
             Padding(
               padding: const EdgeInsets.all(kIsWeb ? 24.0 : 16.0),
@@ -130,8 +101,46 @@ class _ImageCropState extends State<ImageCrop> {
               ),
             ),
           Expanded(
-              child:
-          _body()
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Expanded(child: _body()),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 50.0),
+                  child: GestureDetector(
+                    onTap: () {
+                      Future.delayed(
+                        const Duration(milliseconds: 500),
+                        () => Navigator.push(
+                          context,
+                          PageRouteBuilder(
+                            transitionDuration:
+                                const Duration(milliseconds: 500),
+                            pageBuilder:
+                                (context, animation, secondaryAnimation) =>
+                                    HomePage(routeTransitionValue: animation),
+                          ),
+                        ),
+                      );
+                    },
+                    child: Container(
+                      height: 40.0,
+                      width: 40.0,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10.0),
+                        color: R.primaryColor,
+                      ),
+                      child: Icon(
+                        Icons.arrow_back,
+                        color: R.secondaryColor,
+                        size: 40.0,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ],
       ),
@@ -143,10 +152,8 @@ class _ImageCropState extends State<ImageCrop> {
       // 로딩 중이면 로딩 인디케이터 표시
       return Center(child: CircularProgressIndicator());
     } else if (_croppedFile != null || _pickedFile != null) {
-      // 이미지가 선택되었으면 이미지 표시
       return _imageCard();
     } else {
-      // 아무것도 선택되지 않았으면 업로더 카드 표시
       return _uploaderCard();
     }
   }
@@ -230,17 +237,15 @@ class _ImageCropState extends State<ImageCrop> {
           Padding(
             padding: const EdgeInsets.only(left: 32.0),
             child: FloatingActionButton(
-
               onPressed: () async {
                 setState(() => _isLoading = true); // 로딩 시작
-                bool? uploadedImage = await Uploadajax.uploadajax(userProvider.user);
-                /// 테스트 전용 입니다.
-                //bool? uploadedImage = await Uploadajax.uploadajax_test(userProvider.user, _pickedFile!);
+                int? uploadedImage =
+                    await Uploadajax.uploadajax(userProvider.user);
                 setState(() => _isLoading = false); // 로딩 종료
-                if (uploadedImage == true) {
+                if (uploadedImage == 200) {
                   Future.delayed(
                     const Duration(milliseconds: 500),
-                        () => Navigator.push(
+                    () => Navigator.push(
                       context,
                       PageRouteBuilder(
                         transitionDuration: const Duration(milliseconds: 500),
@@ -249,6 +254,8 @@ class _ImageCropState extends State<ImageCrop> {
                       ),
                     ),
                   );
+                } else if (uploadedImage == 403) {
+                  _showErrorDialog("권한이 없어요!");
                 } else {
                   String errorMessage = uploadedImage == false
                       ? "Upload failed."
@@ -261,13 +268,55 @@ class _ImageCropState extends State<ImageCrop> {
                   );
                 }
               },
-
               backgroundColor: const Color(0xFFBC764A),
               tooltip: 'Save',
               child: const Icon(Icons.save),
             ),
           )
       ],
+    );
+  }
+
+  void _showErrorDialog(String message) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Error"),
+          content: Text(message),
+          actions: <Widget>[
+            TextButton(
+              child: const Text("OK"),
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+
+                // Navigate to HomePage with a custom transition
+                Navigator.of(context).pushAndRemoveUntil(
+                  PageRouteBuilder(
+                    pageBuilder: (context, animation, secondaryAnimation) =>
+                        HomePage(routeTransitionValue: animation),
+                    transitionDuration: const Duration(milliseconds: 500),
+                    transitionsBuilder:
+                        (context, animation, secondaryAnimation, child) {
+                      var begin = Offset(1.0, 0.0); // Transition from right
+                      var end = Offset.zero;
+                      var curve = Curves.ease;
+                      var tween = Tween(begin: begin, end: end)
+                          .chain(CurveTween(curve: curve));
+                      var offsetAnimation = animation.drive(tween);
+                      return SlideTransition(
+                        position: offsetAnimation,
+                        child: child,
+                      );
+                    },
+                  ),
+                  (Route<dynamic> route) => false,
+                );
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 
@@ -382,8 +431,8 @@ class _ImageCropState extends State<ImageCrop> {
   }
 
   Future<void> _uploadImage() async {
-    print("이미지 선택");
-    final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
+    final pickedFile =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
       setState(() {
         _pickedFile = pickedFile;

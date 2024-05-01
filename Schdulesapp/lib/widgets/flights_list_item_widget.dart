@@ -7,20 +7,23 @@ import '../utils/r.dart';
 class FlightsListItemWidget extends StatelessWidget {
   final FlightData flightData;
 
-
   const FlightsListItemWidget({
     Key? key,
     required this.flightData,
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => GestureDetector(
+  Widget build(BuildContext context) =>
+      GestureDetector(
     onTap: () {
-      // Navigate to the target page on tap
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => ViewFlight(flightData:flightData)),
+        MaterialPageRoute(
+          builder: (context) =>
+              ViewFlight(flightData:flightData),
+        ),
       );
+
     },
     child: Padding(
       padding: const EdgeInsets.only(

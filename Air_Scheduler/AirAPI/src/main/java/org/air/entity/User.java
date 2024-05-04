@@ -14,6 +14,8 @@ import javax.persistence.*;
 public class User {
 
     @Id
+    private String pilotcode;
+
     private String userid;
     private String email;
     private String name;

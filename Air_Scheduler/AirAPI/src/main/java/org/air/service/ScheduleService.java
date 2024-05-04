@@ -77,7 +77,7 @@ public class ScheduleService {
 
     public List<ScheduleDTO> getAllSchedules(String userid) {
         User user = userRepository.findByUserid(userid);
-        List<Schedule> schedules = scheduleRepository.findByUserid(user);
+        List<Schedule> schedules = scheduleRepository.findByUserPilotcode(user.getPilotcode());
         Stream<ScheduleDTO> updatedStream = schedules.stream()
                 .map(s -> {
                     return s.toDTO();
@@ -98,9 +98,9 @@ public class ScheduleService {
                 if (schedules.get(i).getCi() == null && i > 0) {
                     schedules.get(i).setCi(schedules.get(i - 1).getCi());
                 }
-                schedules.get(i).setUserid(user); // 일정의 주인 추가
+                //schedules.get(i).setUserid(user); // 일정의 주인 추가
             }
-            scheduleRepository.deleteAllByUserid(userid); // 기존 일정은 모두 삭제
+            scheduleRepository.deleteAllByUserPilotcode(userid); // 기존 일정은 모두 삭제
             List<Schedule> result = scheduleRepository.saveAll(schedules);
             return result;
         } catch (RuntimeException e) {
@@ -139,7 +139,7 @@ public class ScheduleService {
 
     public boolean delete(String userid) {
         try {
-            scheduleRepository.deleteAllByUserid(userid);
+            scheduleRepository.deleteAllByUserPilotcode(userid);
             return true;
         } catch (Exception e) {
             return false;

@@ -72,6 +72,7 @@ public class CustomUserDetailService {
     @Transactional
     public boolean modify(User user_modify, String token) {
         try {
+            // 1. 유저 확인
             User user = userRepository.existsByUserid(token) ? userRepository.findByUserid(token) : null;
             user.setUserid(user_modify.getUserid());
             user.setEmail(user_modify.getEmail());

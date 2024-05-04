@@ -6,17 +6,13 @@
   <component name="ChangeListManager">
     <list default="true" id="25d31d41-43b1-4d47-8dd9-2d1f2a0cd970" name="변경" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Air_Scheduler/AirAPI/.gradle/8.0/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/Air_Scheduler/AirAPI/.gradle/8.0/executionHistory/executionHistory.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Air_Scheduler/AirAPI/.gradle/8.0/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/Air_Scheduler/AirAPI/.gradle/8.0/fileHashes/fileHashes.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Air_Scheduler/AirAPI/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/Air_Scheduler/AirAPI/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Air_Scheduler/AirAPI/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/Air_Scheduler/AirAPI/.gradle/file-system.probe" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Air_Scheduler/AirAPI/src/main/java/org/air/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Air_Scheduler/AirAPI/src/main/java/org/air/controller/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Air_Scheduler/AirAPI/src/main/java/org/air/entity/Schedule.java" beforeDir="false" afterPath="$PROJECT_DIR$/Air_Scheduler/AirAPI/src/main/java/org/air/entity/Schedule.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Air_Scheduler/AirAPI/src/main/java/org/air/entity/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/Air_Scheduler/AirAPI/src/main/java/org/air/entity/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Air_Scheduler/AirAPI/src/main/java/org/air/repository/ScheduleRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/Air_Scheduler/AirAPI/src/main/java/org/air/repository/ScheduleRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Air_Scheduler/AirAPI/src/main/java/org/air/service/CustomUserDetailService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Air_Scheduler/AirAPI/src/main/java/org/air/service/CustomUserDetailService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Schdulesapp/lib/ajax/user_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/Schdulesapp/lib/ajax/user_repository.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Schdulesapp/lib/component/MyApp.dart" beforeDir="false" afterPath="$PROJECT_DIR$/Schdulesapp/lib/component/Schedule_import.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Schdulesapp/lib/main_pages/home_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/Schdulesapp/lib/main_pages/home_page.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Schdulesapp/lib/main_pages/login_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/Schdulesapp/lib/main_pages/login_page.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Schdulesapp/lib/utils/hard_coded_data.dart" beforeDir="false" afterPath="$PROJECT_DIR$/Schdulesapp/lib/utils/hard_coded_data.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Air_Scheduler/AirAPI/src/main/java/org/air/service/ScheduleService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Air_Scheduler/AirAPI/src/main/java/org/air/service/ScheduleService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Air_Scheduler/AirAPI/src/test/java/org/air/repository/ScheduleRepositoryTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/Air_Scheduler/AirAPI/src/test/java/org/air/repository/ScheduleRepositoryTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -85,7 +81,7 @@
     &quot;project.structure.last.edited&quot;: &quot;프로젝트&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.43103448&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.projectsettings.compiler.javacompiler&quot;
   }
 }</component>
   <component name="RecentsManager">
@@ -97,7 +93,7 @@
       <recent name="org.air.repository" />
     </key>
   </component>
-  <component name="RunManager" selected="애플리케이션.MainApplication">
+  <component name="RunManager">
     <configuration name="MainApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="org.air.MainApplication" />
       <module name="AirAPI.main" />
@@ -111,7 +107,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="CustomUserDetailServiceTest.loadUserByToken" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="CustomUserDetailServiceTest.getSchedule" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$/Air_Scheduler/AirAPI" />
@@ -124,7 +120,7 @@
           <list>
             <option value=":test" />
             <option value="--tests" />
-            <option value="&quot;org.air.service.CustomUserDetailServiceTest.loadUserByToken&quot;" />
+            <option value="&quot;org.air.service.CustomUserDetailServiceTest.getSchedule&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -159,7 +155,7 @@
       <ForceTestExec>true</ForceTestExec>
       <method v="2" />
     </configuration>
-    <configuration name="ScheduleRepositoryTest.qa" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="ScheduleRepositoryTest.qa" type="GradleRunConfiguration" factoryName="Gradle" activateToolWindowBeforeRun="false" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$/Air_Scheduler/AirAPI" />
@@ -207,13 +203,59 @@
       <ForceTestExec>true</ForceTestExec>
       <method v="2" />
     </configuration>
+    <configuration default="true" type="GradleRunConfiguration" factoryName="Gradle">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/Air_Scheduler/AirAPI" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list />
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <ForceTestExec>false</ForceTestExec>
+      <method v="2" />
+    </configuration>
+    <configuration name="1" type="JUnit" factoryName="JUnit">
+      <option name="METHOD_NAME" value="" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="MakeNoErrorCheck" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="JUnit" factoryName="JUnit">
+      <option name="METHOD_NAME" value="" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="MakeNoErrorCheck" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="JarApplication">
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Gradle.CustomUserDetailServiceTest.getSchedule" />
+      <item itemvalue="Gradle.PilotControllerTest.getAllSchedules_OK" />
+      <item itemvalue="Gradle.ScheduleRepositoryTest.qa" />
+      <item itemvalue="Gradle.ScheduleServiceTest.getAllSchedules" />
+      <item itemvalue="JUnit.1" />
+      <item itemvalue="애플리케이션.MainApplication" />
+    </list>
     <recent_temporary>
       <list>
-        <item itemvalue="애플리케이션.MainApplication" />
         <item itemvalue="Gradle.ScheduleRepositoryTest.qa" />
+        <item itemvalue="Gradle.CustomUserDetailServiceTest.getSchedule" />
+        <item itemvalue="애플리케이션.MainApplication" />
         <item itemvalue="Gradle.ScheduleServiceTest.getAllSchedules" />
         <item itemvalue="Gradle.PilotControllerTest.getAllSchedules_OK" />
-        <item itemvalue="Gradle.CustomUserDetailServiceTest.loadUserByToken" />
       </list>
     </recent_temporary>
   </component>
@@ -227,5 +269,12 @@
       <updated>1711152794211</updated>
     </task>
     <servers />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/AirAPI$CustomUserDetailServiceTest_getSchedule.ic" NAME="CustomUserDetailServiceTest.getSchedule 커버리지 결과" MODIFIED="1714753180499" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
   </component>
 </project>

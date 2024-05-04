@@ -82,9 +82,10 @@ class ScheduleRepositoryTest {
     @Test
     public void qa(){
         User user = User.builder()
-                .userid("001200")
+                .pilotcode("1")
+                .userid("1")
                 .build();
-        List<Schedule> schedules = scheduleRepository.findByUserid(user);
-
+        List<Schedule> schedules = scheduleRepository.findByUserPilotcode(user.getPilotcode());
+        System.out.println(schedules.size());
     }
 }

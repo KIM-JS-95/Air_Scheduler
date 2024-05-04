@@ -2,6 +2,7 @@ package org.air.config;
 
 import org.air.jwt.JwtAuthenticationFilter;
 import org.air.jwt.JwtTokenProvider;
+import org.air.service.CustomUserDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,8 +12,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 
 
@@ -21,6 +20,9 @@ import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 public class SecurityConfig {
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
+
+    @Autowired
+    private CustomUserDetailService customUserDetailService;
 
     @Bean
     public WebSecurityCustomizer configure() {
@@ -40,8 +42,8 @@ public class SecurityConfig {
                 .httpBasic().disable()
                 .authorizeRequests()
                 .antMatchers("/join", "/login").permitAll()
-                .antMatchers("/showschedule","/getnationcode","/gettodayschedule", "/logout").authenticated()
-                .antMatchers("/home", "/modify", "/delete","/upload", "/sleep").authenticated()
+                .antMatchers("/getschedule","/showschedules", "/getnationcode", "/gettodayschedule","/viewschedule").authenticated()
+                .antMatchers("/home", "/modify", "/delete", "/upload").authenticated()
 
                 .and()
                 .formLogin().disable()
@@ -55,13 +57,12 @@ public class SecurityConfig {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 
                 .and()
-                .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider, customUserDetailService), UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
 
+
     // CORS 설정 추가
-
-
     @Bean
     public HandlerMappingIntrospector mvcHandlerMappingIntrospector() {
         return new HandlerMappingIntrospector();

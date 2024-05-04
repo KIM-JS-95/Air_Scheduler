@@ -30,10 +30,14 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
     @Query(value = "TRUNCATE TABLE schedule", nativeQuery = true)
     void truncateTable();
 
+<<<<<<< HEAD
     @Query("SELECT s FROM Schedule s WHERE s.id >= :startId AND s.id <= :endId")
     List<Schedule> findByIdBetween(@Param("startId")Long startId, @Param("endId") Long endId);
 
     void deleteAllByUserPilotcode(String pilotcode);
+=======
+    void deleteAllByUserid(String userid);
+>>>>>>> 10ceed955a46800d76cc29f7bdc8ed15315a296b
 
     List<Schedule> findByUserPilotcode(String pilotcode);
 

@@ -75,6 +75,10 @@ public class ScheduleService {
         return updatedSchedules;
     }
 
+    public ScheduleDTO getViewSchedule(String userid, Long id){
+        Schedule schedule = scheduleRepository.findById(id).orElseThrow();
+        return schedule.toDTO();
+    }
     public List<ScheduleDTO> getAllSchedules(String userid) {
         User user = userRepository.findByUserid(userid);
         List<Schedule> schedules = scheduleRepository.findByUserPilotcode(user.getPilotcode());

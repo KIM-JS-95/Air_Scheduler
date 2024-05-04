@@ -16,6 +16,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 import javax.transaction.Transactional;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -69,7 +70,9 @@ public class JwtTokenProviderTest {
     @DisplayName("Test refresh token creation")
     public void testCreateRefreshToken() {
         // When
-        String refreshToken = jwtTokenProvider.createrefreshToken(userId);
+        Date date = new Date();
+        SimpleDateFormat access_time = new SimpleDateFormat("hh:mm:ss");
+        String refreshToken = jwtTokenProvider.createrefreshToken(userId, access_time.format(date));
 
         // Then
         assertNotNull(refreshToken);
@@ -114,7 +117,9 @@ public class JwtTokenProviderTest {
             if (jwtTokenProvider.validateToken(token)) { // 날짜 유효성 체크
                 User user1 = userRepository.findByUserid(userid);
             } else { // refresh
-                assertThat(jwtTokenProvider.createrefreshToken(userid), is(nullValue()));
+                Date date = new Date();
+                SimpleDateFormat access_time = new SimpleDateFormat("hh:mm:ss");
+                assertThat(jwtTokenProvider.createrefreshToken(userid, access_time.format(date)), is(nullValue()));
                 log.info("Refresh your Token");
             }
         } else {

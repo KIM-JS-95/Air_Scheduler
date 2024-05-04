@@ -30,8 +30,8 @@ public class CustomUserDetailService {
     }
 
     @Transactional
-    public User loadUserByToken(String userToken) {
-        User user = userRepository.existsByUserid(userToken) ? userRepository.findByUserid(userToken) : null;
+    public User loadUserByToken(String userid) {
+        User user = userRepository.existsByUserid(userid) ? userRepository.findByUserid(userid) : null;
         return user;
     }
 

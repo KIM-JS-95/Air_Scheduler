@@ -1,32 +1,32 @@
 version: '3.0'
 services:
   evrent1:
-    container_name: evrent1
-    build: .
+    container_name: flight_Schedules
+    build:
+      context: .
+      dockerfile: Dockerfile
     ports:
       - 9090:9090
     environment:
       MYSQL_HOST: mysql
       MYSQL_USER: root
-      MYSQL_PASSWORD: Wotjd@487
-      MYSQL_PORT: 3306
+      MYSQL_PASSWORD: 1q2w3e4r
+      MYSQL_PORT: 3307
     volumes:
-      - .:/usr/src
-    restart:
-      always
+      - .:/app
+    restart: always
     depends_on:
-      - mysql
-    links:
-      - mysql
+      - mysql #DB 먼저 실행
 
   mysql:
     container_name: mysql
     image: mysql
     restart: always
     environment:
-      MYSQL_DATABASE: rent_car
-      MYSQL_ROOT_PASSWORD: Wotjd@487
+      MYSQL_DATABASE: testdb
+      MYSQL_ROOT_PASSWORD: 1q2w3e4r
     volumes:
-      - "/var/lib/mysql:/docker-entrypoint-initdb.d"
+      - ./db/mysql/data:/var/lib/mysql
+      - ./db/mysql/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
     ports:
       - 3307:3306

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="org.air.entity.MessegeTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2024-05-05T07:02:50" hostname="DESKTOP-MCHQU2R" time="0.006">
+  <properties/>
+  <testcase name="massege()" classname="org.air.entity.MessegeTest" time="0.006"/>
+  <system-out><![CDATA[2024-05-05 16:02:50.445  INFO 22220 --- [    Test worker] org.air.entity.MessegeTest               : Messege(statuscode=001, message=123)
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

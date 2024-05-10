@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="org.air.config.CustomCodeTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2024-05-05T07:02:38" hostname="DESKTOP-MCHQU2R" time="0.001">
-  <properties/>
-  <testcase name="error1()" classname="org.air.config.CustomCodeTest" time="0.001"/>
-  <system-out><![CDATA[null
-]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>

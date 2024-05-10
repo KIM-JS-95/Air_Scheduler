@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="feature-sqlite3_flutter_libs">
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/Air_Scheduler/Schdulesapp/build/sqlite3_flutter_libs/intermediates/merged_java_res/release/feature-sqlite3_flutter_libs.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>

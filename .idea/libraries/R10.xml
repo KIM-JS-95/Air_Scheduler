@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="R10">
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/Air_Scheduler/Schdulesapp/build/flutter_plugin_android_lifecycle/intermediates/compile_r_class_jar/release/R.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>

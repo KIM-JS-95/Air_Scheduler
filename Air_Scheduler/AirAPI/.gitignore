@@ -1,6 +1,0 @@
-/build
-
-.idea/
-.gradle/
-/src/test
-application.properties

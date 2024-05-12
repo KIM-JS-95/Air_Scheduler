@@ -12,15 +12,21 @@ services:
       MYSQL_USER: root
       MYSQL_PASSWORD: 1q2w3e4r
       MYSQL_PORT: 3307
-    volumes:
-      - .:/app
     restart: always
     depends_on:
-      - mysql #DB 먼저 실행
+      - mysql
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+        reservations:
+          cpus: '0.25'
+          memory: 256M
 
   mysql:
     container_name: mysql
-    image: mysql
+    image: mysql:5.7
     restart: always
     environment:
       MYSQL_DATABASE: testdb
@@ -30,3 +36,11 @@ services:
       - ./db/mysql/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
     ports:
       - 3307:3306
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+        reservations:
+          cpus: '0.25'
+          memory: 256M

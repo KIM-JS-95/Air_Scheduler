@@ -1,2 +1,6 @@
-Air_Scheduler/AirAPI/build/reports/tests/test
+Air_Scheduler/AirAPI/build
 Air_Scheduler/AirAPI/src/main/resources/application.properties
+
+Air_Scheduler/AirAPI/src/test
+Air_Scheduler/AirAPI/.idea/
+Air_Scheduler/AirAPI/.gradle/

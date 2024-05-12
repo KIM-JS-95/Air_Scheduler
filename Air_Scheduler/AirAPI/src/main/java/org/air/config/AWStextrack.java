@@ -14,7 +14,10 @@ import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.textract.TextractClient;
 import software.amazon.awssdk.services.textract.model.*;
 
+import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -64,10 +67,12 @@ public class AWStextrack {
 
             docInfo = analyzeDocument.blocks();
 
-            docInfo.forEach(block -> logger.info("Block: {}", block.text()));
+            Files.write(Paths.get("output.txt"), docInfo.toString().getBytes());
 
         } catch (TextractException e) {
             logger.error("Error analyzing document: {}", e.getMessage(), e);
+        } catch (Exception  e) {
+            logger.error("General error: " + e.getMessage());
         }
         return docInfo;
     }

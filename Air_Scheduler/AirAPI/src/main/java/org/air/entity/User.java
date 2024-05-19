@@ -22,6 +22,7 @@ public class User {
     private String picUrl;
     private String password;
 
+    private String device_token;
     @Transient
     private boolean enabled;
 

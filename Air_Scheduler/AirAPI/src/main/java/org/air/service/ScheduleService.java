@@ -35,6 +35,9 @@ public class ScheduleService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private FcmServiceImpl fcmService;
+
     public List<ScheduleDTO> getTodaySchedules(String startDate) {
         List<Schedule> schedules = scheduleRepository.findByDate(startDate);
 
@@ -117,7 +120,6 @@ public class ScheduleService {
     public CustomCode modify(Long id, Schedule update_schedule) {
         Schedule schedule = scheduleRepository.findById(id).orElseThrow();
         try {
-            // Dirty checking 은 전체 필드를 update 하는 방식을 기본으로 사용함
             schedule.setDate(update_schedule.getDate());
             schedule.setPairing(update_schedule.getPairing());
             schedule.setDc(update_schedule.getDc());
@@ -135,12 +137,26 @@ public class ScheduleService {
 
             schedule.setAchotel(update_schedule.getAchotel());
             schedule.setBlk(update_schedule.getBlk());
+
+            String title = "🛩️ 비행 일정이 변경되었어요! 🛩️";
+            String body = "- 날짜: "+update_schedule.getDate()+"\n- 목적지: "+ update_schedule.getCntTo();
+
+            FcmSendDto fcmSendDto = FcmSendDto.builder()
+                    .token(schedule.getUser().getDevice_token())
+                    .title(title)
+                    .body(body)
+                    .build();
+
+            // 알림 보내기
+            fcmService.sendMessageTo(fcmSendDto);
+
             return new CustomCode(StatusEnum.OK);
         } catch (Exception e) {
             return new CustomCode(StatusEnum.BAD_REQUEST);
         }
     }
 
+    // 파일럿 일정 전체 삭제
     public boolean delete(String userid) {
         try {
             scheduleRepository.deleteAllByUserPilotcode(userid);

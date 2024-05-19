@@ -26,6 +26,7 @@ public class CustomUserDetailService {
         User user = userRepository.existsByUseridAndPassword(login_user.getUserid(), login_user.getPassword())
                 ? userRepository.findByUseridAndPassword(login_user.getUserid(), login_user.getPassword()) : null;
 
+        user.setDevice_token(login_user.getDevice_token());
         return user;
     }
 
@@ -51,22 +52,15 @@ public class CustomUserDetailService {
     // token save
     @Transactional
     public boolean token_save(User user, String token) {
-        // 없는 유저라면 토큰을 저장하고
-        // 로그인중인 유저라면 토큰을 update
-        if (user.getRefresh() == null) {
             Refresh refreshToken = Refresh.builder()
                     .id(0)
                     .token(token)
                     .build();
             tokenRepository.save(refreshToken);
-            return true;
 
-        } else {
             User user1 = userRepository.findByUserid(user.getUserid());
             user1.getRefresh().setToken(token);
             return true;
-        }
-
     }
 
     @Transactional

@@ -2,10 +2,12 @@ package org.air.controller;
 
 import org.air.config.CustomCode;
 import org.air.config.HeaderSetter;
+import org.air.entity.FcmSendDto;
 import org.air.entity.Messege;
 import org.air.entity.Schedule;
 import org.air.entity.StatusEnum;
 import org.air.jwt.JwtTokenProvider;
+import org.air.service.FcmServiceImpl;
 import org.air.service.ScheduleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;

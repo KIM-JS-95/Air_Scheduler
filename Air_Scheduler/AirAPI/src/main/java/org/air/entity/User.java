@@ -1,6 +1,7 @@
 package org.air.entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.google.firebase.database.annotations.NotNull;
 import lombok.*;
 
 import javax.persistence.*;
@@ -16,13 +17,21 @@ public class User {
     @Id
     private String pilotcode;
 
+    @NotNull
     private String userid;
-    private String email;
-    private String name;
-    private String picUrl;
+
+    @NotNull
     private String password;
 
+    private String email;
+
+    private String name;
+    private String picUrl;
+
     private String device_token;
+
+    private String family;
+
     @Transient
     private boolean enabled;
 

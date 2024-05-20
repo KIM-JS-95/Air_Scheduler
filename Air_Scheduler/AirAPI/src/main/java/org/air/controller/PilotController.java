@@ -43,15 +43,16 @@ public class PilotController {
     @Autowired
     private  JwtTokenProvider jwtTokenProvider;
 
-    @PostMapping("/getschedule")
+    @PostMapping("/getschedule")  // 날짜 선택
     public ResponseEntity getSchedules(HttpServletRequest request,
                                        @RequestBody Map<String, String> requestBody) throws ParseException {
 
         String token = request.getHeader("Authorization");
+        String userid = jwtTokenProvider.getUserPk(token);
         String receivedDateTime = requestBody.get("dateTime");
 
         HeaderSetter headers = new HeaderSetter();
-        List<ScheduleDTO> list = scheduleService.getTodaySchedules(receivedDateTime);
+        List<ScheduleDTO> list = scheduleService.getTodaySchedules(userid, receivedDateTime);
 
         if(list.isEmpty()){
             return ResponseEntity
@@ -65,15 +66,17 @@ public class PilotController {
         }
     }
 
-    @PostMapping("/gettodayschedule") // today or specific date
+    @PostMapping("/gettodayschedule") // today
     public ResponseEntity gettodayschedule(HttpServletRequest request) throws ParseException {
         HeaderSetter headers = new HeaderSetter();
         String token = request.getHeader("Authorization");
+        String userid = jwtTokenProvider.getUserPk(token);
+
         SimpleDateFormat dateFormat = new SimpleDateFormat("ddMMMyy", Locale.ENGLISH);
         dateFormat.setTimeZone(TimeZone.getTimeZone("Asia/Seoul"));
         String startDate = dateFormat.format(new Date());
 
-        List<ScheduleDTO> list = scheduleService.getTodaySchedules(startDate);
+        List<ScheduleDTO> list = scheduleService.getTodaySchedules(userid, startDate);
         if(list.isEmpty()){
             return ResponseEntity
                     .status(Integer.parseInt(StatusEnum.NOT_FOUND.getStatusCode()))
@@ -86,7 +89,7 @@ public class PilotController {
         }
     }
 
-    @PostMapping("/showschedules")
+    @PostMapping("/showschedules") // 모든 일정
     public ResponseEntity showAllSchedules(HttpServletRequest request) {
         HeaderSetter headers = new HeaderSetter();
         String token = request.getHeader("Authorization");
@@ -106,7 +109,7 @@ public class PilotController {
         }
     }
 
-    @PostMapping("/viewschedule")
+    @PostMapping("/viewschedule") // 일정 상세보기
     public ResponseEntity viewSchedule(HttpServletRequest request, @RequestBody Map<String, String> requestBody){
         HeaderSetter headers = new HeaderSetter();
         String token = request.getHeader("Authorization");
@@ -126,7 +129,7 @@ public class PilotController {
         }
     }
 
-    @GetMapping("/getnationcode") // today or specific date
+    @GetMapping("/getnationcode") // 에어포트 위치 정보
     public ResponseEntity getnationcode(HttpServletRequest request) throws ParseException {
         String token = request.getHeader("Authorization");
         HeaderSetter headers = new HeaderSetter();

@@ -25,7 +25,6 @@ public class CustomUserDetailService {
     public User loadUserByUser(User login_user) {
         User user = userRepository.existsByUseridAndPassword(login_user.getUserid(), login_user.getPassword())
                 ? userRepository.findByUseridAndPassword(login_user.getUserid(), login_user.getPassword()) : null;
-
         user.setDevice_token(login_user.getDevice_token());
         return user;
     }

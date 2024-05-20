@@ -70,7 +70,7 @@ public class JwtTokenProvider {
         User user = customUserDetailService.loadUserByToken(this.getUserPk(token));
         String authority = user.getAuthority().getAuthority();
 
-        List<String> allowedRoles = Arrays.asList("USER", "ADMIN");
+        List<String> allowedRoles = Arrays.asList("USER", "ADMIN", "FAMILY");
         if (!allowedRoles.contains(authority.toUpperCase())) {
             throw new SecurityException("Access Denied: User does not have the required authority");
         }

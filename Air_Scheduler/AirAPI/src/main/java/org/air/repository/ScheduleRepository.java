@@ -1,6 +1,7 @@
 package org.air.repository;
 
 import org.air.entity.Schedule;
+import org.air.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -15,7 +16,6 @@ import java.util.Optional;
 public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
     // 수정
     Optional<Schedule> findById(Long id);
-
     // 일정 저장
     @Query("SELECT s FROM Schedule s WHERE s.date >= :startDate AND s.date <= :endDate")
     List<Schedule> findByDateBetween(@Param("startDate") String startDate, @Param("endDate") String endDate);
@@ -37,5 +37,8 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
 
 
     List<Schedule> findByUserPilotcode(String pilotcode);
+
+    @Query("SELECT s FROM Schedule s WHERE s.user = :user AND s.date = :date")
+    List<Schedule> findByUserAndDate(@Param("user") User user, @Param("date") String date);
 
 }

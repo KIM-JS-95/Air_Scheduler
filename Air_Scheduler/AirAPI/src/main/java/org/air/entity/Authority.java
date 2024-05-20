@@ -15,6 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 public class Authority {
 
+    // USER / FAMILY / ADMIN
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;

@@ -38,36 +38,25 @@ public class ScheduleService {
     @Autowired
     private FcmServiceImpl fcmService;
 
-    public List<ScheduleDTO> getTodaySchedules(String startDate) {
-        List<Schedule> schedules = scheduleRepository.findByDate(startDate);
+    @Transactional
+    public List<ScheduleDTO> getTodaySchedules(String userid, String startDate) {
+        User user = userRepository.findByUserid(userid);
+        String auth = user.getAuthority().getAuthority();
+
+        List<Schedule> schedules = new ArrayList<>();
+        if(auth.equals("USER")) {
+            schedules = scheduleRepository.findByUserAndDate(user, startDate);
+        }else if(auth.equals("FAMILY")){
+            User family = userRepository.findByPilotcode(user.getFamily());
+            schedules = scheduleRepository.findByUserAndDate(family, startDate);
+        }
 
         AtomicReference<String> previousDateRef = new AtomicReference<>();
         Stream<ScheduleDTO> updatedStream = schedules.stream()
                 .map(s -> {
                     String date = s.getDate();
                     if (s.getDate() == null) {
-                        // date가 비어 있으면 이전 값을 사용
-                        s.setDate(previousDateRef.get());
-                    } else {
-                        previousDateRef.set(date);
-                    }
-                    return s.toDTO();
-                });
-        // 스트림을 리스트로 변환 (optional)
-        List<ScheduleDTO> updatedSchedules = updatedStream.collect(Collectors.toList());
-        return updatedSchedules;
-    }
-
-    public List<ScheduleDTO> getSchedulesBydate(String sdate, String edate) {
-        List<Schedule> schedules = scheduleRepository.findByDateBetween(sdate, edate);
-
-        AtomicReference<String> previousDateRef = new AtomicReference<>();
-        Stream<ScheduleDTO> updatedStream = schedules.stream()
-                .map(s -> {
-                    String date = s.getDate();
-                    if (s.getDate() == null) {
-                        // date가 비어 있으면 이전 값을 사용
-                        s.setDate(previousDateRef.get());
+                        s.setDate(previousDateRef.get()); // date가 비어 있으면 이전 값을 사용
                     } else {
                         previousDateRef.set(date);
                     }
@@ -78,20 +67,30 @@ public class ScheduleService {
         return updatedSchedules;
     }
 
+    // 이건 당장 구분 안해줘도 될듯
     public ScheduleDTO getViewSchedule(String userid, Long id){
         Schedule schedule = scheduleRepository.findById(id).orElseThrow();
         return schedule.toDTO();
     }
     public List<ScheduleDTO> getAllSchedules(String userid) {
         User user = userRepository.findByUserid(userid);
-        List<Schedule> schedules = scheduleRepository.findByUserPilotcode(user.getPilotcode());
+        String auth = user.getAuthority().getAuthority();
+
+        List<Schedule> schedules = new ArrayList<>();
+        if(auth.equals("USER")) {
+            schedules = scheduleRepository.findByUserPilotcode(user.getPilotcode());
+        }else if(auth.equals("FAMILY")){
+            schedules = scheduleRepository.findByUserPilotcode(user.getFamily());
+        }
         Stream<ScheduleDTO> updatedStream = schedules.stream()
                 .map(s -> {
                     return s.toDTO();
                 });
+
         return updatedStream.collect(Collectors.toList());
     }
 
+    // -------------------------- 일정 수정 삭제 저장 --------------------------
     @Transactional
     public List<Schedule> schedule_save(List<Schedule> schedules, String userid) {
 

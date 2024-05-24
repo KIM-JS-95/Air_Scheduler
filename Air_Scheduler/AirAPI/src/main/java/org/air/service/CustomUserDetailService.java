@@ -25,11 +25,20 @@ public class CustomUserDetailService {
 
     @Transactional
     public User loadUserByUser(User login_user) {
-        User user = userRepository.existsByUseridAndPassword(login_user.getUserid(), login_user.getPassword())
-                ? userRepository.findByUseridAndPassword(login_user.getUserid(), login_user.getPassword()) : null;
-        user.setDevice_token(login_user.getDevice_token());
-        return user;
+        // 사용자가 존재하는지 확인
+        boolean userExists = userRepository.existsByUseridAndPassword(login_user.getUserid(), login_user.getPassword());
+        if (userExists) {
+            // 사용자가 존재하면 정보를 가져옴
+            User user = userRepository.findByUseridAndPassword(login_user.getUserid(), login_user.getPassword());
+            // 가져온 사용자 객체에 기기 토큰 설정
+            user.setDevice_token(login_user.getDevice_token());
+            return user;
+        } else {
+            // 사용자가 존재하지 않으면 null 반환
+            return null;
+        }
     }
+
 
     @Transactional
     public User loadUserByToken(String userid) {

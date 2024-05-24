@@ -47,6 +47,8 @@ public class FcmServiceImpl {
         List<String> deviceTokens = users.stream()
                 .map(User::getDevice_token)
                 .collect(Collectors.toList());
+        deviceTokens.add(user.getDevice_token());
+
         if(!deviceTokens.isEmpty()) {
             // Create the multicast message
             MulticastMessage message = MulticastMessage.builder()

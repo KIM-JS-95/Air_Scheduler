@@ -1,29 +1,32 @@
 package org.air.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.auth.oauth2.AccessToken;
 import com.google.auth.oauth2.GoogleCredentials;
-import org.air.entity.FcmMessageDto;
-import org.air.entity.FcmSendDto;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.http.*;
+import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.firebase.messaging.FirebaseMessagingException;
+import com.google.firebase.messaging.MulticastMessage;
+import com.google.firebase.messaging.Notification;
+import org.air.entity.User;
+import org.air.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class FcmServiceImpl {
 
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private GoogleCredentials googleCredentials;
+
     private String getAccessToken() throws IOException {
-        String firebaseConfigPath = "firebase/auth.json";
-
-        GoogleCredentials googleCredentials = GoogleCredentials
-                .fromStream(new ClassPathResource(firebaseConfigPath).getInputStream())
-                .createScoped(List.of("https://www.googleapis.com/auth/cloud-platform"));
-
         googleCredentials.refreshIfExpired();
         AccessToken accessToken = googleCredentials.getAccessToken();
         if (accessToken == null) {
@@ -32,40 +35,42 @@ public class FcmServiceImpl {
         return accessToken.getTokenValue();
     }
 
+    public int sendMessageTo(String date, String cntto, User user) throws FirebaseMessagingException {
+        Logger logger = LoggerFactory.getLogger(getClass());
 
-    private String makeMessage(FcmSendDto fcmSendDto) throws JsonProcessingException {
-        ObjectMapper om = new ObjectMapper();
-        FcmMessageDto fcmMessageDto = FcmMessageDto.builder()
-                .message(FcmMessageDto.Message.builder()
-                        .token(fcmSendDto.getToken())
-                        .notification(FcmMessageDto.Notification.builder()
-                                .title(fcmSendDto.getTitle())
-                                .body(fcmSendDto.getBody())
-                                .image(null)
-                                .build()
-                        ).build()).validateOnly(false).build();
+        List<User> users = userRepository.findByFamily(user.getPilotcode());
 
-        return om.writeValueAsString(fcmMessageDto);
+        String title = "🛩️ 비행 일정이 변경되었어요! 🛩️";
+        String body = "- 날짜: " + date + "\n- 목적지: " + cntto;
+
+        // Collect all device tokens from users
+        List<String> deviceTokens = users.stream()
+                .map(User::getDevice_token)
+                .collect(Collectors.toList());
+
+        // Create the multicast message
+        MulticastMessage message = MulticastMessage.builder()
+                .setNotification(Notification.builder()
+                        .setTitle(title)
+                        .setBody(body)
+                        .build())
+                .addAllTokens(deviceTokens)
+                .build();
+
+        // Send the multicast message
+        FirebaseMessaging.getInstance().sendMulticast(message);
+
+        // Log the results and count the successful sends
+        int successCount = 0;
+        for (String token : deviceTokens) {
+            try {
+                logger.info("Message sent to token: " + token);
+                successCount++;
+            } catch (Exception e) {
+                logger.error("Failed to send message to token: " + token, e);
+            }
+        }
+
+        return successCount;
     }
-
-    public int sendMessageTo(FcmSendDto fcmSendDto) throws IOException {
-
-        String message = makeMessage(fcmSendDto);
-        RestTemplate restTemplate = new RestTemplate();
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.set("Authorization", "Bearer " + getAccessToken());
-
-        HttpEntity entity = new HttpEntity<>(message, headers);
-
-        String API_URL = "https://fcm.googleapis.com/v1/projects/schedulenotification-f09d4/messages:send";
-        ResponseEntity response = restTemplate.exchange(API_URL, HttpMethod.POST, entity, String.class);
-
-        System.out.println(response.getStatusCode());
-
-        return response.getStatusCode() == HttpStatus.OK ? 1 : 0;
-    }
-
-
 }

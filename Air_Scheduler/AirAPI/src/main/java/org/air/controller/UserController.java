@@ -119,9 +119,8 @@ public class UserController {
     public ResponseEntity logout(HttpServletRequest request) {
         String token = request.getHeader("Authorization");
         String user_string = jwtTokenProvider.getUserPk(token); // body: userid
-        User user = customUserDetailService.loadUserByToken(user_string);
 
-        if (customUserDetailService.logout(user.getUserid())) {
+        if (customUserDetailService.logout(user_string)) {
             return ResponseEntity.ok()
                     .headers(headerSetter.haederSet(token, "logout fail"))
                     .body("");

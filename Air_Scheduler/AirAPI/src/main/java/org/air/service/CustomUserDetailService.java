@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 
 @Slf4j
 @Service
@@ -51,15 +53,22 @@ public class CustomUserDetailService {
     // token save
     @Transactional
     public boolean token_save(User user, String token) {
-            Refresh refreshToken = Refresh.builder()
-                    .id(0)
+        User member = userRepository.findByUserid(user.getUserid());
+        if (member == null) {
+            throw new IllegalArgumentException("User not found");
+        }
+        Refresh refreshToken = member.getRefresh();
+        if (refreshToken == null) { // 토큰이 없으면
+            refreshToken = Refresh.builder()
                     .token(token)
                     .build();
-            tokenRepository.save(refreshToken);
-
-            User user1 = userRepository.findByUserid(user.getUserid());
-            user1.getRefresh().setToken(token);
-            return true;
+            refreshToken = tokenRepository.save(refreshToken); // Refresh 엔티티를 먼저 저장
+            member.setRefresh(refreshToken);
+        } else { // 토큰이 있다면
+            refreshToken.setToken(token);
+        }
+        userRepository.save(member); // User 엔티티를 저장하여 외래 키 관계를 업데이트
+        return true;
     }
 
     @Transactional
@@ -71,13 +80,19 @@ public class CustomUserDetailService {
             user.setEmail(user_modify.getEmail());
             user.setPassword(user_modify.getPassword());
             return true;
-        }catch (Exception e){
+        } catch (Exception e) {
             return false;
         }
     }
 
     // findByToken
-    public boolean logout(String userid) {
+    @Transactional
+    public boolean logout(String user_string) {
+        User user = userRepository.findByUserid(user_string);
+        System.out.println(user.toString());
+        Integer token_id = user.getRefresh().getId();
+        user.setRefresh(null);
+        tokenRepository.deleteById(token_id);
         return true;
     }
 

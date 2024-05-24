@@ -83,7 +83,7 @@ public class ScheduleController {
     public ResponseEntity modify(HttpServletRequest request, @RequestBody Schedule schedule) {
         String token = request.getHeader("Authorization");
         HeaderSetter headerSetter = new HeaderSetter();
-        CustomCode customCode = scheduleService.modify(schedule.getId(), schedule);
+        CustomCode customCode = scheduleService.modify(schedule);
 
         return ResponseEntity
                 .status(Integer.parseInt(customCode.getStatus().getStatusCode()))

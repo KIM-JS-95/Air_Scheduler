@@ -47,19 +47,19 @@ public class FcmServiceImpl {
         List<String> deviceTokens = users.stream()
                 .map(User::getDevice_token)
                 .collect(Collectors.toList());
+        if(!deviceTokens.isEmpty()) {
+            // Create the multicast message
+            MulticastMessage message = MulticastMessage.builder()
+                    .setNotification(Notification.builder()
+                            .setTitle(title)
+                            .setBody(body)
+                            .build())
+                    .addAllTokens(deviceTokens)
+                    .build();
 
-        // Create the multicast message
-        MulticastMessage message = MulticastMessage.builder()
-                .setNotification(Notification.builder()
-                        .setTitle(title)
-                        .setBody(body)
-                        .build())
-                .addAllTokens(deviceTokens)
-                .build();
-
-        // Send the multicast message
-        FirebaseMessaging.getInstance().sendMulticast(message);
-
+            // Send the multicast message
+            FirebaseMessaging.getInstance().sendMulticast(message);
+        }
         // Log the results and count the successful sends
         int successCount = 0;
         for (String token : deviceTokens) {

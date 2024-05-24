@@ -14,8 +14,7 @@ import java.util.Optional;
 
 @Repository
 public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
-    // 수정
-    Optional<Schedule> findById(Long id);
+
     // 일정 저장
     @Query("SELECT s FROM Schedule s WHERE s.date >= :startDate AND s.date <= :endDate")
     List<Schedule> findByDateBetween(@Param("startDate") String startDate, @Param("endDate") String endDate);

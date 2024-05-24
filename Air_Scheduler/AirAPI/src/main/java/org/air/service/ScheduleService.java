@@ -44,9 +44,9 @@ public class ScheduleService {
         String auth = user.getAuthority().getAuthority();
 
         List<Schedule> schedules = new ArrayList<>();
-        if(auth.equals("USER")) {
+        if (auth.equals("USER")) {
             schedules = scheduleRepository.findByUserAndDate(user, startDate);
-        }else if(auth.equals("FAMILY")){
+        } else if (auth.equals("FAMILY")) {
             User family = userRepository.findByPilotcode(user.getFamily());
             schedules = scheduleRepository.findByUserAndDate(family, startDate);
         }
@@ -68,18 +68,19 @@ public class ScheduleService {
     }
 
     // 이건 당장 구분 안해줘도 될듯
-    public ScheduleDTO getViewSchedule(String userid, Long id){
+    public ScheduleDTO getViewSchedule(String userid, Long id) {
         Schedule schedule = scheduleRepository.findById(id).orElseThrow();
         return schedule.toDTO();
     }
+
     public List<ScheduleDTO> getAllSchedules(String userid) {
         User user = userRepository.findByUserid(userid);
         String auth = user.getAuthority().getAuthority();
 
         List<Schedule> schedules = new ArrayList<>();
-        if(auth.equals("USER")) {
+        if (auth.equals("USER")) {
             schedules = scheduleRepository.findByUserPilotcode(user.getPilotcode());
-        }else if(auth.equals("FAMILY")){
+        } else if (auth.equals("FAMILY")) {
             schedules = scheduleRepository.findByUserPilotcode(user.getFamily());
         }
         Stream<ScheduleDTO> updatedStream = schedules.stream()
@@ -116,32 +117,39 @@ public class ScheduleService {
     }
 
     @Transactional
-    public CustomCode modify(Long id, Schedule update_schedule) {
-        Schedule schedule = scheduleRepository.findById(id).orElseThrow();
-        try {
-            schedule.setDate(update_schedule.getDate());
-            schedule.setPairing(update_schedule.getPairing());
-            schedule.setDc(update_schedule.getDc());
-            schedule.setCi(update_schedule.getCi());
-            schedule.setCo(update_schedule.getCo());
-            schedule.setActivity(update_schedule.getActivity());
+    public CustomCode modify(Schedule update_schedule) {
+        Optional<Schedule> optionalSchedule = scheduleRepository.findById(update_schedule.getId());
 
-            schedule.setCntFrom(update_schedule.getCntFrom());
-            schedule.setStdL(update_schedule.getStdL());
-            schedule.setStdB(update_schedule.getStdB());
+        if (optionalSchedule.isPresent()) {
+            Schedule schedule = optionalSchedule.get();
+            try {
+                schedule.setDate(update_schedule.getDate());
+                schedule.setPairing(update_schedule.getPairing());
+                schedule.setDc(update_schedule.getDc());
+                schedule.setCi(update_schedule.getCi());
+                schedule.setCo(update_schedule.getCo());
+                schedule.setActivity(update_schedule.getActivity());
 
-            schedule.setCntTo(update_schedule.getCntTo());
-            schedule.setStaL(update_schedule.getStaL());
-            schedule.setStaB(update_schedule.getStaB());
+                schedule.setCntFrom(update_schedule.getCntFrom());
+                schedule.setStdL(update_schedule.getStdL());
+                schedule.setStdB(update_schedule.getStdB());
 
-            schedule.setAchotel(update_schedule.getAchotel());
-            schedule.setBlk(update_schedule.getBlk());
+                schedule.setCntTo(update_schedule.getCntTo());
+                schedule.setStaL(update_schedule.getStaL());
+                schedule.setStaB(update_schedule.getStaB());
 
-            fcmService.sendMessageTo( update_schedule.getDate(), update_schedule.getCntTo(), schedule.getUser());
+                schedule.setAchotel(update_schedule.getAchotel());
+                schedule.setBlk(update_schedule.getBlk());
 
-            return new CustomCode(StatusEnum.OK);
-        } catch (Exception e) {
-            return new CustomCode(StatusEnum.BAD_REQUEST);
+                int messageTo = fcmService.sendMessageTo(update_schedule.getDate(), update_schedule.getCntTo(), schedule.getUser());
+                System.out.println(messageTo);
+                return new CustomCode(StatusEnum.OK);
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+                return new CustomCode(StatusEnum.BAD_REQUEST);
+            }
+        }else {
+            return new CustomCode(StatusEnum.NOT_FOUND); // 혹은 다른 적절한 예외를 던지도록 처리
         }
     }
 

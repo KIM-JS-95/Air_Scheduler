@@ -107,7 +107,7 @@ public class ScheduleService {
                 }
                 schedules.get(i).setUser(user); // 일정의 주인 추가
             }
-            scheduleRepository.deleteAllByUserPilotcode(userid); // 기존 일정은 모두 삭제
+            //scheduleRepository.deleteAllByUserPilotcode(userid); // 기존 일정은 모두 삭제
             List<Schedule> result = scheduleRepository.saveAll(schedules);
             return result;
         } catch (RuntimeException e) {

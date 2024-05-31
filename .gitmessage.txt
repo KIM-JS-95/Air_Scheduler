@@ -2,19 +2,22 @@
 
 [FEAT]:
 - Request File(Cropped Schedule Image) Save
-- 스케쥴 저장, 수정 및 삭제 로직
+- 스케쥴 저장, 수정 및 삭제 로직 개선
 
 [FIX]:
-
 - (24.03.22) 개편된 일정표 이미지 정보 형식 수정
-
-
-[DOCS]:
 
 ################
 
 [REFACTOR]:
-- Schedule Save function 개선
+- 일정 저장시 실패 처리 (24.05.31)
+    - textreck 된 데이터를 json으로 저장 처리 하여 이후 저장 재시도시 중복 알림 처리
+
+- 스케줄 출력부분 및 국가 정보(Nation_Code) 획득 로직 개선 (24.05.31)
+    - GET getNationCode() 요청부분을 beck-end에서 처리되도록 개선
+
+- 일정등록 알림 추가 (24.05.31)
+    - FCM 당사자 및 연관 인물에게 모두 전송되도록 기능 추가
 
 ################
 
@@ -22,5 +25,18 @@
 
 ################
 
-[test]:
-- (24.03.20) Controller_Test > MVC 테스드 기능 추가 : HTTP Status code 추가
+[TO-DO]
+- Cumtomer
+    - Back-end
+        - 주기적으로 일정 삭제
+        - 회원 삭제시 일정삭제
+
+    - Front-end
+        - 날씨 새로고침 추가
+- Admin
+    - Back-end
+        - 회원가입
+        - 일정 수정
+
+    - Front-end
+        - 애드

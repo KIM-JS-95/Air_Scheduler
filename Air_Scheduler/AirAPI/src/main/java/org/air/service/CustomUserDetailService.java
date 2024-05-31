@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.air.entity.Authority;
 import org.air.entity.Refresh;
 import org.air.entity.User;
+import org.air.repository.AuthorityRepository;
 import org.air.repository.TokenRepository;
 import org.air.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,9 @@ public class CustomUserDetailService {
 
     @Autowired
     private TokenRepository tokenRepository;
+
+    @Autowired
+    private AuthorityRepository authorityRepository;
 
     @Transactional
     public User loadUserByUser(User login_user) {
@@ -48,15 +52,27 @@ public class CustomUserDetailService {
 
     public boolean save(User user) {
         try {
-            Authority authority = Authority.builder()
-                    .authority("ROLE_USER")
-                    .build();
-            user.setAuthority(authority);
             userRepository.save(user);
-            return true;
         } catch (Exception e) {
             return false;
         }
+        return true;
+    }
+
+    public int getSchedule_chk(String userid){
+        User user = userRepository.findByUserid(userid);
+        int check = user.getSchedule_chk();
+        return check;
+    }
+    @Transactional
+    public boolean set_schedule_status(String userid, int month) {
+        try {
+            User user = userRepository.findByUserid(userid);
+            user.setSchedule_chk(month);
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
     }
 
     // token save

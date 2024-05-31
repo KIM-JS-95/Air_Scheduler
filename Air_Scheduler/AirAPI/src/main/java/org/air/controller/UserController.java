@@ -38,6 +38,8 @@ public class UserController {
     // 회원가입
     @PostMapping("/join")
     public ResponseEntity join(@RequestBody User user) {
+        // 1: ROLE_USER 2: ROLE_FAMILY 3:ROLE_ADMIN
+
         // 회원가입 성공시 로그인 페이지로 이동시켜주기
         if (customUserDetailService.save(user)) {
             return ResponseEntity
@@ -52,10 +54,7 @@ public class UserController {
 
     // 로그인
     @PostMapping("/login")
-    public ResponseEntity login(HttpServletRequest request, @RequestBody User user) {
-
-        Date date = new Date();
-        SimpleDateFormat access_time = new SimpleDateFormat("hh:mm:ss");
+    public ResponseEntity login( @RequestBody User user) {
         User member = customUserDetailService.loadUserByUser(user);
 
         if (member == null) {
@@ -64,6 +63,8 @@ public class UserController {
                     .body("");
         }
 
+        Date date = new Date();
+        SimpleDateFormat access_time = new SimpleDateFormat("hh:mm:ss");
         String token = jwtTokenProvider.createToken(member.getUserid(), access_time.format(date));
 
         customUserDetailService.token_save(member, token);
@@ -74,8 +75,8 @@ public class UserController {
     }
 
     @PostMapping("/user_modify")
-    public ResponseEntity modify(HttpServletRequest request, @RequestBody User user) {
-        String token = request.getHeader("Authorization");
+    public ResponseEntity modify(@RequestHeader("Authorization") String token, @RequestBody User user) {
+
         String user_string = jwtTokenProvider.getUserPk(token); // body: userid
         boolean flag = customUserDetailService.modify(user, user_string);
         if (flag) {
@@ -97,9 +98,7 @@ public class UserController {
 
 
     @PostMapping("/getuserinfobyToken")
-    public ResponseEntity getUserinfo(HttpServletRequest request) {
-
-        String token = request.getHeader("Authorization");
+    public ResponseEntity getUserinfo(@RequestHeader("Authorization") String token) {
         String user_token = jwtTokenProvider.getUserPk(token); // body: userid
         User user = customUserDetailService.loadUserByToken(user_token);
 
@@ -116,9 +115,8 @@ public class UserController {
 
     // 로그아웃 (서블렛 토큰 제거)
     @PostMapping("/logout")
-    public ResponseEntity logout(HttpServletRequest request) {
-        String token = request.getHeader("Authorization");
-        String user_string = jwtTokenProvider.getUserPk(token); // body: userid
+    public ResponseEntity logout(@RequestHeader("Authorization") String token) {
+        String user_string = jwtTokenProvider.getUserPk(token);
 
         if (customUserDetailService.logout(user_string)) {
             return ResponseEntity.ok()

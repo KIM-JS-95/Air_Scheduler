@@ -7,6 +7,7 @@ import org.air.entity.Messege;
 import org.air.entity.Schedule;
 import org.air.entity.StatusEnum;
 import org.air.jwt.JwtTokenProvider;
+import org.air.service.CustomUserDetailService;
 import org.air.service.FcmServiceImpl;
 import org.air.service.ScheduleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -34,27 +37,41 @@ public class ScheduleController {
     private ScheduleService scheduleService;
 
     @Autowired
+    private CustomUserDetailService customUserDetailService;
+
+    @Autowired
     private JwtTokenProvider jwtTokenProvider;
+
+    @Autowired
+    private FcmServiceImpl fcmService;
 
     // JPG 로부터 데이터 추출 후 저장
     @PostMapping("/upload")
-    public ResponseEntity upload(HttpServletRequest request, @RequestParam("file") MultipartFile file) {
-        String token = request.getHeader("Authorization");
+    public ResponseEntity upload(@RequestHeader("Authorization") String token, @RequestParam("file") MultipartFile file) {
         String userid = jwtTokenProvider.getUserPk(token);
         HeaderSetter headerSetter = new HeaderSetter();
+        int check = customUserDetailService.getSchedule_chk(userid);
 
+        Date today = new Date();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MM");
+        int month = Integer.parseInt(dateFormat.format(today));
+
+        if (check == month) { // 이미 저장된 일정
+            return ResponseEntity
+                    .status(Integer.parseInt(StatusEnum.TEXTRACK_already_save.getStatusCode()))
+                    .headers(headerSetter.haederSet(token, "Already saved your schedules"))
+                    .body("");
+        }
         try {
-            List<Schedule> schedules = scheduleService.textrack(file.getInputStream());
-            // 201 성공
-            if (!schedules.isEmpty()) {
-                List<Schedule> result = scheduleService.schedule_save(schedules, userid);
+            List<Schedule> schedules = scheduleService.textrack(userid, file.getInputStream());
 
+            if (!schedules.isEmpty()) { // 201 성공
+                List<Schedule> result = scheduleService.schedule_save(schedules, userid);
                 if (result.isEmpty()) { // 저장 실패
                     return ResponseEntity
                             .status(Integer.parseInt(StatusEnum.SAVE_ERROR.getStatusCode()))
                             .headers(headerSetter.haederSet(token, "SAVE ERROR"))
-                            .body(new Messege(StatusEnum.SAVE_ERROR.getStatusCode(),
-                                    StatusEnum.SAVE_ERROR.getMessage()));
+                            .body("");
                 } else { // 저장 성공
                     return ResponseEntity
                             .ok()
@@ -66,22 +83,18 @@ public class ScheduleController {
                 return ResponseEntity
                         .status(Integer.parseInt(StatusEnum.TEXTRACK_EMPTY_ERROR.getStatusCode()))
                         .headers(headerSetter.haederSet(token, "plz, check your Image or Schedule sheet"))
-                        .body(
-                                new Messege(StatusEnum.TEXTRACK_EMPTY_ERROR.getStatusCode(),
-                                        StatusEnum.TEXTRACK_EMPTY_ERROR.getMessage())
-                        );
+                        .body("");
             }
         } catch (Exception e) {
             return ResponseEntity
                     .status(Integer.parseInt(StatusEnum.TEXTRACK_ERROR.getStatusCode()))
                     .headers(headerSetter.haederSet(token, ""))
-                    .body(new Messege(StatusEnum.TEXTRACK_ERROR.getStatusCode(), e.getMessage()));
+                    .body("");
         }
     }
 
     @PostMapping("/modify")
-    public ResponseEntity modify(HttpServletRequest request, @RequestBody Schedule schedule) {
-        String token = request.getHeader("Authorization");
+    public ResponseEntity modify(@RequestHeader("Authorization") String token, @RequestBody Schedule schedule) {
         HeaderSetter headerSetter = new HeaderSetter();
         CustomCode customCode = scheduleService.modify(schedule);
 
@@ -92,8 +105,7 @@ public class ScheduleController {
     }
 
     @DeleteMapping("/delete")
-    public ResponseEntity delete(HttpServletRequest request) {
-        String token = request.getHeader("Authorization");
+    public ResponseEntity delete(@RequestHeader("Authorization") String token) {
         HeaderSetter headerSetter = new HeaderSetter();
         String userid = jwtTokenProvider.getUserPk(token);
 

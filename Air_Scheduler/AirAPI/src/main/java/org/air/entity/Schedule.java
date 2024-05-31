@@ -44,24 +44,4 @@ public class Schedule {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_pilotcode") // 외래 키 컬럼명
     private User user;
-
-    public ScheduleDTO toDTO() {
-        return new ScheduleDTO(
-                this.id,
-                this.date,
-                this.pairing,
-                this.dc,
-                this.ci,
-                this.co,
-                this.activity,
-                this.cntFrom,
-                this.stdL,
-                this.stdB,
-                this.cntTo,
-                this.staL,
-                this.staB,
-                this.achotel,
-                this.blk
-        );
-    }
 }

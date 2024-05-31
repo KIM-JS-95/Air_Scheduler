@@ -1,5 +1,7 @@
 package org.air.service;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.air.config.AWStextrack;
 
 import org.air.config.CustomCode;
@@ -14,14 +16,20 @@ import org.springframework.stereotype.Service;
 import software.amazon.awssdk.services.textract.TextractClient;
 import software.amazon.awssdk.services.textract.model.Block;
 
+import javax.servlet.ServletContext;
 import javax.transaction.Transactional;
+import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import static org.air.config.AWStextrack.saveBlocksToJson;
 
 @Service
 @Configuration
@@ -36,10 +44,17 @@ public class ScheduleService {
     private UserRepository userRepository;
 
     @Autowired
+    private CustomUserDetailService customUserDetailService;
+
+    @Autowired
     private FcmServiceImpl fcmService;
 
-    @Transactional
-    public List<ScheduleDTO> getTodaySchedules(String userid, String startDate) {
+    @Autowired
+    private ServletContext servletContext;
+
+
+    //@Transactional // clear
+    public List<FlightData> getTodaySchedules(String userid, String startDate) {
         User user = userRepository.findByUserid(userid);
         String auth = user.getAuthority().getAuthority();
 
@@ -49,31 +64,37 @@ public class ScheduleService {
         } else if (auth.equals("FAMILY")) {
             User family = userRepository.findByPilotcode(user.getFamily());
             schedules = scheduleRepository.findByUserAndDate(family, startDate);
-        }
+        } else {
+        } // auth.equals("ADMIN")
 
         AtomicReference<String> previousDateRef = new AtomicReference<>();
-        Stream<ScheduleDTO> updatedStream = schedules.stream()
-                .map(s -> {
-                    String date = s.getDate();
-                    if (s.getDate() == null) {
-                        s.setDate(previousDateRef.get()); // date가 비어 있으면 이전 값을 사용
-                    } else {
-                        previousDateRef.set(date);
-                    }
-                    return s.toDTO();
-                });
+        Stream<Schedule> updatedStream = schedules.stream().map(s -> {
+            String date = s.getDate();
+            if (s.getDate() == null) {
+                s.setDate(previousDateRef.get()); // date가 비어 있으면 이전 값을 사용
+            } else {
+                previousDateRef.set(date);
+            }
+            return s;
+        });
+        List<Schedule> updatedSchedules = updatedStream.collect(Collectors.toList());
+        Map<String, Map<String, String>> code = getNationCode();
 
-        List<ScheduleDTO> updatedSchedules = updatedStream.collect(Collectors.toList());
-        return updatedSchedules;
+        return generateFlightData(updatedSchedules, code);
     }
 
-    // 이건 당장 구분 안해줘도 될듯
-    public ScheduleDTO getViewSchedule(String userid, Long id) {
+    // clear
+    public List<FlightData> getViewSchedule(Long id) {
         Schedule schedule = scheduleRepository.findById(id).orElseThrow();
-        return schedule.toDTO();
+
+        // 크기가 고정된 리스트
+        List<Schedule> schedules = Collections.singletonList(schedule);
+        Map<String, Map<String, String>> code = getNationCode();
+        return generateFlightData(schedules, code);
     }
 
-    public List<ScheduleDTO> getAllSchedules(String userid) {
+    // clear
+    public List<FlightData> getAllSchedules(String userid) {
         User user = userRepository.findByUserid(userid);
         String auth = user.getAuthority().getAuthority();
 
@@ -83,20 +104,29 @@ public class ScheduleService {
         } else if (auth.equals("FAMILY")) {
             schedules = scheduleRepository.findByUserPilotcode(user.getFamily());
         }
-        Stream<ScheduleDTO> updatedStream = schedules.stream()
-                .map(s -> {
-                    return s.toDTO();
-                });
 
-        return updatedStream.collect(Collectors.toList());
+        AtomicReference<String> previousDateRef = new AtomicReference<>();
+        Stream<Schedule> updatedStream = schedules.stream().map(s -> {
+            String date = s.getDate();
+            if (s.getDate() == null) {
+                s.setDate(previousDateRef.get()); // date가 비어 있으면 이전 값을 사용
+            } else {
+                previousDateRef.set(date);
+            }
+            return s;
+        });
+
+        List<Schedule> updatedSchedules = updatedStream.collect(Collectors.toList());
+        Map<String, Map<String, String>> code = getNationCode();
+
+        return generateFlightData(updatedSchedules, code);
     }
+
 
     // -------------------------- 일정 수정 삭제 저장 --------------------------
     @Transactional
     public List<Schedule> schedule_save(List<Schedule> schedules, String userid) {
-
         User user = userRepository.findByUserid(userid);
-
         try {
             for (int i = 0; i < schedules.size(); i++) {
                 if (schedules.get(i).getDate() == null && i > 0) {
@@ -109,6 +139,7 @@ public class ScheduleService {
             }
             //scheduleRepository.deleteAllByUserPilotcode(userid); // 기존 일정은 모두 삭제
             List<Schedule> result = scheduleRepository.saveAll(schedules);
+            fcmService.completeSave_Schedule(userid); // 알림
             return result;
         } catch (RuntimeException e) {
             e.printStackTrace(); // 예외 로그 출력
@@ -148,7 +179,7 @@ public class ScheduleService {
                 System.out.println(e.getMessage());
                 return new CustomCode(StatusEnum.BAD_REQUEST);
             }
-        }else {
+        } else {
             return new CustomCode(StatusEnum.NOT_FOUND); // 혹은 다른 적절한 예외를 던지도록 처리
         }
     }
@@ -163,14 +194,21 @@ public class ScheduleService {
         }
     }
 
-    public List<Schedule> textrack(InputStream source) {
+    public List<Schedule> textrack(String userid, InputStream source) throws IOException {
 
         HashMap<String, String> map = new HashMap<>();
         List<Block> list_block = new ArrayList<>();
-        TextractClient textractClient = awstextrack.awsceesser();
-        List<Block> block = AWStextrack.analyzeDoc(textractClient, source);
 
-        block.forEach(callback -> {
+        TextractClient textractClient = awstextrack.awsceesser();
+        List<Block> blocks = AWStextrack.analyzeDoc(textractClient, source);
+        saveBlocksToJson(blocks, "src/main/resources/textreck_schedule" + userid + ".json");
+
+
+        Date today = new Date();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MM");
+        customUserDetailService.set_schedule_status(userid, Integer.parseInt(dateFormat.format(today))); // 일정 상태 저장
+
+        blocks.forEach(callback -> {
             if (Objects.equals(callback.blockType().toString(), "WORD")) {
                 map.put(callback.id(), callback.text());
             } else if (Objects.equals(callback.blockType().toString(), "CELL")) {
@@ -181,10 +219,40 @@ public class ScheduleService {
         return AWStextrack.texttoEntity(map, list_block);
     }
 
+    // -------------------------- Nation_Code Mapping --------------------------
+    public List<FlightData> generateFlightData(List<Schedule> sList, Map<String, Map<String, String>> codes) {
+        List<FlightData> flightDataList = new ArrayList<>();
+
+        for (Schedule s : sList) {
+            String departureShort = s.getCntFrom();
+            String departure = codes.containsKey(s.getCntFrom()) ? codes.get(s.getCntFrom()).get("code") : "Unknown";
+            String date = s.getDate();
+            String destinationShort = s.getCntTo();
+            String destination = codes.containsKey(s.getCntTo()) ? codes.get(s.getCntTo()).get("code") : "Unknown";
+            String flightNumber = s.getPairing();
+            String stal = s.getStaL();
+            String stab = s.getStaB();
+            String stdl = s.getStdL();
+            String stdb = s.getStdB();
+            String activity = s.getActivity();
+            Long id = s.getId();
+            String ci = s.getCi();
+            String co = s.getCo();
+            String lat = codes.containsKey(destinationShort) ? codes.get(destinationShort).get("lat") : "unknown";
+            String lon = codes.containsKey(destinationShort) ? codes.get(destinationShort).get("lon") : "unknown";
+
+            FlightData flightData = new FlightData(departureShort, departure, date, destinationShort, destination,
+                    flightNumber, stal, stab, stdl, stdb, activity, id, ci, co, lat, lon);
+
+            flightDataList.add(flightData);
+        }
+
+        return flightDataList;
+    }
+
     public Map<String, Map<String, String>> getNationCode() {
         List<NationCode> codes = nationCodeRepository.findAll();
         Map<String, Map<String, String>> codeCountryMap = convertToMap(codes);
-
         return codeCountryMap;
     }
 
@@ -198,10 +266,29 @@ public class ScheduleService {
             metadate.put("lon", nationCode.getLon()); // lon
             codeCountryMap.put(nationCode.getCountry(), metadate);
         }
-
         return codeCountryMap;
-
     }
 
+    public List<Block> getScheduleJsonData(String userid, ServletContext context) {
 
+        List<Block> blocks = new ArrayList<>();
+        try {
+            String dir = "/static/img/textreck_schedule/" + userid + ".json";
+            String absoluteDir = context.getRealPath(dir);
+            File jsonFile = new File(absoluteDir);
+
+            if (jsonFile.exists()) {
+                ObjectMapper objectMapper = new ObjectMapper();
+                blocks = objectMapper.readValue(jsonFile, new TypeReference<List<Block>>() {
+                });
+            } else {
+                System.out.println("JSON file not found.");
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return blocks;
+    }
 }

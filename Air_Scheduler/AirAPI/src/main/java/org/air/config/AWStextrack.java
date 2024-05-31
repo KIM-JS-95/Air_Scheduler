@@ -1,6 +1,7 @@
 
 package org.air.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.air.entity.Schedule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,6 +15,7 @@ import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.textract.TextractClient;
 import software.amazon.awssdk.services.textract.model.*;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -67,8 +69,6 @@ public class AWStextrack {
 
             docInfo = analyzeDocument.blocks();
 
-            Files.write(Paths.get("output.txt"), docInfo.toString().getBytes());
-
         } catch (TextractException e) {
             logger.error("Error analyzing document: {}", e.getMessage(), e);
         } catch (Exception  e) {
@@ -77,13 +77,9 @@ public class AWStextrack {
         return docInfo;
     }
 
-    public static boolean isDateValid(String dateString) {
-        try {
-            String dateFormatPattern = "^\\d{2}(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\\d{2}$";
-            return Pattern.matches(dateFormatPattern, dateString);
-        } catch (Exception e) {
-            return false;
-        }
+    public static void saveBlocksToJson(List<Block> blocks, String filePath) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.writeValue(new File(filePath), blocks);
     }
 
     @Bean
@@ -96,7 +92,7 @@ public class AWStextrack {
                 Block block = list.get(i);
                 int index = block.columnIndex();
                 String[] ids = block.relationships().isEmpty() ? weeks : block.relationships().get(0).ids().toArray(new String[0]);
-                if (list.get(i).rowIndex() == 1) continue;
+                if (list.get(i).rowIndex() == 1) continue; // 일정표 상단은 생략
                 if (index == 13) {
                     schedules.add(schedule);
                     schedule = new Schedule();
@@ -155,5 +151,12 @@ public class AWStextrack {
         return schedules;
     }
 
-
+    public static boolean isDateValid(String dateString) {
+        try {
+            String dateFormatPattern = "^\\d{2}(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\\d{2}$";
+            return Pattern.matches(dateFormatPattern, dateString);
+        } catch (Exception e) {
+            return false;
+        }
+    }
 }

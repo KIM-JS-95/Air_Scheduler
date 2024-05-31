@@ -1,17 +1,18 @@
 package org.air.entity;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import com.google.firebase.database.annotations.NotNull;
 import lombok.*;
-
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 
 
 @Entity
 @Builder
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor(force = true)
 public class User {
 
     @Id
@@ -31,6 +32,8 @@ public class User {
     private String device_token;
 
     private String family;
+
+    private int schedule_chk;
 
     @Transient
     private boolean enabled;

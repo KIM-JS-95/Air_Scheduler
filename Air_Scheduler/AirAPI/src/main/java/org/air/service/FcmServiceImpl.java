@@ -2,10 +2,7 @@ package org.air.service;
 
 import com.google.auth.oauth2.AccessToken;
 import com.google.auth.oauth2.GoogleCredentials;
-import com.google.firebase.messaging.FirebaseMessaging;
-import com.google.firebase.messaging.FirebaseMessagingException;
-import com.google.firebase.messaging.MulticastMessage;
-import com.google.firebase.messaging.Notification;
+import com.google.firebase.messaging.*;
 import org.air.entity.User;
 import org.air.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,7 +46,7 @@ public class FcmServiceImpl {
                 .collect(Collectors.toList());
         deviceTokens.add(user.getDevice_token());
 
-        if(!deviceTokens.isEmpty()) {
+        if (!deviceTokens.isEmpty()) {
             // Create the multicast message
             MulticastMessage message = MulticastMessage.builder()
                     .setNotification(Notification.builder()
@@ -74,5 +71,29 @@ public class FcmServiceImpl {
         }
 
         return successCount;
+    }
+
+
+    // 일정 저장 성공시 처리
+    public boolean completeSave_Schedule(String userid) {
+        User user = userRepository.findByUserid(userid);
+
+        String title = "🛩️ 비행 일정이 등록되었어요! 🛩️";
+        String body = "";
+        Message message = Message.builder()
+                .setNotification(Notification.builder()
+                        .setTitle(title)
+                        .setBody(body)
+                        .build())
+                .setToken(user.getDevice_token())
+                .build();
+
+        try {
+            FirebaseMessaging.getInstance().send(message);
+        } catch (FirebaseMessagingException e) {
+            return false;
+        }
+
+        return true;
     }
 }

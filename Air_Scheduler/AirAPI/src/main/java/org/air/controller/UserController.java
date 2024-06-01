@@ -2,7 +2,6 @@ package org.air.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.air.config.HeaderSetter;
-import org.air.entity.Messege;
 import org.air.entity.StatusEnum;
 import org.air.entity.User;
 import org.air.jwt.JwtTokenProvider;
@@ -13,7 +12,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -91,8 +89,7 @@ public class UserController {
             return ResponseEntity
                     .status(Integer.parseInt(StatusEnum.SAVE_ERROR.getStatusCode()))
                     .headers(headerSetter.haederSet(token, "SAVE ERROR"))
-                    .body(new Messege(StatusEnum.SAVE_ERROR.getStatusCode(),
-                            StatusEnum.SAVE_ERROR.getMessage()));
+                    .body("");
         }
     }
 

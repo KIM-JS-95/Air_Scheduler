@@ -13,12 +13,7 @@ import lombok.NoArgsConstructor;
 public class Messege {
 
     private String statuscode;
+    private String title;
     private String message;
 
-    public Messege Messege(String statusCode, String messege) {
-        return Messege.builder()
-                .statuscode(statusCode)
-                .message(messege)
-                .build();
-    }
 }

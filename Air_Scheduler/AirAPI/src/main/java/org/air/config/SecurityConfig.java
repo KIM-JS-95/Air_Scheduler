@@ -42,6 +42,7 @@ public class SecurityConfig {
                 .httpBasic().disable()
                 .authorizeRequests()
                 .antMatchers("/join", "/login").permitAll()
+                .antMatchers("/admin/fcm").hasAuthority("ADMIN")
                 .antMatchers("/getschedule","/showschedules", "/getnationcode", "/gettodayschedule","/viewschedule").authenticated()
                 .antMatchers("/home", "/modify", "/delete", "/upload").authenticated()
 

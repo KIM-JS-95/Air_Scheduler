@@ -1,5 +1,6 @@
 package org.air.repository;
 
+import org.air.entity.Authority;
 import org.air.entity.Refresh;
 import org.air.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -20,4 +21,6 @@ public interface UserRepository extends JpaRepository<User, Long>{
     User findByUserid(String userid);
     User findByPilotcode(String pilotcode);
     List<User> findByFamily(String pilotcode);
+
+    List<User> findByAuthority(Authority authority);
 }

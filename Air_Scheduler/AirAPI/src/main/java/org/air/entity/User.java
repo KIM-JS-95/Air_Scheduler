@@ -8,6 +8,7 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 
 
+
 @Entity
 @Builder
 @Data

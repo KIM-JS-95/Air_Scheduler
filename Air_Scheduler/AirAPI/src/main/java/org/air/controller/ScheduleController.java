@@ -1,8 +1,8 @@
 package org.air.controller;
 
+import com.google.firebase.messaging.FirebaseMessagingException;
 import org.air.config.CustomCode;
 import org.air.config.HeaderSetter;
-import org.air.entity.FcmSendDto;
 import org.air.entity.Messege;
 import org.air.entity.Schedule;
 import org.air.entity.StatusEnum;
@@ -16,7 +16,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletRequest;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -76,7 +75,7 @@ public class ScheduleController {
                     return ResponseEntity
                             .ok()
                             .headers(headerSetter.haederSet(token, "SAVE!"))
-                            .body(new Messege("201", ""));
+                            .body("");
                 }
             } else {
                 // textrack 실패
@@ -122,4 +121,18 @@ public class ScheduleController {
                     .body("");
         }
     }
+
+    @PostMapping("/admin/fcm")
+    public ResponseEntity FCM_All_User(@RequestHeader("Authorization") String token, @RequestBody Messege messege)
+            throws FirebaseMessagingException {
+
+        String headerMgs = (fcmService.sendMessageAll(messege)) ? "Complete transe Messeges" : "Faild transe Messeges";
+
+        HeaderSetter headerSetter = new HeaderSetter();
+        HttpHeaders headers  = headerSetter.haederSet(token, headerMgs);
+        return ResponseEntity.ok()
+                .headers(headers)
+                .body("");
+    }
+
 }

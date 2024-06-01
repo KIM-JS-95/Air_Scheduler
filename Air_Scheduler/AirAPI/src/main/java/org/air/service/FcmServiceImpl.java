@@ -3,7 +3,10 @@ package org.air.service;
 import com.google.auth.oauth2.AccessToken;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.messaging.*;
+import org.air.entity.Authority;
+import org.air.entity.Messege;
 import org.air.entity.User;
+import org.air.repository.AuthorityRepository;
 import org.air.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +22,9 @@ public class FcmServiceImpl {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private AuthorityRepository authorityRepository;
 
     @Autowired
     private GoogleCredentials googleCredentials;
@@ -95,5 +101,61 @@ public class FcmServiceImpl {
         }
 
         return true;
+    }
+
+    public boolean sendMessageAll(Messege message) throws FirebaseMessagingException {
+        List<User> users = userRepository.findAll();
+
+
+        List<String> deviceTokens = users.stream()
+                .map(User::getDevice_token)
+                .collect(Collectors.toList());
+
+        if (!deviceTokens.isEmpty()) {
+            MulticastMessage fcm = MulticastMessage.builder()
+                    .setNotification(Notification.builder()
+                            .setTitle(message.getTitle())
+                            .setBody(message.getMessage())
+                            .build())
+                    .addAllTokens(deviceTokens)
+                    .build();
+
+            FirebaseMessaging.getInstance().sendMulticast(fcm);
+            return true;
+        }
+
+        return false;
+
+    }
+
+    public boolean request_schedule_save() throws FirebaseMessagingException {
+
+        String title = "🛩️ 일정을 아직 등록하지 않으셨나요? 🛩️";
+        String body=" 일정을 등록하고 다음달 일정을 확인해 보세요.";
+
+        Authority authority = Authority.builder()
+                .id(1L)
+                .authority("USER")
+                .build();
+
+        List<User> users = userRepository.findByAuthority(authority);
+        List<String> deviceTokens = users.stream()
+                .map(User::getDevice_token)
+                .collect(Collectors.toList());
+
+        if (!deviceTokens.isEmpty()) {
+            MulticastMessage fcm = MulticastMessage.builder()
+                    .setNotification(Notification.builder()
+                            .setTitle(title)
+                            .setBody(body)
+                            .build())
+                    .addAllTokens(deviceTokens)
+                    .build();
+
+            FirebaseMessaging.getInstance().sendMulticast(fcm);
+            return true;
+        }
+
+        return false;
     }
 }

@@ -21,6 +21,4 @@ public class Authority {
     private Long id;
 
     private String authority;
-
-
 }

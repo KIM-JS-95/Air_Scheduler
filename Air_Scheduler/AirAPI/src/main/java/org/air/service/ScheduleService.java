@@ -137,7 +137,6 @@ public class ScheduleService {
                 }
                 schedules.get(i).setUser(user); // 일정의 주인 추가
             }
-            //scheduleRepository.deleteAllByUserPilotcode(userid); // 기존 일정은 모두 삭제
             List<Schedule> result = scheduleRepository.saveAll(schedules);
             fcmService.completeSave_Schedule(userid); // 알림
             return result;
@@ -194,6 +193,10 @@ public class ScheduleService {
         }
     }
 
+    public boolean delete_cron(String month){
+        return scheduleRepository.delete_cron(month);
+    }
+
     public List<Schedule> textrack(String userid, InputStream source) throws IOException {
 
         HashMap<String, String> map = new HashMap<>();
@@ -224,31 +227,30 @@ public class ScheduleService {
         List<FlightData> flightDataList = new ArrayList<>();
 
         for (Schedule s : sList) {
-            String departureShort = s.getCntFrom();
-            String departure = codes.containsKey(s.getCntFrom()) ? codes.get(s.getCntFrom()).get("code") : "Unknown";
-            String date = s.getDate();
-            String destinationShort = s.getCntTo();
-            String destination = codes.containsKey(s.getCntTo()) ? codes.get(s.getCntTo()).get("code") : "Unknown";
-            String flightNumber = s.getPairing();
-            String stal = s.getStaL();
-            String stab = s.getStaB();
-            String stdl = s.getStdL();
-            String stdb = s.getStdB();
-            String activity = s.getActivity();
-            Long id = s.getId();
-            String ci = s.getCi();
-            String co = s.getCo();
-            String lat = codes.containsKey(destinationShort) ? codes.get(destinationShort).get("lat") : "unknown";
-            String lon = codes.containsKey(destinationShort) ? codes.get(destinationShort).get("lon") : "unknown";
-
-            FlightData flightData = new FlightData(departureShort, departure, date, destinationShort, destination,
-                    flightNumber, stal, stab, stdl, stdb, activity, id, ci, co, lat, lon);
-
+            FlightData flightData = FlightData.builder()
+                    .departureShort(s.getCntFrom())
+                    .departure(codes.getOrDefault(s.getCntFrom(), Collections.emptyMap()).getOrDefault("code", "Unknown"))
+                    .date(s.getDate())
+                    .destinationShort(s.getCntTo())
+                    .destination(codes.getOrDefault(s.getCntTo(), Collections.emptyMap()).getOrDefault("code", "Unknown"))
+                    .flightNumber(s.getPairing())
+                    .stal(s.getStaL())
+                    .stab(s.getStaB())
+                    .stdl(s.getStdL())
+                    .stdb(s.getStdB())
+                    .activity(s.getActivity())
+                    .id(s.getId())
+                    .ci(s.getCi())
+                    .co(s.getCo())
+                    .lat(codes.getOrDefault(s.getCntTo(), Collections.emptyMap()).getOrDefault("lat", "unknown"))
+                    .lon(codes.getOrDefault(s.getCntTo(), Collections.emptyMap()).getOrDefault("lon", "unknown"))
+                    .build();
             flightDataList.add(flightData);
         }
 
         return flightDataList;
     }
+
 
     public Map<String, Map<String, String>> getNationCode() {
         List<NationCode> codes = nationCodeRepository.findAll();

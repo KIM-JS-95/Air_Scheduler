@@ -10,7 +10,6 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
@@ -40,4 +39,8 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
     @Query("SELECT s FROM Schedule s WHERE s.user = :user AND s.date = :date")
     List<Schedule> findByUserAndDate(@Param("user") User user, @Param("date") String date);
 
+    @Modifying
+    @Transactional
+    @Query(value = "DELETE FROM schedule WHERE date LIKE %?1%", nativeQuery = true)
+    boolean delete_cron(String month);
 }

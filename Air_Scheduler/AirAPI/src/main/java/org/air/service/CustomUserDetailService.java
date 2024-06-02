@@ -1,17 +1,17 @@
 package org.air.service;
 
 import lombok.extern.slf4j.Slf4j;
-import org.air.entity.Authority;
-import org.air.entity.Refresh;
-import org.air.entity.User;
+import org.air.entity.*;
 import org.air.repository.AuthorityRepository;
+import org.air.repository.TemppilotcodeRepository;
 import org.air.repository.TokenRepository;
 import org.air.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
+import java.util.Random;
 
 
 @Slf4j
@@ -26,6 +26,10 @@ public class CustomUserDetailService {
 
     @Autowired
     private AuthorityRepository authorityRepository;
+
+    @Autowired
+    private TemppilotcodeRepository temppilotcodeRepository;
+
 
     @Transactional
     public User loadUserByUser(User login_user) {
@@ -50,13 +54,90 @@ public class CustomUserDetailService {
         return user;
     }
 
-    public boolean save(User user) {
-        try {
-            userRepository.save(user);
-        } catch (Exception e) {
-            return false;
+
+    public Temppilotcode save_pilotcode(TemppilotcodeDAO temppilotcodeDTO){
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String hashedPilotcode = passwordEncoder.encode(temppilotcodeDTO.getPilotcode());
+
+        String randomKey = generateRandomKey(5);
+        Temppilotcode temppilotcode = Temppilotcode.builder()
+                .pilotcode(hashedPilotcode)
+                .phonenumber(temppilotcodeDTO.getPhonenumber())
+                .email(temppilotcodeDTO.getEmail())
+                .randomkey(randomKey)
+                .build();
+
+        return temppilotcodeRepository.save(temppilotcode);
+    }
+
+    private static String generateRandomKey(int length) {
+        // 무작위 문자열을 구성할 문자들
+        String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        StringBuilder stringBuilder = new StringBuilder();
+        Random random = new Random();
+
+        // 길이만큼 무작위 문자 선택하여 문자열 생성
+        for (int i = 0; i < length; i++) {
+            int index = random.nextInt(characters.length());
+            stringBuilder.append(characters.charAt(index));
         }
-        return true;
+        return stringBuilder.toString();
+    }
+
+    public int savePilot(UserDTO user) {
+        try {
+            BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+            String hashedPilotcode = passwordEncoder.encode(user.getPilotcode());
+
+            Authority pilotAuthority = Authority.builder()
+                    .id(1L)
+                    .authority("USER")
+                    .build();
+
+            if (temppilotcodeRepository.existsByRandomkeyAndPilotcode(user.getUserid(), hashedPilotcode)) {
+                User newUser = User.builder()
+                        .pilotcode(user.getPilotcode())
+                        .userid(user.getUserid())
+                        .password(user.getPassword())
+                        .email(user.getEmail())
+                        .name(user.getName())
+                        .authority(pilotAuthority)
+                        .build();
+                userRepository.save(newUser);
+            } else {
+                return 0; // 파일럿 계정이 없을 경우
+            }
+        } catch (Exception e) {
+            return 3; // 오류 발생
+        }
+        return 1; // 성공
+    }
+
+    public int saveFamily(UserDTO user) {
+        try {
+            Authority familyAuthority = Authority.builder()
+                    .id(2L)
+                    .authority("FAMILY")
+                    .build();
+
+            if (temppilotcodeRepository.existsByPilotcode(user.getPilotcode())) {
+                User newUser = User.builder()
+                        .pilotcode(user.getPilotcode() + user.getUserid()) // 가족은 파일럿코드 + 아이디
+                        .userid(user.getUserid())
+                        .password(user.getPassword())
+                        .email(user.getEmail())
+                        .name(user.getName())
+                        .family(user.getFamily())
+                        .authority(familyAuthority)
+                        .build();
+                userRepository.save(newUser);
+            } else {
+                return 0; // 파일럿 계정이 없을 경우
+            }
+        } catch (Exception e) {
+            return 3; // 오류 발생
+        }
+        return 1; // 성공
     }
 
     public int getSchedule_chk(String userid){

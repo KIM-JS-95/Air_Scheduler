@@ -28,11 +28,12 @@ public class User {
     private String email;
 
     private String name;
+
     private String picUrl;
 
     private String device_token;
 
-    private String family;
+    private String family; // 기장은 없어도 됨
 
     private int schedule_chk;
 

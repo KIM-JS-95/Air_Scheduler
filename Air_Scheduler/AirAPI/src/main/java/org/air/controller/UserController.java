@@ -2,8 +2,7 @@ package org.air.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.air.config.HeaderSetter;
-import org.air.entity.StatusEnum;
-import org.air.entity.User;
+import org.air.entity.*;
 import org.air.jwt.JwtTokenProvider;
 import org.air.service.CustomUserDetailService;
 import org.json.simple.JSONObject;
@@ -33,22 +32,6 @@ public class UserController {
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
 
-    // 회원가입
-    @PostMapping("/join")
-    public ResponseEntity join(@RequestBody User user) {
-        // 1: ROLE_USER 2: ROLE_FAMILY 3:ROLE_ADMIN
-
-        // 회원가입 성공시 로그인 페이지로 이동시켜주기
-        if (customUserDetailService.save(user)) {
-            return ResponseEntity
-                    .status(HttpStatus.CREATED)
-                    .body(user);
-        } else {
-            return ResponseEntity
-                    .status(Integer.parseInt(StatusEnum.SAVE_ERROR.getStatusCode()))
-                    .body("");
-        }
-    }
 
     // 로그인
     @PostMapping("/login")
@@ -125,4 +108,44 @@ public class UserController {
                     .body("");
         }
     }
+
+
+    // ----------------------------------- 어드민 권한 -----------------------------------
+    // 회원가입
+    @PostMapping("/join/save/user")
+    public ResponseEntity join(@RequestBody UserDTO user) {
+        HttpStatus status = HttpStatus.CREATED; // 응답 상태 기본값 설정
+
+        // 사용자 타입에 따라 서비스 메서드 호출
+        if (user.getType().equals("USER")) { // 승무원일 경우
+            int result = customUserDetailService.savePilot(user);
+            if (result == 3) {
+                status = HttpStatus.valueOf(Integer.parseInt(StatusEnum.SAVE_ERROR.getStatusCode()));
+            }
+        } else if (user.getType().equals("FAMILY")) { // 가족일 경우
+            int result = customUserDetailService.saveFamily(user);
+            if (result == 3) {
+                status = HttpStatus.valueOf(Integer.parseInt(StatusEnum.SAVE_ERROR.getStatusCode()));
+            }
+        }
+
+        return ResponseEntity.status(status).body(user);
+    }
+
+    // 회원가입 이전 임시 저장 -> 해당 유저와 컨텍트 후(랜덤키 전달) 회원가입 처리
+    @PostMapping("/join/save/pilotcode")
+    public ResponseEntity save_pilotcode(@RequestBody TemppilotcodeDAO temppilotcode) {
+        Temppilotcode result = customUserDetailService.save_pilotcode(temppilotcode);
+
+        if (result != null) {
+            return ResponseEntity
+                    .status(HttpStatus.CREATED)
+                    .body("");
+        } else {
+            return ResponseEntity
+                    .status(Integer.parseInt(StatusEnum.SAVE_ERROR.getStatusCode()))
+                    .body("");
+        }
+    }
+
 }

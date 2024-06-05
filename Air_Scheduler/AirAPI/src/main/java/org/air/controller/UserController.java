@@ -5,12 +5,15 @@ import org.air.config.HeaderSetter;
 import org.air.entity.*;
 import org.air.jwt.JwtTokenProvider;
 import org.air.service.CustomUserDetailService;
+import org.air.service.EmailService;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.MessagingException;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -32,27 +35,41 @@ public class UserController {
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
 
+    @Autowired
+    private EmailService emailService;
 
-    // 로그인
+
+    // 로그인 이메일 주소 빼고 jejuair.nat으로 만
     @PostMapping("/login")
-    public ResponseEntity login( @RequestBody User user) {
+    public ResponseEntity login(@RequestBody UserDTO user) throws MessagingException, IOException {
         User member = customUserDetailService.loadUserByUser(user);
 
         if (member == null) {
             return ResponseEntity
                     .status(HttpStatus.UNAUTHORIZED)
                     .body("");
+        } else { // 안드로이드 ID값이 다르면? -> 임시 계정 테이블에 저장 -> 이메일로 전달
+            if (!user.getAndroidid().equals(member.getAndroidid())) {
+                TemppilotcodeDAO temppilotcodeDAO = TemppilotcodeDAO.builder()
+                        .email(member.getEmail())
+                        .username(member.getName())
+                        .userid(member.getUserid())
+                        .build();
+
+                emailService.sendLoginCautionMail(member.getName(), member.getEmail(), member.getUserid(), user.getAndroidid());
+                customUserDetailService.login_check(temppilotcodeDAO); // 임시저장
+                return ResponseEntity.status(Integer.parseInt(StatusEnum.DEVICE_NOT_MATCH.getStatusCode()))
+                        .headers(headerSetter.haederSet("", StatusEnum.DEVICE_NOT_MATCH.getMessage()))
+                        .body("");
+            }
+            Date date = new Date();
+            SimpleDateFormat access_time = new SimpleDateFormat("hh:mm:ss");
+            String token = jwtTokenProvider.createToken(member.getUserid(), access_time.format(date));
+            customUserDetailService.token_save(member, token);
+            return ResponseEntity.ok()
+                    .headers(headerSetter.haederSet(token, "login Success"))
+                    .body("Login Success");
         }
-
-        Date date = new Date();
-        SimpleDateFormat access_time = new SimpleDateFormat("hh:mm:ss");
-        String token = jwtTokenProvider.createToken(member.getUserid(), access_time.format(date));
-
-        customUserDetailService.token_save(member, token);
-
-        return ResponseEntity.ok()
-                .headers(headerSetter.haederSet(token, "login Success"))
-                .body("Login Success");
     }
 
     @PostMapping("/user_modify")
@@ -65,6 +82,9 @@ public class UserController {
             SimpleDateFormat access_time = new SimpleDateFormat("hh:mm:ss");
             String new_token = jwtTokenProvider.createToken(user.getUserid(), access_time.format(date));
 
+            User member = customUserDetailService.loadUserByToken(user.getUserid());
+            customUserDetailService.token_save(member, token);
+
             return ResponseEntity.ok()
                     .headers(headerSetter.haederSet(new_token, "login Success"))
                     .body("Login Success");
@@ -75,7 +95,6 @@ public class UserController {
                     .body("");
         }
     }
-
 
     @PostMapping("/getuserinfobyToken")
     public ResponseEntity getUserinfo(@RequestHeader("Authorization") String token) {
@@ -110,42 +129,57 @@ public class UserController {
     }
 
 
-    // ----------------------------------- 어드민 권한 -----------------------------------
-    // 회원가입
-    @PostMapping("/join/save/user")
-    public ResponseEntity join(@RequestBody UserDTO user) {
-        HttpStatus status = HttpStatus.CREATED; // 응답 상태 기본값 설정
+    // ----------------------------------- 회원가입 권한 -----------------------------------
 
-        // 사용자 타입에 따라 서비스 메서드 호출
-        if (user.getType().equals("USER")) { // 승무원일 경우
-            int result = customUserDetailService.savePilot(user);
-            if (result == 3) {
-                status = HttpStatus.valueOf(Integer.parseInt(StatusEnum.SAVE_ERROR.getStatusCode()));
+    // 회원가입 이전 임시 저장 -> 해당 유저에게 이메일을 전달후(랜덤키 전달) 회원가입 처리 : <userid>@jejuair.net
+    @PostMapping("/join/save/pilotcode")
+    public ResponseEntity join(@RequestBody TemppilotcodeDAO temppilotcode) {
+        Temppilotcode result = customUserDetailService.save_pilotcode(temppilotcode);
+        if (result != null) {
+            boolean emailSent = emailService.sendTokenMail(result.getUsername(), result.getEmail(), result.getRandomkey());
+            if (emailSent) { // 메일 & 임시 회원 성공
+                return ResponseEntity.status(HttpStatus.CREATED).body("");
+            } else { // 메일 전송에 실패
+                customUserDetailService.delete_temp_pilotcode(temppilotcode);
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("");
             }
-        } else if (user.getType().equals("FAMILY")) { // 가족일 경우
-            int result = customUserDetailService.saveFamily(user);
-            if (result == 3) {
-                status = HttpStatus.valueOf(Integer.parseInt(StatusEnum.SAVE_ERROR.getStatusCode()));
-            }
+        } else {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("");
         }
-
-        return ResponseEntity.status(status).body(user);
     }
 
-    // 회원가입 이전 임시 저장 -> 해당 유저와 컨텍트 후(랜덤키 전달) 회원가입 처리
-    @PostMapping("/join/save/pilotcode")
-    public ResponseEntity save_pilotcode(@RequestBody TemppilotcodeDAO temppilotcode) {
-        Temppilotcode result = customUserDetailService.save_pilotcode(temppilotcode);
+    // 최종 회원가입 (디바이스 토큰도 같이 획득)
+    @PostMapping("/join/save/user")
+    public ResponseEntity join_user(@RequestBody UserDTO user) { // password, randomkey, androidid
+        HttpStatus status = HttpStatus.CREATED;
 
-        if (result != null) {
-            return ResponseEntity
-                    .status(HttpStatus.CREATED)
-                    .body("");
-        } else {
-            return ResponseEntity
-                    .status(Integer.parseInt(StatusEnum.SAVE_ERROR.getStatusCode()))
-                    .body("");
+        int result = customUserDetailService.savePilot(user);
+        if (result == 0) { // 존재하지 않는
+            status = HttpStatus.valueOf(Integer.parseInt(StatusEnum.NOT_FOUND.getStatusCode()));
         }
+
+        return ResponseEntity.status(status).body("");
+    }
+
+    @PostMapping("/join/save/family")
+    public ResponseEntity join_family(@RequestBody UserDTO user) { // family_id ,userid, password, androidid
+        HttpStatus status = HttpStatus.CREATED;
+
+        int result = customUserDetailService.saveFamily(user);
+        if (result == 3) { // 저장 실패
+            status = HttpStatus.valueOf(Integer.parseInt(StatusEnum.SAVE_ERROR.getStatusCode()));
+        } else if (result == 0) { // 존재하지 않는
+            status = HttpStatus.valueOf(Integer.parseInt(StatusEnum.NOT_FOUND.getStatusCode()));
+        }
+        return ResponseEntity.status(status).body("");
+    }
+
+
+    // 유저 아이디 체크
+    @GetMapping("/join/check/user") // https://~~?userid=123
+    public boolean check_user(@RequestParam("userid") String userid){
+        customUserDetailService.exist_userid(userid);
+        return customUserDetailService.exist_userid(userid);
     }
 
 }

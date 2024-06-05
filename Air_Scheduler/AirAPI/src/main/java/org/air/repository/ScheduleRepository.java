@@ -20,9 +20,6 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
 
     void deleteById(Long i);
 
-    List<Schedule> findByDate(String date);
-
-
     @Modifying
     @Transactional
     @Query(value = "TRUNCATE TABLE schedule", nativeQuery = true)
@@ -30,11 +27,7 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
 
     @Query("SELECT s FROM Schedule s WHERE s.id >= :startId AND s.id <= :endId")
     List<Schedule> findByIdBetween(@Param("startId")Long startId, @Param("endId") Long endId);
-
-    void deleteAllByUserPilotcode(String pilotcode);
-
-
-    List<Schedule> findByUserPilotcode(String pilotcode);
+    List<Schedule> findByUserUserid(String userid);
 
     @Query("SELECT s FROM Schedule s WHERE s.user = :user AND s.date = :date")
     List<Schedule> findByUserAndDate(@Param("user") User user, @Param("date") String date);
@@ -43,4 +36,7 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
     @Transactional
     @Query(value = "DELETE FROM schedule WHERE date LIKE %?1%", nativeQuery = true)
     boolean delete_cron(String month);
+
+
+    void deleteAllByUserUserid(String userid);
 }

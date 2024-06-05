@@ -41,7 +41,7 @@ public class FcmServiceImpl {
     public int sendMessageTo(String date, String cntto, User user) throws FirebaseMessagingException {
         Logger logger = LoggerFactory.getLogger(getClass());
 
-        List<User> users = userRepository.findByFamily(user.getPilotcode());
+        List<User> users = userRepository.findByFamily(user.getUserid());
 
         String title = "🛩️ 비행 일정이 변경되었어요! 🛩️";
         String body = "- 날짜: " + date + "\n- 목적지: " + cntto;

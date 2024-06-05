@@ -17,9 +17,6 @@ import javax.validation.constraints.Min;
 public class User {
 
     @Id
-    private String pilotcode;
-
-    @NotNull
     private String userid;
 
     @NotNull
@@ -36,6 +33,8 @@ public class User {
     private String family; // 기장은 없어도 됨
 
     private int schedule_chk;
+
+    private String androidid;
 
     @Transient
     private boolean enabled;

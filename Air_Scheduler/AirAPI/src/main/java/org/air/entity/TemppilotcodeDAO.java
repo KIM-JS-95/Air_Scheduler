@@ -1,13 +1,14 @@
 package org.air.entity;
 
 
+import lombok.Builder;
 import lombok.Data;
 
-
+@Builder
 @Data
 public class TemppilotcodeDAO {
-    private String pilotcode;
     private String email;
     private String phonenumber;
-
+    private String username;
+    private String userid;
 }

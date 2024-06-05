@@ -19,7 +19,6 @@ public interface UserRepository extends JpaRepository<User, Long>{
     boolean existsByUserid(String userid);
 
     User findByUserid(String userid);
-    User findByPilotcode(String pilotcode);
     List<User> findByFamily(String pilotcode);
 
     List<User> findByAuthority(Authority authority);

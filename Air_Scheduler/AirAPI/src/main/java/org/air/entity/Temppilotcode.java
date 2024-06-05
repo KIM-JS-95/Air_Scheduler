@@ -21,17 +21,15 @@ public class Temppilotcode {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @NotNull
-    private String pilotcode;
-
-    @NotNull
     private String email;
 
-    @NotNull
+    private String username;
+
     private String phonenumber;
 
-    @NotNull
     private String randomkey;
+
+    private String userid;
 
     @Temporal(TemporalType.TIMESTAMP)
     @CreationTimestamp

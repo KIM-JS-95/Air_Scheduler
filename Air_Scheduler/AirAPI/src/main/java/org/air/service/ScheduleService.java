@@ -62,7 +62,7 @@ public class ScheduleService {
         if (auth.equals("USER")) {
             schedules = scheduleRepository.findByUserAndDate(user, startDate);
         } else if (auth.equals("FAMILY")) {
-            User family = userRepository.findByPilotcode(user.getFamily());
+            User family = userRepository.findByUserid(user.getFamily());
             schedules = scheduleRepository.findByUserAndDate(family, startDate);
         } else {
         } // auth.equals("ADMIN")
@@ -100,9 +100,9 @@ public class ScheduleService {
 
         List<Schedule> schedules = new ArrayList<>();
         if (auth.equals("USER")) {
-            schedules = scheduleRepository.findByUserPilotcode(user.getPilotcode());
+            schedules = scheduleRepository.findByUserUserid(user.getUserid());
         } else if (auth.equals("FAMILY")) {
-            schedules = scheduleRepository.findByUserPilotcode(user.getFamily());
+            schedules = scheduleRepository.findByUserUserid(user.getFamily());
         }
 
         AtomicReference<String> previousDateRef = new AtomicReference<>();
@@ -186,7 +186,7 @@ public class ScheduleService {
     // 파일럿 일정 전체 삭제
     public boolean delete(String userid) {
         try {
-            scheduleRepository.deleteAllByUserPilotcode(userid);
+            scheduleRepository.deleteAllByUserUserid(userid);
             return true;
         } catch (Exception e) {
             return false;

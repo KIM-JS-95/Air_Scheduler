@@ -5,8 +5,6 @@ import lombok.Data;
 @Data
 public class UserDTO {
 
-    private String pilotcode;
-
     private String userid;
 
     private String password;
@@ -17,7 +15,7 @@ public class UserDTO {
 
     private String picUrl;
 
-    private String device_token;
+    private String device_token; // FCM Token
 
     private String family;
 
@@ -25,6 +23,8 @@ public class UserDTO {
 
     private String randomkey;
 
-    private String type; // USER / FAMILY
+    private String androidid;
+
+    private String family_id; // 기장 아이디
 
 }

@@ -42,6 +42,6 @@ public class Schedule {
     private String blk;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_pilotcode") // 외래 키 컬럼명
+    @JoinColumn(name = "user_userid") // 외래 키 컬럼명
     private User user;
 }

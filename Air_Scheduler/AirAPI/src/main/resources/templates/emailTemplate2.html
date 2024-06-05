@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title th:text="${subject}">Schedule App 계정 서비스</title>
+    <style>
+        body {
+            font-family: Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f2f2f2;
+        }
+        .container {
+            font-size: 16px;
+            width: 70%;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            border-bottom: 1px solid #eee;
+            padding-bottom: 20px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .brand {
+            font-size: 1.5em;
+            color: orange !important;
+            text-decoration: none;
+            font-weight: 800;
+        }
+        p {
+            margin-bottom: 15px;
+        }
+        .footer {
+            color: #666;
+            font-size: 0.8em;
+            font-weight: 300;
+            text-align: center;
+        }
+        .highlight-box {
+            background-color: orange;
+            padding: 10px;
+            text-align: center;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+        .highlight-text {
+            color: #fff;
+            font-weight: bold;
+        }
+        .button-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #28a745;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <a href="#" class="brand">Schedule App 계정 서비스</a>
+    </div>
+    <h3>안녕하세요, <span th:text="${name}">기장</span>님!</h3>
+    <p>새로운 기기로 로그인하시려는 것 같습니다. </p>
+    <p>본인지 맞으시다면 아래 확인 버튼을 클릭해 주세요!</p>
+    <div class="highlight-box">
+        <p class="highlight-text" th:text="${message}">ABCDE</p>
+    </div>
+    <div class="button-container">
+        <a th:href="@{${link}}" class="button">네, 본인입니다</a>
+    </div>
+    <div class="footer">
+        <p>감사합니다.</p>
+        <p>Schedule App Dev. KIM</p>
+    </div>
+</div>
+</body>
+</html>

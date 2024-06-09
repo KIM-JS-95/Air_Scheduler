@@ -4,7 +4,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.air.entity.StatusEnum;
 import org.air.service.CustomUserDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,7 +18,7 @@ public class EmailController {
     // 도메인 구매해야함 (http://~~?pilotcode=?)
     // login -> 디바이스가 변경되었을 경우 디바이스 인증 실행
     @GetMapping("/device")
-    public ResponseEntity devide_id_update(@RequestParam("userid") String userid, @RequestParam("androidid") String androidid) { // 인코딩된 파일럿 코드
+    public ResponseEntity device_id_update(@RequestParam("userid") String userid, @RequestParam("androidid") String androidid) { // 인코딩된 파일럿 코드
         boolean answer = customUserDetailService.certification_devide(userid, androidid);
         if (answer) {
             return ResponseEntity.ok()

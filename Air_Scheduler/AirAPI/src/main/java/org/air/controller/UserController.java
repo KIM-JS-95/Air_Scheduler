@@ -39,6 +39,13 @@ public class UserController {
     private EmailService emailService;
 
 
+    @GetMapping("/servertest")
+    public ResponseEntity server_test(){
+        return ResponseEntity.ok()
+                .headers(headerSetter.haederSet("", "login Success"))
+                .body("Login Success");
+    }
+
     // 로그인 이메일 주소 빼고 jejuair.nat으로 만
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody UserDTO user) throws MessagingException, IOException {

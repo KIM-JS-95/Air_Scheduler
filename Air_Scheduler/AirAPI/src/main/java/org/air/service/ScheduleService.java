@@ -161,18 +161,20 @@ public class ScheduleService {
                 schedule.setActivity(update_schedule.getActivity());
 
                 schedule.setCntFrom(update_schedule.getCntFrom());
+
                 schedule.setStdL(update_schedule.getStdL());
                 schedule.setStdB(update_schedule.getStdB());
 
                 schedule.setCntTo(update_schedule.getCntTo());
+
                 schedule.setStaL(update_schedule.getStaL());
                 schedule.setStaB(update_schedule.getStaB());
 
                 schedule.setAchotel(update_schedule.getAchotel());
                 schedule.setBlk(update_schedule.getBlk());
 
-                int messageTo = fcmService.sendMessageTo(update_schedule.getDate(), update_schedule.getCntTo(), schedule.getUser());
-                System.out.println(messageTo);
+                fcmService.sendMessageTo(update_schedule.getDate(), update_schedule.getCntFrom(), update_schedule.getCntTo(), schedule.getUser());
+
                 return new CustomCode(StatusEnum.OK);
             } catch (Exception e) {
                 System.out.println(e.getMessage());

@@ -38,13 +38,13 @@ public class FcmServiceImpl {
         return accessToken.getTokenValue();
     }
 
-    public int sendMessageTo(String date, String cntto, User user) throws FirebaseMessagingException {
+    public int sendMessageTo(String date, String cntfrom, String cntto, User user) throws FirebaseMessagingException {
         Logger logger = LoggerFactory.getLogger(getClass());
 
         List<User> users = userRepository.findByFamily(user.getUserid());
 
         String title = "🛩️ 비행 일정이 변경되었어요! 🛩️";
-        String body = "- 날짜: " + date + "\n- 목적지: " + cntto;
+        String body = "- 날짜: " + date + "\n- 출발지: " + cntfrom + "\n- 목적지: " + cntto;
 
         // Collect all device tokens from users
         List<String> deviceTokens = users.stream()

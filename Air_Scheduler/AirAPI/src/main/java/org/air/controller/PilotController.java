@@ -119,14 +119,13 @@ public class PilotController {
                 .body(list);
     }
 */
-    @PostMapping("/viewschedule") // 일정 상세보기
-    public ResponseEntity viewSchedule(@RequestHeader("Authorization") String token,
-                                       @RequestBody Map<String, String> requestBody) {
+    @GetMapping("/viewschedule") // 일정 상세보기
+    public ResponseEntity viewSchedule(@RequestHeader("Authorization") String token, @RequestParam Long id) {
         HeaderSetter headers = new HeaderSetter();
         String userid = jwtTokenProvider.getUserPk(token);
 
-        Long id = Long.valueOf(requestBody.get("id"));
         List<FlightData> schedule = scheduleService.getViewSchedule(id);
+
         if (schedule == null) {
             return ResponseEntity
                     .status(Integer.parseInt(StatusEnum.NOT_FOUND.getStatusCode()))

@@ -170,8 +170,9 @@ public class UserController {
 
     @PostMapping("/join/save/family")
     public ResponseEntity join_family(@RequestBody UserDTO user) { // family_id ,userid, password, androidid
-        HttpStatus status = HttpStatus.CREATED;
 
+        System.out.println(user.toString());
+        HttpStatus status = HttpStatus.CREATED;
         int result = customUserDetailService.saveFamily(user);
         if (result == 3) { // 저장 실패
             status = HttpStatus.valueOf(Integer.parseInt(StatusEnum.SAVE_ERROR.getStatusCode()));
@@ -184,9 +185,20 @@ public class UserController {
 
     // 유저 아이디 체크
     @GetMapping("/join/check/user") // https://~~?userid=123
-    public boolean check_user(@RequestParam("userid") String userid){
-        customUserDetailService.exist_userid(userid);
-        return customUserDetailService.exist_userid(userid);
+    public ResponseEntity check_user(@RequestParam("userid") String userid){
+
+        HeaderSetter headers = new HeaderSetter();
+        if(customUserDetailService.exist_userid(userid)) {
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .headers(headers.haederSet("", StatusEnum.NOT_FOUND.getMessage()))
+                    .body("");
+        }else{
+            return ResponseEntity
+                    .status(Integer.parseInt(StatusEnum.NOT_FOUND.getStatusCode()))
+                    .headers(headers.haederSet("", StatusEnum.NOT_FOUND.getMessage()))
+                    .body("");
+        }
     }
 
 }

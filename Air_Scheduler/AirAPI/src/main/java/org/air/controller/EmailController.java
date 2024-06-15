@@ -19,6 +19,7 @@ public class EmailController {
     // login -> 디바이스가 변경되었을 경우 디바이스 인증 실행
     @GetMapping("/device")
     public ResponseEntity device_id_update(@RequestParam("userid") String userid, @RequestParam("androidid") String androidid) { // 인코딩된 파일럿 코드
+        System.out.println(userid);
         boolean answer = customUserDetailService.certification_devide(userid, androidid);
         if (answer) {
             return ResponseEntity.ok()

@@ -42,7 +42,7 @@ public class SecurityConfig {
                 .csrf().disable()
                 .httpBasic().disable()
                 .authorizeRequests()
-                .antMatchers("/join", "/login","/join/save/pilotcode").permitAll()
+                .antMatchers("/join", "/login","/join/save/pilotcode","/device").permitAll()
                 .antMatchers("/admin/fcm").hasAuthority("ADMIN")
                 .antMatchers("/getschedule","/showschedules", "/getnationcode", "/gettodayschedule","/viewschedule").authenticated()
                 .antMatchers("/home", "/modify", "/delete", "/upload").authenticated()

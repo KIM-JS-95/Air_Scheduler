@@ -84,11 +84,10 @@ public class CustomUserDetailService {
 
     public Temppilotcode processPilotcode(TemppilotcodeDAO temppilotcodeDTO) {
         String randomKey = generateRandomKey(5);
-        String[] userid = temppilotcodeDTO.getEmail().split("@");
         Temppilotcode temppilotcode = Temppilotcode.builder()
                 .phonenumber(temppilotcodeDTO.getPhonenumber())
                 .email(temppilotcodeDTO.getEmail())
-                .userid(userid[0])
+                .userid(temppilotcodeDTO.getUserid())
                 .randomkey(randomKey)
                 .username(temppilotcodeDTO.getUsername())
                 .build();
@@ -123,7 +122,7 @@ public class CustomUserDetailService {
 
     public int saveFamily(UserDTO user) { // family_id ,userid, password, device_token, androidid
         User pilot = userRepository.findByUserid(user.getFamily_id()); // 기장 존재 확인
-
+        System.out.println(user.getFamily_id());
         if (pilot != null) {
             Authority familyAuthority = Authority.builder()
                     .id(2L)
@@ -209,8 +208,8 @@ public class CustomUserDetailService {
             user.setAndroidid(androidid);
             userRepository.save(user); // 변경사항 저장
         }
-        int deletedCount = temppilotcodeRepository.deleteByUserid(userid);
-        return deletedCount > 0;
+
+        return temppilotcodeRepository.deleteByUserid(userid);
     }
 
     public String generateRandomKey(int length) {

@@ -13,5 +13,5 @@ public interface TemppilotcodeRepository extends JpaRepository<Temppilotcode, Lo
 
     boolean existsByUserid(String userid);
 
-    int deleteByUserid(String userid);
+    boolean deleteByUserid(String userid);
 }

@@ -169,17 +169,38 @@ public class UserController {
     }
 
     @PostMapping("/join/save/family")
-    public ResponseEntity join_family(@RequestBody UserDTO user) { // family_id ,userid, password, androidid
-
+    public ResponseEntity join_family(@RequestBody UserDTO user) throws MessagingException { // family_id ,userid, password, androidid
+        User user1 = customUserDetailService.getUser(user.getFamily_id());
         System.out.println(user.toString());
+        TemppilotcodeDAO temppilotcodeDAO = TemppilotcodeDAO.builder()
+                .userid(user.getUserid()) // 가족 아이디
+                .password(user.getPassword()) // 가족 비번
+                .username(user.getName()) // 가족 이름
+                .pilotid(user1.getUserid())
+                .build();
+        customUserDetailService.processPilotcode(temppilotcodeDAO); // 임시저장
+
+        String mgs = user.getName()+"님과 일정을 공유합니다.";
+        emailService.sendMail(user.getUserid(), user1.getName(), user.getName(), user1.getEmail(), mgs, user.getAndroidid());
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body("");
+    }
+
+
+    @GetMapping("/join/save/family/fin")
+    public ResponseEntity join_family_fin(@RequestParam("userid") String userid, @RequestParam("androidid") String androidid){
+
         HttpStatus status = HttpStatus.CREATED;
-        int result = customUserDetailService.saveFamily(user);
-        if (result == 3) { // 저장 실패
+        User family = customUserDetailService.saveFamily(userid, androidid);
+        if (family==null) { // 저장 실패
             status = HttpStatus.valueOf(Integer.parseInt(StatusEnum.SAVE_ERROR.getStatusCode()));
-        } else if (result == 0) { // 존재하지 않는
-            status = HttpStatus.valueOf(Integer.parseInt(StatusEnum.NOT_FOUND.getStatusCode()));
         }
+
         return ResponseEntity.status(status).body("");
+
+
     }
 
 

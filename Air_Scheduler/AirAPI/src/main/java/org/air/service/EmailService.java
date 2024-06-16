@@ -89,4 +89,31 @@ public class EmailService {
         return true;
     }
 
+    public boolean sendMail(String userid, String masterName, String family_name, String email, String mgs, String androidid) throws MessagingException {
+        Context context = new Context();
+        context.setVariable("masterName", masterName);
+        context.setVariable("family_name", family_name);
+        context.setVariable("name", masterName);
+        context.setVariable("mgs", mgs);
+        context.setVariable("androidid", androidid);
+        context.setVariable("link", service_domain + "?userid=" + userid + "&androidid=" + androidid);
+
+        JavaMailSender emailSender = mailSenderFactory.getSender(usernameid, password);
+        MimeMessage message = emailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+        String htmlContent = templateEngine.process("emailTemplate3", context);
+
+        helper.setFrom(usernameid);
+        helper.setTo(email);
+        helper.setSubject("[Schedule App]"+masterName+"과 "+family_name+"님이 일정을 공유합니다."); // title
+
+        helper.setText(htmlContent, true);
+
+        try {
+            emailSender.send(message);
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
+    }
 }

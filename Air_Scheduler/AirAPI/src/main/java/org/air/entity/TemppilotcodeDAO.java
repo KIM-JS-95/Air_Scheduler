@@ -11,4 +11,6 @@ public class TemppilotcodeDAO {
     private String phonenumber;
     private String username;
     private String userid;
+    private String password;
+    private String pilotid;
 }

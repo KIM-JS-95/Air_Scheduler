@@ -90,6 +90,8 @@ public class CustomUserDetailService {
                 .userid(temppilotcodeDTO.getUserid())
                 .randomkey(randomKey)
                 .username(temppilotcodeDTO.getUsername())
+                .password(temppilotcodeDTO.getPassword())
+                .pilotid(temppilotcodeDTO.getPilotid())
                 .build();
 
         return temppilotcodeRepository.save(temppilotcode);
@@ -120,33 +122,37 @@ public class CustomUserDetailService {
         return 1; // 성공
     }
 
-    public int saveFamily(UserDTO user) { // family_id ,userid, password, device_token, androidid
-        User pilot = userRepository.findByUserid(user.getFamily_id()); // 기장 존재 확인
-        System.out.println(user.getFamily_id());
+    public User saveFamily(String userid, String androidid) { // family_id ,userid, password, device_token, androidid
+        //User pilot = userRepository.findByUserid(user.getFamily_id()); // 마스터 존재 확인
+        Temppilotcode temppilotcode = temppilotcodeRepository.findByUserid(userid);
+        User pilot = userRepository.findByUserid(temppilotcode.getPilotid()); // 마스터 존재 확인
+        User family =null;
         if (pilot != null) {
             Authority familyAuthority = Authority.builder()
                     .id(2L)
                     .authority("FAMILY")
                     .build();
 
-            User family = User.builder()
-                    .userid(user.getUserid())
-                    .password(user.getPassword())
-                    .email(user.getEmail())
-                    .name(user.getName())
-                    .family(user.getFamily_id())
-                    .androidid(user.getAndroidid())
+            family = User.builder()
+                    .userid(temppilotcode.getUserid()) // 가족 아이디
+                    .password(temppilotcode.getPassword()) // 가족 비번
+                    .name(temppilotcode.getUsername()) // 가족 이름
+                    .family(pilot.getUserid()) // 마스터 아이디
+                    .androidid(androidid)
                     .authority(familyAuthority) // 권한
                     .build();
-            try {
-                userRepository.save(family);
-            } catch (Exception e) {
-                return 3;
-            }
+
+            userRepository.save(family);
+            temppilotcodeRepository.deleteById(temppilotcode.getId());
         } else {
-            return 0; // 파일럿 계정이 없을 경우
+            return null; // 파일럿 계정이 없을 경우
         }
-        return 1; // 성공
+
+        return family; // 성공
+    }
+
+    public User getUser(String userid){
+        return userRepository.findByUserid(userid); // 마스터 존재 확인;
     }
 
     public int getSchedule_chk(String userid) {
@@ -226,7 +232,7 @@ public class CustomUserDetailService {
         return stringBuilder.toString();
     }
 
-    public boolean exist_userid(String userid){
+    public boolean exist_userid(String userid) {
         return userRepository.existsByUserid(userid);
     }
 

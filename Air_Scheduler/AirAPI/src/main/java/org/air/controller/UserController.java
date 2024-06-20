@@ -156,8 +156,8 @@ public class UserController {
     }
 
     // 최종 회원가입 (디바이스 토큰도 같이 획득)
-    @PostMapping("/join/save/user")
-    public ResponseEntity join_user(@RequestBody UserDTO user) { // password, randomkey, androidid
+    @PostMapping("/join/save/user/fin")
+    public ResponseEntity join_family_fin(@RequestBody UserDTO user) { // password, randomkey, androidid
         HttpStatus status = HttpStatus.CREATED;
 
         int result = customUserDetailService.savePilot(user);
@@ -171,7 +171,6 @@ public class UserController {
     @PostMapping("/join/save/family")
     public ResponseEntity join_family(@RequestBody UserDTO user) throws MessagingException { // family_id ,userid, password, androidid
         User user1 = customUserDetailService.getUser(user.getFamily_id());
-        System.out.println(user.toString());
         TemppilotcodeDAO temppilotcodeDAO = TemppilotcodeDAO.builder()
                 .userid(user.getUserid()) // 가족 아이디
                 .password(user.getPassword()) // 가족 비번
@@ -191,16 +190,14 @@ public class UserController {
 
     @GetMapping("/join/save/family/fin")
     public ResponseEntity join_family_fin(@RequestParam("userid") String userid, @RequestParam("androidid") String androidid){
+        User family = customUserDetailService.saveFamily(userid, androidid);
 
         HttpStatus status = HttpStatus.CREATED;
-        User family = customUserDetailService.saveFamily(userid, androidid);
         if (family==null) { // 저장 실패
             status = HttpStatus.valueOf(Integer.parseInt(StatusEnum.SAVE_ERROR.getStatusCode()));
         }
 
         return ResponseEntity.status(status).body("");
-
-
     }
 
 

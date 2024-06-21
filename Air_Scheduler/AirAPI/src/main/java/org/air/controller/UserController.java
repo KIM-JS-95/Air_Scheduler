@@ -221,17 +221,17 @@ public class UserController {
         }
     }
 
-    @PostMapping("/delete")
+    @PostMapping("/user/delete")
     public ResponseEntity remove_user(@RequestHeader("Authorization") String token) {
         String user_string = jwtTokenProvider.getUserPk(token);
 
         if (customUserDetailService.delete_user(user_string)) {
             return ResponseEntity.ok()
-                    .headers(headerSetter.haederSet(token, "logout fail"))
+                    .headers(headerSetter.haederSet(token, "delete fail"))
                     .body("");
         } else {
             return ResponseEntity.ok()
-                    .headers(headerSetter.haederSet(null, "logout Success"))
+                    .headers(headerSetter.haederSet(null, "delete Success"))
                     .body("");
         }
     }

@@ -1,6 +1,5 @@
 /build
 
-.gradle/
 application.properties
 analyzeDocResponse.json
 analyzeDocResponse_test.json

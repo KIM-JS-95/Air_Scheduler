@@ -22,4 +22,6 @@ public interface UserRepository extends JpaRepository<User, Long>{
     List<User> findByFamily(String pilotcode);
 
     List<User> findByAuthority(Authority authority);
+
+    boolean deleteByUserid(String userid);
 }

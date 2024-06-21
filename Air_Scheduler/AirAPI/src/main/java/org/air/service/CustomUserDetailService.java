@@ -236,5 +236,8 @@ public class CustomUserDetailService {
         return userRepository.existsByUserid(userid);
     }
 
+    public boolean delete_user(String userid){
+        return userRepository.deleteByUserid(userid);
+    }
 
 }

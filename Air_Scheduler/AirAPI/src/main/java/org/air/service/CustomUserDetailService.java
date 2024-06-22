@@ -92,6 +92,7 @@ public class CustomUserDetailService {
                 .username(temppilotcodeDTO.getUsername())
                 .password(temppilotcodeDTO.getPassword())
                 .pilotid(temppilotcodeDTO.getPilotid())
+                .androidid(temppilotcodeDTO.getAndroidid())
                 .build();
 
         return temppilotcodeRepository.save(temppilotcode);
@@ -207,9 +208,8 @@ public class CustomUserDetailService {
     }
 
     @Transactional
-    public boolean certification_devide(String userid, String androidid) {
-        if (temppilotcodeRepository.existsByUserid(userid)) {
-            // 파일럿 코드가 존재한다면 -> 유저 테이블 androidId 변경해주고 -> 임시 테이블 지워주고
+    public Long certification_devide(String userid, String androidid) {
+        if (temppilotcodeRepository.existsByUseridAndAndroidid(userid, androidid)) {
             User user = userRepository.findByUserid(userid);
             user.setAndroidid(androidid);
             userRepository.save(user); // 변경사항 저장

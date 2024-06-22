@@ -2,19 +2,18 @@ package org.air.service;
 
 import org.air.entity.MailSenderFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.security.crypto.encrypt.TextEncryptor;
 import org.springframework.stereotype.Service;
-import org.springframework.beans.factory.annotation.Value;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
 import javax.mail.MessagingException;
-import javax.mail.SendFailedException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.io.IOException;
-
 @Service
 public class EmailService {
 
@@ -25,7 +24,14 @@ public class EmailService {
     private String password;
 
     @Value("${spring.mail.service_domain}")
-    private String service_domain; // http:// ~~
+    private String service_domain;
+
+    @Autowired
+    private TextEncryptor textEncryptor;
+
+    public String encryptText(String plainText) {
+        return textEncryptor.encrypt(plainText);
+    }
 
     private final MailSenderFactory mailSenderFactory;
     private final TemplateEngine templateEngine;
@@ -68,8 +74,7 @@ public class EmailService {
 
         Context context = new Context();
         context.setVariable("name", username);
-        context.setVariable("link", service_domain + "?userid=" + userid + "&androidid=" + androidid);
-        System.out.println(service_domain + "?userid=" + userid + "&androidid=" + androidid);
+        context.setVariable("link", service_domain + "?userid=" + userid + "&androidid=" + encryptText(androidid));
         JavaMailSender emailSender = mailSenderFactory.getSender(usernameid, password);
 
         MimeMessage message = emailSender.createMimeMessage();

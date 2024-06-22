@@ -147,10 +147,11 @@ public class UserController {
                         .email(member.getEmail())
                         .username(member.getName())
                         .userid(member.getUserid())
+                        .androidid(user.getAndroidid())
                         .build();
-
-                emailService.sendLoginCautionMail(member.getName(), member.getEmail(), member.getUserid(), user.getAndroidid());
+                System.out.println(user.getAndroidid());
                 customUserDetailService.login_check(temppilotcodeDAO); // 임시저장
+                emailService.sendLoginCautionMail(member.getName(), member.getEmail(), member.getUserid(), user.getAndroidid());
                 return ResponseEntity.status(Integer.parseInt(StatusEnum.DEVICE_NOT_MATCH.getStatusCode()))
                         .headers(headerSetter.haederSet("", StatusEnum.DEVICE_NOT_MATCH.getMessage()))
                         .body("");

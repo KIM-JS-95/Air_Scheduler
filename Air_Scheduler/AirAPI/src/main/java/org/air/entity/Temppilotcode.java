@@ -35,6 +35,8 @@ public class Temppilotcode {
 
     private String pilotid;
 
+    private String androidid;
+
     @Temporal(TemporalType.TIMESTAMP)
     @CreationTimestamp
     private Date createdAt;

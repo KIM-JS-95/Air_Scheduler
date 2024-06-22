@@ -1,8 +1,8 @@
 version: '3.0'
 services:
   schedules:
-    container_name: flight_Schedules
-    image: flight_Schedules:1.1
+    container_name: flight_schedules
+    image: flight_schedules:1.1
     build:
       context: .
       dockerfile: Dockerfile

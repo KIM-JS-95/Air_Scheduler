@@ -42,10 +42,9 @@ public class EmailService {
         this.templateEngine = templateEngine;
     }
 
-    public boolean sendTokenMail(String username, String email, String randomkey) {
+    public boolean sendTokenMail(String email, String randomkey) {
         try {
             Context context = new Context();
-            context.setVariable("name", username);
             context.setVariable("message", randomkey);
             JavaMailSender emailSender = mailSenderFactory.getSender(usernameid, password);
 

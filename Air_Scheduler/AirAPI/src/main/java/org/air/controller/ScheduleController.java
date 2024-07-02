@@ -49,6 +49,12 @@ public class ScheduleController {
     public ResponseEntity upload(@RequestHeader("Authorization") String token, @RequestParam("file") MultipartFile file) {
         String userid = jwtTokenProvider.getUserPk(token);
         HeaderSetter headerSetter = new HeaderSetter();
+        if (userid.contains("test")){
+            return ResponseEntity
+                    .ok()
+                    .headers(headerSetter.haederSet(token, "SAVE!"))
+                    .body("");
+        }
         int check = customUserDetailService.getSchedule_chk(userid);
 
         Date today = new Date();

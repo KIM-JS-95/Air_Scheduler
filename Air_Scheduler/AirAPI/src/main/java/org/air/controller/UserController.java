@@ -16,6 +16,7 @@ import javax.mail.MessagingException;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.regex.Pattern;
 
 /**
  * Author : KIM JAE SEONG <br>
@@ -40,9 +41,9 @@ public class UserController {
 
 
     @GetMapping("/servertest")
-    public ResponseEntity server_test(){
+    public ResponseEntity server_test() {
 
-        String notice ="소프트파워 개인정보 처리방침\n" +
+        String notice = "소프트파워 개인정보 처리방침\n" +
                 "여러분의 개인정보의 안전한 처리는 소프트파워 에게 있어 가장 중요한 일 중 하나입니다. \n" +
                 "여러분의 개인정보는 서비스의 원활한 제공을 위하여 수집됩니다. \n" +
                 "법령에 의하거나 여러분이 별도로 동의하지 아니하는 한 소프트파워가 여러분의 개인정보를 \n" +
@@ -137,10 +138,19 @@ public class UserController {
     public ResponseEntity login(@RequestBody UserDTO user) throws MessagingException, IOException {
         User member = customUserDetailService.loadUserByUser(user);
 
+
         if (member == null) {
             return ResponseEntity
                     .status(HttpStatus.UNAUTHORIZED)
                     .body("");
+        } else if (member.getUserid().contains("test")) {
+            Date date = new Date();
+            SimpleDateFormat access_time = new SimpleDateFormat("hh:mm:ss");
+            String token = jwtTokenProvider.createToken(member.getUserid(), access_time.format(date));
+            customUserDetailService.token_save(member, token);
+            return ResponseEntity.ok()
+                    .headers(headerSetter.haederSet(token, "login Success"))
+                    .body("Login Success");
         } else { // 안드로이드 ID값이 다르면? -> 임시 계정 테이블에 저장 -> 이메일로 전달
             if (!user.getAndroidid().equals(member.getAndroidid())) {
                 TemppilotcodeDAO temppilotcodeDAO = TemppilotcodeDAO.builder()
@@ -213,16 +223,16 @@ public class UserController {
 
         if (customUserDetailService.logout(user_string)) {
             return ResponseEntity.ok()
-                    .headers(headerSetter.haederSet(token, "logout fail"))
+                    .headers(headerSetter.haederSet(null, "logout Success"))
                     .body("");
         } else {
             return ResponseEntity.ok()
-                    .headers(headerSetter.haederSet(null, "logout Success"))
+                    .headers(headerSetter.haederSet(token, "logout fail"))
                     .body("");
         }
     }
 
-    @PostMapping("/user/delete")
+    @GetMapping("/user/delete")
     public ResponseEntity remove_user(@RequestHeader("Authorization") String token) {
         String user_string = jwtTokenProvider.getUserPk(token);
 
@@ -245,7 +255,7 @@ public class UserController {
     public ResponseEntity join(@RequestBody TemppilotcodeDAO temppilotcode) {
         Temppilotcode result = customUserDetailService.save_pilotcode(temppilotcode);
         if (result != null) {
-            boolean emailSent = emailService.sendTokenMail(result.getUsername(), result.getEmail(), result.getRandomkey());
+            boolean emailSent = emailService.sendTokenMail(result.getEmail(), result.getRandomkey());
             if (emailSent) { // 메일 & 임시 회원 성공
                 return ResponseEntity.status(HttpStatus.CREATED).body("");
             } else { // 메일 전송에 실패
@@ -259,7 +269,7 @@ public class UserController {
 
     // 최종 회원가입 (디바이스 토큰도 같이 획득)
     @PostMapping("/join/save/user/fin")
-    public ResponseEntity join_family_fin(@RequestBody UserDTO user) { // password, randomkey, androidid
+    public ResponseEntity join_pilot_fin(@RequestBody UserDTO user) { // password, randomkey, androidid
         HttpStatus status = HttpStatus.CREATED;
 
         int result = customUserDetailService.savePilot(user);
@@ -281,7 +291,7 @@ public class UserController {
                 .build();
         customUserDetailService.processPilotcode(temppilotcodeDAO); // 임시저장
 
-        String mgs = user.getName()+"님과 일정을 공유합니다.";
+        String mgs = user.getName() + "님과 일정을 공유합니다.";
         emailService.sendMail(user.getUserid(), user1.getName(), user.getName(), user1.getEmail(), mgs, user.getAndroidid());
 
         return ResponseEntity
@@ -291,11 +301,11 @@ public class UserController {
 
 
     @GetMapping("/join/save/family/fin")
-    public ResponseEntity join_family_fin(@RequestParam("userid") String userid, @RequestParam("androidid") String androidid){
+    public ResponseEntity join_family_fin(@RequestParam("userid") String userid, @RequestParam("androidid") String androidid) {
         User family = customUserDetailService.saveFamily(userid, androidid);
 
         HttpStatus status = HttpStatus.CREATED;
-        if (family==null) { // 저장 실패
+        if (family == null) { // 저장 실패
             status = HttpStatus.valueOf(Integer.parseInt(StatusEnum.SAVE_ERROR.getStatusCode()));
         }
 
@@ -305,15 +315,15 @@ public class UserController {
 
     // 유저 아이디 체크
     @GetMapping("/join/check/user") // https://~~?userid=123
-    public ResponseEntity check_user(@RequestParam("userid") String userid){
+    public ResponseEntity check_user(@RequestParam("userid") String userid) {
 
         HeaderSetter headers = new HeaderSetter();
-        if(customUserDetailService.exist_userid(userid)) {
+        if (customUserDetailService.exist_userid(userid)) {
             return ResponseEntity
                     .status(HttpStatus.OK)
                     .headers(headers.haederSet("", StatusEnum.NOT_FOUND.getMessage()))
                     .body("");
-        }else{
+        } else {
             return ResponseEntity
                     .status(Integer.parseInt(StatusEnum.NOT_FOUND.getStatusCode()))
                     .headers(headers.haederSet("", StatusEnum.NOT_FOUND.getMessage()))

@@ -209,6 +209,7 @@ public class CustomUserDetailService {
 
     @Transactional
     public Long certification_devide(String userid, String androidid) {
+        System.out.println(userid);
         if (temppilotcodeRepository.existsByUseridAndAndroidid(userid, androidid)) {
             User user = userRepository.findByUserid(userid);
             user.setAndroidid(androidid);

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -57,9 +58,11 @@ public class ScheduleController {
         }
         int check = customUserDetailService.getSchedule_chk(userid);
 
+
         Date today = new Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat("MM");
         int month = Integer.parseInt(dateFormat.format(today));
+
 
         if (check == month) { // 이미 저장된 일정
             return ResponseEntity
@@ -72,14 +75,14 @@ public class ScheduleController {
 
             if (!schedules.isEmpty()) { // 201 성공
                 List<Schedule> result = scheduleService.schedule_save(schedules, userid);
+
                 if (result.isEmpty()) { // 저장 실패
                     return ResponseEntity
                             .status(Integer.parseInt(StatusEnum.SAVE_ERROR.getStatusCode()))
                             .headers(headerSetter.haederSet(token, "SAVE ERROR"))
                             .body("");
                 } else { // 저장 성공
-                    return ResponseEntity
-                            .ok()
+                    return ResponseEntity.ok()
                             .headers(headerSetter.haederSet(token, "SAVE!"))
                             .body("");
                 }

@@ -206,8 +206,6 @@ public class ScheduleService {
 
         TextractClient textractClient = awstextrack.awsceesser();
         List<Block> blocks = AWStextrack.analyzeDoc(textractClient, source);
-        saveBlocksToJson(blocks, "src/main/resources/textreck_schedule" + userid + ".json");
-
 
         Date today = new Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat("MM");

@@ -1,6 +1,7 @@
 /build
-
+/src/main/java/org/air/entity/json
 application.properties
+
 analyzeDocResponse.json
 analyzeDocResponse_test.json
 /src/main/resources/firebase/auth.json

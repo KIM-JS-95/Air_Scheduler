@@ -62,9 +62,8 @@ public class PilotController {
     }
 
     @PostMapping("/gettodayschedule") // today
-    public ResponseEntity gettodayschedule(@RequestHeader("Authorization") String token) throws ParseException {
+    public ResponseEntity gettodayschedule(@RequestHeader("Authorization") String token) {
         String userid = jwtTokenProvider.getUserPk(token);
-
         SimpleDateFormat dateFormat = new SimpleDateFormat("ddMMMyy", Locale.ENGLISH);
         dateFormat.setTimeZone(TimeZone.getTimeZone("Asia/Seoul"));
         String startDate = dateFormat.format(new Date());
@@ -120,7 +119,8 @@ public class PilotController {
     }
 */
     @GetMapping("/viewschedule") // 일정 상세보기
-    public ResponseEntity viewSchedule(@RequestHeader("Authorization") String token, @RequestParam Long id) {
+    public ResponseEntity viewSchedule(@RequestHeader("Authorization") String token,
+                                       @RequestParam Long id) {
         HeaderSetter headers = new HeaderSetter();
         String userid = jwtTokenProvider.getUserPk(token);
 

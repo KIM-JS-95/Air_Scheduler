@@ -238,7 +238,7 @@ public class UserController {
         String user_string = jwtTokenProvider.getUserPk(token);
 
         if (customUserDetailService.delete_user(user_string)) {
-            return ResponseEntity.ok()
+            return ResponseEntity.status(HttpStatus.valueOf(StatusEnum.DELETE_ERROR.getStatusCode()))
                     .headers(headerSetter.haederSet(token, "delete fail"))
                     .body("");
         } else {
@@ -302,7 +302,8 @@ public class UserController {
 
 
     @GetMapping("/join/save/family/fin")
-    public ResponseEntity join_family_fin(@RequestParam("userid") String userid, @RequestParam("androidid") String androidid) {
+    public ResponseEntity join_family_fin(@RequestParam("userid") String userid,
+                                          @RequestParam("androidid") String androidid) {
         User family = customUserDetailService.saveFamily(userid, androidid);
 
         HttpStatus status = HttpStatus.CREATED;

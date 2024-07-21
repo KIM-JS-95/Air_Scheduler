@@ -1,9 +1,12 @@
 #!/bin/bash
 
+# 리눅스에서 사용할때는 bash 남겨놔야함
+
 
 
 # 현재 디렉토리 위치 저장
 current_dir=$(pwd)
+username = "baugh248730"
 
 # Dockerfile, docker-compose.yml 파일이 있는지 확인
 if [ ! -f "$current_dir/Dockerfile" ] || [ ! -f "$current_dir/docker-compose.yml" ]; then
@@ -24,8 +27,18 @@ echo "Building Spring Boot application with Gradle Wrapper..."
 echo "Building Docker images..."
 docker-compose build
 
+# Docker Hub 로그인
+echo "Docker Hub에 로그인하세요."
+docker login
+
+# 이미지 태그 지정
+run_command "docker tag table-detection $username/table-detection:latest" "Tagging Docker image"
+
+# 이미지 푸시
+run_command "docker push $username/table-detection:latest" "Pushing Docker image"
+
 # Docker 컨테이너 실행
 echo "Starting services with Docker Compose..."
-docker-compose up -d
+#docker-compose up -d
 
-echo "Deployment complete."
+echo "Docker push complete."

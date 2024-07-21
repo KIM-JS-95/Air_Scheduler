@@ -1,3 +1,5 @@
+![intro.jpg](src%2Fmain%2Fresources%2Fstatic%2Fimg%2Fintro.jpg)
+
 # Schedules - BACK
 
 ## Tools

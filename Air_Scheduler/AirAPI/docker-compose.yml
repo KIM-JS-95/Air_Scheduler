@@ -2,7 +2,7 @@ version: '3.0'
 services:
   schedules:
     container_name: flight_schedules
-    image: flight_schedules:1.1
+    image: baugh248730/flight_schedules:latest
     build:
       context: .
       dockerfile: Dockerfile
@@ -16,6 +16,7 @@ services:
     restart: unless-stopped
     depends_on:
       - mysql
+      - ocr
   mysql:
     container_name: mysql
     image: mysql:latest
@@ -29,5 +30,16 @@ services:
     ports:
       - 3307:3306
 
+  ocr:
+    container_name: python_ocr
+    image: baugh248730/table-detection:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 5000:5000
+    restart: unless-stopped
+    depends_on:
+      - mysql
 volumes:
   mysql_data:

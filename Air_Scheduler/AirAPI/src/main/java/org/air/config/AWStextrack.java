@@ -18,8 +18,6 @@ import software.amazon.awssdk.services.textract.model.*;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -123,16 +121,16 @@ public class AWStextrack {
 
                         schedule.setCntFrom(map.get(ids[0]));
                     } else if (index == 8) {
-                        schedule.setStdL(map.get(ids[0]));
+                        schedule.setStdl(map.get(ids[0]));
                     } else if (index == 9) {
-                        schedule.setStdB(map.get(ids[0]));
+                        schedule.setStdb(map.get(ids[0]));
                     } else if (index == 10) {
 
                         schedule.setCntTo(map.get(ids[0]));
                     } else if (index == 11) {
-                        schedule.setStaL(map.get(ids[0]));
+                        schedule.setStal(map.get(ids[0]));
                     } else if (index == 12) {
-                        schedule.setStaB(map.get(ids[0]));
+                        schedule.setStab(map.get(ids[0]));
                     } else if (index == 13) {
                         String hotel = "";
                         for (int j = 0; j < ids.length; j++) {

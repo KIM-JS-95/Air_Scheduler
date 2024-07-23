@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -46,6 +45,7 @@ public class ScheduleController {
     private FcmServiceImpl fcmService;
 
     // JPG 로부터 데이터 추출 후 저장
+    // 일정표가 다시나옴
     @PostMapping("/upload")
     public ResponseEntity upload(@RequestHeader("Authorization") String token, @RequestParam("file") MultipartFile file) {
         String userid = jwtTokenProvider.getUserPk(token);
@@ -56,20 +56,12 @@ public class ScheduleController {
                     .headers(headerSetter.haederSet(token, "SAVE!"))
                     .body("");
         }
-        int check = customUserDetailService.getSchedule_chk(userid);
-
 
         Date today = new Date();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("MM");
-        int month = Integer.parseInt(dateFormat.format(today));
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MMM");
+        String month = dateFormat.format(today);
+        scheduleService.delete_cron(month);
 
-
-        if (check == month) { // 이미 저장된 일정
-            return ResponseEntity
-                    .status(Integer.parseInt(StatusEnum.TEXTRACK_already_save.getStatusCode()))
-                    .headers(headerSetter.haederSet(token, "Already saved your schedules"))
-                    .body("");
-        }
         try {
             List<Schedule> schedules = scheduleService.textrack(userid, file.getInputStream());
 

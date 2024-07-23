@@ -34,8 +34,8 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
 
     @Modifying
     @Transactional
-    @Query(value = "DELETE FROM schedule WHERE date LIKE %?1%", nativeQuery = true)
-    boolean delete_cron(String month);
+    @Query(value = "DELETE FROM schedule WHERE date LIKE CONCAT('%', :month, '%')", nativeQuery = true)
+    boolean delete_cron(@Param("month") String month);
 
 
     void deleteAllByUserUserid(String userid);

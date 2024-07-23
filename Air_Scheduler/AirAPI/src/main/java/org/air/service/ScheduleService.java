@@ -29,8 +29,6 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static org.air.config.AWStextrack.saveBlocksToJson;
-
 @Service
 @Configuration
 public class ScheduleService {
@@ -162,13 +160,13 @@ public class ScheduleService {
 
                 schedule.setCntFrom(update_schedule.getCntFrom());
 
-                schedule.setStdL(update_schedule.getStdL());
-                schedule.setStdB(update_schedule.getStdB());
+                schedule.setStdl(update_schedule.getStdl());
+                schedule.setStdb(update_schedule.getStdb());
 
                 schedule.setCntTo(update_schedule.getCntTo());
 
-                schedule.setStaL(update_schedule.getStaL());
-                schedule.setStaB(update_schedule.getStaB());
+                schedule.setStal(update_schedule.getStal());
+                schedule.setStab(update_schedule.getStab());
 
                 schedule.setAchotel(update_schedule.getAchotel());
                 schedule.setBlk(update_schedule.getBlk());
@@ -234,10 +232,10 @@ public class ScheduleService {
                     .destinationShort(s.getCntTo())
                     .destination(codes.getOrDefault(s.getCntTo(), Collections.emptyMap()).getOrDefault("code", "Unknown"))
                     .flightNumber(s.getPairing())
-                    .stal(s.getStaL())
-                    .stab(s.getStaB())
-                    .stdl(s.getStdL())
-                    .stdb(s.getStdB())
+                    .stal(s.getStal())
+                    .stab(s.getStab())
+                    .stdl(s.getStdl())
+                    .stdb(s.getStdb())
                     .activity(s.getActivity())
                     .id(s.getId())
                     .ci(s.getCi())

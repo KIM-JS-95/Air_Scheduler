@@ -50,10 +50,11 @@ public class JwtTokenProvider {
                 .compact();
     }
 
-    public String createrefreshToken(String userid, String access_time){
+    public String createrefreshToken(String userid, String access_time, String auth_level){
         Claims claims = Jwts.claims(); // JWT payload 에 저장되는 정보단위, 보통 여기서 user를 식별하는 값을 넣는다.
         claims.put("userid", userid);
         claims.put("access_time", access_time);
+        claims.put("auth_level", auth_level);
 
         return Jwts.builder()
                 .setClaims(claims) // 정보 저장

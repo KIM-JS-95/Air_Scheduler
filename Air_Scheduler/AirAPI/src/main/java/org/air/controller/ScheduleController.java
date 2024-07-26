@@ -51,8 +51,7 @@ public class ScheduleController {
         String userid = jwtTokenProvider.getUserPk(token);
         HeaderSetter headerSetter = new HeaderSetter();
         if (userid.contains("test")){
-            return ResponseEntity
-                    .ok()
+            return ResponseEntity.ok()
                     .headers(headerSetter.haederSet(token, "SAVE!"))
                     .body("");
         }

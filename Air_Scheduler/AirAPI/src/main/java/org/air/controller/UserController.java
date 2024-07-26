@@ -8,7 +8,9 @@ import org.air.service.CustomUserDetailService;
 import org.air.service.EmailService;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -138,7 +140,6 @@ public class UserController {
     public ResponseEntity login(@RequestBody UserDTO user) throws MessagingException, IOException {
         User member = customUserDetailService.loadUserByUser(user);
 
-
         if (member == null) {
             return ResponseEntity
                     .status(HttpStatus.UNAUTHORIZED)
@@ -148,9 +149,16 @@ public class UserController {
             SimpleDateFormat access_time = new SimpleDateFormat("hh:mm:ss");
             String token = jwtTokenProvider.createToken(member.getUserid(), access_time.format(date));
             customUserDetailService.token_save(member, token);
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(new MediaType("application", "json"));
+            headers.set("auth_level", member.getAuthority().getAuthority());
+            headers.set("Authorization", token);
+
             return ResponseEntity.ok()
-                    .headers(headerSetter.haederSet(token, "login Success"))
+                    .headers(headers)
                     .body("Login Success");
+
         } else { // 안드로이드 ID값이 다르면? -> 임시 계정 테이블에 저장 -> 이메일로 전달
             if (!user.getAndroidid().equals(member.getAndroidid())) {
                 TemppilotcodeDAO temppilotcodeDAO = TemppilotcodeDAO.builder()
@@ -161,12 +169,17 @@ public class UserController {
                         .build();
 
                 customUserDetailService.login_check(temppilotcodeDAO); // 임시저장
-
                 emailService.sendLoginCautionMail(member.getName(), member.getEmail(), member.getUserid(), user.getAndroidid());
                 return ResponseEntity.status(Integer.parseInt(StatusEnum.DEVICE_NOT_MATCH.getStatusCode()))
                         .headers(headerSetter.haederSet("", StatusEnum.DEVICE_NOT_MATCH.getMessage()))
                         .body("");
             }
+
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(new MediaType("application", "json"));
+            headers.set("auth_level", member.getAuthority().getAuthority());
+
             Date date = new Date();
             SimpleDateFormat access_time = new SimpleDateFormat("hh:mm:ss");
             String token = jwtTokenProvider.createToken(member.getUserid(), access_time.format(date));
@@ -181,18 +194,17 @@ public class UserController {
     public ResponseEntity modify(@RequestHeader("Authorization") String token, @RequestBody User user) {
 
         String user_string = jwtTokenProvider.getUserPk(token); // body: userid
-        boolean flag = customUserDetailService.modify(user, user_string);
-        if (flag) {
-            Date date = new Date();
-            SimpleDateFormat access_time = new SimpleDateFormat("hh:mm:ss");
-            String new_token = jwtTokenProvider.createToken(user.getUserid(), access_time.format(date));
+        User member = customUserDetailService.modify(user, user_string);
+        if (member!= null) {
 
-            User member = customUserDetailService.loadUserByToken(user.getUserid());
-            customUserDetailService.token_save(member, token);
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(new MediaType("application", "json"));
+            headers.set("auth_level", member.getAuthority().getAuthority());
+            headers.set("Authorization", token);
 
             return ResponseEntity.ok()
-                    .headers(headerSetter.haederSet(new_token, "login Success"))
-                    .body("Login Success");
+                    .headers(headers)
+                    .body(member);
         } else {
             return ResponseEntity
                     .status(Integer.parseInt(StatusEnum.SAVE_ERROR.getStatusCode()))
@@ -211,6 +223,7 @@ public class UserController {
         member.put("userid", user.getUserid());
         member.put("email", user.getEmail());
         member.put("password", user.getPassword());
+        member.put("password", user.getAuthority());
 
         return ResponseEntity.ok()
                 .headers(headerSetter.haederSet(token, "login Success"))

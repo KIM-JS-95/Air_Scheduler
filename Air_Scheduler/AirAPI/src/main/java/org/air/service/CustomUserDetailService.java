@@ -195,15 +195,17 @@ public class CustomUserDetailService {
     }
 
     @Transactional
-    public boolean modify(User user_modify, String token) {
+    public User modify(User user_modify, String token) {
         try {
             // 1. 유저 확인
             User user = userRepository.existsByUserid(token) ? userRepository.findByUserid(token) : null;
             user.setEmail(user_modify.getEmail());
             user.setPassword(user_modify.getPassword());
-            return true;
+
+            System.out.println(user.getAuthority().getAuthority());
+            return user;
         } catch (Exception e) {
-            return false;
+            return null;
         }
     }
 

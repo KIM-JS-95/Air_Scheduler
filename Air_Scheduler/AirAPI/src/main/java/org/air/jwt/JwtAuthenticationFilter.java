@@ -40,7 +40,7 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
 
                 String userid = jwtTokenProvider.getUserPk(token);
                 User user = customUserDetailService.loadUserByToken(userid);
-                String new_token = jwtTokenProvider.createrefreshToken(user.getUserid(), access_time.format(date));
+                String new_token = jwtTokenProvider.createrefreshToken(user.getUserid(), access_time.format(date), user.getAuthority().getAuthority());
 
                 customUserDetailService.token_save(user, new_token);
             }

@@ -11,11 +11,16 @@ import org.air.service.CustomUserDetailService;
 import org.air.service.FcmServiceImpl;
 import org.air.service.ScheduleService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -44,8 +49,11 @@ public class ScheduleController {
     @Autowired
     private FcmServiceImpl fcmService;
 
+    private final RestTemplate restTemplate = new RestTemplate();
+
     // JPG 로부터 데이터 추출 후 저장
     // 일정표가 다시나옴
+    /*
     @PostMapping("/upload")
     public ResponseEntity upload(@RequestHeader("Authorization") String token, @RequestParam("file") MultipartFile file) {
         String userid = jwtTokenProvider.getUserPk(token);
@@ -89,6 +97,76 @@ public class ScheduleController {
                     .status(Integer.parseInt(StatusEnum.TEXTRACK_ERROR.getStatusCode()))
                     .headers(headerSetter.haederSet(token, ""))
                     .body("");
+        }
+    }
+    */
+
+    @PostMapping("/upload")
+    public ResponseEntity<String> upload(@RequestHeader("Authorization") String token, @RequestParam("file") MultipartFile file) throws IOException {
+        String flaskUrl = "http://localhost:5000/process_image";
+        String userid = jwtTokenProvider.getUserPk(token);
+        HeaderSetter headerSetter = new HeaderSetter();
+
+        if (userid.contains("test1")){
+            return ResponseEntity.ok()
+                    .headers(headerSetter.haederSet(token, "SAVE!"))
+                    .body("");
+        }
+
+        // Prepare headers
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.MULTIPART_FORM_DATA);
+
+        // Prepare body for the request
+        MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
+        body.add("file", file.getResource());
+
+        // Create HttpEntity with headers and body
+        HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
+
+        // Send POST request
+        ResponseEntity<byte[]> response = restTemplate.exchange(
+                flaskUrl,
+                HttpMethod.POST,
+                requestEntity,
+                byte[].class
+        );
+
+        // Check response status
+        if (response.getStatusCode() == HttpStatus.OK) {
+
+            try {
+                List<Schedule> schedules = scheduleService.textrack(userid, file.getInputStream());
+
+                if (!schedules.isEmpty()) { // 201 성공
+                    List<Schedule> result = scheduleService.schedule_save(schedules, "test");
+
+                    if (result.isEmpty()) { // 저장 실패
+                        return ResponseEntity
+                                .status(Integer.parseInt(StatusEnum.SAVE_ERROR.getStatusCode()))
+                                .headers(headerSetter.haederSet(token, "SAVE ERROR"))
+                                .body("");
+                    } else { // 저장 성공
+                        return ResponseEntity.ok()
+                                .headers(headerSetter.haederSet(token, "SAVE!"))
+                                .body("");
+                    }
+                } else {
+                    // textrack 실패
+                    return ResponseEntity
+                            .status(Integer.parseInt(StatusEnum.TEXTRACK_EMPTY_ERROR.getStatusCode()))
+                            .headers(headerSetter.haederSet(token, "plz, check your Image or Schedule sheet"))
+                            .body("");
+                }
+            } catch (Exception e) {
+                return ResponseEntity
+                        .status(Integer.parseInt(StatusEnum.TEXTRACK_ERROR.getStatusCode()))
+                        .headers(headerSetter.haederSet(token, ""))
+                        .body("");
+            }
+
+        } else {
+            throw new RuntimeException("Failed to process image");
         }
     }
 

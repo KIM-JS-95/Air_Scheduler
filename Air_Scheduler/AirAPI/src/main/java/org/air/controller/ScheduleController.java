@@ -50,57 +50,6 @@ public class ScheduleController {
     private FcmServiceImpl fcmService;
 
     private final RestTemplate restTemplate = new RestTemplate();
-
-    // JPG 로부터 데이터 추출 후 저장
-    // 일정표가 다시나옴
-    /*
-    @PostMapping("/upload")
-    public ResponseEntity upload(@RequestHeader("Authorization") String token, @RequestParam("file") MultipartFile file) {
-        String userid = jwtTokenProvider.getUserPk(token);
-        HeaderSetter headerSetter = new HeaderSetter();
-        if (userid.contains("test")){
-            return ResponseEntity.ok()
-                    .headers(headerSetter.haederSet(token, "SAVE!"))
-                    .body("");
-        }
-
-        Date today = new Date();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("MMM");
-        String month = dateFormat.format(today);
-        scheduleService.delete_cron(month);
-
-        try {
-            List<Schedule> schedules = scheduleService.textrack(userid, file.getInputStream());
-
-            if (!schedules.isEmpty()) { // 201 성공
-                List<Schedule> result = scheduleService.schedule_save(schedules, userid);
-
-                if (result.isEmpty()) { // 저장 실패
-                    return ResponseEntity
-                            .status(Integer.parseInt(StatusEnum.SAVE_ERROR.getStatusCode()))
-                            .headers(headerSetter.haederSet(token, "SAVE ERROR"))
-                            .body("");
-                } else { // 저장 성공
-                    return ResponseEntity.ok()
-                            .headers(headerSetter.haederSet(token, "SAVE!"))
-                            .body("");
-                }
-            } else {
-                // textrack 실패
-                return ResponseEntity
-                        .status(Integer.parseInt(StatusEnum.TEXTRACK_EMPTY_ERROR.getStatusCode()))
-                        .headers(headerSetter.haederSet(token, "plz, check your Image or Schedule sheet"))
-                        .body("");
-            }
-        } catch (Exception e) {
-            return ResponseEntity
-                    .status(Integer.parseInt(StatusEnum.TEXTRACK_ERROR.getStatusCode()))
-                    .headers(headerSetter.haederSet(token, ""))
-                    .body("");
-        }
-    }
-    */
-
     @PostMapping("/upload")
     public ResponseEntity<String> upload(@RequestHeader("Authorization") String token, @RequestParam("file") MultipartFile file) throws IOException {
         String flaskUrl = "http://localhost:5000/process_image";

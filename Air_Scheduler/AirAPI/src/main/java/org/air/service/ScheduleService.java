@@ -198,7 +198,7 @@ public class ScheduleService {
     }
 
     public List<Schedule> textrack(String userid, InputStream source) throws IOException {
-
+        List<Schedule> rst = new ArrayList<>();
         HashMap<String, String> map = new HashMap<>();
         List<Block> list_block = new ArrayList<>();
 
@@ -209,6 +209,14 @@ public class ScheduleService {
         SimpleDateFormat dateFormat = new SimpleDateFormat("MM");
         customUserDetailService.set_schedule_status(userid, Integer.parseInt(dateFormat.format(today))); // 일정 상태 저장
 
+        for(int i=1; i<blocks.size(); i++){
+            if((i==1 || i==2) && Objects.equals(blocks.get(i).blockType().toString(), "LINE")){
+                if(!blocks.get(i).text().equals("Crew Roster Report")){
+                    return rst;
+                }
+            }
+        }
+
         blocks.forEach(callback -> {
             if (Objects.equals(callback.blockType().toString(), "WORD")) {
                 map.put(callback.id(), callback.text());
@@ -216,8 +224,8 @@ public class ScheduleService {
                 list_block.add(callback);
             }
         });
-
-        return AWStextrack.texttoEntity(map, list_block);
+        rst = AWStextrack.texttoEntity(map, list_block);
+        return rst;
     }
 
     // -------------------------- Nation_Code Mapping --------------------------

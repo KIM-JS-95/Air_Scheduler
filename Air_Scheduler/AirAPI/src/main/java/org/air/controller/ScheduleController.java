@@ -11,6 +11,7 @@ import org.air.service.CustomUserDetailService;
 import org.air.service.FcmServiceImpl;
 import org.air.service.ScheduleService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -49,10 +50,13 @@ public class ScheduleController {
     @Autowired
     private FcmServiceImpl fcmService;
 
+    @Value("${flaskUrl}")
+    private String flaskUrl;
+
     private final RestTemplate restTemplate = new RestTemplate();
     @PostMapping("/upload")
     public ResponseEntity<String> upload(@RequestHeader("Authorization") String token, @RequestParam("file") MultipartFile file) throws IOException {
-        String flaskUrl = "http://localhost:5000/process_image";
+
         String userid = jwtTokenProvider.getUserPk(token);
         HeaderSetter headerSetter = new HeaderSetter();
 

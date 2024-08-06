@@ -54,7 +54,6 @@ public class AWStextrack {
 
             List<FeatureType> featureTypes = new ArrayList<FeatureType>();
             featureTypes.add(FeatureType.TABLES);
-            featureTypes.add(FeatureType.FORMS);
 
             AnalyzeDocumentRequest analyzeDocumentRequest = AnalyzeDocumentRequest
                     .builder()
@@ -74,12 +73,6 @@ public class AWStextrack {
         }
         return docInfo;
     }
-
-    public static void saveBlocksToJson(List<Block> blocks, String filePath) throws IOException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.writeValue(new File(filePath), blocks);
-    }
-
     @Bean
     public static List<Schedule> texttoEntity(HashMap<String, String> map, List<Block> list) {
         List<Schedule> schedules = new ArrayList<>();

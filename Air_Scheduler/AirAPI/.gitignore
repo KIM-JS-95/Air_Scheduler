@@ -3,5 +3,4 @@
 application.properties
 
 analyzeDocResponse.json
-analyzeDocResponse_test.json
 /src/main/resources/firebase/auth.json

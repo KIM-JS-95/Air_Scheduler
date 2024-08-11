@@ -158,8 +158,13 @@ public class CustomUserDetailService {
 
     public int getSchedule_chk(String userid) {
         User user = userRepository.findByUserid(userid);
-        int check = user.getSchedule_chk();
-        return check;
+        return user.getSchedule_chk();
+    }
+
+    @Transactional
+    public void getSchedule_add(String userid) {
+        User user = userRepository.findByUserid(userid);
+        user.setSchedule_chk(user.getSchedule_chk()+1);
     }
 
     @Transactional

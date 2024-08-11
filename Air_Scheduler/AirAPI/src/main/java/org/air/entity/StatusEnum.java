@@ -8,6 +8,7 @@ import lombok.Getter;
 public enum StatusEnum {
     // 20X goot reseponse
     OK("200", "OK"),
+    OVER("222", "OVER"),
     BAD_REQUEST("400", "BAD_REQUEST"),
 
     /// 00x AWS_ERROR

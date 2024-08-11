@@ -28,7 +28,7 @@ echo "Docker Hub에 로그인하세요."
 docker login
 
 # 이미지 태그 지정
-docker tag table-detection $username/table-detection:latest
+docker tag table-detection $username/flight_schedules:latest
 echo "Tagged Docker image"
 
 # 이미지 푸시

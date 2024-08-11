@@ -54,73 +54,58 @@ public class ScheduleController {
     private String flaskUrl;
 
     private final RestTemplate restTemplate = new RestTemplate();
+
     @PostMapping("/upload")
     public ResponseEntity<String> upload(@RequestHeader("Authorization") String token, @RequestParam("file") MultipartFile file) throws IOException {
 
         String userid = jwtTokenProvider.getUserPk(token);
         HeaderSetter headerSetter = new HeaderSetter();
 
-        if (userid.contains("test1")){
+        if (userid.contains("test1")) {
             return ResponseEntity.ok()
                     .headers(headerSetter.haederSet(token, "SAVE!"))
                     .body("");
         }
+        System.out.println((customUserDetailService.getSchedule_chk(userid) >= 3));
+        if (customUserDetailService.getSchedule_chk(userid) >= 3) { // 5번 이상 시도했다면
+            return ResponseEntity
+                    .status(Integer.parseInt(StatusEnum.OVER.getStatusCode()))
+                    .headers(headerSetter.haederSet(token, "OVER UPLOAD"))
+                    .body("");
+        }
+        customUserDetailService.getSchedule_add(userid);
 
-        // Prepare headers
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.MULTIPART_FORM_DATA);
 
-        // Prepare body for the request
-        MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
-        body.add("file", file.getResource());
+        try {
+            List<Schedule> schedules = scheduleService.textrack(userid, file.getInputStream());
 
-        // Create HttpEntity with headers and body
-        HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
+            if (!schedules.isEmpty()) { // 201 성공
+                List<Schedule> result = scheduleService.schedule_save(schedules, "test");
 
-        // Send POST request
-        ResponseEntity<byte[]> response = restTemplate.exchange(
-                flaskUrl,
-                HttpMethod.POST,
-                requestEntity,
-                byte[].class
-        );
-
-        // Check response status
-        if (response.getStatusCode() == HttpStatus.OK) {
-
-            try {
-                List<Schedule> schedules = scheduleService.textrack(userid, file.getInputStream());
-
-                if (!schedules.isEmpty()) { // 201 성공
-                    List<Schedule> result = scheduleService.schedule_save(schedules, "test");
-
-                    if (result.isEmpty()) { // 저장 실패
-                        return ResponseEntity
-                                .status(Integer.parseInt(StatusEnum.SAVE_ERROR.getStatusCode()))
-                                .headers(headerSetter.haederSet(token, "SAVE ERROR"))
-                                .body("");
-                    } else { // 저장 성공
-                        return ResponseEntity.ok()
-                                .headers(headerSetter.haederSet(token, "SAVE!"))
-                                .body("");
-                    }
-                } else {
-                    // textrack 실패
+                if (result.isEmpty()) { // 저장 실패
                     return ResponseEntity
-                            .status(Integer.parseInt(StatusEnum.TEXTRACK_EMPTY_ERROR.getStatusCode()))
-                            .headers(headerSetter.haederSet(token, "plz, check your Image or Schedule sheet"))
+                            .status(Integer.parseInt(StatusEnum.SAVE_ERROR.getStatusCode()))
+                            .headers(headerSetter.haederSet(token, "SAVE ERROR"))
+                            .body("");
+                } else { // 저장 성공
+                    return ResponseEntity.ok()
+                            .headers(headerSetter.haederSet(token, "SAVE!"))
                             .body("");
                 }
-            } catch (Exception e) {
+            } else {
+                // textrack 실패
                 return ResponseEntity
-                        .status(Integer.parseInt(StatusEnum.TEXTRACK_ERROR.getStatusCode()))
-                        .headers(headerSetter.haederSet(token, ""))
+                        .status(Integer.parseInt(StatusEnum.TEXTRACK_EMPTY_ERROR.getStatusCode()))
+                        .headers(headerSetter.haederSet(token, "plz, check your Image or Schedule sheet"))
                         .body("");
             }
-
-        } else {
-            throw new RuntimeException("Failed to process image");
+        } catch (Exception e) {
+            return ResponseEntity
+                    .status(Integer.parseInt(StatusEnum.TEXTRACK_ERROR.getStatusCode()))
+                    .headers(headerSetter.haederSet(token, ""))
+                    .body("");
         }
+
     }
 
     @PostMapping("/modify")
@@ -146,7 +131,7 @@ public class ScheduleController {
                     .headers(headers)
                     .body("");
         } else {
-            HttpHeaders headers  = headerSetter.haederSet(token, "DELETE fail!");
+            HttpHeaders headers = headerSetter.haederSet(token, "DELETE fail!");
             return ResponseEntity.ok()
                     .headers(headers)
                     .body("");
@@ -160,7 +145,7 @@ public class ScheduleController {
         String headerMgs = (fcmService.sendMessageAll(messege)) ? "Complete transe Messeges" : "Faild transe Messeges";
 
         HeaderSetter headerSetter = new HeaderSetter();
-        HttpHeaders headers  = headerSetter.haederSet(token, headerMgs);
+        HttpHeaders headers = headerSetter.haederSet(token, headerMgs);
         return ResponseEntity.ok()
                 .headers(headers)
                 .body("");

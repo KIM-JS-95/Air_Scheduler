@@ -2,6 +2,7 @@ package org.air.service;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.firebase.messaging.FirebaseMessagingException;
 import org.air.config.AWStextrack;
 
 import org.air.config.CustomCode;
@@ -12,6 +13,7 @@ import org.air.repository.ScheduleRepository;
 import org.air.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import software.amazon.awssdk.services.textract.TextractClient;
 import software.amazon.awssdk.services.textract.model.Block;
@@ -183,6 +185,8 @@ public class ScheduleService {
         }
     }
 
+
+
     // 파일럿 일정 전체 삭제
     public boolean delete(String userid) {
         try {
@@ -279,26 +283,15 @@ public class ScheduleService {
         return codeCountryMap;
     }
 
-    public List<Block> getScheduleJsonData(String userid, ServletContext context) {
+    // -------------------------- Scheduled Mapping --------------------------
 
-        List<Block> blocks = new ArrayList<>();
-        try {
-            String dir = "/static/img/textreck_schedule/" + userid + ".json";
-            String absoluteDir = context.getRealPath(dir);
-            File jsonFile = new File(absoluteDir);
-
-            if (jsonFile.exists()) {
-                ObjectMapper objectMapper = new ObjectMapper();
-                blocks = objectMapper.readValue(jsonFile, new TypeReference<List<Block>>() {
-                });
-            } else {
-                System.out.println("JSON file not found.");
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return blocks;
+    public void notice_next_day_schedules() throws FirebaseMessagingException {
+        fcmService.notice_next_day_schedules();
     }
+
+
+    public void schedule_cron_set() throws FirebaseMessagingException {
+        fcmService.request_schedule_save();
+    }
+
 }

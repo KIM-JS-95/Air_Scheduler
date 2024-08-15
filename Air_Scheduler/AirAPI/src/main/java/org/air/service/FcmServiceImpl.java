@@ -3,18 +3,23 @@ package org.air.service;
 import com.google.auth.oauth2.AccessToken;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.messaging.*;
+import com.zaxxer.hikari.util.SuspendResumeLock;
 import org.air.entity.Authority;
 import org.air.entity.Messege;
+import org.air.entity.Schedule;
 import org.air.entity.User;
 import org.air.repository.AuthorityRepository;
+import org.air.repository.ScheduleRepository;
 import org.air.repository.UserRepository;
+import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.util.List;
+import java.text.SimpleDateFormat;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -25,6 +30,9 @@ public class FcmServiceImpl {
 
     @Autowired
     private AuthorityRepository authorityRepository;
+
+    @Autowired
+    private ScheduleRepository scheduleRepository;
 
     @Autowired
     private GoogleCredentials googleCredentials;
@@ -141,6 +149,55 @@ public class FcmServiceImpl {
         List<User> users = userRepository.findByAuthority(authority);
         List<String> deviceTokens = users.stream()
                 .map(User::getDevice_token)
+                .collect(Collectors.toList());
+
+        if (!deviceTokens.isEmpty()) {
+            MulticastMessage fcm = MulticastMessage.builder()
+                    .setNotification(Notification.builder()
+                            .setTitle(title)
+                            .setBody(body)
+                            .build())
+                    .addAllTokens(deviceTokens)
+                    .build();
+
+            FirebaseMessaging.getInstance().sendMulticast(fcm);
+            return true;
+        }
+
+        return false;
+    }
+
+
+    public boolean notice_next_day_schedules() throws FirebaseMessagingException {
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("ddMMMyy", Locale.ENGLISH);
+        dateFormat.setTimeZone(TimeZone.getTimeZone("Asia/Seoul"));
+        // 현재 날짜 가져오기
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DAY_OF_MONTH, 1); // 1일 추가
+
+        // 날짜를 포맷팅하여 문자열로 변환
+        String startDate = dateFormat.format(calendar.getTime());
+
+        Authority authority = Authority.builder()
+                .id(3L) //*
+                .authority("ADMIN")
+                .build();
+
+        List<String> list_user = new ArrayList<>();
+        List<User> users = userRepository.findByAuthority(authority);
+        for (User user : users) {
+            list_user.add(user.getUserid());
+        }
+
+        List<Schedule> schedules = scheduleRepository.findByUseridAndDate(list_user, startDate);
+
+        String title = "🛩️"+schedules.get(0).getDate()+ "비행일정을 알려드립니다. 🛩️";
+        String body = "- 출발지: " + schedules.get(0).getCntFrom() + "\n- 목적지: " + schedules.get(0).getCntTo();
+
+        List<String> deviceTokens = users.stream()
+                .map(User::getDevice_token)
+                .distinct()  // 중복 제거
                 .collect(Collectors.toList());
 
         if (!deviceTokens.isEmpty()) {

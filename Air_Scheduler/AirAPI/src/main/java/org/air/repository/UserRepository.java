@@ -24,4 +24,6 @@ public interface UserRepository extends JpaRepository<User, Long>{
     List<User> findByAuthority(Authority authority);
 
     boolean deleteByUserid(String userid);
+
+
 }

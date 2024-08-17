@@ -50,10 +50,6 @@ public class ScheduleController {
     @Autowired
     private FcmServiceImpl fcmService;
 
-    @Value("${flaskUrl}")
-    private String flaskUrl;
-
-    private final RestTemplate restTemplate = new RestTemplate();
 
     @PostMapping("/upload")
     public ResponseEntity<String> upload(@RequestHeader("Authorization") String token, @RequestParam("file") MultipartFile file) throws IOException {

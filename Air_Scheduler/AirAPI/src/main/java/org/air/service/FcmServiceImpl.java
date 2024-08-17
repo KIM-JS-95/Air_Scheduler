@@ -191,26 +191,27 @@ public class FcmServiceImpl {
         }
 
         List<Schedule> schedules = scheduleRepository.findByUseridAndDate(list_user, startDate);
+        if(schedules.size()>0) {
+            String title = "🛩️" + schedules.get(0).getDate() + "비행일정을 알려드립니다. 🛩️";
+            String body = "- 출발지: " + schedules.get(0).getCntFrom() + "\n- 목적지: " + schedules.get(0).getCntTo();
 
-        String title = "🛩️"+schedules.get(0).getDate()+ "비행일정을 알려드립니다. 🛩️";
-        String body = "- 출발지: " + schedules.get(0).getCntFrom() + "\n- 목적지: " + schedules.get(0).getCntTo();
+            List<String> deviceTokens = users.stream()
+                    .map(User::getDevice_token)
+                    .distinct()  // 중복 제거
+                    .collect(Collectors.toList());
 
-        List<String> deviceTokens = users.stream()
-                .map(User::getDevice_token)
-                .distinct()  // 중복 제거
-                .collect(Collectors.toList());
+            if (!deviceTokens.isEmpty()) {
+                MulticastMessage fcm = MulticastMessage.builder()
+                        .setNotification(Notification.builder()
+                                .setTitle(title)
+                                .setBody(body)
+                                .build())
+                        .addAllTokens(deviceTokens)
+                        .build();
 
-        if (!deviceTokens.isEmpty()) {
-            MulticastMessage fcm = MulticastMessage.builder()
-                    .setNotification(Notification.builder()
-                            .setTitle(title)
-                            .setBody(body)
-                            .build())
-                    .addAllTokens(deviceTokens)
-                    .build();
-
-            FirebaseMessaging.getInstance().sendMulticast(fcm);
-            return true;
+                FirebaseMessaging.getInstance().sendMulticast(fcm);
+                return true;
+            }
         }
 
         return false;

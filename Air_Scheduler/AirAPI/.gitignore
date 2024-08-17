@@ -1,6 +1,7 @@
 /build
+/gradle
 /src/main/java/org/air/entity/json
-application.properties
 
 analyzeDocResponse.json
 /src/main/resources/firebase/auth.json
+application.properties

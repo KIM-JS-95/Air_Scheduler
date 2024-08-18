@@ -4,6 +4,7 @@ package org.air.entity;
 import com.google.firebase.database.annotations.NotNull;
 import lombok.*;
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 

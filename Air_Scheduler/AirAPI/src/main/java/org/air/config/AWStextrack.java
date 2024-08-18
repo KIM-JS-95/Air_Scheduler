@@ -108,15 +108,23 @@ public class AWStextrack {
                     } else if (index == 6) {
                         schedule.setActivity(map.get(ids[0]));
                     } else if (index == 7) {
+<<<<<<< HEAD
 
                         schedule.setCntfrom(map.get(ids[0]));
+=======
+                        schedule.getCntFrom().setCode(map.get(ids[0]));
+>>>>>>> 819673394438551bac8ebe3418b033f4e3e3e710
                     } else if (index == 8) {
                         schedule.setStdl(map.get(ids[0]));
                     } else if (index == 9) {
                         schedule.setStdb(map.get(ids[0]));
                     } else if (index == 10) {
+<<<<<<< HEAD
 
                         schedule.setCntto(map.get(ids[0]));
+=======
+                        schedule.getCntTo().setCode(map.get(ids[0]));
+>>>>>>> 819673394438551bac8ebe3418b033f4e3e3e710
                     } else if (index == 11) {
                         schedule.setStal(map.get(ids[0]));
                     } else if (index == 12) {

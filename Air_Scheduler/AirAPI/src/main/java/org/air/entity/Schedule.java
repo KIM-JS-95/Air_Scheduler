@@ -34,6 +34,7 @@ public class Schedule {
     private String stdb;
 
     private String cntto;
+
     private String stal;
     private String stab;
 

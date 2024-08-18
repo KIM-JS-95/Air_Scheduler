@@ -1,7 +1,6 @@
 
 package org.air.config;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.air.entity.Schedule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,8 +14,6 @@ import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.textract.TextractClient;
 import software.amazon.awssdk.services.textract.model.*;
 
-import java.io.File;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -112,14 +109,14 @@ public class AWStextrack {
                         schedule.setActivity(map.get(ids[0]));
                     } else if (index == 7) {
 
-                        schedule.setCntFrom(map.get(ids[0]));
+                        schedule.setCntfrom(map.get(ids[0]));
                     } else if (index == 8) {
                         schedule.setStdl(map.get(ids[0]));
                     } else if (index == 9) {
                         schedule.setStdb(map.get(ids[0]));
                     } else if (index == 10) {
 
-                        schedule.setCntTo(map.get(ids[0]));
+                        schedule.setCntto(map.get(ids[0]));
                     } else if (index == 11) {
                         schedule.setStal(map.get(ids[0]));
                     } else if (index == 12) {

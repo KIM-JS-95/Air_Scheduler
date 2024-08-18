@@ -29,11 +29,11 @@ public class Schedule {
 
     private String activity;
 
-    private String cntFrom;
+    private String cntfrom;
     private String stdl;
     private String stdb;
 
-    private String cntTo;
+    private String cntto;
     private String stal;
     private String stab;
 

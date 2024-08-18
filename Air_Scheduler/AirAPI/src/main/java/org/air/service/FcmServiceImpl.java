@@ -3,7 +3,6 @@ package org.air.service;
 import com.google.auth.oauth2.AccessToken;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.messaging.*;
-import com.zaxxer.hikari.util.SuspendResumeLock;
 import org.air.entity.Authority;
 import org.air.entity.Messege;
 import org.air.entity.Schedule;
@@ -11,7 +10,6 @@ import org.air.entity.User;
 import org.air.repository.AuthorityRepository;
 import org.air.repository.ScheduleRepository;
 import org.air.repository.UserRepository;
-import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.slf4j.Logger;
@@ -193,7 +191,7 @@ public class FcmServiceImpl {
         List<Schedule> schedules = scheduleRepository.findByUseridAndDate(list_user, startDate);
         if(schedules.size()>0) {
             String title = "🛩️" + schedules.get(0).getDate() + "비행일정을 알려드립니다. 🛩️";
-            String body = "- 출발지: " + schedules.get(0).getCntFrom() + "\n- 목적지: " + schedules.get(0).getCntTo();
+            String body = "- 출발지: " + schedules.get(0).getCntfrom() + "\n- 목적지: " + schedules.get(0).getCntto();
 
             List<String> deviceTokens = users.stream()
                     .map(User::getDevice_token)

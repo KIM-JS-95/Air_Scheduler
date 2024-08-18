@@ -1,7 +1,5 @@
 package org.air.service;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.firebase.messaging.FirebaseMessagingException;
 import org.air.config.AWStextrack;
 
@@ -13,14 +11,12 @@ import org.air.repository.ScheduleRepository;
 import org.air.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import software.amazon.awssdk.services.textract.TextractClient;
 import software.amazon.awssdk.services.textract.model.Block;
 
 import javax.servlet.ServletContext;
 import javax.transaction.Transactional;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -160,12 +156,12 @@ public class ScheduleService {
                 schedule.setCo(update_schedule.getCo());
                 schedule.setActivity(update_schedule.getActivity());
 
-                schedule.setCntFrom(update_schedule.getCntFrom());
+                schedule.setCntfrom(update_schedule.getCntfrom());
 
                 schedule.setStdl(update_schedule.getStdl());
                 schedule.setStdb(update_schedule.getStdb());
 
-                schedule.setCntTo(update_schedule.getCntTo());
+                schedule.setCntto(update_schedule.getCntto());
 
                 schedule.setStal(update_schedule.getStal());
                 schedule.setStab(update_schedule.getStab());
@@ -173,7 +169,7 @@ public class ScheduleService {
                 schedule.setAchotel(update_schedule.getAchotel());
                 schedule.setBlk(update_schedule.getBlk());
 
-                fcmService.sendMessageTo(update_schedule.getDate(), update_schedule.getCntFrom(), update_schedule.getCntTo(), schedule.getUser());
+                fcmService.sendMessageTo(update_schedule.getDate(), update_schedule.getCntfrom(), update_schedule.getCntto(), schedule.getUser());
 
                 return new CustomCode(StatusEnum.OK);
             } catch (Exception e) {
@@ -240,11 +236,11 @@ public class ScheduleService {
 
         for (Schedule s : sList) {
             FlightData flightData = FlightData.builder()
-                    .departureShort(s.getCntFrom())
-                    .departure(codes.getOrDefault(s.getCntFrom(), Collections.emptyMap()).getOrDefault("code", "Unknown"))
+                    .departureShort(s.getCntfrom())
+                    .departure(codes.getOrDefault(s.getCntfrom(), Collections.emptyMap()).getOrDefault("code", "Unknown"))
                     .date(s.getDate())
-                    .destinationShort(s.getCntTo())
-                    .destination(codes.getOrDefault(s.getCntTo(), Collections.emptyMap()).getOrDefault("code", "Unknown"))
+                    .destinationShort(s.getCntto())
+                    .destination(codes.getOrDefault(s.getCntto(), Collections.emptyMap()).getOrDefault("code", "Unknown"))
                     .flightNumber(s.getPairing())
                     .stal(s.getStal())
                     .stab(s.getStab())
@@ -254,8 +250,8 @@ public class ScheduleService {
                     .id(s.getId())
                     .ci(s.getCi())
                     .co(s.getCo())
-                    .lat(codes.getOrDefault(s.getCntTo(), Collections.emptyMap()).getOrDefault("lat", "unknown"))
-                    .lon(codes.getOrDefault(s.getCntTo(), Collections.emptyMap()).getOrDefault("lon", "unknown"))
+                    .lat(codes.getOrDefault(s.getCntto(), Collections.emptyMap()).getOrDefault("lat", "unknown"))
+                    .lon(codes.getOrDefault(s.getCntto(), Collections.emptyMap()).getOrDefault("lon", "unknown"))
                     .build();
             flightDataList.add(flightData);
         }

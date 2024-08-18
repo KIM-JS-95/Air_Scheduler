@@ -26,19 +26,18 @@ import org.springframework.test.context.ContextConfiguration;
 @ContextConfiguration(classes = {JwtTokenProvider.class})
 class UserTest {
 
-    @Autowired
+    @MockBean
     private JwtTokenProvider jwtTokenProvider;
 
-    @MockBean
-    private CustomUserDetailService customUserDetailService;
-    User user;
-    String token;
+    private static User user;
+    private static String token;
 
     @BeforeEach
     public void init() {
         user = User.builder()
                 .userid("001200")
                 .name("tester")
+                .password("1234")
                 .build();
 
         SimpleDateFormat access_time = new SimpleDateFormat("hh:mm:ss");
@@ -46,7 +45,6 @@ class UserTest {
     }
 
     @Test
-    @DisplayName("sign_up")
     public void user_set() {
 
         Authority authority = Authority.builder()
@@ -56,6 +54,7 @@ class UserTest {
         User user = User.builder()
                 .userid("001200")
                 .name("tester")
+                .password("1234")
                 .email("123@gmail.com")
                 .authority(authority)
                 .build();

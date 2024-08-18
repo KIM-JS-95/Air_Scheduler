@@ -53,7 +53,6 @@ public class ScheduleService {
     private ServletContext servletContext;
 
 
-    //@Transactional // clear
     public List<FlightData> getTodaySchedules(String userid, String startDate) {
         User user = userRepository.findByUserid(userid);
         String auth = user.getAuthority().getAuthority();
@@ -173,7 +172,7 @@ public class ScheduleService {
                 schedule.setAchotel(update_schedule.getAchotel());
                 schedule.setBlk(update_schedule.getBlk());
 
-                fcmService.sendMessageTo(update_schedule.getDate(), update_schedule.getCntFrom(), update_schedule.getCntTo(), schedule.getUser());
+                fcmService.sendMessageTo(update_schedule.getDate(), update_schedule.getCntFrom().getCountry(), update_schedule.getCntTo().getCountry(), schedule.getUser());
 
                 return new CustomCode(StatusEnum.OK);
             } catch (Exception e) {
@@ -240,10 +239,10 @@ public class ScheduleService {
 
         for (Schedule s : sList) {
             FlightData flightData = FlightData.builder()
-                    .departureShort(s.getCntFrom())
+                    .departureShort(s.getCntFrom().getCountry())
                     .departure(codes.getOrDefault(s.getCntFrom(), Collections.emptyMap()).getOrDefault("code", "Unknown"))
                     .date(s.getDate())
-                    .destinationShort(s.getCntTo())
+                    .destinationShort(s.getCntTo().getCountry())
                     .destination(codes.getOrDefault(s.getCntTo(), Collections.emptyMap()).getOrDefault("code", "Unknown"))
                     .flightNumber(s.getPairing())
                     .stal(s.getStal())

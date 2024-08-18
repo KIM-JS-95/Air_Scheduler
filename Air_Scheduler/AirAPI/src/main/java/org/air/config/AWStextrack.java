@@ -111,15 +111,13 @@ public class AWStextrack {
                     } else if (index == 6) {
                         schedule.setActivity(map.get(ids[0]));
                     } else if (index == 7) {
-
-                        schedule.setCntFrom(map.get(ids[0]));
+                        schedule.getCntFrom().setCode(map.get(ids[0]));
                     } else if (index == 8) {
                         schedule.setStdl(map.get(ids[0]));
                     } else if (index == 9) {
                         schedule.setStdb(map.get(ids[0]));
                     } else if (index == 10) {
-
-                        schedule.setCntTo(map.get(ids[0]));
+                        schedule.getCntTo().setCode(map.get(ids[0]));
                     } else if (index == 11) {
                         schedule.setStal(map.get(ids[0]));
                     } else if (index == 12) {

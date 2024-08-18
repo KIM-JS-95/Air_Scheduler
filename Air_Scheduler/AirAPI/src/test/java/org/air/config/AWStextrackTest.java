@@ -7,6 +7,7 @@ import org.junit.jupiter.api.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
 import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
 import software.amazon.awssdk.regions.Region;
@@ -32,8 +33,12 @@ public class AWStextrackTest {
     public AWStextrack awStextrack;
 
     private static Region region;
-    private static String accesskey = "";
-    private static String secretkey = "";
+    @Value("${accesskey}")
+    private String accesskey;
+
+    @Value("${secretkey}")
+    private String secretkey;
+
     private static TextractClient textractClient;
 
     @BeforeAll
@@ -49,8 +54,8 @@ public class AWStextrackTest {
             }
 
             prop.load(input);
-            accesskey = prop.getProperty("accesskey");
-            secretkey = prop.getProperty("secretkey");
+            accesskey = prop.getProperty(accesskey);
+            secretkey = prop.getProperty(secretkey);
 
             AwsBasicCredentials awsCreds = AwsBasicCredentials.create(accesskey, secretkey);
 
@@ -126,14 +131,14 @@ public class AWStextrackTest {
                         schedule.setActivity(map.get(ids[0]));
                     } else if (index == 6) {
 
-                        schedule.setCntFrom(map.get(ids[0]));
+                        schedule.getCntFrom().setCode(map.get(ids[0]));
                     } else if (index == 7) {
                         schedule.setStdl(map.get(ids[0]));
                     } else if (index == 8) {
                         schedule.setStdb(map.get(ids[0]));
                     } else if (index == 9) {
 
-                        schedule.setCntTo(map.get(ids[0]));
+                        schedule.getCntTo().setCode(map.get(ids[0]));
                     } else if (index == 10) {
                         schedule.setStal(map.get(ids[0]));
                     } else if (index == 11) {

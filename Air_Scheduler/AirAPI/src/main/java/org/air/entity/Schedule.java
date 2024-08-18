@@ -28,12 +28,18 @@ public class Schedule {
     private String co;
 
     private String activity;
-
-    private String cntFrom;
     private String stdl;
     private String stdb;
 
-    private String cntTo;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="nationcode_cntFrom")
+    private NationCode cntFrom;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="nationcode_cntTo")
+    private NationCode cntTo;
+
     private String stal;
     private String stab;
 

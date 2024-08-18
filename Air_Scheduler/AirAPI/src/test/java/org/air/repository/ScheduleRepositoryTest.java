@@ -1,5 +1,6 @@
 package org.air.repository;
 
+import org.air.entity.NationCode;
 import org.air.entity.Schedule;
 import org.air.entity.User;
 import org.air.jwt.JwtTokenProvider;
@@ -32,13 +33,27 @@ class ScheduleRepositoryTest {
     @Disabled
     public void save_test() {
 
+        NationCode nationCode_cntFrom = NationCode.builder()
+                .country("제주")
+                .code("CJU")
+                .lat("0.5")
+                .lon("0.5")
+                .build();
+
+        NationCode nationCode_cntTo = NationCode.builder()
+                .country("김포")
+                .code("GMP")
+                .lat("0.1")
+                .lon("0.1")
+                .build();
+
         Schedule schedule1 = Schedule.builder()
                 .id(1L)
                 .date("01Nov22")
                 .stdl("0000") // 출발 시간
                 .stal("2359") // 도착 시간
-                .cntFrom("GMP") // 출발
-                .cntTo("GMP") // 도착
+                .cntFrom(nationCode_cntFrom) // 출발
+                .cntTo(nationCode_cntTo) // 도착
                 .activity("OFF")
                 .build();
 
@@ -47,8 +62,8 @@ class ScheduleRepositoryTest {
                 .date("01Nov23")
                 .stdl("0000") // 출발 시간
                 .stal("2359") // 도착 시간
-                .cntFrom("GMP") // 출발
-                .cntTo("GMP") // 도착
+                .cntFrom(nationCode_cntFrom) // 출발
+                .cntTo(nationCode_cntTo) // 도착
                 .activity("OFF")
                 .build();
 

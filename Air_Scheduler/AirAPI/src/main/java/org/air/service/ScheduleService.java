@@ -168,11 +168,7 @@ public class ScheduleService {
                 schedule.setAchotel(update_schedule.getAchotel());
                 schedule.setBlk(update_schedule.getBlk());
 
-<<<<<<< HEAD
                 fcmService.sendMessageTo(update_schedule.getDate(), update_schedule.getCntfrom(), update_schedule.getCntto(), schedule.getUser());
-=======
-                fcmService.sendMessageTo(update_schedule.getDate(), update_schedule.getCntFrom().getCountry(), update_schedule.getCntTo().getCountry(), schedule.getUser());
->>>>>>> 819673394438551bac8ebe3418b033f4e3e3e710
 
                 return new CustomCode(StatusEnum.OK);
             } catch (Exception e) {
@@ -239,19 +235,11 @@ public class ScheduleService {
 
         for (Schedule s : sList) {
             FlightData flightData = FlightData.builder()
-<<<<<<< HEAD
                     .departureShort(s.getCntfrom())
                     .departure(codes.getOrDefault(s.getCntfrom(), Collections.emptyMap()).getOrDefault("code", "Unknown"))
                     .date(s.getDate())
                     .destinationShort(s.getCntto())
                     .destination(codes.getOrDefault(s.getCntto(), Collections.emptyMap()).getOrDefault("code", "Unknown"))
-=======
-                    .departureShort(s.getCntFrom().getCountry())
-                    .departure(codes.getOrDefault(s.getCntFrom(), Collections.emptyMap()).getOrDefault("code", "Unknown"))
-                    .date(s.getDate())
-                    .destinationShort(s.getCntTo().getCountry())
-                    .destination(codes.getOrDefault(s.getCntTo(), Collections.emptyMap()).getOrDefault("code", "Unknown"))
->>>>>>> 819673394438551bac8ebe3418b033f4e3e3e710
                     .flightNumber(s.getPairing())
                     .stal(s.getStal())
                     .stab(s.getStab())

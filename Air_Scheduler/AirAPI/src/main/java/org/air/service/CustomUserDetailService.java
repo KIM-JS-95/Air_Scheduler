@@ -206,8 +206,6 @@ public class CustomUserDetailService {
             User user = userRepository.existsByUserid(token) ? userRepository.findByUserid(token) : null;
             user.setEmail(user_modify.getEmail());
             user.setPassword(user_modify.getPassword());
-
-            System.out.println(user.getAuthority().getAuthority());
             return user;
         } catch (Exception e) {
             return null;

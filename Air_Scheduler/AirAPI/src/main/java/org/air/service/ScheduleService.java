@@ -197,26 +197,16 @@ public class ScheduleService {
     }
 
     public List<Schedule> textrack(String userid, InputStream source) throws IOException {
-        List<Schedule> rst = new ArrayList<>();
         HashMap<String, String> map = new HashMap<>();
         List<Block> list_block = new ArrayList<>();
 
         TextractClient textractClient = awstextrack.awsceesser();
         List<Block> blocks = AWStextrack.analyzeDoc(textractClient, source);
 
-        Date today = new Date();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("MM");
-        customUserDetailService.set_schedule_status(userid, Integer.parseInt(dateFormat.format(today))); // 일정 상태 저장
+        //Date today = new Date();
+        //SimpleDateFormat dateFormat = new SimpleDateFormat("MM");
+        //customUserDetailService.set_schedule_status(userid, Integer.parseInt(dateFormat.format(today))); // 일정 상태 저장
 
-        for(int i=2; i<4; i++){
-            System.out.println(blocks.get(i).text());
-            if(i==2 && Objects.equals(blocks.get(i).blockType().toString(), "LINE")){
-                if(!blocks.get(i).text().equals("Crew Roster Report")){
-                    System.out.println(blocks.get(i).text());
-                    return rst;
-                }
-            }
-        }
 
         blocks.forEach(callback -> {
             if (Objects.equals(callback.blockType().toString(), "WORD")) {
@@ -225,8 +215,7 @@ public class ScheduleService {
                 list_block.add(callback);
             }
         });
-        rst = AWStextrack.texttoEntity(map, list_block);
-        return rst;
+        return AWStextrack.texttoEntity(map, list_block);
     }
 
     // -------------------------- Nation_Code Mapping --------------------------

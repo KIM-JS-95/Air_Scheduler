@@ -62,14 +62,12 @@ public class ScheduleController {
                     .headers(headerSetter.haederSet(token, "SAVE!"))
                     .body("");
         }
-        System.out.println((customUserDetailService.getSchedule_chk(userid) >= 3));
         if (customUserDetailService.getSchedule_chk(userid) >= 3) { // 3번 이상 시도했다면
             return ResponseEntity
                     .status(Integer.parseInt(StatusEnum.OVER.getStatusCode()))
                     .headers(headerSetter.haederSet(token, "OVER UPLOAD"))
                     .body("");
         }
-        customUserDetailService.getSchedule_add(userid);
 
 
         try {
@@ -84,6 +82,7 @@ public class ScheduleController {
                             .headers(headerSetter.haederSet(token, "SAVE ERROR"))
                             .body("");
                 } else { // 저장 성공
+                    customUserDetailService.getSchedule_add(userid);
                     return ResponseEntity.ok()
                             .headers(headerSetter.haederSet(token, "SAVE!"))
                             .body("");

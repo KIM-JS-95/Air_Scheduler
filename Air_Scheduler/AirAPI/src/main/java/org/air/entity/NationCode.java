@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.Size;
 
 @Entity
 @Builder
@@ -18,11 +19,13 @@ import javax.persistence.Id;
 public class NationCode {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    @Size(max = 30)
     private String code;
+    @Size(max = 3)
     private String country;
 
+    @Size(max = 10)
     private String lat;
+    @Size(max = 10)
     private String lon;
 }

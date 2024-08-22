@@ -26,5 +26,4 @@ public class FlightData {
     private String co;
     private String lat;
     private String lon;
-    // Getters and setters
 }

@@ -33,27 +33,13 @@ class ScheduleRepositoryTest {
     @Disabled
     public void save_test() {
 
-        NationCode nationCode_cntFrom = NationCode.builder()
-                .country("제주")
-                .code("CJU")
-                .lat("0.5")
-                .lon("0.5")
-                .build();
-
-        NationCode nationCode_cntTo = NationCode.builder()
-                .country("김포")
-                .code("GMP")
-                .lat("0.1")
-                .lon("0.1")
-                .build();
-
         Schedule schedule1 = Schedule.builder()
                 .id(1L)
                 .date("01Nov22")
                 .stdl("0000") // 출발 시간
                 .stal("2359") // 도착 시간
-                .cntFrom(nationCode_cntFrom) // 출발
-                .cntTo(nationCode_cntTo) // 도착
+                .cntfrom("CJU") // 출발
+                .cntto("CJU") // 도착
                 .activity("OFF")
                 .build();
 
@@ -62,8 +48,8 @@ class ScheduleRepositoryTest {
                 .date("01Nov23")
                 .stdl("0000") // 출발 시간
                 .stal("2359") // 도착 시간
-                .cntFrom(nationCode_cntFrom) // 출발
-                .cntTo(nationCode_cntTo) // 도착
+                .cntfrom("CJU") // 출발
+                .cntto("CJU") // 도착
                 .activity("OFF")
                 .build();
 

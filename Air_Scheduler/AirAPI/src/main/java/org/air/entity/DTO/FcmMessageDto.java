@@ -1,4 +1,4 @@
-package org.air.entity;
+package org.air.entity.DTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

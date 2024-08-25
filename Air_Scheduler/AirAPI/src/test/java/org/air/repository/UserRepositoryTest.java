@@ -40,8 +40,8 @@ class UserRepositoryTest {
     @Test
     @WithMockUser
     public void findByUserid() {
-        User user = userRepository.findByUseridAndPassword("001200", "1234");
-        assertThat(user.getUserid(), is("001200"));
+        User user = userRepository.findByUseridAndPassword("123", "123");
+        assertThat(user.getUserid(), is("123"));
     }
 
     @Test

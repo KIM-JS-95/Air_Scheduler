@@ -1,4 +1,4 @@
-package org.air.entity;
+package org.air.entity.DTO;
 
 import lombok.Data;
 
@@ -12,8 +12,6 @@ public class UserDTO {
     private String email;
 
     private String name;
-
-    private String picUrl;
 
     private String device_token; // FCM Token
 

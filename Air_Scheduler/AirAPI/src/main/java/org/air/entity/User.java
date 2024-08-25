@@ -18,18 +18,21 @@ import javax.validation.constraints.Size;
 public class User {
 
     @Id
+    @NotNull
     @Size(max=20, message = "유저아이디는 20자리를 넘을 수 없습니다.")
     private String userid;
 
-    @NotNull
     private String password;
 
+    @NotNull
     @Email(message = "유효한 이메일 주소를 입력하세요.")
+    @Column(length = 100)
     private String email;
 
+    @Size(max = 10, message = "이름은 10자를 넘을 수 없습니다.")
     private String name;
 
-    private String device_token;
+    private String device_token; // 파이어베이스 토큰
 
     private String family;
 
@@ -37,9 +40,6 @@ public class User {
 
     @Size(max = 20, message = "안드로이드 ID는 20자리를 넘을 수 없습니다.")
     private String androidid;
-
-    @Transient
-    private boolean enabled;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "authority_id")

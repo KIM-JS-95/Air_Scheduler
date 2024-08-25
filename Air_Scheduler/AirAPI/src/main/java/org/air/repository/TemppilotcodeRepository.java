@@ -2,6 +2,8 @@ package org.air.repository;
 
 import org.air.entity.Temppilotcode;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 public interface TemppilotcodeRepository extends JpaRepository<Temppilotcode, Long> {
     
@@ -17,4 +19,6 @@ public interface TemppilotcodeRepository extends JpaRepository<Temppilotcode, Lo
     Temppilotcode findByUserid(String userid);
 
     boolean existsByUseridAndAndroidid(String userid, String androidid);
+
+    Temppilotcode findTopByUseridOrderByCreatedAtDesc(String userid);
 }

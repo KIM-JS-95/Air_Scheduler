@@ -2,6 +2,8 @@ package org.air.service;
 
 import lombok.extern.slf4j.Slf4j;
 import org.air.entity.*;
+import org.air.entity.DTO.TemppilotcodeDAO;
+import org.air.entity.DTO.UserDTO;
 import org.air.repository.AuthorityRepository;
 import org.air.repository.TemppilotcodeRepository;
 import org.air.repository.TokenRepository;
@@ -38,14 +40,10 @@ public class CustomUserDetailService {
         // 사용자가 존재하는지 확인
         boolean userExists = userRepository.existsByUseridAndPassword(login_user.getUserid(), login_user.getPassword());
         if (userExists) {
-            // 사용자가 존재하면 정보를 가져옴
             User user = userRepository.findByUseridAndPassword(login_user.getUserid(), login_user.getPassword());
-
-            // 가져온 사용자 객체에 기기 토큰 설정
             user.setDevice_token(login_user.getDevice_token());
             return user;
         } else {
-            // 사용자가 존재하지 않으면 null 반환
             return null;
         }
     }
@@ -85,7 +83,6 @@ public class CustomUserDetailService {
     public Temppilotcode processPilotcode(TemppilotcodeDAO temppilotcodeDTO) {
         String randomKey = generateRandomKey(5);
         Temppilotcode temppilotcode = Temppilotcode.builder()
-                .phonenumber(temppilotcodeDTO.getPhonenumber())
                 .email(temppilotcodeDTO.getEmail())
                 .userid(temppilotcodeDTO.getUserid())
                 .randomkey(randomKey)
@@ -127,7 +124,7 @@ public class CustomUserDetailService {
         //User pilot = userRepository.findByUserid(user.getFamily_id()); // 마스터 존재 확인
         Temppilotcode temppilotcode = temppilotcodeRepository.findByUserid(userid);
         User pilot = userRepository.findByUserid(temppilotcode.getPilotid()); // 마스터 존재 확인
-        User family =null;
+        User family = null;
         if (pilot != null) {
             Authority familyAuthority = Authority.builder()
                     .id(2L)
@@ -152,7 +149,7 @@ public class CustomUserDetailService {
         return family; // 성공
     }
 
-    public User getUser(String userid){
+    public User getUser(String userid) {
         return userRepository.findByUserid(userid); // 마스터 존재 확인;
     }
 
@@ -164,7 +161,7 @@ public class CustomUserDetailService {
     @Transactional
     public void getSchedule_add(String userid) {
         User user = userRepository.findByUserid(userid);
-        user.setSchedule_chk(user.getSchedule_chk()+1);
+        user.setSchedule_chk(user.getSchedule_chk() + 1);
     }
 
     @Transactional
@@ -214,11 +211,25 @@ public class CustomUserDetailService {
 
     @Transactional
     public Long certification_devide(String userid, String androidid) {
-        System.out.println(userid);
+
         if (temppilotcodeRepository.existsByUseridAndAndroidid(userid, androidid)) {
-            User user = userRepository.findByUserid(userid);
-            user.setAndroidid(androidid);
-            userRepository.save(user); // 변경사항 저장
+            Temppilotcode tempuser = temppilotcodeRepository.findTopByUseridOrderByCreatedAtDesc(userid);
+
+            User user = User.builder()
+                    .userid(tempuser.getUserid())
+                    .email("family@family.com")
+                    .password(tempuser.getPassword())
+                    .name(tempuser.getUsername())
+                    .family(tempuser.getPilotid())
+                    .androidid(androidid)
+                    .authority(
+                            Authority.builder()
+                                    .id(2L)
+                                    .authority("ADMIN")
+                                    .build()
+                    )
+                    .build();
+            userRepository.save(user);
         }
 
         return temppilotcodeRepository.deleteByUserid(userid);
@@ -242,7 +253,7 @@ public class CustomUserDetailService {
         return userRepository.existsByUserid(userid);
     }
 
-    public boolean delete_user(String userid){
+    public boolean delete_user(String userid) {
         return userRepository.deleteByUserid(userid);
     }
 

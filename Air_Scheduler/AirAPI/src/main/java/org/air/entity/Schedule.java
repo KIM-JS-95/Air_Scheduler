@@ -31,16 +31,11 @@ public class Schedule {
 
     @Size(max = 4)
     private String ci;
-
     @Size(max = 4)
     private String co;
 
-    @Size(max = 20)
-    private String activity;
-
     @Size(max = 4)
     private String stdl;
-
     @Size(max = 4)
     private String stdb;
 
@@ -53,6 +48,9 @@ public class Schedule {
     private String stal;
     @Size(max = 4)
     private String stab;
+
+    @Size(max = 20)
+    private String activity;
 
     @Size(max = 20)
     private String achotel;

@@ -1,4 +1,4 @@
-package org.air.entity;
+package org.air.entity.DTO;
 
 
 import lombok.Builder;
@@ -8,7 +8,6 @@ import lombok.Data;
 @Data
 public class TemppilotcodeDAO {
     private String email;
-    private String phonenumber;
     private String username;
     private String userid;
     private String password;

@@ -3,6 +3,8 @@ package org.air.controller;
 import lombok.extern.slf4j.Slf4j;
 import org.air.config.HeaderSetter;
 import org.air.entity.*;
+import org.air.entity.DTO.TemppilotcodeDAO;
+import org.air.entity.DTO.UserDTO;
 import org.air.jwt.JwtTokenProvider;
 import org.air.service.CustomUserDetailService;
 import org.air.service.EmailService;
@@ -18,7 +20,6 @@ import javax.mail.MessagingException;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.regex.Pattern;
 
 /**
  * Author : KIM JAE SEONG <br>
@@ -85,7 +86,6 @@ public class UserController {
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody UserDTO user) throws MessagingException, IOException {
         User member = customUserDetailService.loadUserByUser(user);
-
         if (member == null) {
             return ResponseEntity
                     .status(HttpStatus.UNAUTHORIZED)
@@ -121,17 +121,19 @@ public class UserController {
                         .body("");
             }
 
-
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(new MediaType("application", "json"));
-            headers.set("auth_level", member.getAuthority().getAuthority());
-
             Date date = new Date();
             SimpleDateFormat access_time = new SimpleDateFormat("hh:mm:ss");
             String token = jwtTokenProvider.createToken(member.getUserid(), access_time.format(date));
             customUserDetailService.token_save(member, token);
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(new MediaType("application", "json"));
+            headers.set("auth_level", member.getAuthority().getAuthority());
+            headers.set("Authorization", token);
+            headers.set("message", "login Success");
+
             return ResponseEntity.ok()
-                    .headers(headerSetter.haederSet(token, "login Success"))
+                    .headers(headers)
                     .body("Login Success");
         }
     }
@@ -248,6 +250,7 @@ public class UserController {
                 .password(user.getPassword()) // 가족 비번
                 .username(user.getName()) // 가족 이름
                 .pilotid(user1.getUserid())
+                .androidid(user.getAndroidid())
                 .build();
         customUserDetailService.processPilotcode(temppilotcodeDAO); // 임시저장
 

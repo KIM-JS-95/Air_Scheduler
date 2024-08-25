@@ -58,19 +58,6 @@ class ScheduleServiceTest {
 
     @BeforeAll
     public static void init() {
-        NationCode nationCode_cntFrom = NationCode.builder()
-                .country("제주")
-                .code("CJU")
-                .lat("0.5")
-                .lon("0.5")
-                .build();
-
-        NationCode nationCode_cntTo = NationCode.builder()
-                .country("김포")
-                .code("GMP")
-                .lat("0.1")
-                .lon("0.1")
-                .build();
 
         user = User.builder()
                 .userid("tester")
@@ -84,8 +71,8 @@ class ScheduleServiceTest {
         Schedule schedule = Schedule.builder()
                 .id(1L)
                 .date("01May24")
-                .cntTo(nationCode_cntTo)
-                .cntFrom(nationCode_cntFrom)
+                .cntto("CJU")
+                .cntfrom("CJU")
                 .user(user)
                 .build();
 
@@ -138,7 +125,7 @@ class ScheduleServiceTest {
 
         List<Schedule> schedules = scheduleRepository.findByUserAndDate(user, "01May24");
         List<NationCode> codes = nationCodeRepository.findAll();
-        assertThat(schedules.get(0).getCntTo(), is("CJU"));
+        assertThat(schedules.get(0).getCntto(), is("CJU"));
 
     }
 
@@ -175,11 +162,11 @@ class ScheduleServiceTest {
         List<FlightData> flightDataList = new ArrayList<>();
         for (Schedule s : sList) {
             FlightData flightData = FlightData.builder()
-                    .departureShort(s.getCntFrom().getCode())
-                    .departure(codes.getOrDefault(s.getCntFrom(), Collections.emptyMap()).getOrDefault("code", "Unknown"))
+                    .departureShort(s.getCntfrom())
+                    .departure(codes.getOrDefault(s.getCntfrom(), Collections.emptyMap()).getOrDefault("code", "Unknown"))
                     .date(s.getDate())
-                    .destinationShort(s.getCntTo().getCode())
-                    .destination(codes.getOrDefault(s.getCntTo(), Collections.emptyMap()).getOrDefault("code", "Unknown"))
+                    .destinationShort(s.getCntto())
+                    .destination(codes.getOrDefault(s.getCntto(), Collections.emptyMap()).getOrDefault("code", "Unknown"))
                     .flightNumber(s.getPairing())
                     .stal(s.getStal())
                     .stab(s.getStab())
@@ -189,8 +176,8 @@ class ScheduleServiceTest {
                     .id(s.getId())
                     .ci(s.getCi())
                     .co(s.getCo())
-                    .lat(codes.getOrDefault(s.getCntTo(), Collections.emptyMap()).getOrDefault("lat", "unknown"))
-                    .lon(codes.getOrDefault(s.getCntTo(), Collections.emptyMap()).getOrDefault("lon", "unknown"))
+                    .lat(codes.getOrDefault(s.getCntto(), Collections.emptyMap()).getOrDefault("lat", "unknown"))
+                    .lon(codes.getOrDefault(s.getCntto(), Collections.emptyMap()).getOrDefault("lon", "unknown"))
                     .build();
             flightDataList.add(flightData);
         }

@@ -104,20 +104,6 @@ public class PilotController {
     }
 
 
-    // 삭제 예정
-    /*
-    @GetMapping("/getnationcode") // 에어포트 위치 정보
-    public ResponseEntity getnationcode(@RequestHeader("Authorization") String token) throws ParseException {
-
-        HeaderSetter headers = new HeaderSetter();
-        HttpHeaders header = headers.haederSet(token, "main page");
-        Map<String, Map<String, String>> list = scheduleService.getNationCode();
-
-        return ResponseEntity.ok()
-                .headers(header)
-                .body(list);
-    }
-*/
     @GetMapping("/viewschedule") // 일정 상세보기
     public ResponseEntity viewSchedule(@RequestHeader("Authorization") String token,
                                        @RequestParam Long id) {

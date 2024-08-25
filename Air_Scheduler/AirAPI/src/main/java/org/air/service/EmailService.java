@@ -73,7 +73,7 @@ public class EmailService {
 
         Context context = new Context();
         context.setVariable("name", username);
-        context.setVariable("link", service_domain + "?userid=" + userid + "&androidid=" + encryptText(androidid));
+        context.setVariable("link", service_domain + "?userid=" + userid + "&androidid=" + androidid);
         JavaMailSender emailSender = mailSenderFactory.getSender(usernameid, password);
 
         MimeMessage message = emailSender.createMimeMessage();

@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.util.Date;
 
 @Entity
@@ -21,20 +22,25 @@ public class Temppilotcode {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private String email;
-
-    private String username;
-
-    private String phonenumber;
-
-    private String randomkey;
-
+    @NotNull
+    @Size(max=20, message = "유저 아이디는 20자리를 넘을 수 없습니다.")
     private String userid;
 
     private String password;
 
+    @Column(length = 100)
+    private String email;
+
+    @Size(max = 10)
+    private String username;
+
+    @Size(max=10)
+    private String randomkey;
+
+    @Size(max=20, message = "유저 아이디는 20자리를 넘을 수 없습니다.")
     private String pilotid;
 
+    @Column(length = 20)
     private String androidid;
 
     @Temporal(TemporalType.TIMESTAMP)

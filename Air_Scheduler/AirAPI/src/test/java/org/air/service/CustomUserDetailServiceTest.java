@@ -1,7 +1,7 @@
 package org.air.service;
 
 import org.air.entity.Temppilotcode;
-import org.air.entity.TemppilotcodeDAO;
+import org.air.entity.DTO.TemppilotcodeDAO;
 import org.air.entity.User;
 import org.air.repository.TokenRepository;
 import org.air.repository.UserRepository;
@@ -59,15 +59,12 @@ class CustomUserDetailServiceTest {
     public void testSavePilotcode() {
         // given
         TemppilotcodeDAO temppilotcodeDTO = TemppilotcodeDAO.builder()
-                .phonenumber("1234567890")
                 .email("test@example.com")
                 .build();
 
 
         // when
         Temppilotcode savedPilotcode = customUserDetailService.save_pilotcode(temppilotcodeDTO);
-
-        assertEquals("1234567890", savedPilotcode.getPhonenumber());
         assertEquals("test@example.com", savedPilotcode.getEmail());
     }
 

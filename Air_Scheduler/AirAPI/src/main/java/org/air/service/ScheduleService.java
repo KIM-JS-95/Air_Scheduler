@@ -20,7 +20,6 @@ import javax.transaction.Transactional;
 import java.io.IOException;
 import java.io.InputStream;
 
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 import java.util.concurrent.atomic.AtomicReference;
@@ -38,13 +37,10 @@ public class ScheduleService {
     private NationCodeRepository nationCodeRepository;
     @Autowired
     private UserRepository userRepository;
-
     @Autowired
     private CustomUserDetailService customUserDetailService;
-
     @Autowired
     private FcmServiceImpl fcmService;
-
     @Autowired
     private ServletContext servletContext;
 
@@ -62,33 +58,41 @@ public class ScheduleService {
         } else {
         } // auth.equals("ADMIN")
 
+        // 국가 코드 집합 생성
+        Set<String> countrySet = schedules.stream()
+                .flatMap(schedule -> Stream.of(schedule.getCntfrom(), schedule.getCntto()))
+                .collect(Collectors.toSet());
+
+        // 날짜 설정 및 코드 변환
         AtomicReference<String> previousDateRef = new AtomicReference<>();
-        Stream<Schedule> updatedStream = schedules.stream().map(s -> {
-            String date = s.getDate();
-            if (s.getDate() == null) {
-                s.setDate(previousDateRef.get()); // date가 비어 있으면 이전 값을 사용
-            } else {
-                previousDateRef.set(date);
-            }
-            return s;
-        });
-        List<Schedule> updatedSchedules = updatedStream.collect(Collectors.toList());
-        Map<String, Map<String, String>> code = getNationCode();
+        List<Schedule> updatedSchedules = schedules.stream()
+                .map(schedule -> {
+                    if (schedule.getDate() == null) {
+                        schedule.setDate(previousDateRef.get()); // 날짜가 비어 있으면 이전 값을 사용
+                    } else {
+                        previousDateRef.set(schedule.getDate());
+                    }
+                    return schedule;
+                })
+                .collect(Collectors.toList());
+
+        Map<String, Map<String, String>> code = getNationCodeIn(new ArrayList<>(countrySet));
 
         return generateFlightData(updatedSchedules, code);
     }
 
-    // clear
     public List<FlightData> getViewSchedule(Long id) {
         Schedule schedule = scheduleRepository.findById(id).orElseThrow();
 
-        // 크기가 고정된 리스트
-        List<Schedule> schedules = Collections.singletonList(schedule);
-        Map<String, Map<String, String>> code = getNationCode();
+        List<Schedule> schedules = List.of(schedule);
+        Set<String> countrySet = schedules.stream()
+                .flatMap(s -> Stream.of(s.getCntfrom(), s.getCntto()))
+                .collect(Collectors.toSet());
+
+        Map<String, Map<String, String>> code = getNationCodeIn(new ArrayList<>(countrySet));
         return generateFlightData(schedules, code);
     }
 
-    // clear
     public List<FlightData> getAllSchedules(String userid) {
         User user = userRepository.findByUserid(userid);
         String auth = user.getAuthority().getAuthority();
@@ -112,7 +116,7 @@ public class ScheduleService {
         });
 
         List<Schedule> updatedSchedules = updatedStream.collect(Collectors.toList());
-        Map<String, Map<String, String>> code = getNationCode();
+        Map<String, Map<String, String>> code = getNationCodeAll();
 
         return generateFlightData(updatedSchedules, code);
     }
@@ -180,8 +184,6 @@ public class ScheduleService {
         }
     }
 
-
-
     // 파일럿 일정 전체 삭제
     public boolean delete(String userid) {
         try {
@@ -192,7 +194,7 @@ public class ScheduleService {
         }
     }
 
-    public boolean delete_cron(String month){
+    public boolean delete_cron(String month) {
         return scheduleRepository.delete_cron(month);
     }
 
@@ -248,8 +250,14 @@ public class ScheduleService {
     }
 
 
-    public Map<String, Map<String, String>> getNationCode() {
+    public Map<String, Map<String, String>> getNationCodeAll() {
         List<NationCode> codes = nationCodeRepository.findAll();
+        Map<String, Map<String, String>> codeCountryMap = convertToMap(codes);
+        return codeCountryMap;
+    }
+
+    public Map<String, Map<String, String>> getNationCodeIn(List<String> country) {
+        List<NationCode> codes = nationCodeRepository.findByCountryIn(country);
         Map<String, Map<String, String>> codeCountryMap = convertToMap(codes);
         return codeCountryMap;
     }

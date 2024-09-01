@@ -164,17 +164,6 @@ public class CustomUserDetailService {
         user.setSchedule_chk(user.getSchedule_chk() + 1);
     }
 
-    @Transactional
-    public boolean set_schedule_status(String userid, int month) {
-        try {
-            User user = userRepository.findByUserid(userid);
-            user.setSchedule_chk(month);
-        } catch (Exception e) {
-            return false;
-        }
-        return true;
-    }
-
     // token save
     @Transactional
     public boolean token_save(User user, String token) {
@@ -257,4 +246,8 @@ public class CustomUserDetailService {
         return userRepository.deleteByUserid(userid);
     }
 
+    public User find_androidId(String androidId){
+        User user = userRepository.findByAndroidid(androidId);
+        return user;
+    }
 }

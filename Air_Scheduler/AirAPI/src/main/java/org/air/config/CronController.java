@@ -17,6 +17,7 @@ public class CronController {
     private ScheduleService scheduleService;
 
 
+    // 익일 일정 알림
     @Scheduled(cron = "0 0 13 * * *", zone = "Asia/Seoul")
     public void notice_next_day_schedules() throws FirebaseMessagingException {
         scheduleService.notice_next_day_schedules();

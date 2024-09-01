@@ -21,7 +21,7 @@ public class Schedule {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Size(max = 7)
+    @Column(length = 7)
     private String date;
     @Size(max = 10)
     private String pairing;

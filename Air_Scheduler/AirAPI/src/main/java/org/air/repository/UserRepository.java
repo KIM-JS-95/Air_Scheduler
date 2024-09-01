@@ -25,5 +25,7 @@ public interface UserRepository extends JpaRepository<User, Long>{
 
     boolean deleteByUserid(String userid);
 
+    User findByAndroidid(String androidId);
+
 
 }

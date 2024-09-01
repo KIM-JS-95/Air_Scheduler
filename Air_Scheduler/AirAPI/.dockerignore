@@ -1,3 +1,4 @@
 db/mysql/data/
 
 Air_Scheduler/AirAPI/src/test
+Air_Scheduler/AirAPI/fetch_note

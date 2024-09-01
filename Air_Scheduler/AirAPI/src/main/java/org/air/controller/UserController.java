@@ -82,7 +82,35 @@ public class UserController {
                 .body(notice);
     }
 
-    // 로그인 이메일 주소 빼고 jejuair.nat으로 만
+
+    @GetMapping("/loginauto")
+    public ResponseEntity loginAuto(@RequestParam String androidid) {
+
+        User user = customUserDetailService.find_androidId(androidid);
+
+        if (user == null) {
+            return ResponseEntity
+                    .status(HttpStatus.UNAUTHORIZED)
+                    .body("");
+        }else { // 자동 로그인 실행
+            Date date = new Date();
+            SimpleDateFormat access_time = new SimpleDateFormat("hh:mm:ss");
+            String token = jwtTokenProvider.createToken(user.getUserid(), access_time.format(date));
+            customUserDetailService.token_save(user, token);
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(new MediaType("application", "json"));
+            headers.set("auth_level", user.getAuthority().getAuthority());
+            headers.set("Authorization", token);
+            headers.set("message", "login Success");
+
+            return ResponseEntity.ok()
+                    .headers(headers)
+                    .body(user);
+        }
+    }
+
+
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody UserDTO user) throws MessagingException, IOException {
         User member = customUserDetailService.loadUserByUser(user);
@@ -100,6 +128,7 @@ public class UserController {
             headers.setContentType(new MediaType("application", "json"));
             headers.set("auth_level", member.getAuthority().getAuthority());
             headers.set("Authorization", token);
+            headers.set("message", "login Success");
 
             return ResponseEntity.ok()
                     .headers(headers)
@@ -143,7 +172,7 @@ public class UserController {
 
         String user_string = jwtTokenProvider.getUserPk(token); // body: userid
         User member = customUserDetailService.modify(user, user_string);
-        if (member!= null) {
+        if (member != null) {
 
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(new MediaType("application", "json"));

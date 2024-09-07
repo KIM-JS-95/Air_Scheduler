@@ -3,6 +3,8 @@ package org.air.entity;
 
 import com.google.firebase.database.annotations.NotNull;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
+
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Max;
@@ -37,6 +39,9 @@ public class User {
     private String family;
 
     private int schedule_chk;
+
+    @ColumnDefault("0")
+    private int autologin;
 
     @Size(max = 20, message = "안드로이드 ID는 20자리를 넘을 수 없습니다.")
     private String androidid;

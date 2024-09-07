@@ -31,8 +31,5 @@ docker login
 docker tag table-detection $username/flight_schedules:latest
 echo "Tagged Docker image"
 
-# Docker 컨테이너 실행
-echo "Starting services with Docker Compose..."
-docker-compose up -d
-
+docker push $username/flight_schedules:latest
 echo "Docker push complete."

@@ -88,7 +88,7 @@ public class UserController {
 
         User user = customUserDetailService.find_androidId(androidid);
 
-        if (user == null) {
+        if (user == null || user.getAutologin()==0) {
             return ResponseEntity
                     .status(HttpStatus.UNAUTHORIZED)
                     .body("");
@@ -132,7 +132,7 @@ public class UserController {
 
             return ResponseEntity.ok()
                     .headers(headers)
-                    .body("Login Success");
+                    .body(member);
 
         } else { // 안드로이드 ID값이 다르면? -> 임시 계정 테이블에 저장 -> 이메일로 전달
             if (!user.getAndroidid().equals(member.getAndroidid())) {
@@ -163,7 +163,7 @@ public class UserController {
 
             return ResponseEntity.ok()
                     .headers(headers)
-                    .body("Login Success");
+                    .body(member);
         }
     }
 

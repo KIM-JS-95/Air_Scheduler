@@ -192,6 +192,7 @@ public class CustomUserDetailService {
             User user = userRepository.existsByUserid(token) ? userRepository.findByUserid(token) : null;
             user.setEmail(user_modify.getEmail());
             user.setPassword(user_modify.getPassword());
+            user.setAutologin(user_modify.getAutologin());
             return user;
         } catch (Exception e) {
             return null;

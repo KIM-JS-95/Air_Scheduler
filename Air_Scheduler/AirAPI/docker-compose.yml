@@ -16,7 +16,6 @@ services:
     restart: unless-stopped
     depends_on:
       - mysql
-      - ocr
   mysql:
     container_name: mysql
     image: mysql:latest
@@ -30,16 +29,5 @@ services:
     ports:
       - 3307:3306
 
-  ocr:
-    container_name: python_ocr
-    image: baugh248730/table-detection:latest
-    build:
-      context: .
-      dockerfile: Dockerfile
-    ports:
-      - 5000:5000
-    restart: unless-stopped
-    depends_on:
-      - mysql
 volumes:
   mysql_data:
